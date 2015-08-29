@@ -83,7 +83,10 @@ public class Helper {
 	}
 
 	public static void checkLogin(final Context context, final GeneralCallback callback) {
-		mClient.get(CHECK_LOGIN_URL, new TextHttpResponseHandler() {
+		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
+		mClient.setCookieStore(persistentCookieStore);
+
+		mClient.post(CHECK_LOGIN_URL, new TextHttpResponseHandler() {
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString,
 			                      Throwable throwable) {
@@ -112,8 +115,8 @@ public class Helper {
 		mClient.setCookieStore(persistentCookieStore);
 
 		RequestParams params = new RequestParams();
-		params.put("uid", user);
-		params.put("pwd", pwd);
+		params.put("username", user);
+		params.put("password", pwd);
 		mClient.post(LOGIN_URL, params, new TextHttpResponseHandler() {
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString,
@@ -131,6 +134,9 @@ public class Helper {
 	}
 
 	public static void getServerStatus(final Context context, final GeneralCallback callback) {
+		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
+		mClient.setCookieStore(persistentCookieStore);
+
 		mClient.get(SERVER_STATUS_URL, new JsonHttpResponseHandler() {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
@@ -157,6 +163,9 @@ public class Helper {
 	}
 
 	public static void getAppVersion(final Context context, final GeneralCallback callback) {
+		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
+		mClient.setCookieStore(persistentCookieStore);
+
 		mClient.get(APP_VERSION_URL, new TextHttpResponseHandler() {
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString,
