@@ -1,0 +1,16 @@
+<resources>
+	<string name="app_name">高應校務通</string>
+
+	<string name="something_error">發生錯誤</string>
+	<string name="timeout_message">連線逾時，請稍候再試</string>
+	<string name="login">登入系統</string>
+	<string name="dot_ap">校務</string>
+	<string name="dot_leave">缺曠</string>
+	<string name="dot_bus">校車</string>
+	<string name="loading">Loading&#8230;</string>
+	<string name="id_hint">學號</string>
+	<string name="password_hint">密碼</string>
+
+	<string name="enter_username_hint">請輸入帳號</string>
+	<string name="enter_password_hint">請輸入密碼</string>
+</resources>

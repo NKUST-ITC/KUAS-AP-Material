@@ -1,0 +1,28 @@
+<resources>
+
+	<!-- Application theme. -->
+	<style name="AppTheme" parent="Base.Theme.AppCompat.Light.DarkActionBar">
+		<item name="colorPrimary">@color/main_theme</item>
+		<item name="colorPrimaryDark">@color/main_theme_dark</item>
+		<item name="colorAccent">@color/accent</item>
+		<item name="alertDialogTheme">@style/AlertDialogStyle</item>
+		<item name="actionModeStyle">@style/Widget.ActionMode</item>
+	</style>
+
+	<style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
+		<item name="colorPrimary">@color/main_theme</item>
+		<item name="colorPrimaryDark">@color/main_theme_dark</item>
+		<item name="colorAccent">@color/accent</item>
+	</style>
+
+	<style name="Widget.ActionMode" parent="@style/Widget.AppCompat.ActionMode">
+		<item name="colorPrimaryDark">@color/main_theme_dark</item>
+	</style>
+
+	<style name="ToolbarAppTheme" parent="AppTheme">
+		<item name="windowNoTitle">true</item>
+		<item name="windowActionBar">false</item>
+		<item name="windowActionModeOverlay">true</item>
+	</style>
+
+</resources>

@@ -1,0 +1,77 @@
+<resources>
+
+	<!-- Compact dimens -->
+	<dimen name="margin_xxsmall">2dp</dimen>
+	<dimen name="margin_xsmall">4dp</dimen>
+	<dimen name="margin_small">8dp</dimen>
+	<dimen name="margin_smedium">12dp</dimen>
+	<dimen name="margin_medium">16dp</dimen>
+	<dimen name="margin_large">24dp</dimen>
+	<dimen name="margin_dialog">24dp</dimen>
+	<dimen name="margin_xlarge">32dp</dimen>
+
+	<!-- Responsive Margins -->
+	<dimen name="margin_page">16dp</dimen>
+	<dimen name="margin_responsive">0dp</dimen>
+	<dimen name="margin_page_card">8dp</dimen>
+	<dimen name="margin_page_half">8dp</dimen>
+	<dimen name="drawer_width">320dp</dimen>
+
+	<!-- Negative dimens -->
+	<dimen name="margin_neg_xxsmall">-2dp</dimen>
+	<dimen name="margin_neg_xsmall">-4dp</dimen>
+	<dimen name="margin_neg_small">-8dp</dimen>
+	<dimen name="margin_neg_smedium">-12dp</dimen>
+	<dimen name="margin_neg_medium">-16dp</dimen>
+	<dimen name="margin_neg_large">-24dp</dimen>
+	<dimen name="margin_neg_xlarge">-32dp</dimen>
+
+	<!-- Material Design Guidelines -->
+	<dimen name="text_display_4">112sp</dimen>
+	<dimen name="text_display_3">56sp</dimen>
+	<dimen name="text_display_2">45sp</dimen>
+	<dimen name="text_display_1">34sp</dimen>
+	<dimen name="text_headline">24sp</dimen>
+	<dimen name="text_title">21sp</dimen>
+	<dimen name="text_subhead">17sp</dimen>
+	<dimen name="text_action">15sp</dimen>
+	<dimen name="text_body_2">15sp</dimen>
+	<dimen name="text_body_1">15sp</dimen>
+	<dimen name="text_caption">13sp</dimen>
+	<dimen name="text_menu">15sp</dimen>
+	<dimen name="text_button">15sp</dimen>
+	<dimen name="drawer_item_height">48dp</dimen>
+	<dimen name="drawer_item_icon_padding">32dp</dimen>
+	<dimen name="list_single_line_tile_height">56dp</dimen>
+	<dimen name="list_two_line_tile_height">72dp</dimen>
+
+	<!-- Main -->
+	<dimen name="answer_hint_size">30sp</dimen>
+	<dimen name="answer_hint_text_size">20sp</dimen>
+	<dimen name="head_mycard">64dp</dimen>
+	<dimen name="margin_forum_item">48dp</dimen>
+	<dimen name="actionbar_shadow_height">4dp</dimen>
+	<dimen name="tabs_height">48dp</dimen>
+	<dimen name="button_radius">2dp</dimen>
+
+	<!-- Inbox -->
+	<dimen name="margin_pager">-24dp</dimen>
+	<dimen name="margin_card_single">24dp</dimen>
+
+	<!-- Forum -->
+	<dimen name="dot_unread">8dp</dimen>
+	<dimen name="dot_unread_half">4dp</dimen>
+	<dimen name="margin_head">12dp</dimen>
+
+	<!-- Splash -->
+	<dimen name="textsize_splash">30sp</dimen>
+	<dimen name="margin_text_splash">8dp</dimen>
+
+	<!-- Message -->
+	<dimen name="message_picture_width">48dp</dimen>
+	<dimen name="message_picture_height">64dp</dimen>
+
+	<!-- Inbox -->
+	<dimen name="inbox_head_size">48dp</dimen>
+
+</resources>
