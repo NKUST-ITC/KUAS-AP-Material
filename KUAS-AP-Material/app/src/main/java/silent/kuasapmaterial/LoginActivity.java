@@ -11,11 +11,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-
 import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.callback.ServerStatusCallback;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.models.ServerStatusModel;
 
 public class LoginActivity extends AppCompatActivity
 		implements TextView.OnEditorActionListener, View.OnClickListener {
@@ -36,22 +35,16 @@ public class LoginActivity extends AppCompatActivity
 	}
 
 	private void checkServerStatus() {
-		Helper.getServerStatus(this, new GeneralCallback() {
+		Helper.getServerStatus(this, new ServerStatusCallback() {
 			@Override
-			public void onSuccess(JSONArray jsonArray) {
-				super.onSuccess(jsonArray);
-				try {
-					dot_ap.setImageResource(
-							jsonArray.getInt(0) == 200 ? R.drawable.dot_green : R.drawable.dot_red);
-					dot_leave.setImageResource(
-							jsonArray.getInt(1) == 200 ? R.drawable.dot_green : R.drawable.dot_red);
-					dot_bus.setImageResource(
-							jsonArray.getInt(2) == 200 ? R.drawable.dot_green : R.drawable.dot_red);
-				} catch (JSONException e) {
-					dot_ap.setImageResource(R.drawable.dot_red);
-					dot_leave.setImageResource(R.drawable.dot_red);
-					dot_bus.setImageResource(R.drawable.dot_red);
-				}
+			public void onSuccess(ServerStatusModel model) {
+				super.onSuccess(model);
+				dot_ap.setImageResource(
+						model.ap_status == 200 ? R.drawable.dot_green : R.drawable.dot_red);
+				dot_leave.setImageResource(
+						model.leave_status == 200 ? R.drawable.dot_green : R.drawable.dot_red);
+				dot_bus.setImageResource(
+						model.bus_status == 200 ? R.drawable.dot_green : R.drawable.dot_red);
 			}
 
 			@Override
