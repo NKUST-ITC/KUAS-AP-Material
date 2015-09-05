@@ -14,6 +14,7 @@
 	<string name="remember_password">記住密碼</string>
 	<string name="version">v.%s</string>
 	<string name="login_ing">登入中&#8230;</string>
+	<string name="check_login_hint">請檢查帳號密碼</string>
 
 	<string name="enter_username_hint">請輸入帳號</string>
 	<string name="enter_password_hint">請輸入密碼</string>

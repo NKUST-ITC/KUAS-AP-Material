@@ -7,6 +7,8 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Base64;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
@@ -14,7 +16,8 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.io.UnsupportedEncodingException;
 
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
@@ -112,7 +115,20 @@ public class LoginActivity extends AppCompatActivity
 		mIdTextInputLayout.setHint(getString(R.string.id_hint));
 		mPasswordTextInputLayout.setHint(getString(R.string.password_hint));
 		mIdEditText.setText(Memory.getString(this, Constant.PREF_USERNAME, ""));
-		mPasswordEditText.setText(Memory.getString(this, Constant.PREF_PASSWORD, ""));
+
+		String pwd = Memory.getString(this, Constant.PREF_PASSWORD, "");
+		if (pwd.length() > 0) {
+			try {
+				byte[] TextByte = Utils.DecryptAES(Constant.IvAES.getBytes("UTF-8"),
+						Constant.KeyAES.getBytes("UTF-8"),
+						Base64.decode(pwd.getBytes("UTF-8"), Base64.DEFAULT));
+				if (TextByte != null) {
+					mPasswordEditText.setText(new String(TextByte, "UTF-8"));
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
 
 		if (getSupportActionBar() != null) {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -157,7 +173,10 @@ public class LoginActivity extends AppCompatActivity
 				super.onFail(errorMessage);
 
 				progressDialog.dismiss();
-				Toast.makeText(LoginActivity.this, "登入失敗", Toast.LENGTH_SHORT).show();
+				mIdTextInputLayout.setError(getString(R.string.check_login_hint));
+				mIdTextInputLayout.setErrorEnabled(true);
+				mPasswordTextInputLayout.setError(getString(R.string.check_login_hint));
+				mPasswordTextInputLayout.setErrorEnabled(true);
 			}
 
 			@Override
@@ -165,9 +184,22 @@ public class LoginActivity extends AppCompatActivity
 				super.onSuccess();
 
 				progressDialog.dismiss();
-				Memory.setString(LoginActivity.this, Constant.PREF_USERNAME, id);
-				Memory.setString(LoginActivity.this, Constant.PREF_PASSWORD,
-						mRememberCheckBox.isChecked() ? pwd : "");
+				try {
+					Memory.setString(LoginActivity.this, Constant.PREF_USERNAME, id);
+					byte[] TextByte = Utils.EncryptAES(Constant.IvAES.getBytes("UTF-8"),
+							Constant.KeyAES.getBytes("UTF-8"), pwd.getBytes("UTF-8"));
+					if (TextByte == null) {
+						Memory.setString(LoginActivity.this, Constant.PREF_PASSWORD, "");
+					} else {
+						String newPwd = Base64.encodeToString(TextByte, Base64.DEFAULT);
+						Log.d(Constant.TAG, Base64.encodeToString(TextByte, Base64.DEFAULT));
+						Memory.setString(LoginActivity.this, Constant.PREF_PASSWORD,
+								mRememberCheckBox.isChecked() ? newPwd : "");
+					}
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+
 				startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
 			}
 		});
