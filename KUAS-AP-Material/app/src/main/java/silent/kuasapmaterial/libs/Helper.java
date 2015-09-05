@@ -4,11 +4,12 @@ import android.content.Context;
 
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
-import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
 import org.apache.http.Header;
+import org.apache.http.auth.AuthScope;
+import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.params.ClientPNames;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -18,10 +19,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import silent.kuasapmaterial.R;
+import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
 import silent.kuasapmaterial.callback.UserInfoCallback;
+import silent.kuasapmaterial.models.BusModel;
 import silent.kuasapmaterial.models.SemesterModel;
 import silent.kuasapmaterial.models.ServerStatusModel;
 import silent.kuasapmaterial.models.UserInfoModel;
@@ -44,20 +47,23 @@ public class Helper {
 		return client;
 	}
 
-	public static final String BASE_URL = "http://kuas.grd.idv.tw:14768";
+	public static final String SERVER_HOST = "kuas.grd.idv.tw";
+	public static final int SERVER_PORT = 14769;
+	public static final String BASE_URL = "https://" + SERVER_HOST + ":" + SERVER_PORT;
 	public static final String BACKUP_URL = "http://api.grd.idv.tw:14768";
-	public static final String SERVER_STATUS_URL = BASE_URL + "/v2/servers/status";
-	public static final String APP_VERSION_URL = BASE_URL + "/v2/versions/android";
-	public static final String LOGIN_URL = BASE_URL + "/ap/login";
+
+	public static final String SERVER_STATUS_URL = BASE_URL + "/latest/servers/status";
+	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android";
+	public static final String LOGIN_URL = BASE_URL + "/latest/token";
 	public static final String LOGOUT_URL = BASE_URL + "/ap/logout";
 	public static final String CHECK_LOGIN_URL = BASE_URL + "/ap/is_login";
-	public static final String SEMESTER_URL = BASE_URL + "/v2/ap/semester";
+	public static final String SEMESTER_URL = BASE_URL + "/latest/ap/semester";
 	public static final String AP_QUERY_URL = BASE_URL + "/ap/query";
 	public static final String USER_INFO_URL = BASE_URL + "/ap/user/info";
 	public static final String USER_PIC_URL = BASE_URL + "/ap/user/picture";
 	public static final String LEAVE_QUERY_URL = BASE_URL + "/leave";
 	public static final String LEAVE_SUBMIT_URL = BASE_URL + "/leave/submit";
-	public static final String BUS_QUERY_URL = BASE_URL + "/bus/query";
+	public static final String BUS_QUERY_URL = BASE_URL + "/latest/bus/timetables";
 	public static final String BUS_RESERVE_URL = BASE_URL + "/bus/reserve";
 	public static final String BUS_BOOKING_URL = BASE_URL + "/bus/booking";
 	public static final String NOTIFICATION_URL = BASE_URL + "/notification/%s";
@@ -104,58 +110,38 @@ public class Helper {
 		}
 	}
 
-	public static void checkLogin(final Context context, final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
-		mClient.post(CHECK_LOGIN_URL, new TextHttpResponseHandler() {
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String responseString,
-			                      Throwable throwable) {
-				onHelperFail(context, callback, statusCode, headers, throwable, responseString);
-			}
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, String responseString) {
-				if (callback != null) {
-					if (responseString.equals("true")) {
-						callback.onSuccess();
-					} else {
-						onHelperFail(context, callback, statusCode, headers, null, responseString);
-					}
-				}
-			}
-		});
-	}
-
 	public static void login(final Context context, String user, String pwd,
 	                         final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
+		// Basic Authorization
+		UsernamePasswordCredentials credentials = new UsernamePasswordCredentials(user, pwd);
+		mClient.setAuthenticationPreemptive(true);
+		mClient.setCredentials(new AuthScope(SERVER_HOST, SERVER_PORT, AuthScope.ANY_REALM),
+				credentials);
 
-		RequestParams params = new RequestParams();
-		params.put("username", user);
-		params.put("password", pwd);
-		mClient.post(LOGIN_URL, params, new TextHttpResponseHandler() {
+		mClient.get(context, LOGIN_URL, new JsonHttpResponseHandler() {
 
 			@Override
-			public void onFailure(int statusCode, Header[] headers, String responseString,
-			                      Throwable throwable) {
-				onHelperFail(context, callback, statusCode, headers, throwable, responseString);
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+				super.onSuccess(statusCode, headers, response);
+				if (response.has("auth_token")) {
+					if (callback != null) {
+						callback.onSuccess();
+					}
+				} else {
+					onHelperFail(context, callback, statusCode, headers);
+				}
 			}
 
 			@Override
-			public void onSuccess(int statusCode, Header[] headers, String responseString) {
-				checkLogin(context, callback);
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+			                      JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
 			}
 		});
 	}
 
 	public static void logout(final Context context, final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		mClient.post(LOGOUT_URL, new TextHttpResponseHandler() {
 
 			@Override
@@ -178,9 +164,6 @@ public class Helper {
 	}
 
 	public static void getServerStatus(final Context context, final ServerStatusCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		mClient.get(SERVER_STATUS_URL, new JsonHttpResponseHandler() {
 
 			@Override
@@ -211,9 +194,6 @@ public class Helper {
 	}
 
 	public static void getAppVersion(final Context context, final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		mClient.get(APP_VERSION_URL, new JsonHttpResponseHandler() {
 
 			@Override
@@ -278,9 +258,6 @@ public class Helper {
 
 	public static void getAP_Query(final Context context, String fncid, String arg01, String arg02,
 	                               String arg03, String arg04, final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		RequestParams params = new RequestParams();
 		params.put("fncid", fncid);
 		params.put("arg01", arg01);
@@ -305,9 +282,6 @@ public class Helper {
 	}
 
 	public static void userInfo(final Context context, final UserInfoCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		mClient.get(USER_INFO_URL, new JsonHttpResponseHandler() {
 
 			@Override
@@ -339,9 +313,6 @@ public class Helper {
 	}
 
 	public static void userPicture(final Context context, final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		mClient.get(USER_PIC_URL, new TextHttpResponseHandler() {
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString,
@@ -364,9 +335,6 @@ public class Helper {
 
 	public static void getLeaveQuery(final Context context, String arg01, String arg02,
 	                                 final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		RequestParams params = new RequestParams();
 		params.put("arg01", arg01);
 		params.put("arg02", arg02);
@@ -390,9 +358,6 @@ public class Helper {
 	public static void submitLeave(final Context context, String start_date, String end_date,
 	                               int reason_id, String reason_text, String section,
 	                               final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		RequestParams params = new RequestParams();
 		params.put("start_date", start_date);
 		params.put("end_date", end_date);
@@ -416,19 +381,38 @@ public class Helper {
 		});
 	}
 
-	public static void getBusQuery(final Context context, String date,
-	                               final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
+	public static void getBusQuery(final Context context, String date, final BusCallback callback) {
 		RequestParams params = new RequestParams();
-		params.put("date", date);
-		mClient.post(BUS_QUERY_URL, params, new JsonHttpResponseHandler() {
+		if (date != null) {
+			params.put("date", date);
+		}
+		mClient.get(BUS_QUERY_URL, params, new JsonHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
-				// TODO Wait for check this API response
+				try {
+					List<BusModel> modelList = new ArrayList<>();
+					JSONArray jsonArray = response.getJSONArray("timetable");
+					for (int i = 0; i < jsonArray.length(); i++) {
+						BusModel model = new BusModel();
+						model.isReserve = jsonArray.getJSONObject(i).getInt("isReserve") != -1;
+						model.EndEnrollDateTime =
+								jsonArray.getJSONObject(i).getString("EndEnrollDateTime");
+						model.runDateTime = jsonArray.getJSONObject(i).getString("runDateTime");
+						model.endStation = jsonArray.getJSONObject(i).getString("endStation");
+						model.limitCount = jsonArray.getJSONObject(i).getString("limitCount");
+						model.reserveCount = jsonArray.getJSONObject(i).getString("reserveCount");
+						model.Time = jsonArray.getJSONObject(i).getString("Time");
+						model.busId = jsonArray.getJSONObject(i).getString("busId");
+						modelList.add(model);
+					}
+					if (callback != null) {
+						callback.onSuccess(modelList);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
+				}
 			}
 
 			@Override
@@ -441,9 +425,6 @@ public class Helper {
 	}
 
 	public static void reserveBus(final Context context, final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		mClient.get(BUS_RESERVE_URL, new JsonHttpResponseHandler() {
 
 			@Override
@@ -463,9 +444,6 @@ public class Helper {
 
 	public static void bookingBus(final Context context, String busId, String action,
 	                              final GeneralCallback callback) {
-		PersistentCookieStore persistentCookieStore = new PersistentCookieStore(context);
-		mClient.setCookieStore(persistentCookieStore);
-
 		RequestParams params = new RequestParams();
 		params.put("busId", busId);
 		params.put("action", action);
