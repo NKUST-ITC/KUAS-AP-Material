@@ -20,6 +20,11 @@
 	<color name="ripple">#3000</color>
 	<color name="ripple_light">#6fff</color>
 
+	<color name="progress_red">#C93437</color>
+	<color name="progress_blue">#375BF1</color>
+	<color name="progress_yellow">#F7D23E</color>
+	<color name="progress_green">#34A350</color>
+
 	<color name="mdtp_accent_color">@color/accent</color>
 	<color name="mdtp_accent_color_dark">@color/main_theme</color>
 

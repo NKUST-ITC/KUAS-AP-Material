@@ -490,20 +490,20 @@ public class Helper {
 		});
 	}
 
-	public static void getNews(final Context context, final GeneralCallback callback) {
+	public static void getNews(final Context context) {
 		mClient.get(NEWS_URL, new JsonHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 				super.onSuccess(statusCode, headers, response);
-				// TODO Wait for check this API response
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-			                      JSONArray errorResponse) {
-				super.onFailure(statusCode, headers, throwable, errorResponse);
-				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
+				// TODO wait for API update
+				try {
+					Memory.setString(context, Constant.PREF_NEWS_TITLE, response.getString(2));
+					Memory.setString(context, Constant.PREF_NEWS_CONTENT, response.getString(3));
+					Memory.setString(context, Constant.PREF_NEWS_URL, response.getString(4));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}

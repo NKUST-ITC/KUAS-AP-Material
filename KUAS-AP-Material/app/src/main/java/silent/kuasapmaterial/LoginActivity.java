@@ -1,11 +1,16 @@
 package silent.kuasapmaterial;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -13,16 +18,21 @@ import android.widget.Toast;
 
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
+import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.Memory;
+import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.ServerStatusModel;
 
 public class LoginActivity extends AppCompatActivity
 		implements TextView.OnEditorActionListener, View.OnClickListener {
 
-	Toolbar toolbar;
 	TextInputLayout mIdTextInputLayout, mPasswordTextInputLayout;
 	EditText mIdEditText, mPasswordEditText;
 	ImageView dot_ap, dot_leave, dot_bus;
+	CheckBox mRememberCheckBox;
+	TextView mVersionTextView;
+	Button mLoginButton;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +41,26 @@ public class LoginActivity extends AppCompatActivity
 
 		findViews();
 		setUpViews();
+		getVersion();
 		checkServerStatus();
+		getNews();
+	}
+
+	private void getVersion() {
+		try {
+			PackageInfo pkgInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
+			mVersionTextView.setText(getString(R.string.version, pkgInfo.versionName));
+		} catch (PackageManager.NameNotFoundException e) {
+			e.printStackTrace();
+			mVersionTextView.setText(getString(R.string.version, "1.0.0"));
+		}
+		Helper.getAppVersion(this, new GeneralCallback() {
+			@Override
+			public void onSuccess(String data) {
+				super.onSuccess(data);
+				mVersionTextView.setText(getString(R.string.version, data));
+			}
+		});
 	}
 
 	private void checkServerStatus() {
@@ -57,35 +86,46 @@ public class LoginActivity extends AppCompatActivity
 		});
 	}
 
-	private void findViews() {
-		toolbar = (Toolbar) findViewById(R.id.toolbar);
+	private void getNews() {
+		Helper.getNews(this);
+	}
 
-		mIdEditText = (EditText) findViewById(R.id.id_editText);
+	private void findViews() {
+		mIdEditText = (EditText) findViewById(R.id.editText_id);
 		mIdTextInputLayout = (TextInputLayout) mIdEditText.getParent();
-		mPasswordEditText = (EditText) findViewById(R.id.password_editText);
+		mPasswordEditText = (EditText) findViewById(R.id.editText_password);
 		mPasswordTextInputLayout = (TextInputLayout) mPasswordEditText.getParent();
 
 		dot_ap = (ImageView) findViewById(R.id.dot_ap);
 		dot_leave = (ImageView) findViewById(R.id.dot_leave);
 		dot_bus = (ImageView) findViewById(R.id.dot_bus);
+
+		mVersionTextView = (TextView) findViewById(R.id.textView_version);
+		mRememberCheckBox = (CheckBox) findViewById(R.id.checkbox_remember);
+
+		mLoginButton = (Button) findViewById(R.id.button_login);
 	}
 
 	private void setUpViews() {
+		mLoginButton.setOnClickListener(this);
 		mPasswordEditText.setOnEditorActionListener(this);
 		mIdTextInputLayout.setHint(getString(R.string.id_hint));
 		mPasswordTextInputLayout.setHint(getString(R.string.password_hint));
+		mIdEditText.setText(Memory.getString(this, Constant.PREF_USERNAME, ""));
+		mPasswordEditText.setText(Memory.getString(this, Constant.PREF_PASSWORD, ""));
 
-		setSupportActionBar(toolbar);
 		if (getSupportActionBar() != null) {
-			getSupportActionBar().setTitle(R.string.app_name);
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setHomeButtonEnabled(true);
 		}
+
+		mRememberCheckBox
+				.setChecked(Memory.getBoolean(this, Constant.PREF_REMEMBER_PASSWORD, true));
 	}
 
 	@Override
 	public void onClick(View v) {
-		if (v.getId() == R.id.login_button) {
+		if (v.getId() == R.id.button_login) {
 			login();
 		}
 	}
@@ -94,8 +134,8 @@ public class LoginActivity extends AppCompatActivity
 		mIdTextInputLayout.setErrorEnabled(false);
 		mPasswordTextInputLayout.setErrorEnabled(false);
 
-		String id = mIdEditText.getText().toString();
-		String pwd = mPasswordEditText.getText().toString();
+		final String id = mIdEditText.getText().toString();
+		final String pwd = mPasswordEditText.getText().toString();
 
 		if (id.length() == 0) {
 			mIdTextInputLayout.setError(getString(R.string.enter_username_hint));
@@ -108,24 +148,34 @@ public class LoginActivity extends AppCompatActivity
 			return;
 		}
 
+		Memory.setBoolean(this, Constant.PREF_REMEMBER_PASSWORD, mRememberCheckBox.isChecked());
+		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.login_ing);
+		progressDialog.show();
 		Helper.login(this, id, pwd, new GeneralCallback() {
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
+
+				progressDialog.dismiss();
 				Toast.makeText(LoginActivity.this, "登入失敗", Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
 			public void onSuccess() {
 				super.onSuccess();
-				Toast.makeText(LoginActivity.this, "登入成功", Toast.LENGTH_SHORT).show();
+
+				progressDialog.dismiss();
+				Memory.setString(LoginActivity.this, Constant.PREF_USERNAME, id);
+				Memory.setString(LoginActivity.this, Constant.PREF_PASSWORD,
+						mRememberCheckBox.isChecked() ? pwd : "");
+				startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
 			}
 		});
 	}
 
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-		if (v.getId() == R.id.password_editText) {
+		if (v.getId() == R.id.editText_password) {
 			login();
 			return true;
 		}

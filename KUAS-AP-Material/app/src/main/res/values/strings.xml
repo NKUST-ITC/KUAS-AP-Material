@@ -11,6 +11,9 @@
 	<string name="loading">Loading&#8230;</string>
 	<string name="id_hint">學號</string>
 	<string name="password_hint">密碼</string>
+	<string name="remember_password">記住密碼</string>
+	<string name="version">v.%s</string>
+	<string name="login_ing">登入中&#8230;</string>
 
 	<string name="enter_username_hint">請輸入帳號</string>
 	<string name="enter_password_hint">請輸入密碼</string>

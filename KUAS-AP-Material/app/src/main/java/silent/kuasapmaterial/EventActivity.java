@@ -93,7 +93,7 @@ public class EventActivity extends AppCompatActivity {
 
 		@Override
 		public int getViewTypeCount() {
-			// TYPE_SCHOOL and TYPE_TITLE
+			// TYPE_WEEK and TYPE_SCHEDULE
 			return 2;
 		}
 
