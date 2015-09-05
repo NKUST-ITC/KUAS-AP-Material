@@ -22,6 +22,10 @@
 			android:name=".LoadingActivity"
 			android:label="@string/loading"
 			android:theme="@style/AppTheme"/>
+		<activity
+			android:name=".EventActivity"
+			android:label="@string/schedule"
+			android:theme="@style/AppTheme"/>
 	</application>
 
 </manifest>

@@ -7,6 +7,7 @@
 	<string name="dot_ap">校務</string>
 	<string name="dot_leave">缺曠</string>
 	<string name="dot_bus">校車</string>
+	<string name="schedule">行事曆</string>
 	<string name="loading">Loading&#8230;</string>
 	<string name="id_hint">學號</string>
 	<string name="password_hint">密碼</string>

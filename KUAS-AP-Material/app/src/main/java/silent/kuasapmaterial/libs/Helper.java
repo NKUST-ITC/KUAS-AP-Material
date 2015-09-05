@@ -172,10 +172,16 @@ public class Helper {
 				try {
 					ServerStatusModel model = new ServerStatusModel();
 					JSONArray jsonArray = response.getJSONArray("status");
-					model.ap_status = jsonArray.getJSONObject(0).getInt("status");
-					model.bus_status = jsonArray.getJSONObject(1).getInt("status");
-					model.leave_status = jsonArray.getJSONObject(2).getInt("status");
-
+					for (int i = 0; i < jsonArray.length(); i++) {
+						if (jsonArray.getJSONObject(i).getString("service").equals("ap")) {
+							model.ap_status = jsonArray.getJSONObject(i).getInt("status");
+						} else if (jsonArray.getJSONObject(i).getString("service")
+								.equals("leave")) {
+							model.leave_status = jsonArray.getJSONObject(i).getInt("status");
+						} else if (jsonArray.getJSONObject(i).getString("service").equals("bus")) {
+							model.bus_status = jsonArray.getJSONObject(i).getInt("status");
+						}
+					}
 					if (callback != null) {
 						callback.onSuccess(model);
 					}
