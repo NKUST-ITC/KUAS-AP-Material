@@ -13,6 +13,10 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import silent.kuasapmaterial.R;
 
 public class SilentActivity extends AppCompatActivity {
@@ -24,14 +28,23 @@ public class SilentActivity extends AppCompatActivity {
 	public AnimationActionBarDrawerToggle mDrawerToggle;
 
 	public boolean isDisplayHomeAsUp = false;
+	public List<Integer> itemList = new ArrayList<>(
+			Arrays.asList(R.id.nav_course, R.id.nav_score, R.id.nav_leave, R.id.nav_bus,
+					R.id.nav_simcourse, R.id.nav_messages, R.id.nav_about, R.id.nav_settings));
 
 	public void init(int title, NavigationView.OnNavigationItemSelectedListener listener) {
-		init(getString(title), listener);
+		init(title, listener, -1);
 	}
 
-	public void init(String title, NavigationView.OnNavigationItemSelectedListener listener) {
+	public void init(int title, NavigationView.OnNavigationItemSelectedListener listener,
+	                 int selectItem) {
+		init(getString(title), listener, itemList.indexOf(selectItem));
+	}
+
+	public void init(String title, NavigationView.OnNavigationItemSelectedListener listener,
+	                 int selectItem) {
 		setUpToolBar(title);
-		setUpMenuDrawer(listener);
+		setUpMenuDrawer(listener, selectItem);
 		setDisplayHomeAsUp(false);
 	}
 
@@ -43,7 +56,8 @@ public class SilentActivity extends AppCompatActivity {
 		}
 	}
 
-	public void setUpMenuDrawer(NavigationView.OnNavigationItemSelectedListener listener) {
+	public void setUpMenuDrawer(NavigationView.OnNavigationItemSelectedListener listener,
+	                            int selectItem) {
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navigationView = (NavigationView) findViewById(R.id.nav_view);
 
@@ -82,6 +96,10 @@ public class SilentActivity extends AppCompatActivity {
 		if (getSupportActionBar() != null) {
 			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 			getSupportActionBar().setHomeButtonEnabled(true);
+		}
+
+		if (-1 < selectItem && selectItem < navigationView.getMenu().size()) {
+			navigationView.getMenu().getItem(selectItem).setChecked(true);
 		}
 	}
 

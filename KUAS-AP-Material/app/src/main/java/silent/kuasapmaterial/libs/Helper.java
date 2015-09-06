@@ -21,10 +21,12 @@ import java.util.List;
 import silent.kuasapmaterial.R;
 import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.callback.NotificationCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
 import silent.kuasapmaterial.callback.UserInfoCallback;
 import silent.kuasapmaterial.models.BusModel;
+import silent.kuasapmaterial.models.NotificationModel;
 import silent.kuasapmaterial.models.SemesterModel;
 import silent.kuasapmaterial.models.ServerStatusModel;
 import silent.kuasapmaterial.models.UserInfoModel;
@@ -41,7 +43,7 @@ public class Helper {
 	private static AsyncHttpClient init() {
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.addHeader("Connection", "Keep-Alive");
-		client.setTimeout(30 * 1000);
+		client.setTimeout(7 * 1000);
 		client.getHttpClient().getParams()
 				.setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
 		return client;
@@ -66,7 +68,7 @@ public class Helper {
 	public static final String BUS_QUERY_URL = BASE_URL + "/latest/bus/timetables";
 	public static final String BUS_RESERVE_URL = BASE_URL + "/bus/reserve";
 	public static final String BUS_BOOKING_URL = BASE_URL + "/bus/booking";
-	public static final String NOTIFICATION_URL = BASE_URL + "/notification/%s";
+	public static final String NOTIFICATION_URL = BASE_URL + "/latest/notifications/%s";
 	public static final String NEWS_URL = BASE_URL + "/news";
 	public static final String NEWS_STATUS_URL = BASE_URL + "/news/status";
 
@@ -123,7 +125,7 @@ public class Helper {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
-				if (response.has("auth_token")) {
+				if (statusCode == 200 && response.has("auth_token")) {
 					if (callback != null) {
 						callback.onSuccess();
 					}
@@ -133,32 +135,17 @@ public class Helper {
 			}
 
 			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString,
+			                      Throwable throwable) {
+				super.onFailure(statusCode, headers, responseString, throwable);
+				onHelperFail(context, callback, statusCode, headers, throwable);
+			}
+
+			@Override
 			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
-			}
-		});
-	}
-
-	public static void logout(final Context context, final GeneralCallback callback) {
-		mClient.post(LOGOUT_URL, new TextHttpResponseHandler() {
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, String responseString,
-			                      Throwable throwable) {
-				onHelperFail(context, callback, statusCode, headers, throwable, responseString);
-			}
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, String responseString) {
-				if (statusCode == 200) {
-					if (callback != null) {
-						callback.onSuccess();
-					}
-				} else {
-					onHelperFail(context, callback, statusCode, headers, null, responseString);
-				}
 			}
 		});
 	}
@@ -471,14 +458,39 @@ public class Helper {
 	}
 
 	public static void getNotification(final Context context, int page,
-	                                   final GeneralCallback callback) {
+	                                   final NotificationCallback callback) {
 		String url = String.format(NOTIFICATION_URL, page);
 		mClient.get(url, new JsonHttpResponseHandler() {
 
 			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
-				// TODO Wait for check this API response
+				try {
+					List<NotificationModel> modelList = new ArrayList<>();
+					JSONArray jsonArray = response.getJSONArray("notification");
+					for (int i = 0; i < jsonArray.length(); i++) {
+						NotificationModel model = new NotificationModel();
+						model.link = jsonArray.getJSONObject(i).getString("link");
+						JSONObject infoObject = jsonArray.getJSONObject(i).getJSONObject("info");
+						model.date = infoObject.getString("date");
+						model.content = infoObject.getString("title");
+						model.author = infoObject.getString("department");
+						model.id = infoObject.getString("id");
+						modelList.add(model);
+					}
+					if (callback != null) {
+						callback.onSuccess(modelList);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
+				}
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString,
+			                      Throwable throwable) {
+				super.onFailure(statusCode, headers, responseString, throwable);
+				onHelperFail(context, callback, statusCode, headers, throwable);
 			}
 
 			@Override

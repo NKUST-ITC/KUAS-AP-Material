@@ -42,6 +42,8 @@ import android.widget.SectionIndexer;
  */
 public class PinnedSectionListView extends ListView {
 
+	OnBottomReachedListener mBottomReachedListener;
+
 	//-- inner classes
 
 	/**
@@ -182,6 +184,7 @@ public class PinnedSectionListView extends ListView {
 
 	private void initView() {
 		setOnScrollListener(mOnScrollListener);
+		setOnBottomReachedListener(mBottomReachedListener);
 		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
 		initShadow(mIsShadow);
 	}
@@ -583,5 +586,32 @@ public class PinnedSectionListView extends ListView {
 			adapter = ((HeaderViewListAdapter) adapter).getWrappedAdapter();
 		}
 		return ((PinnedSectionListAdapter) adapter).isItemViewTypePinned(viewType);
+	}
+
+	@Override
+	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
+		View view = getChildAt(getChildCount() - 1);
+		if (view == null) {
+			return;
+		}
+		int diff = (view.getBottom() - (getHeight() + getScrollY()));
+
+		OnBottomReachedListener listener = getOnBottomReachedListener();
+		if (diff == 0 && listener != null) {
+			listener.onBottomReached();
+		}
+		super.onScrollChanged(l, t, oldl, oldt);
+	}
+
+	public OnBottomReachedListener getOnBottomReachedListener() {
+		return mBottomReachedListener;
+	}
+
+	public void setOnBottomReachedListener(OnBottomReachedListener onBottomReachedListener) {
+		mBottomReachedListener = onBottomReachedListener;
+	}
+
+	public interface OnBottomReachedListener {
+		void onBottomReached();
 	}
 }

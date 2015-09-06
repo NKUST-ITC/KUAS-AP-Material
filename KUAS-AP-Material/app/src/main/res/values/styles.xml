@@ -9,6 +9,14 @@
 		<item name="actionModeStyle">@style/Widget.ActionMode</item>
 	</style>
 
+	<style name="DarkAppTheme" parent="Theme.AppCompat">
+		<item name="colorPrimary">@color/main_theme</item>
+		<item name="colorPrimaryDark">@color/main_theme_dark</item>
+		<item name="colorAccent">@color/accent</item>
+		<item name="alertDialogTheme">@style/AlertDialogStyle</item>
+		<item name="actionModeStyle">@style/Widget.ActionMode</item>
+	</style>
+
 	<style name="AlertDialogStyle" parent="Theme.AppCompat.Light.Dialog.Alert">
 		<item name="colorPrimary">@color/main_theme</item>
 		<item name="colorPrimaryDark">@color/main_theme_dark</item>
@@ -23,6 +31,10 @@
 		<item name="windowNoTitle">true</item>
 		<item name="windowActionBar">false</item>
 		<item name="windowActionModeOverlay">true</item>
+	</style>
+
+	<style name="TabTheme" parent="DarkAppTheme">
+		<item name="android:textColorPrimary">@color/white_text</item>
 	</style>
 
 </resources>

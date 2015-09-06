@@ -3,18 +3,21 @@ package silent.kuasapmaterial;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.support.design.widget.NavigationView;
+import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
+import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.ProgressWheel;
 
-public class LogoutActivity extends AppCompatActivity implements View.OnClickListener {
+public class LogoutActivity extends SilentActivity
+		implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
 
 	TextView mTitleTextView;
 	WebView mWebView;
@@ -38,9 +41,23 @@ public class LogoutActivity extends AppCompatActivity implements View.OnClickLis
 		} else {
 			setContentView(R.layout.activity_logout_news);
 		}
+		init(R.string.news, this);
 
 		findViews();
 		setUpViews();
+	}
+
+	// TODO Wait for handle navigation items
+	@Override
+	public boolean onNavigationItemSelected(MenuItem menuItem) {
+		drawer.closeDrawers();
+		if (menuItem.isChecked()) {
+			return true;
+		}
+		if (menuItem.getItemId() == R.id.nav_messages) {
+			startActivity(new Intent(this, MessagesActivity.class));
+		}
+		return true;
 	}
 
 	private void findViews() {
@@ -88,7 +105,8 @@ public class LogoutActivity extends AppCompatActivity implements View.OnClickLis
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mURL));
 			startActivity(browserIntent);
 		} else if (v.getId() == R.id.button_logout) {
-
+			startActivity(new Intent(this, LoginActivity.class));
+			finish();
 		}
 	}
 }

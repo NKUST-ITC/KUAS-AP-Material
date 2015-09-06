@@ -21,7 +21,8 @@
 	android:layout_width="match_parent"
 	android:layout_height="wrap_content"
 	android:animateLayoutChanges="true"
-	android:focusable="true">
+	android:focusable="true"
+	android:foreground="?selectableItemBackground">
 
 	<ImageView
 		android:layout_width="match_parent"
@@ -37,7 +38,7 @@
 		android:paddingLeft="@dimen/margin_medium">
 
 		<ImageView
-			android:id="@+id/imageView_mycard"
+			android:id="@+id/imageView_user"
 			android:layout_width="@dimen/head_mycard"
 			android:layout_height="@dimen/head_mycard"
 			android:layout_marginBottom="@dimen/margin_medium"
@@ -56,18 +57,17 @@
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_gravity="bottom"
-				android:fontFamily="sans-serif-medium"
-				android:text="遊客"
+				android:text="@string/guest"
 				android:textColor="@color/white"
 				android:textSize="@dimen/text_action"/>
 
 			<TextView
-				android:id="@+id/textView_email"
+				android:id="@+id/textView_schoolID"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
 				android:layout_marginTop="2dp"
 				android:gravity="center_vertical"
-				android:text="請先登入"
+				android:text="@string/tap_here_to_login"
 				android:textColor="@color/white_text_secondary"
 				android:textSize="@dimen/text_action"/>
 		</LinearLayout>

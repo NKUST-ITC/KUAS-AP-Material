@@ -14,10 +14,17 @@
 	<string name="remember_password">記住密碼</string>
 	<string name="version">v.%s</string>
 	<string name="login_ing">登入中&#8230;</string>
+	<string name="call_phone_title">撥出電話</string>
+	<string name="call_phone_content">確定要撥給「%s」？</string>
+	<string name="call_phone">撥出</string>
+	<string name="determine">確定</string>
+	<string name="cancel">取消</string>
+	<string name="add_cal_content">確定要將「%s」新增至行事曆？</string>
 
 	<string name="open_drawer">打開功能表</string>
 	<string name="close_drawer">打開功能表</string>
 
+	<string name="news">最新消息</string>
 	<string name="offline_course">離線課表</string>
 	<string name="course">學期課表</string>
 	<string name="score">學期成績</string>
@@ -34,4 +41,17 @@
 	<string name="enter_username_hint">請輸入帳號</string>
 	<string name="enter_password_hint">請輸入密碼</string>
 	<string name="check_login_hint">請檢查帳號密碼</string>
+
+	<array name="messages">
+		<item>最新消息</item>
+		<item>常用電話</item>
+		<item>行事曆</item>
+	</array>
+
+	<string name="lorem_title">Lorem ipsum</string>
+	<string name="lorem_sentence">Lorem ipsum dolor sit amet.</string>
+	<string name="lorem_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+	<string name="lorem_number">123</string>
+	<string name="lorem_date">2015&#8211;09&#8211;06</string>
+	<string name="lorem_phone">(01) 234&#8211;5678</string>
 </resources>

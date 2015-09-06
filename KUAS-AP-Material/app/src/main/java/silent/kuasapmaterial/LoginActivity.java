@@ -60,7 +60,9 @@ public class LoginActivity extends SilentActivity
 		if (menuItem.isChecked()) {
 			return true;
 		}
-		menuItem.setChecked(true);
+		if (menuItem.getItemId() == R.id.nav_messages) {
+			startActivity(new Intent(this, MessagesActivity.class));
+		}
 		return true;
 	}
 
