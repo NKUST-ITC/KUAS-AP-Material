@@ -1,13 +1,7 @@
-<LinearLayout
+<?xml version="1.0" encoding="utf-8"?>
+<silent.kuasapmaterial.libs.PinnedSectionListView
 	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/listView"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
-	android:background="@color/app_bg"
-	android:orientation="vertical">
-
-	<silent.kuasapmaterial.libs.PinnedSectionListView
-		android:id="@+id/listView"
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-		android:background="@color/app_bg"/>
-</LinearLayout>
+	android:background="@color/app_bg"/>

@@ -5,11 +5,12 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Base64;
 import android.util.Log;
 import android.view.KeyEvent;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -19,6 +20,7 @@ import android.widget.TextView;
 
 import java.io.UnsupportedEncodingException;
 
+import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
 import silent.kuasapmaterial.libs.Constant;
@@ -27,8 +29,9 @@ import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.ServerStatusModel;
 
-public class LoginActivity extends AppCompatActivity
-		implements TextView.OnEditorActionListener, View.OnClickListener {
+public class LoginActivity extends SilentActivity
+		implements TextView.OnEditorActionListener, View.OnClickListener,
+		NavigationView.OnNavigationItemSelectedListener {
 
 	TextInputLayout mIdTextInputLayout, mPasswordTextInputLayout;
 	EditText mIdEditText, mPasswordEditText;
@@ -42,11 +45,23 @@ public class LoginActivity extends AppCompatActivity
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
 
+		init(R.string.app_name, this);
 		findViews();
 		setUpViews();
 		getVersion();
 		checkServerStatus();
 		getNews();
+	}
+
+	// TODO Wait for handle navigation items
+	@Override
+	public boolean onNavigationItemSelected(MenuItem menuItem) {
+		drawer.closeDrawers();
+		if (menuItem.isChecked()) {
+			return true;
+		}
+		menuItem.setChecked(true);
+		return true;
 	}
 
 	private void getVersion() {
@@ -128,11 +143,6 @@ public class LoginActivity extends AppCompatActivity
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}
-		}
-
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			getSupportActionBar().setHomeButtonEnabled(true);
 		}
 
 		mRememberCheckBox

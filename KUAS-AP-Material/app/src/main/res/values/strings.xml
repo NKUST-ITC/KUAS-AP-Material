@@ -14,8 +14,24 @@
 	<string name="remember_password">記住密碼</string>
 	<string name="version">v.%s</string>
 	<string name="login_ing">登入中&#8230;</string>
-	<string name="check_login_hint">請檢查帳號密碼</string>
+
+	<string name="open_drawer">打開功能表</string>
+	<string name="close_drawer">打開功能表</string>
+
+	<string name="offline_course">離線課表</string>
+	<string name="course">學期課表</string>
+	<string name="score">學期成績</string>
+	<string name="leave">缺曠系統</string>
+	<string name="bus">校車系統</string>
+	<string name="simcourse">模擬選課</string>
+	<string name="messages">校園資訊</string>
+	<string name="user">個人資訊</string>
+	<string name="about">關於我們</string>
+	<string name="settings">設定</string>
+	<string name="guest">訪客</string>
+	<string name="tap_here_to_login">請先登入</string>
 
 	<string name="enter_username_hint">請輸入帳號</string>
 	<string name="enter_password_hint">請輸入密碼</string>
+	<string name="check_login_hint">請檢查帳號密碼</string>
 </resources>
