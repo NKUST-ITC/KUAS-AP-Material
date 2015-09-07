@@ -366,15 +366,6 @@ public class ProgressWheel extends View {
 				// we run the callback with -1 in case we want to
 				// do something, like changing the color
 				runCallback(-1.0f);
-
-				if (isMaterial) {
-					setBarColor(getResources().getColor(MaterialColors[MaterialCnt % 4]));
-					if (MaterialCnt == 3) {
-						MaterialCnt = 0;
-					} else {
-						MaterialCnt++;
-					}
-				}
 			}
 			lastTimeAnimated = SystemClock.uptimeMillis();
 
@@ -527,6 +518,14 @@ public class ProgressWheel extends View {
 	}
 
 	private void runCallback(float value) {
+		if (isMaterial) {
+			setBarColor(getResources().getColor(MaterialColors[MaterialCnt % 4]));
+			if (MaterialCnt == 3) {
+				MaterialCnt = 0;
+			} else {
+				MaterialCnt++;
+			}
+		}
 		if (callback != null) {
 			callback.onProgressUpdate(value);
 		}
@@ -949,6 +948,6 @@ public class ProgressWheel extends View {
 		 *
 		 * @param progress a double value between 0.00 and 1.00 both included
 		 */
-		public void onProgressUpdate(float progress);
+		void onProgressUpdate(float progress);
 	}
 }
