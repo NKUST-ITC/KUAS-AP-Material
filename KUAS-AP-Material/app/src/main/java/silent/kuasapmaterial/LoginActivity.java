@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.MenuItem;
 import android.view.View;
@@ -197,7 +196,7 @@ public class LoginActivity extends SilentActivity
 				super.onTimeOut();
 
 				progressDialog.dismiss();
-				Toast.makeText(LoginActivity.this, R.string.timeout_message, Toast.LENGTH_SHORT);
+				Toast.makeText(LoginActivity.this, R.string.timeout_message, Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
@@ -213,7 +212,6 @@ public class LoginActivity extends SilentActivity
 						Memory.setString(LoginActivity.this, Constant.PREF_PASSWORD, "");
 					} else {
 						String newPwd = Base64.encodeToString(TextByte, Base64.DEFAULT);
-						Log.d(Constant.TAG, Base64.encodeToString(TextByte, Base64.DEFAULT));
 						Memory.setString(LoginActivity.this, Constant.PREF_PASSWORD,
 								mRememberCheckBox.isChecked() ? newPwd : "");
 					}

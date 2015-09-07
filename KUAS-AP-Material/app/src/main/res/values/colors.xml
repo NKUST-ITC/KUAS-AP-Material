@@ -7,7 +7,7 @@
 	<color name="main_theme">@color/blue_700</color>
 	<color name="main_theme_selected">@color/blue_600</color>
 	<color name="main_theme_light">@color/blue_500</color>
-	<color name="accent">@color/light_blue_600</color>
+	<color name="accent">@color/light_blue_700</color>
 	<color name="tint_bg">#37474f</color>
 	<color name="tint_bg_dark">#263238</color>
 	<color name="tint_action_bar">#2D3E50</color>

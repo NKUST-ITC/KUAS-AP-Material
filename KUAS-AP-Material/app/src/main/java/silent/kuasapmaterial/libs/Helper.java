@@ -400,7 +400,8 @@ public class Helper {
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
 				try {
-					List<BusModel> modelList = new ArrayList<>();
+					List<BusModel> jiangongList = new ArrayList<>();
+					List<BusModel> yanchaoList = new ArrayList<>();
 					JSONArray jsonArray = response.getJSONArray("timetable");
 					for (int i = 0; i < jsonArray.length(); i++) {
 						BusModel model = new BusModel();
@@ -413,10 +414,14 @@ public class Helper {
 						model.reserveCount = jsonArray.getJSONObject(i).getString("reserveCount");
 						model.Time = jsonArray.getJSONObject(i).getString("Time");
 						model.busId = jsonArray.getJSONObject(i).getString("busId");
-						modelList.add(model);
+						if (model.endStation.equals("建工")) {
+							yanchaoList.add(model);
+						} else {
+							jiangongList.add(model);
+						}
 					}
 					if (callback != null) {
-						callback.onSuccess(modelList);
+						callback.onSuccess(jiangongList, yanchaoList);
 					}
 				} catch (JSONException e) {
 					onHelperFail(context, callback, e);
@@ -510,7 +515,7 @@ public class Helper {
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-			                      JSONArray errorResponse) {
+			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
 			}

@@ -21,6 +21,13 @@
 	<string name="cancel">取消</string>
 	<string name="add_cal_content">確定要將「%s」新增至行事曆？</string>
 	<string name="click_to_retry">發生錯誤，點擊重試</string>
+	<string name="bus_pick_date">選擇乘車時間：%s</string>
+	<string name="bus_not_pick_date">選擇乘車時間</string>
+	<string name="bus_count" formatted="false">(%s / %s)</string>
+	<string name="bus_jiangong">到燕巢，發車：</string>
+	<string name="bus_yanchao">到建工，發車：</string>
+	<string name="bus_jiangong_reserved">√ 到燕巢，發車：</string>
+	<string name="bus_yanchao_reserved">√ 到建工，發車：</string>
 
 	<string name="open_drawer">打開功能表</string>
 	<string name="close_drawer">打開功能表</string>
@@ -42,6 +49,8 @@
 	<string name="enter_username_hint">請輸入帳號</string>
 	<string name="enter_password_hint">請輸入密碼</string>
 	<string name="check_login_hint">請檢查帳號密碼</string>
+
+	<string name="bus_segment">從建工出發的車次|從燕巢出發的車次</string>
 
 	<array name="messages">
 		<item>最新消息</item>

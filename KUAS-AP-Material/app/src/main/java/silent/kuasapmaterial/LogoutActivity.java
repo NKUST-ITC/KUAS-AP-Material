@@ -56,6 +56,8 @@ public class LogoutActivity extends SilentActivity
 		}
 		if (menuItem.getItemId() == R.id.nav_messages) {
 			startActivity(new Intent(this, MessagesActivity.class));
+		} else if (menuItem.getItemId() == R.id.nav_bus) {
+			startActivity(new Intent(this, BusActivity.class));
 		}
 		return true;
 	}

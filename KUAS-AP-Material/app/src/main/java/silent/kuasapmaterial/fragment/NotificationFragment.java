@@ -151,13 +151,13 @@ public class NotificationFragment extends Fragment
 	private void getNotificationData(final boolean firstTime) {
 		mSwipeRefreshLayout.setEnabled(false);
 
-		isLoadingPosts = true;
-		mAdapter.notifyDataSetChanged();
 		if (firstTime) {
 			mPage = 0;
 			mList.clear();
 		}
 		mPage++;
+		isLoadingPosts = true;
+		mAdapter.notifyDataSetChanged();
 
 		Helper.getNotification(activity, mPage, new NotificationCallback() {
 
