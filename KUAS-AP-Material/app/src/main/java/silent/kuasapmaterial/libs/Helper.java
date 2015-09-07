@@ -16,6 +16,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,8 +69,8 @@ public class Helper {
 	public static final String LEAVE_QUERY_URL = BASE_URL + "/leave";
 	public static final String LEAVE_SUBMIT_URL = BASE_URL + "/leave/submit";
 	public static final String BUS_QUERY_URL = BASE_URL + "/latest/bus/timetables";
-	public static final String BUS_RESERVE_URL = BASE_URL + "/bus/reserve";
-	public static final String BUS_BOOKING_URL = BASE_URL + "/bus/booking";
+	public static final String BUS_RESERVE_URL = BASE_URL + "/latest/bus/reservations";
+	public static final String BUS_BOOKING_URL = BASE_URL + "/latest/bus/reservations/%s";
 	public static final String NOTIFICATION_URL = BASE_URL + "/latest/notifications/%s";
 	public static final String NEWS_URL = BASE_URL + "/news";
 	public static final String NEWS_STATUS_URL = BASE_URL + "/news/status";
@@ -455,17 +457,25 @@ public class Helper {
 		});
 	}
 
-	public static void bookingBus(final Context context, String busId, String action,
+	public static void bookingBus(final Context context, String busId,
 	                              final GeneralCallback callback) {
-		RequestParams params = new RequestParams();
-		params.put("busId", busId);
-		params.put("action", action);
-		mClient.post(BUS_BOOKING_URL, params, new JsonHttpResponseHandler() {
+		String url = String.format(BUS_BOOKING_URL, busId);
+		mClient.put(url, new JsonHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
-				// TODO Wait for check this API response
+				try {
+					if (response.has("success") && response.getBoolean("success")) {
+						if (callback != null) {
+							callback.onSuccess();
+						}
+					} else {
+						onHelperFail(context, callback, statusCode, headers, null, response);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
+				}
 			}
 
 			@Override
@@ -475,6 +485,41 @@ public class Helper {
 				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
 			}
 		});
+	}
+
+	// TODO Wait for API Update
+	public static void cancelBookingBus(final Context context, String end_time,
+	                                    final GeneralCallback callback) {
+		try {
+			String url = String.format(BUS_BOOKING_URL, URLEncoder.encode(end_time, "utf-8"));
+			mClient.delete(url, new JsonHttpResponseHandler() {
+
+				@Override
+				public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+					super.onSuccess(statusCode, headers, response);
+					try {
+						if (response.has("success") && response.getBoolean("success")) {
+							if (callback != null) {
+								callback.onSuccess();
+							}
+						} else {
+							onHelperFail(context, callback, statusCode, headers, null, response);
+						}
+					} catch (JSONException e) {
+						onHelperFail(context, callback, e);
+					}
+				}
+
+				@Override
+				public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+				                      JSONObject errorResponse) {
+					super.onFailure(statusCode, headers, throwable, errorResponse);
+					onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
+				}
+			});
+		} catch (UnsupportedEncodingException e) {
+			onHelperFail(context, callback, e);
+		}
 	}
 
 	public static void getNotification(final Context context, int page,

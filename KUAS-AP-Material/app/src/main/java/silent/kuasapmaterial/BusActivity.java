@@ -1,9 +1,11 @@
 package silent.kuasapmaterial;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -13,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -24,6 +27,7 @@ import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.BusCallback;
+import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.segmentcontrol.SegmentControl;
@@ -134,6 +138,7 @@ public class BusActivity extends SilentActivity
 	private void setUpViews() {
 		mSegmentControl.setmOnSegmentControlClickListener(this);
 		mListView.setOnItemClickListener(this);
+		mListView.setDividerHeight(5);
 		mAdapter = new BusAdapter(this);
 		mListView.setAdapter(mAdapter);
 
@@ -222,8 +227,85 @@ public class BusActivity extends SilentActivity
 	}
 
 	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+		final List<BusModel> modelList = mIndex == 0 ? mJianGongList : mYanChaoList;
+		if (modelList.get(position).isReserve) {
+			new AlertDialog.Builder(this).setTitle(R.string.bus_cancel_reserve_confirm_title)
+					.setMessage(getString(R.string.bus_cancel_reserve_confirm_content, getString(
+									mIndex == 0 ? R.string.bus_from_jiangong :
+											R.string.bus_from_yanchao),
+							modelList.get(position).Time))
+					.setPositiveButton(R.string.bus_cancel_reserve,
+							new DialogInterface.OnClickListener() {
+								@Override
+								public void onClick(DialogInterface dialog, int which) {
+									cancelBookBus(modelList, position);
+								}
+							}).setNegativeButton(R.string.back, null).show();
+		} else {
+			new AlertDialog.Builder(this).setTitle(R.string.bus_reserve_confirm_title).setMessage(
+					getString(R.string.bus_reserve_confirm_content, getString(
+									mIndex == 0 ? R.string.bus_from_jiangong :
+											R.string.bus_from_yanchao),
+							modelList.get(position).Time))
+					.setPositiveButton(R.string.bus_reserve, new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							bookBus(modelList, position);
+						}
+					}).setNegativeButton(R.string.cancel, null).show();
+		}
+	}
 
+	private void cancelBookBus(List<BusModel> modelList, final int position) {
+		Helper.cancelBookingBus(BusActivity.this, modelList.get(position).EndEnrollDateTime,
+				new GeneralCallback() {
+
+					@Override
+					public void onSuccess() {
+						super.onSuccess();
+						if (mIndex == 0) {
+							mJianGongList.get(position).isReserve = false;
+						} else {
+							mYanChaoList.get(position).isReserve = false;
+						}
+						mAdapter.notifyDataSetChanged();
+						Toast.makeText(BusActivity.this, R.string.bus_cancel_reserve_success,
+								Toast.LENGTH_SHORT).show();
+					}
+
+					@Override
+					public void onFail(String errorMessage) {
+						super.onFail(errorMessage);
+						Toast.makeText(BusActivity.this, R.string.something_error,
+								Toast.LENGTH_SHORT).show();
+					}
+				});
+	}
+
+	private void bookBus(List<BusModel> modelList, final int position) {
+		Helper.bookingBus(BusActivity.this, modelList.get(position).busId, new GeneralCallback() {
+
+			@Override
+			public void onSuccess() {
+				super.onSuccess();
+				if (mIndex == 0) {
+					mJianGongList.get(position).isReserve = true;
+				} else {
+					mYanChaoList.get(position).isReserve = true;
+				}
+				mAdapter.notifyDataSetChanged();
+				Toast.makeText(BusActivity.this, R.string.bus_reserve_success, Toast.LENGTH_SHORT)
+						.show();
+			}
+
+			@Override
+			public void onFail(String errorMessage) {
+				super.onFail(errorMessage);
+				Toast.makeText(BusActivity.this, R.string.something_error, Toast.LENGTH_SHORT)
+						.show();
+			}
+		});
 	}
 
 	@Override

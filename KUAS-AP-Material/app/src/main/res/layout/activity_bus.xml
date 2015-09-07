@@ -63,6 +63,7 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				android:cacheColorHint="@color/app_bg"
+				android:divider="@color/app_bg"
 				android:drawSelectorOnTop="true"
 				android:listSelector="?selectableItemBackground"
 				android:visibility="gone"

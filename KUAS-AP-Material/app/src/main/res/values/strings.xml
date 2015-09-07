@@ -28,6 +28,17 @@
 	<string name="bus_yanchao">到建工，發車：</string>
 	<string name="bus_jiangong_reserved">√ 到燕巢，發車：</string>
 	<string name="bus_yanchao_reserved">√ 到建工，發車：</string>
+	<string name="back">返回</string>
+	<string name="bus_reserve">預定校車</string>
+	<string name="bus_cancel_reserve">取消預定校車</string>
+	<string name="bus_reserve_confirm_title">確定要<b>預定</b>本校車車次？</string>
+	<string name="bus_reserve_confirm_content" formatted="false">要預定從%s\n%s 的校車嗎？</string>
+	<string name="bus_cancel_reserve_confirm_title">確定要<b>取消</b>本校車車次？</string>
+	<string name="bus_cancel_reserve_confirm_content" formatted="false">要取消從%s\n%s 的校車嗎？</string>
+	<string name="bus_from_jiangong">建工到燕巢</string>
+	<string name="bus_from_yanchao">燕巢到建工</string>
+	<string name="bus_reserve_success">預約成功！</string>
+	<string name="bus_cancel_reserve_success">取消預約成功！</string>
 
 	<string name="open_drawer">打開功能表</string>
 	<string name="close_drawer">打開功能表</string>
