@@ -82,7 +82,8 @@ public class BusActivity extends SilentActivity
 						new TypeToken<List<BusModel>>() {
 						}.getType());
 			}
-
+		} else {
+			showDatePickerDialog();
 		}
 
 		if (mJianGongList == null) {
@@ -90,12 +91,6 @@ public class BusActivity extends SilentActivity
 		}
 		if (mYanChaoList == null) {
 			mYanChaoList = new ArrayList<>();
-		}
-		if (mJianGongList.size() > 0 || mYanChaoList.size() > 0) {
-			mProgressWheel.setVisibility(View.GONE);
-			mListView.setVisibility(View.VISIBLE);
-		} else {
-			showDatePickerDialog();
 		}
 	}
 
@@ -139,9 +134,15 @@ public class BusActivity extends SilentActivity
 	private void setUpViews() {
 		mSegmentControl.setmOnSegmentControlClickListener(this);
 		mListView.setOnItemClickListener(this);
-		mSegmentControl.setIndex(mIndex);
 		mAdapter = new BusAdapter(this);
 		mListView.setAdapter(mAdapter);
+
+		if (mDate != null && mDate.length() > 0) {
+			mTextView.setText(getString(R.string.bus_pick_date, mDate));
+		}
+
+		mSegmentControl.setIndex(mIndex);
+		changeSegmentColor();
 
 		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
 		mTextView.setOnClickListener(new View.OnClickListener() {
@@ -150,6 +151,11 @@ public class BusActivity extends SilentActivity
 				showDatePickerDialog();
 			}
 		});
+
+		if (mJianGongList.size() > 0 || mYanChaoList.size() > 0) {
+			mProgressWheel.setVisibility(View.GONE);
+			mListView.setVisibility(View.VISIBLE);
+		}
 	}
 
 	private void showDatePickerDialog() {
@@ -195,10 +201,20 @@ public class BusActivity extends SilentActivity
 		mIndex = index;
 		mAdapter.notifyDataSetChanged();
 
+		changeSegmentColor();
+		mListView.smoothScrollToPosition(0);
+	}
+
+	@Override
+	public void onSegmentControlReselect() {
+		mListView.smoothScrollToPosition(0);
+	}
+
+	private void changeSegmentColor() {
 		int[][] states = new int[][]{new int[]{android.R.attr.state_enabled}};
 		int[] JianGongColors = new int[]{getResources().getColor(R.color.blue_600)};
 		int[] YanChaoColors = new int[]{getResources().getColor(R.color.green_600)};
-		if (index == 0) {
+		if (mIndex == 0) {
 			mSegmentControl.setColors(new ColorStateList(states, JianGongColors));
 		} else {
 			mSegmentControl.setColors(new ColorStateList(states, YanChaoColors));

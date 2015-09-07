@@ -66,6 +66,7 @@ public class SegmentControl extends View {
 
 	public interface OnSegmentControlClickListener {
 		void onSegmentControlClick(int index);
+		void onSegmentControlReselect();
 	}
 
 	private OnSegmentControlClickListener mOnSegmentControlClickListener;
@@ -377,6 +378,10 @@ public class SegmentControl extends View {
 					if (mCurrentIndex != index) {
 						if (mOnSegmentControlClickListener != null) {
 							mOnSegmentControlClickListener.onSegmentControlClick(index);
+						}
+					} else {
+						if (mOnSegmentControlClickListener != null) {
+							mOnSegmentControlClickListener.onSegmentControlReselect();
 						}
 					}
 
