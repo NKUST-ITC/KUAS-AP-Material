@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -42,6 +43,7 @@ public class BusActivity extends SilentActivity
 	ListView mListView;
 	TextView mTextView;
 	ProgressWheel mProgressWheel;
+	FloatingActionButton mFab;
 
 	String mDate;
 	List<BusModel> mJianGongList, mYanChaoList;
@@ -133,6 +135,7 @@ public class BusActivity extends SilentActivity
 		mListView = (ListView) findViewById(R.id.listView);
 		mTextView = (TextView) findViewById(R.id.textView_pickDate);
 		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+		mFab = (FloatingActionButton) findViewById(R.id.fab);
 	}
 
 	private void setUpViews() {
