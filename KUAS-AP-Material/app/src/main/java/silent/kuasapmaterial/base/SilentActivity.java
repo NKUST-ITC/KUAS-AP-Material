@@ -9,6 +9,7 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -18,6 +19,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import silent.kuasapmaterial.R;
+import silent.kuasapmaterial.libs.Constant;
 
 public class SilentActivity extends AppCompatActivity {
 
@@ -60,6 +62,15 @@ public class SilentActivity extends AppCompatActivity {
 	                            int selectItem) {
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navigationView = (NavigationView) findViewById(R.id.nav_view);
+		if (navigationView.findViewById(R.id.layout_user) != null) {
+			navigationView.findViewById(R.id.layout_user).setOnClickListener(new View.OnClickListener() {
+				@Override
+				public void onClick(View v) {
+					drawer.closeDrawers();
+					Log.d(Constant.TAG, "cccc");
+				}
+			});
+		}
 
 		drawer.setDrawerShadow(R.drawable.shadow_right, GravityCompat.START);
 		drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.main_theme_dark));

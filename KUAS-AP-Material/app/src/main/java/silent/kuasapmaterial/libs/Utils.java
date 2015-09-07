@@ -2,6 +2,7 @@ package silent.kuasapmaterial.libs;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Resources;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -60,5 +61,11 @@ public class Utils {
 		}
 		return new AlertDialog.Builder(context).setTitle(title).setView(dialogView)
 				.setCancelable(false).create();
+	}
+
+	public static int[] getSwipeRefreshColors(Context context) {
+		Resources res = context.getResources();
+		return new int[]{res.getColor(R.color.progress_red), res.getColor(R.color.progress_blue),
+				res.getColor(R.color.progress_yellow), res.getColor(R.color.progress_green)};
 	}
 }

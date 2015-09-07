@@ -11,6 +11,7 @@ import org.apache.http.Header;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.params.ClientPNames;
+import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -71,6 +72,12 @@ public class Helper {
 	public static final String NOTIFICATION_URL = BASE_URL + "/latest/notifications/%s";
 	public static final String NEWS_URL = BASE_URL + "/news";
 	public static final String NEWS_STATUS_URL = BASE_URL + "/news/status";
+
+	private static void onHelperTimeOut(GeneralCallback callback) {
+		if (callback != null) {
+			callback.onTimeOut();
+		}
+	}
 
 	private static void onHelperFail(Context context, GeneralCallback callback, Exception e) {
 		if (callback != null) {
@@ -138,14 +145,22 @@ public class Helper {
 			public void onFailure(int statusCode, Header[] headers, String responseString,
 			                      Throwable throwable) {
 				super.onFailure(statusCode, headers, responseString, throwable);
-				onHelperFail(context, callback, statusCode, headers, throwable);
+				if (throwable.getCause() instanceof ConnectTimeoutException) {
+					onHelperTimeOut(callback);
+				} else {
+					onHelperFail(context, callback, statusCode, headers, throwable);
+				}
 			}
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
+				if (throwable.getCause() instanceof ConnectTimeoutException) {
+					onHelperTimeOut(callback);
+				} else {
+					onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
+				}
 			}
 		});
 	}

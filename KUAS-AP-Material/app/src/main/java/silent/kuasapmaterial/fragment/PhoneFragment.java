@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,6 +28,8 @@ public class PhoneFragment extends Fragment implements AdapterView.OnItemClickLi
 
 	private View view;
 	private PinnedSectionListView mListView;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
+
 	List<PhoneModel> mList;
 	Activity activity;
 
@@ -71,9 +75,12 @@ public class PhoneFragment extends Fragment implements AdapterView.OnItemClickLi
 
 	private void findViews() {
 		mListView = (PinnedSectionListView) view.findViewById(R.id.listView);
+		mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
 	}
 
 	private void setUpViews() {
+		mSwipeRefreshLayout.setEnabled(false);
+
 		mList = new ArrayList<>();
 		mList.add(new PhoneModel("高雄應用科技大學總機", "(07) 381-4526"));
 		mList.add(new PhoneModel("建工校安專線", "0916-507-506"));
@@ -104,6 +111,10 @@ public class PhoneFragment extends Fragment implements AdapterView.OnItemClickLi
 						startActivity(myIntentDial);
 					}
 				}).setNegativeButton(R.string.cancel, null).show();
+	}
+
+	public ListView getListView() {
+		return mListView;
 	}
 
 	public class PhoneAdapter extends BaseAdapter

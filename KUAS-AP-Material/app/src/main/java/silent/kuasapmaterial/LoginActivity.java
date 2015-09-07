@@ -17,6 +17,7 @@ import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.UnsupportedEncodingException;
 
@@ -189,6 +190,14 @@ public class LoginActivity extends SilentActivity
 				mIdTextInputLayout.setErrorEnabled(true);
 				mPasswordTextInputLayout.setError(getString(R.string.check_login_hint));
 				mPasswordTextInputLayout.setErrorEnabled(true);
+			}
+
+			@Override
+			public void onTimeOut() {
+				super.onTimeOut();
+
+				progressDialog.dismiss();
+				Toast.makeText(LoginActivity.this, R.string.timeout_message, Toast.LENGTH_SHORT);
 			}
 
 			@Override

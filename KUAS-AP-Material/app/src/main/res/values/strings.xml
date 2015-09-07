@@ -20,6 +20,7 @@
 	<string name="determine">確定</string>
 	<string name="cancel">取消</string>
 	<string name="add_cal_content">確定要將「%s」新增至行事曆？</string>
+	<string name="click_to_retry">發生錯誤，點擊重試</string>
 
 	<string name="open_drawer">打開功能表</string>
 	<string name="close_drawer">打開功能表</string>

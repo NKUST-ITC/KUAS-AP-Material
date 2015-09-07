@@ -7,12 +7,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.provider.CalendarContract;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import java.io.BufferedReader;
@@ -29,6 +31,8 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 
 	private View view;
 	private PinnedSectionListView mListView;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
+
 	List<String> mList;
 	Activity activity;
 
@@ -74,9 +78,12 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 
 	private void findViews() {
 		mListView = (PinnedSectionListView) view.findViewById(R.id.listView);
+		mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
 	}
 
 	private void setUpViews() {
+		// TODO wait for API
+		mSwipeRefreshLayout.setEnabled(false);
 		mListView.setDividerHeight(0);
 
 		mList = new ArrayList<>();
@@ -150,6 +157,10 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 		calendarIntent.putExtra(CalendarContract.Events.TITLE, _msg);
 		calendarIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, "國立高雄應用科技大學");
 		startActivity(calendarIntent);
+	}
+
+	public ListView getListView() {
+		return mListView;
 	}
 
 	public class ScheduleAdapter extends BaseAdapter

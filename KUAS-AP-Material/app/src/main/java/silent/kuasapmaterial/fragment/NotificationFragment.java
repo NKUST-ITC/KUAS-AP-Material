@@ -6,11 +6,13 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -23,18 +25,22 @@ import silent.kuasapmaterial.R;
 import silent.kuasapmaterial.callback.NotificationCallback;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.PinnedSectionListView;
+import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.NotificationModel;
 
 public class NotificationFragment extends Fragment
-		implements PinnedSectionListView.OnBottomReachedListener {
+		implements PinnedSectionListView.OnBottomReachedListener,
+		SwipeRefreshLayout.OnRefreshListener {
 
 	private View view;
 	private PinnedSectionListView mListView;
+	private SwipeRefreshLayout mSwipeRefreshLayout;
+
 	List<NotificationModel> mList;
 	Activity activity;
 
 	private int mPage, mInitListPos = 0, mInitListOffset = 0;
-	private boolean isLoadingPosts = false;
+	private boolean isLoadingPosts = false, isRetry = false;
 	Adapter mAdapter;
 
 	@Override
@@ -88,6 +94,7 @@ public class NotificationFragment extends Fragment
 
 	private void findViews() {
 		mListView = (PinnedSectionListView) view.findViewById(R.id.listView);
+		mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
 	}
 
 	private void setUpViews() {
@@ -105,30 +112,52 @@ public class NotificationFragment extends Fragment
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				if (mList.get(position).link.startsWith("http")) {
-					Intent browserIntent =
-							new Intent(Intent.ACTION_VIEW, Uri.parse(mList.get(position).link));
-					startActivity(browserIntent);
+				if (position < mList.size()) {
+					if (mList.get(position).link.startsWith("http")) {
+						Intent browserIntent =
+								new Intent(Intent.ACTION_VIEW, Uri.parse(mList.get(position).link));
+						startActivity(browserIntent);
+					}
+				} else {
+					isRetry = false;
+					getNotificationData(false);
 				}
 			}
 		});
+		setUpPullRefresh();
+	}
+
+	@Override
+	public void onRefresh() {
+		if (!isLoadingPosts) {
+			isRetry = false;
+			mSwipeRefreshLayout.setRefreshing(true);
+			getNotificationData(true);
+		}
+	}
+
+	private void setUpPullRefresh() {
+		mSwipeRefreshLayout.setOnRefreshListener(this);
+		mSwipeRefreshLayout.setColorSchemeColors(Utils.getSwipeRefreshColors(activity));
 	}
 
 	@Override
 	public void onBottomReached() {
-		if (!isLoadingPosts) {
+		if (!isLoadingPosts && !isRetry) {
 			getNotificationData(false);
 		}
 	}
 
 	private void getNotificationData(final boolean firstTime) {
+		mSwipeRefreshLayout.setEnabled(false);
+
+		isLoadingPosts = true;
+		mAdapter.notifyDataSetChanged();
 		if (firstTime) {
 			mPage = 0;
 			mList.clear();
 		}
 		mPage++;
-		isLoadingPosts = true;
-		mAdapter.notifyDataSetChanged();
 
 		Helper.getNotification(activity, mPage, new NotificationCallback() {
 
@@ -143,6 +172,8 @@ public class NotificationFragment extends Fragment
 				isLoadingPosts = false;
 				mList.addAll(modelList);
 				mAdapter.notifyDataSetChanged();
+				mSwipeRefreshLayout.setEnabled(true);
+				mSwipeRefreshLayout.setRefreshing(false);
 			}
 
 			@Override
@@ -151,16 +182,23 @@ public class NotificationFragment extends Fragment
 
 				isLoadingPosts = false;
 				mPage--;
+				isRetry = true;
 				mAdapter.notifyDataSetChanged();
+				mSwipeRefreshLayout.setEnabled(true);
+				mSwipeRefreshLayout.setRefreshing(false);
 			}
 		});
+	}
+
+	public ListView getListView() {
+		return mListView;
 	}
 
 	public class Adapter extends BaseAdapter
 			implements PinnedSectionListView.PinnedSectionListAdapter {
 
 		private LayoutInflater inflater;
-		private final int TYPE_NOTIFICATION = 0, TYPE_PROGRESS = 1;
+		private final int TYPE_NOTIFICATION = 0, TYPE_PROGRESS = 1, TYPE_RETRY = 2;
 
 		public Adapter(Context context) {
 			this.inflater =
@@ -169,7 +207,7 @@ public class NotificationFragment extends Fragment
 
 		@Override
 		public int getCount() {
-			return mList.size() + (isLoadingPosts ? 1 : 0);
+			return mList.size() + (isRetry || isLoadingPosts ? 1 : 0);
 		}
 
 		@Override
@@ -193,7 +231,8 @@ public class NotificationFragment extends Fragment
 
 		@Override
 		public int getItemViewType(int position) {
-			return position < mList.size() ? TYPE_NOTIFICATION : TYPE_PROGRESS;
+			return position < mList.size() ? TYPE_NOTIFICATION :
+					isRetry ? TYPE_RETRY : TYPE_PROGRESS;
 		}
 
 		@Override
@@ -203,12 +242,13 @@ public class NotificationFragment extends Fragment
 
 		@Override
 		public boolean isEnabled(int position) {
-			return getItemViewType(position) == TYPE_NOTIFICATION;
+			return getItemViewType(position) != TYPE_PROGRESS;
 		}
 
 		@Override
 		public View getView(int position, View convertView, ViewGroup parent) {
 			ViewHolder holder = null;
+			RetryViewHolder retryHolder = null;
 			int item_type = getItemViewType(position);
 			if (convertView == null) {
 				if (item_type == TYPE_NOTIFICATION) {
@@ -220,17 +260,29 @@ public class NotificationFragment extends Fragment
 					holder.textView_content =
 							(TextView) convertView.findViewById(R.id.textView_content);
 					convertView.setTag(holder);
-				} else {
+				} else if (item_type == TYPE_PROGRESS) {
 					convertView = inflater.inflate(R.layout.list_progresswheel, parent, false);
+				} else {
+					retryHolder = new RetryViewHolder();
+					convertView = inflater.inflate(R.layout.list_text, parent, false);
+					retryHolder.textView = (TextView) convertView.findViewById(R.id.textView);
+					convertView.setTag(retryHolder);
 				}
 			} else {
-				holder = (ViewHolder) convertView.getTag();
+				if (item_type == TYPE_NOTIFICATION) {
+					holder = (ViewHolder) convertView.getTag();
+				} else {
+					retryHolder = (RetryViewHolder) convertView.getTag();
+				}
+
 			}
 
 			if (item_type == TYPE_NOTIFICATION) {
 				holder.textView_author.setText(mList.get(position).author);
 				holder.textView_date.setText(mList.get(position).date);
 				holder.textView_content.setText(mList.get(position).content);
+			} else if (item_type == TYPE_RETRY) {
+				retryHolder.textView.setText(R.string.click_to_retry);
 			}
 			return convertView;
 		}
@@ -239,6 +291,10 @@ public class NotificationFragment extends Fragment
 			TextView textView_author;
 			TextView textView_date;
 			TextView textView_content;
+		}
+
+		class RetryViewHolder {
+			TextView textView;
 		}
 	}
 }

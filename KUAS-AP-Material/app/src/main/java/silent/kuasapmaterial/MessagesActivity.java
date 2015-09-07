@@ -21,6 +21,7 @@ public class MessagesActivity extends SilentActivity
 	ViewPager mViewPager;
 
 	MessagesPagerAdapter mMessagesPagerAdapter;
+	private boolean blockReselection = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public class MessagesActivity extends SilentActivity
 				int position = tab.getPosition();
 				if (mViewPager.getCurrentItem() != position) {
 					mViewPager.setCurrentItem(position);
+				} else {
+					blockReselection = false;
 				}
 			}
 
@@ -68,6 +71,35 @@ public class MessagesActivity extends SilentActivity
 
 			@Override
 			public void onTabReselected(TabLayout.Tab tab) {
+				if (!blockReselection) {
+					Fragment fragment =
+							getSupportFragmentManager().getFragments().get(tab.getPosition());
+					if (fragment instanceof NotificationFragment) {
+						((NotificationFragment) fragment).getListView().smoothScrollToPosition(0);
+					} else if (fragment instanceof PhoneFragment) {
+						((PhoneFragment) fragment).getListView().smoothScrollToPosition(0);
+					} else if (fragment instanceof ScheduleFragment) {
+						((ScheduleFragment) fragment).getListView().smoothScrollToPosition(0);
+					}
+				} else {
+					blockReselection = false;
+				}
+			}
+		});
+		mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+			@Override
+			public void onPageScrolled(int position, float positionOffset,
+			                           int positionOffsetPixels) {
+			}
+
+			@Override
+			public void onPageSelected(int position) {
+				blockReselection = true;
+			}
+
+			@Override
+			public void onPageScrollStateChanged(int state) {
 			}
 		});
 		mViewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(mTabLayout));

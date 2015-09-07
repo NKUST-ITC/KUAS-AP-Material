@@ -21,4 +21,7 @@ public class GeneralCallback {
 
 	public void onLoginAgain() {
 	}
+
+	public void onTimeOut() {
+	}
 }
