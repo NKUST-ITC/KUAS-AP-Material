@@ -30,6 +30,7 @@ import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.ListScrollDistanceCalculator;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.segmentcontrol.SegmentControl;
 import silent.kuasapmaterial.models.BusModel;
@@ -37,7 +38,7 @@ import silent.kuasapmaterial.models.BusModel;
 public class BusActivity extends SilentActivity
 		implements NavigationView.OnNavigationItemSelectedListener,
 		SegmentControl.OnSegmentControlClickListener, AdapterView.OnItemClickListener,
-		DatePickerDialog.OnDateSetListener {
+		DatePickerDialog.OnDateSetListener, ListScrollDistanceCalculator.ScrollDistanceListener {
 
 	SegmentControl mSegmentControl;
 	ListView mListView;
@@ -49,6 +50,7 @@ public class BusActivity extends SilentActivity
 	List<BusModel> mJianGongList, mYanChaoList;
 	private int mInitListPos = 0, mInitListOffset = 0, mIndex = 0;
 	BusAdapter mAdapter;
+	ListScrollDistanceCalculator mListScrollDistanceCalculator;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -144,13 +146,16 @@ public class BusActivity extends SilentActivity
 		mListView.setDividerHeight(5);
 		mAdapter = new BusAdapter(this);
 		mListView.setAdapter(mAdapter);
+		mListScrollDistanceCalculator = new ListScrollDistanceCalculator();
+		mListScrollDistanceCalculator.setScrollDistanceListener(this);
+		mListView.setOnScrollListener(mListScrollDistanceCalculator);
 
 		if (mDate != null && mDate.length() > 0) {
 			mTextView.setText(getString(R.string.bus_pick_date, mDate));
 		}
 
 		mSegmentControl.setIndex(mIndex);
-		changeSegmentColor();
+		setUpSegmentColor();
 
 		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
 		mTextView.setOnClickListener(new View.OnClickListener() {
@@ -180,6 +185,8 @@ public class BusActivity extends SilentActivity
 	private void getData() {
 		mProgressWheel.setVisibility(View.VISIBLE);
 		mListView.setVisibility(View.GONE);
+		mFab.setEnabled(false);
+		mFab.hide();
 
 		Helper.getBusQuery(this, mDate, new BusCallback() {
 
@@ -192,6 +199,9 @@ public class BusActivity extends SilentActivity
 				mProgressWheel.setVisibility(View.GONE);
 				mListView.setVisibility(View.VISIBLE);
 				mAdapter.notifyDataSetChanged();
+
+				mFab.setEnabled(true);
+				mFab.show();
 			}
 
 			@Override
@@ -200,6 +210,9 @@ public class BusActivity extends SilentActivity
 
 				mProgressWheel.setVisibility(View.GONE);
 				mListView.setVisibility(View.VISIBLE);
+
+				mFab.setEnabled(true);
+				mFab.show();
 			}
 		});
 	}
@@ -209,23 +222,41 @@ public class BusActivity extends SilentActivity
 		mIndex = index;
 		mAdapter.notifyDataSetChanged();
 
-		changeSegmentColor();
+		setUpSegmentColor();
 		mListView.smoothScrollToPosition(0);
+
+		if (!mFab.isShown() && mFab.isEnabled()) {
+			mFab.show();
+		}
 	}
 
 	@Override
 	public void onSegmentControlReselect() {
 		mListView.smoothScrollToPosition(0);
+
+		if (!mFab.isShown() && mFab.isEnabled()) {
+			mFab.show();
+		}
 	}
 
-	private void changeSegmentColor() {
-		int[][] states = new int[][]{new int[]{android.R.attr.state_enabled}};
-		int[] JianGongColors = new int[]{getResources().getColor(R.color.blue_600)};
-		int[] YanChaoColors = new int[]{getResources().getColor(R.color.green_600)};
+	private void setUpSegmentColor() {
 		if (mIndex == 0) {
-			mSegmentControl.setColors(new ColorStateList(states, JianGongColors));
+			mSegmentControl
+					.setColors(ColorStateList.valueOf(getResources().getColor(R.color.blue_600)));
 		} else {
-			mSegmentControl.setColors(new ColorStateList(states, YanChaoColors));
+			mSegmentControl
+					.setColors(ColorStateList.valueOf(getResources().getColor(R.color.green_600)));
+		}
+		setUpFabColor();
+	}
+
+	private void setUpFabColor() {
+		if (mIndex == 0) {
+			mFab.setBackgroundTintList(
+					ColorStateList.valueOf(getResources().getColor(R.color.green_600)));
+		} else {
+			mFab.setBackgroundTintList(
+					ColorStateList.valueOf(getResources().getColor(R.color.blue_600)));
 		}
 	}
 
@@ -316,6 +347,15 @@ public class BusActivity extends SilentActivity
 		mDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
 		mTextView.setText(getString(R.string.bus_pick_date, mDate));
 		getData();
+	}
+
+	@Override
+	public void onScrollDistanceChanged(int delta, int total) {
+		if (delta > 10 && mFab.isEnabled()) {
+			mFab.show();
+		} else if (delta < -10) {
+			mFab.hide();
+		}
 	}
 
 	public class BusAdapter extends BaseAdapter {

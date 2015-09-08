@@ -55,19 +55,35 @@
 
 		<RelativeLayout
 			android:layout_width="match_parent"
-			android:layout_height="0dp"
-			android:layout_weight="1">
+			android:layout_height="match_parent">
 
-			<ListView
-				android:id="@+id/listView"
+			<android.support.design.widget.CoordinatorLayout
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:cacheColorHint="@color/app_bg"
-				android:divider="@color/app_bg"
-				android:drawSelectorOnTop="true"
-				android:listSelector="?selectableItemBackground"
-				android:visibility="gone"
-				tools:listitem="@layout/list_bus"/>
+				android:layout_height="match_parent">
+
+				<ListView
+					android:id="@+id/listView"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:cacheColorHint="@color/app_bg"
+					android:divider="@color/app_bg"
+					android:drawSelectorOnTop="true"
+					android:listSelector="?selectableItemBackground"
+					android:visibility="gone"
+					tools:listitem="@layout/list_bus"/>
+
+				<android.support.design.widget.FloatingActionButton
+					android:id="@+id/fab"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom|end"
+					android:src="@drawable/ic_search_white_24dp"
+					app:backgroundTint="@color/green_600"
+					app:borderWidth="@dimen/fab_border_width"
+					app:elevation="@dimen/fab_elevation"
+					app:layout_anchor="@id/listView"
+					app:layout_anchorGravity="bottom|right|end"/>
+			</android.support.design.widget.CoordinatorLayout>
 
 			<silent.kuasapmaterial.libs.ProgressWheel
 				android:id="@+id/progress_wheel"
@@ -80,18 +96,6 @@
 				wheel:matProg_material="true"
 				wheel:matProg_progressIndeterminate="true"
 				wheel:matProg_shadowSize="3"/>
-
-			<android.support.design.widget.FloatingActionButton
-				android:id="@+id/fab"
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:layout_alignParentBottom="true"
-				android:layout_alignParentRight="true"
-				android:src="@drawable/ic_search_white_24dp"
-				app:backgroundTint="@color/blue_900"
-				app:borderWidth="@dimen/fab_border_width"
-				app:elevation="@dimen/fab_elevation"
-				app:rippleColor="@color/ripple_light"/>
 		</RelativeLayout>
 	</LinearLayout>
 
