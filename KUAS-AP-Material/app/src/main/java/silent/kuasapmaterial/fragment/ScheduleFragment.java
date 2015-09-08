@@ -167,8 +167,7 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 			implements PinnedSectionListView.PinnedSectionListAdapter {
 		private LayoutInflater inflater;
 
-		private static final int TYPE_WEEK = 0;
-		private static final int TYPE_SCHEDULE = 1;
+		private static final int TYPE_WEEK = 0, TYPE_SCHEDULE = 1;
 
 		public ScheduleAdapter(Context context) {
 			this.inflater =

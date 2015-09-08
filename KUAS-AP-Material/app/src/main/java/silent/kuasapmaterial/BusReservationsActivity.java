@@ -161,7 +161,7 @@ public class BusReservationsActivity extends SilentActivity
 			@Override
 			public void onSuccess(List<BusModel> modelList) {
 				super.onSuccess(modelList);
-				
+
 				mList = modelList;
 				mListView.setVisibility(View.VISIBLE);
 				mProgressWheel.setVisibility(View.GONE);

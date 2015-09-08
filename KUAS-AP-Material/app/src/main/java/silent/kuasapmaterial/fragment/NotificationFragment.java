@@ -226,7 +226,8 @@ public class NotificationFragment extends Fragment
 
 		@Override
 		public int getViewTypeCount() {
-			return 2;
+			// TYPE_NOTIFICATION, TYPE_PROGRESS and TYPE_RETRY
+			return 3;
 		}
 
 		@Override
