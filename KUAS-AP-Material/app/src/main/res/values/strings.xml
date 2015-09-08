@@ -81,4 +81,31 @@
 	<string name="lorem_time">09:20</string>
 	<string name="lorem_bus_count">(1 / 999)</string>
 	<string name="lorem_phone">(01) 234&#8211;5678</string>
+
+	<array name="sections">
+		<item>"M"</item>
+		<item>"第 1 節"</item>
+		<item>"第 2 節"</item>
+		<item>"第 3 節"</item>
+		<item>"第 4 節"</item>
+		<item>"A"</item>
+		<item>"第 5 節"</item>
+		<item>"第 6 節"</item>
+		<item>"第 7 節"</item>
+		<item>"第 8 節"</item>
+		<item>"B"</item>
+		<item>"第 11 節"</item>
+		<item>"第 12 節"</item>
+		<item>"第 13 節"</item>
+		<item>"第 14 節"</item>
+	</array>
+	<array name="weekdays">
+		<item>"Monday"</item>
+		<item>"Tuesday"</item>
+		<item>"Wednesday"</item>
+		<item>"Thursday"</item>
+		<item>"Friday"</item>
+		<item>"Saturday"</item>
+		<item>"Sunday"</item>
+	</array>
 </resources>

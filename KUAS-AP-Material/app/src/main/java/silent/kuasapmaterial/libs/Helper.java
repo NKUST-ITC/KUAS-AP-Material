@@ -17,17 +17,20 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import silent.kuasapmaterial.R;
 import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.BusReservationsCallback;
+import silent.kuasapmaterial.callback.CourseCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.NotificationCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
 import silent.kuasapmaterial.callback.UserInfoCallback;
 import silent.kuasapmaterial.models.BusModel;
+import silent.kuasapmaterial.models.CourseModel;
 import silent.kuasapmaterial.models.NotificationModel;
 import silent.kuasapmaterial.models.SemesterModel;
 import silent.kuasapmaterial.models.ServerStatusModel;
@@ -62,7 +65,7 @@ public class Helper {
 	public static final String LOGOUT_URL = BASE_URL + "/ap/logout";
 	public static final String CHECK_LOGIN_URL = BASE_URL + "/ap/is_login";
 	public static final String SEMESTER_URL = BASE_URL + "/latest/ap/semester";
-	public static final String AP_QUERY_URL = BASE_URL + "/ap/query";
+	public static final String AP_QUERY_URL = BASE_URL + "/latest/ap/users/coursetables/%s/%s";
 	public static final String USER_INFO_URL = BASE_URL + "/ap/user/info";
 	public static final String USER_PIC_URL = BASE_URL + "/ap/user/picture";
 	public static final String LEAVE_QUERY_URL = BASE_URL + "/leave";
@@ -265,20 +268,56 @@ public class Helper {
 		});
 	}
 
-	public static void getAP_Query(final Context context, String fncid, String arg01, String arg02,
-	                               String arg03, String arg04, final GeneralCallback callback) {
-		RequestParams params = new RequestParams();
-		params.put("fncid", fncid);
-		params.put("arg01", arg01);
-		params.put("arg02", arg02);
-		params.put("arg03", arg03);
-		params.put("arg04", arg04);
-		mClient.post(AP_QUERY_URL, params, new JsonHttpResponseHandler() {
+	public static void getAP_Query(final Context context, String year, String semester,
+	                               final CourseCallback callback) {
+		final List<String> weekdays = new ArrayList<>(
+				Arrays.asList(context.getResources().getStringArray(R.array.weekdays)));
+		final List<String> sections = new ArrayList<>(
+				Arrays.asList(context.getResources().getStringArray(R.array.sections)));
+
+		String url = String.format(AP_QUERY_URL, year, semester);
+		mClient.get(url, new JsonHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
-				// TODO Wait for check this API response
+				try {
+					List<List<CourseModel>> modelList = new ArrayList<>();
+					for (int i = 0; i < weekdays.size(); i++) {
+						if (response.has(weekdays.get(i))) {
+							List<CourseModel> tmpList = new ArrayList<>(
+									Arrays.asList(new CourseModel[sections.size()]));
+							JSONArray jsonArray = response.getJSONArray(weekdays.get(i));
+							for (int j = 0; j < jsonArray.length(); j++) {
+								CourseModel model = new CourseModel();
+								JSONObject jsonObject = jsonArray.getJSONObject(j);
+								JSONObject dateObject = jsonObject.getJSONObject("date");
+								JSONObject locationObject = jsonObject.getJSONObject("location");
+								JSONArray instructorArray = jsonObject.getJSONArray("instructors");
+								model.instructors = new ArrayList<>();
+								for (int k = 0; k < instructorArray.length(); k++) {
+									model.instructors.add(instructorArray.getString(k));
+								}
+								model.title = jsonObject.getString("title");
+								model.start_time = dateObject.getString("start_time");
+								model.end_time = dateObject.getString("end_time");
+								model.weekday = dateObject.getString("weekday");
+								model.section = dateObject.getString("section");
+								model.building = locationObject.getString("building");
+								model.room = locationObject.getString("room");
+								tmpList.set(sections.indexOf(model.section), model);
+							}
+							modelList.add(i, tmpList);
+						} else {
+							modelList.add(i, null);
+						}
+					}
+					if (callback != null) {
+						callback.onSuccess(modelList);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
+				}
 			}
 
 			@Override
