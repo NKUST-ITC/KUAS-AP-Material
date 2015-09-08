@@ -2,10 +2,12 @@ package silent.kuasapmaterial;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
@@ -29,22 +31,28 @@ import java.util.List;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.ListScrollDistanceCalculator;
 import silent.kuasapmaterial.libs.ProgressWheel;
+import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.libs.segmentcontrol.SegmentControl;
 import silent.kuasapmaterial.models.BusModel;
 
 public class BusActivity extends SilentActivity
 		implements NavigationView.OnNavigationItemSelectedListener,
 		SegmentControl.OnSegmentControlClickListener, AdapterView.OnItemClickListener,
-		DatePickerDialog.OnDateSetListener, ListScrollDistanceCalculator.ScrollDistanceListener {
+		DatePickerDialog.OnDateSetListener, ListScrollDistanceCalculator.ScrollDistanceListener,
+		SwipeRefreshLayout.OnRefreshListener {
 
 	SegmentControl mSegmentControl;
 	ListView mListView;
 	TextView mTextView;
+	TextView mNoBusTextView;
+	LinearLayout mNoBusLinearLayout;
 	ProgressWheel mProgressWheel;
 	FloatingActionButton mFab;
+	SwipeRefreshLayout mSwipeRefreshLayout;
 
 	String mDate;
 	List<BusModel> mJianGongList, mYanChaoList;
@@ -55,12 +63,20 @@ public class BusActivity extends SilentActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		setContentView(R.layout.activity_bus);
 		init(R.string.bus, this, R.id.nav_bus);
 
 		restoreArgs(savedInstanceState);
 		findViews();
 		setUpViews();
+	}
+
+	@Override
+	public void finish() {
+		super.finish();
+
+		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 	}
 
 	// TODO Wait for handle navigation items
@@ -122,6 +138,20 @@ public class BusActivity extends SilentActivity
 	}
 
 	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		switch (requestCode) {
+			case Constant.REQUEST_BUS_RESERVATIONS:
+				if (resultCode == RESULT_OK && data != null) {
+					if (data.hasExtra("isRefresh") && data.getExtras().getBoolean("isRefresh")) {
+						getData();
+					}
+				}
+				break;
+		}
+	}
+
+	@Override
 	public void onResume() {
 		super.onResume();
 		DatePickerDialog dpd =
@@ -138,6 +168,9 @@ public class BusActivity extends SilentActivity
 		mTextView = (TextView) findViewById(R.id.textView_pickDate);
 		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
 		mFab = (FloatingActionButton) findViewById(R.id.fab);
+		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
+		mNoBusLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_bus);
+		mNoBusTextView = (TextView) findViewById(R.id.textView_no_bus);
 	}
 
 	private void setUpViews() {
@@ -149,13 +182,18 @@ public class BusActivity extends SilentActivity
 		mListScrollDistanceCalculator = new ListScrollDistanceCalculator();
 		mListScrollDistanceCalculator.setScrollDistanceListener(this);
 		mListView.setOnScrollListener(mListScrollDistanceCalculator);
-
-		if (mDate != null && mDate.length() > 0) {
-			mTextView.setText(getString(R.string.bus_pick_date, mDate));
-		}
+		mFab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				startActivityForResult(new Intent(BusActivity.this, BusReservationsActivity.class),
+						Constant.REQUEST_BUS_RESERVATIONS);
+			}
+		});
 
 		mSegmentControl.setIndex(mIndex);
 		setUpSegmentColor();
+		setUpPullRefresh();
+		mNoBusTextView.setText(getString(R.string.bus_no_bus, "\uD83D\uDE0B"));
 
 		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
 		mTextView.setOnClickListener(new View.OnClickListener() {
@@ -165,10 +203,27 @@ public class BusActivity extends SilentActivity
 			}
 		});
 
-		if (mJianGongList.size() > 0 || mYanChaoList.size() > 0) {
-			mProgressWheel.setVisibility(View.GONE);
-			mListView.setVisibility(View.VISIBLE);
+		if (mDate != null && mDate.length() > 0) {
+			mTextView.setText(getString(R.string.bus_pick_date, mDate));
+		} else {
+			mSwipeRefreshLayout.setEnabled(false);
 		}
+
+		setUpListView();
+	}
+
+	@Override
+	public void onRefresh() {
+		if (mDate == null || mDate.length() == 0) {
+			return;
+		}
+		mSwipeRefreshLayout.setRefreshing(true);
+		getData();
+	}
+
+	private void setUpPullRefresh() {
+		mSwipeRefreshLayout.setOnRefreshListener(this);
+		mSwipeRefreshLayout.setColorSchemeColors(Utils.getSwipeRefreshColors(this));
 	}
 
 	private void showDatePickerDialog() {
@@ -185,7 +240,9 @@ public class BusActivity extends SilentActivity
 	private void getData() {
 		mProgressWheel.setVisibility(View.VISIBLE);
 		mListView.setVisibility(View.GONE);
+		mNoBusLinearLayout.setVisibility(View.GONE);
 		mFab.setEnabled(false);
+		mSwipeRefreshLayout.setEnabled(false);
 		mFab.hide();
 
 		Helper.getBusQuery(this, mDate, new BusCallback() {
@@ -196,23 +253,28 @@ public class BusActivity extends SilentActivity
 
 				mJianGongList = jiangongList;
 				mYanChaoList = yanchaoList;
-				mProgressWheel.setVisibility(View.GONE);
-				mListView.setVisibility(View.VISIBLE);
+				setUpListView();
 				mAdapter.notifyDataSetChanged();
 
 				mFab.setEnabled(true);
 				mFab.show();
+				mSwipeRefreshLayout.setEnabled(true);
+				mSwipeRefreshLayout.setRefreshing(false);
 			}
 
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
 
-				mProgressWheel.setVisibility(View.GONE);
-				mListView.setVisibility(View.VISIBLE);
+				mJianGongList.clear();
+				mYanChaoList.clear();
+				setUpListView();
+				mAdapter.notifyDataSetChanged();
 
 				mFab.setEnabled(true);
 				mFab.show();
+				mSwipeRefreshLayout.setEnabled(true);
+				mSwipeRefreshLayout.setRefreshing(false);
 			}
 		});
 	}
@@ -223,6 +285,7 @@ public class BusActivity extends SilentActivity
 		mAdapter.notifyDataSetChanged();
 
 		setUpSegmentColor();
+		setUpListView();
 		mListView.smoothScrollToPosition(0);
 
 		if (!mFab.isShown() && mFab.isEnabled()) {
@@ -260,6 +323,17 @@ public class BusActivity extends SilentActivity
 		}
 	}
 
+	private void setUpListView() {
+		mProgressWheel.setVisibility(View.GONE);
+		mListView.setVisibility(View.VISIBLE);
+		int count = mIndex == 0 ? mJianGongList.size() : mYanChaoList.size();
+		if (count == 0) {
+			mNoBusLinearLayout.setVisibility(View.VISIBLE);
+		} else {
+			mNoBusLinearLayout.setVisibility(View.GONE);
+		}
+	}
+
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 		final List<BusModel> modelList = mIndex == 0 ? mJianGongList : mYanChaoList;
@@ -292,7 +366,7 @@ public class BusActivity extends SilentActivity
 	}
 
 	private void cancelBookBus(List<BusModel> modelList, final int position) {
-		Helper.cancelBookingBus(BusActivity.this, modelList.get(position).EndEnrollDateTime,
+		Helper.cancelBookingBus(BusActivity.this, modelList.get(position).cancelKey,
 				new GeneralCallback() {
 
 					@Override

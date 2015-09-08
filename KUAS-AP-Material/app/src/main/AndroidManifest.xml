@@ -30,6 +30,9 @@
 		<activity
 			android:name=".BusActivity"
 			android:theme="@style/AppTheme"/>
+		<activity
+			android:name=".BusReservationsActivity"
+			android:theme="@style/AppTheme"/>
 	</application>
 
 </manifest>

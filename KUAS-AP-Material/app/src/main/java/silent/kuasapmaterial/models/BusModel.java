@@ -9,4 +9,5 @@ public class BusModel {
 	public String reserveCount;
 	public String Time;
 	public String busId;
+	public String cancelKey;
 }

@@ -14,4 +14,7 @@ public class Constant {
 	public static final String PREF_NEWS_TITLE = "pref_news_title";
 	public static final String PREF_NEWS_CONTENT = "pref_news_content";
 	public static final String PREF_NEWS_URL = "pref_news_url";
+
+	// Activity request code
+	public static final int REQUEST_BUS_RESERVATIONS = 100;
 }

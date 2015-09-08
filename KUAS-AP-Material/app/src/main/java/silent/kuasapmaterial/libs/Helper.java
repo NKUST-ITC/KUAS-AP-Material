@@ -16,13 +16,12 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.List;
 
 import silent.kuasapmaterial.R;
 import silent.kuasapmaterial.callback.BusCallback;
+import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.NotificationCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
@@ -69,7 +68,7 @@ public class Helper {
 	public static final String LEAVE_QUERY_URL = BASE_URL + "/leave";
 	public static final String LEAVE_SUBMIT_URL = BASE_URL + "/leave/submit";
 	public static final String BUS_QUERY_URL = BASE_URL + "/latest/bus/timetables";
-	public static final String BUS_RESERVE_URL = BASE_URL + "/latest/bus/reservations";
+	public static final String BUS_RESERVATIONS_URL = BASE_URL + "/latest/bus/reservations";
 	public static final String BUS_BOOKING_URL = BASE_URL + "/latest/bus/reservations/%s";
 	public static final String NOTIFICATION_URL = BASE_URL + "/latest/notifications/%s";
 	public static final String NEWS_URL = BASE_URL + "/news";
@@ -407,7 +406,7 @@ public class Helper {
 					JSONArray jsonArray = response.getJSONArray("timetable");
 					for (int i = 0; i < jsonArray.length(); i++) {
 						BusModel model = new BusModel();
-						model.isReserve = jsonArray.getJSONObject(i).getInt("isReserve") != -1;
+						model.isReserve = jsonArray.getJSONObject(i).getInt("isReserve") != 0;
 						model.EndEnrollDateTime =
 								jsonArray.getJSONObject(i).getString("EndEnrollDateTime");
 						model.runDateTime = jsonArray.getJSONObject(i).getString("runDateTime");
@@ -416,6 +415,7 @@ public class Helper {
 						model.reserveCount = jsonArray.getJSONObject(i).getString("reserveCount");
 						model.Time = jsonArray.getJSONObject(i).getString("Time");
 						model.busId = jsonArray.getJSONObject(i).getString("busId");
+						model.cancelKey = jsonArray.getJSONObject(i).getString("cancelKey");
 						if (model.endStation.equals("建工")) {
 							yanchaoList.add(model);
 						} else {
@@ -439,13 +439,30 @@ public class Helper {
 		});
 	}
 
-	public static void reserveBus(final Context context, final GeneralCallback callback) {
-		mClient.get(BUS_RESERVE_URL, new JsonHttpResponseHandler() {
+	public static void getBusReservations(final Context context,
+	                                      final BusReservationsCallback callback) {
+		mClient.get(BUS_RESERVATIONS_URL, new JsonHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
-				// TODO Wait for check this API response
+				try {
+					JSONArray jsonArray = response.getJSONArray("reservation");
+					List<BusModel> modelList = new ArrayList<>();
+					for (int i = 0; i < jsonArray.length(); i++) {
+						BusModel model = new BusModel();
+						model.EndEnrollDateTime = jsonArray.getJSONObject(i).getString("endTime");
+						model.endStation = jsonArray.getJSONObject(i).getString("end");
+						model.Time = jsonArray.getJSONObject(i).getString("time");
+						model.cancelKey = jsonArray.getJSONObject(i).getString("cancelKey");
+						modelList.add(model);
+					}
+					if (callback != null) {
+						callback.onSuccess(modelList);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
+				}
 			}
 
 			@Override
@@ -487,39 +504,34 @@ public class Helper {
 		});
 	}
 
-	// TODO Wait for API Update
-	public static void cancelBookingBus(final Context context, String end_time,
+	public static void cancelBookingBus(final Context context, String cancelKey,
 	                                    final GeneralCallback callback) {
-		try {
-			String url = String.format(BUS_BOOKING_URL, URLEncoder.encode(end_time, "utf-8"));
-			mClient.delete(url, new JsonHttpResponseHandler() {
+		String url = String.format(BUS_BOOKING_URL, cancelKey);
+		mClient.delete(url, new JsonHttpResponseHandler() {
 
-				@Override
-				public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
-					super.onSuccess(statusCode, headers, response);
-					try {
-						if (response.has("success") && response.getBoolean("success")) {
-							if (callback != null) {
-								callback.onSuccess();
-							}
-						} else {
-							onHelperFail(context, callback, statusCode, headers, null, response);
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+				super.onSuccess(statusCode, headers, response);
+				try {
+					if (response.has("success") && response.getBoolean("success")) {
+						if (callback != null) {
+							callback.onSuccess();
 						}
-					} catch (JSONException e) {
-						onHelperFail(context, callback, e);
+					} else {
+						onHelperFail(context, callback, statusCode, headers, null, response);
 					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
 				}
+			}
 
-				@Override
-				public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-				                      JSONObject errorResponse) {
-					super.onFailure(statusCode, headers, throwable, errorResponse);
-					onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
-				}
-			});
-		} catch (UnsupportedEncodingException e) {
-			onHelperFail(context, callback, e);
-		}
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+			                      JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
+			}
+		});
 	}
 
 	public static void getNotification(final Context context, int page,

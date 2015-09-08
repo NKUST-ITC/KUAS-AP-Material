@@ -55,6 +55,8 @@ public class SilentActivity extends AppCompatActivity {
 		setSupportActionBar(toolbar);
 		if (getSupportActionBar() != null) {
 			getSupportActionBar().setTitle(title);
+			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+			getSupportActionBar().setHomeButtonEnabled(true);
 		}
 	}
 
@@ -104,11 +106,6 @@ public class SilentActivity extends AppCompatActivity {
 		drawer.setDrawerListener(mDrawerToggle);
 		navigationView.setNavigationItemSelectedListener(listener);
 
-		if (getSupportActionBar() != null) {
-			getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-			getSupportActionBar().setHomeButtonEnabled(true);
-		}
-
 		if (-1 < selectItem && selectItem < navigationView.getMenu().size()) {
 			navigationView.getMenu().getItem(selectItem).setChecked(true);
 		}
@@ -148,7 +145,9 @@ public class SilentActivity extends AppCompatActivity {
 	protected void onPostCreate(Bundle savedInstanceState) {
 		super.onPostCreate(savedInstanceState);
 		// Sync the toggle state after onRestoreInstanceState has occurred.
-		mDrawerToggle.syncState();
+		if (mDrawerToggle != null) {
+			mDrawerToggle.syncState();
+		}
 	}
 
 	@Override
