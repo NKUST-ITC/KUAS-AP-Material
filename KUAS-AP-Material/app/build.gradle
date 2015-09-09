@@ -8,8 +8,8 @@ android {
         applicationId "silent.kuasapmaterial"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 1
-        versionName "1.0"
+        versionCode 10600
+        versionName "1.6.0"
     }
     buildTypes {
         release {

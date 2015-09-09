@@ -102,13 +102,15 @@ public class Helper {
 	private static void onHelperFail(Context context, GeneralCallback callback, int statusCode,
 	                                 Header[] headers, Throwable throwable,
 	                                 JSONObject errorResponse) {
-		onHelperFail(context, callback, statusCode, headers, throwable, errorResponse.toString());
+		onHelperFail(context, callback, statusCode, headers, throwable,
+				errorResponse == null ? null : errorResponse.toString());
 	}
 
 	private static void onHelperFail(Context context, GeneralCallback callback, int statusCode,
 	                                 Header[] headers, Throwable throwable,
 	                                 JSONArray errorResponse) {
-		onHelperFail(context, callback, statusCode, headers, throwable, errorResponse.toString());
+		onHelperFail(context, callback, statusCode, headers, throwable,
+				errorResponse == null ? null : errorResponse.toString());
 	}
 
 	private static void onHelperFail(Context context, GeneralCallback callback, int statusCode,

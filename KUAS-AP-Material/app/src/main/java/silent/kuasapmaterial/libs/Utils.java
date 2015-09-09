@@ -11,6 +11,8 @@ import android.graphics.LightingColorFilter;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +27,13 @@ import javax.crypto.spec.SecretKeySpec;
 import silent.kuasapmaterial.R;
 
 public class Utils {
+
+	public static boolean isNetworkConnected(Context context) {
+		ConnectivityManager cm =
+				(ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+		NetworkInfo netInfo = cm.getActiveNetworkInfo();
+		return netInfo != null && netInfo.isConnectedOrConnecting();
+	}
 
 	public static boolean isWide(Context context) {
 		return context.getResources().getBoolean(R.bool.wide);

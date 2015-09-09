@@ -2,8 +2,11 @@ package silent.kuasapmaterial.base;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -20,6 +23,7 @@ import java.util.List;
 
 import silent.kuasapmaterial.R;
 import silent.kuasapmaterial.libs.Constant;
+import silent.kuasapmaterial.libs.Utils;
 
 public class SilentActivity extends AppCompatActivity {
 
@@ -65,13 +69,14 @@ public class SilentActivity extends AppCompatActivity {
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navigationView = (NavigationView) findViewById(R.id.nav_view);
 		if (navigationView.findViewById(R.id.layout_user) != null) {
-			navigationView.findViewById(R.id.layout_user).setOnClickListener(new View.OnClickListener() {
-				@Override
-				public void onClick(View v) {
-					drawer.closeDrawers();
-					Log.d(Constant.TAG, "cccc");
-				}
-			});
+			navigationView.findViewById(R.id.layout_user)
+					.setOnClickListener(new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							drawer.closeDrawers();
+							Log.d(Constant.TAG, "cccc");
+						}
+					});
 		}
 
 		drawer.setDrawerShadow(R.drawable.shadow_right, GravityCompat.START);
@@ -164,6 +169,25 @@ public class SilentActivity extends AppCompatActivity {
 				break;
 		}
 		return false;
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		checkNetwork();
+	}
+
+	public void checkNetwork() {
+		if (!Utils.isNetworkConnected(this)) {
+			Snackbar.make(findViewById(android.R.id.content), R.string.no_internet,
+					Snackbar.LENGTH_INDEFINITE)
+					.setAction(R.string.setting_internet, new View.OnClickListener() {
+						@Override
+						public void onClick(View v) {
+							startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+						}
+					}).setActionTextColor(getResources().getColor(R.color.accent)).show();
+		}
 	}
 
 	public class AnimationActionBarDrawerToggle extends ActionBarDrawerToggle {

@@ -48,6 +48,8 @@
 	<string name="course_dialog_messages" formatted="false">課程名稱：%s\n授課老師：%s\n教室位置：%s\n上課時間：%s</string>
 	<string name="course_dialog_title">課程資訊</string>
 	<string name="course_holiday">旋轉橫向即可查看周末課表 %s</string>
+	<string name="no_internet">沒有網路連線，請檢查你的網路</string>
+	<string name="setting_internet">設定網路</string>
 
 	<string name="about_detail">史上最強高應大校務系統APP\n「高 應 校 務
 		通」\n\n你是新生嗎？\n不知道學校的消息、電話、行事曆嗎？\n你是舊生嗎？\n每次開課表、查成績、定校車都一肚子氣？\n\n沒有問題，以後沒有這種問題了！\n\n高應校務通讓你不管是新手老手，\n從此一手掌握你的高應人生！\n\n從你的手機看課表，成績，缺曠課紀錄！\n加上預定/取消校車，校園消息！\n\n\n\n簡單、方便、直覺！\n\n尊爵、不凡、你，值得擁有。</string>
@@ -146,7 +148,7 @@
 	<array name="easter_egg">
 		<item>你是 Objective-C 高手嗎？</item>
 		<item>莫非你是 Swift 高手？</item>
-		<item>難道 Java 神手？</item>
+		<item>難道是 Java 神手？</item>
 		<item>別再戳我啦，趕快來資研社社課吧！</item>
 		<item>還等什麼，快來參加資研社講座吧！</item>
 		<item>John黑黑der</item>
