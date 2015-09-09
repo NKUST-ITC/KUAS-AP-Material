@@ -528,6 +528,12 @@ public class Helper {
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
 				try {
+					if (response.has("message")) {
+						if (callback != null) {
+							callback.onFail(response.getString("message"));
+						}
+						return;
+					}
 					if (response.has("success") && response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onSuccess();
@@ -544,7 +550,18 @@ public class Helper {
 			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
+				try {
+					if (errorResponse.has("message")) {
+						if (callback != null) {
+							callback.onFail(errorResponse.getString("message"));
+						}
+					} else {
+						onHelperFail(context, callback, statusCode, headers, throwable,
+								errorResponse);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
+				}
 			}
 		});
 	}
@@ -558,6 +575,12 @@ public class Helper {
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
 				try {
+					if (response.has("message")) {
+						if (callback != null) {
+							callback.onFail(response.getString("message"));
+						}
+						return;
+					}
 					if (response.has("success") && response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onSuccess();
@@ -574,7 +597,18 @@ public class Helper {
 			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
+				try {
+					if (errorResponse.has("message")) {
+						if (callback != null) {
+							callback.onFail(errorResponse.getString("message"));
+						}
+					} else {
+						onHelperFail(context, callback, statusCode, headers, throwable,
+								errorResponse);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
+				}
 			}
 		});
 	}

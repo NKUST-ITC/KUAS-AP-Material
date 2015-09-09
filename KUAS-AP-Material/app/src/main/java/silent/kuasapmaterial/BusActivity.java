@@ -202,6 +202,12 @@ public class BusActivity extends SilentActivity
 				showDatePickerDialog();
 			}
 		});
+		mNoBusLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				showDatePickerDialog();
+			}
+		});
 
 		if (mDate != null && mDate.length() > 0) {
 			mTextView.setText(getString(R.string.bus_pick_date, mDate));
@@ -385,7 +391,7 @@ public class BusActivity extends SilentActivity
 					@Override
 					public void onFail(String errorMessage) {
 						super.onFail(errorMessage);
-						Toast.makeText(BusActivity.this, R.string.something_error,
+						Toast.makeText(BusActivity.this, errorMessage,
 								Toast.LENGTH_SHORT).show();
 					}
 				});
@@ -410,7 +416,7 @@ public class BusActivity extends SilentActivity
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
-				Toast.makeText(BusActivity.this, R.string.something_error, Toast.LENGTH_SHORT)
+				Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_SHORT)
 						.show();
 			}
 		});

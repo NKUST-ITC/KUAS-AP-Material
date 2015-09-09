@@ -206,6 +206,15 @@ public class CourseActivity extends SilentActivity
 				startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
 			}
 		});
+		mNoCourseLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Intent intent = new Intent(CourseActivity.this, PickSemesterActivity.class);
+				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
+				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
+				startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
+			}
+		});
 
 		if (mSelectedModel != null && mSemesterList != null) {
 			mPickYmsTextView.setText(mSelectedModel.text);
@@ -273,6 +282,7 @@ public class CourseActivity extends SilentActivity
 			mSwipeRefreshLayout.setEnabled(true);
 			mSwipeRefreshLayout.setRefreshing(false);
 			mNoCourseLinearLayout.setVisibility(View.VISIBLE);
+			mScrollView.setVisibility(View.VISIBLE);
 			return;
 		} else {
 			mNoCourseLinearLayout.setVisibility(View.GONE);

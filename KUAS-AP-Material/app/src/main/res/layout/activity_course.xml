@@ -65,10 +65,27 @@
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
 
+			<android.support.v4.widget.SwipeRefreshLayout
+				android:id="@+id/swipeRefreshLayout"
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_marginBottom="@dimen/margin_medium"
+				android:layout_marginLeft="@dimen/margin_medium"
+				android:layout_marginRight="@dimen/margin_medium"
+				android:layout_marginTop="@dimen/margin_small">
+
+				<ScrollView
+					android:id="@+id/scrollView"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:fillViewport="true"/>
+			</android.support.v4.widget.SwipeRefreshLayout>
+
 			<LinearLayout
 				android:id="@+id/linearLayout_no_course"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
+				android:background="?selectableItemBackground"
 				android:gravity="center"
 				android:orientation="vertical"
 				android:visibility="gone">
@@ -90,22 +107,6 @@
 					android:textSize="@dimen/text_subhead"
 					tools:text="@string/course_no_course"/>
 			</LinearLayout>
-
-			<android.support.v4.widget.SwipeRefreshLayout
-				android:id="@+id/swipeRefreshLayout"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:layout_marginBottom="@dimen/margin_medium"
-				android:layout_marginLeft="@dimen/margin_medium"
-				android:layout_marginRight="@dimen/margin_medium"
-				android:layout_marginTop="@dimen/margin_small">
-
-				<ScrollView
-					android:id="@+id/scrollView"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:fillViewport="true"/>
-			</android.support.v4.widget.SwipeRefreshLayout>
 
 			<silent.kuasapmaterial.libs.ProgressWheel
 				android:id="@+id/progress_wheel"
