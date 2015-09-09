@@ -62,6 +62,8 @@ public class LoginActivity extends SilentActivity
 		}
 		if (menuItem.getItemId() == R.id.nav_messages) {
 			startActivity(new Intent(this, MessagesActivity.class));
+		} else if (menuItem.getItemId() == R.id.nav_about) {
+			startActivity(new Intent(this, AboutActivity.class));
 		}
 		return true;
 	}

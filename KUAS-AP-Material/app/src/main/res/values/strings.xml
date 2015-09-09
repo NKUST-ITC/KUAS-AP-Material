@@ -49,6 +49,33 @@
 	<string name="course_dialog_title">課程資訊</string>
 	<string name="course_holiday">旋轉橫向即可查看周末課表 %s</string>
 
+	<string name="about_detail">史上最強高應大校務系統APP\n「高 應 校 務
+		通」\n\n你是新生嗎？\n不知道學校的消息、電話、行事曆嗎？\n你是舊生嗎？\n每次開課表、查成績、定校車都一肚子氣？\n\n沒有問題，以後沒有這種問題了！\n\n高應校務通讓你不管是新手老手，\n從此一手掌握你的高應人生！\n\n從你的手機看課表，成績，缺曠課紀錄！\n加上預定/取消校車，校園消息！\n\n\n\n簡單、方便、直覺！\n\n尊爵、不凡、你，值得擁有。</string>
+	<string name="about_author_title">作者群</string>
+	<string name="about_author_content">呂紹榕(Louie Lu), 姜尚德(JohnThunder), \nregisterAutumn, 詹濬鍵(Evans), \n陳建霖(HearSilent)</string>
+	<string name="about_us">「不要問為何沒有人做這個，\n先承認你就是『沒有人』」。\n因為，「沒有人」是萬能的。\n\n因為沒有人做這些，所以我們跳下來做。\n先後完成了高應無線通、高應校務通，到後來的高應美食通、模擬選課等等.......\n無非是希望帶給大家更便利的校園生活！</string>
+	<string name="about_recruit_title">We Need You !</string>
+	<string name="about_recruit_content">如果你是 Objective-C、Swift 高手，或是 Java 神手，又或是對 Coding
+		充滿著熱誠！\n\n歡迎私訊我們粉絲專頁！\n你的程式碼將有機會出現在周遭同學的手中～</string>
+	<string name="about_itc_content">在103學年度，\n我們也成立了高應大資訊研習社！\n\n如果你對資訊有熱誠或是對我們作品有興趣，歡迎來社課或是講座，也可以來找我們聊聊天。</string>
+	<string name="about_itc_title">高應資研社</string>
+	<string name="about_contact_us">聯繫我們</string>
+	<string name="about_open_source_title">開放原始碼</string>
+	<string name="about_open_source_content">https://github.com/hearsilent/KUAS-AP-Material\n\n本專案採
+		MIT 開放原始碼授權：\nThe MIT License (MIT)\n\nCopyright &#169; 2015 HearSilent\n\nPermission is
+		hereby granted, free of charge, to any person obtaining a copy of this software and
+		associated documentation files (the "Software"), to deal in the Software without
+		restriction, including without limitation the rights to use, copy, modify, merge,
+		publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+		persons to whom the Software is furnished to do so, subject to the following
+		conditions:\n\nThe above copyright notice and this permission notice shall be included in
+		all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS",
+		WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+		WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+		NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+		IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</string>
+
 	<string name="open_drawer">打開功能表</string>
 	<string name="close_drawer">打開功能表</string>
 
@@ -114,5 +141,15 @@
 		<item>"Friday"</item>
 		<item>"Saturday"</item>
 		<item>"Sunday"</item>
+	</array>
+
+	<array name="easter_egg">
+		<item>你是 Objective-C 高手嗎？</item>
+		<item>莫非你是 Swift 高手？</item>
+		<item>難道 Java 神手？</item>
+		<item>別再戳我啦，趕快來資研社社課吧！</item>
+		<item>還等什麼，快來參加資研社講座吧！</item>
+		<item>John黑黑der</item>
+		<item>你聽過Lu嗎？他是傳說中的高應戰神！</item>
 	</array>
 </resources>

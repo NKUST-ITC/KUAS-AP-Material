@@ -39,6 +39,9 @@
 		<activity
 			android:name=".PickSemesterActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
+		<activity
+			android:name=".AboutActivity"
+			android:theme="@style/DrawerToolbarAppTheme"/>
 	</application>
 
 </manifest>
