@@ -283,6 +283,12 @@ public class Helper {
 				super.onSuccess(statusCode, headers, response);
 				try {
 					List<List<CourseModel>> modelList = new ArrayList<>();
+					if (!response.keys().hasNext()) {
+						if (callback != null) {
+							callback.onSuccess(modelList);
+						}
+						return;
+					}
 					for (int i = 0; i < weekdays.size(); i++) {
 						if (response.has(weekdays.get(i))) {
 							List<CourseModel> tmpList = new ArrayList<>(

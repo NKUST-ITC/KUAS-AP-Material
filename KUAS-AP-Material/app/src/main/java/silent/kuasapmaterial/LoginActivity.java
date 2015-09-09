@@ -44,8 +44,8 @@ public class LoginActivity extends SilentActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-
 		init(R.string.app_name, this);
+
 		findViews();
 		setUpViews();
 		getVersion();
@@ -196,7 +196,8 @@ public class LoginActivity extends SilentActivity
 				super.onTimeOut();
 
 				progressDialog.dismiss();
-				Toast.makeText(LoginActivity.this, R.string.timeout_message, Toast.LENGTH_SHORT).show();
+				Toast.makeText(LoginActivity.this, R.string.timeout_message, Toast.LENGTH_SHORT)
+						.show();
 			}
 
 			@Override

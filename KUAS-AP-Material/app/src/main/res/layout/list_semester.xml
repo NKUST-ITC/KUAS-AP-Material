@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@color/app_bg"
+	android:gravity="center"
+	android:padding="@dimen/margin_medium">
+
+	<TextView
+		android:id="@+id/textView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_weight="1"
+		android:textColor="@color/black_text"
+		android:textSize="@dimen/text_subhead"
+		tools:text="@string/lorem_title"/>
+
+	<ImageView
+		android:id="@+id/imageView"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_weight="0"
+		android:contentDescription="@null"
+		android:src="@drawable/ic_done_white_24dp"/>
+</LinearLayout>

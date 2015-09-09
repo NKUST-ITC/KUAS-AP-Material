@@ -33,6 +33,12 @@
 		<activity
 			android:name=".BusReservationsActivity"
 			android:theme="@style/AppTheme"/>
+		<activity
+			android:name=".CourseActivity"
+			android:theme="@style/AppTheme"/>
+		<activity
+			android:name=".PickSemesterActivity"
+			android:theme="@style/AppTheme"/>
 	</application>
 
 </manifest>
