@@ -18,117 +18,132 @@
 		android:gravity="center_horizontal"
 		android:orientation="vertical">
 
-		<android.support.v7.widget.Toolbar
-			android:id="@+id/toolbar"
-			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			android:layout_gravity="top"
-			android:background="?attr/colorPrimary"
-			app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-			app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
-
-		<TextView
-			android:id="@+id/textView_pickDate"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_marginTop="@dimen/margin_small"
-			android:background="?selectableItemBackground"
-			android:padding="@dimen/margin_small"
-			android:text="@string/bus_not_pick_date"
-			android:textColor="@color/accent"
-			android:textSize="@dimen/text_subhead"/>
-
-		<silent.kuasapmaterial.libs.segmentcontrol.SegmentControl
-			android:id="@+id/segment_control"
+		<android.support.design.widget.AppBarLayout
 			android:layout_width="match_parent"
 			android:layout_height="wrap_content"
-			android:layout_marginBottom="@dimen/margin_medium"
-			android:layout_marginLeft="@dimen/margin_medium"
-			android:layout_marginRight="@dimen/margin_medium"
-			android:layout_marginTop="@dimen/margin_small"
-			android:textSize="@dimen/text_action"
-			segmentcontrol:colors="@color/blue_600"
-			segmentcontrol:cornerRadius="5dip"
-			segmentcontrol:direction="horizon"
-			segmentcontrol:texts="@string/bus_segment"
-			segmentcontrol:verticalGap="10dip"/>
+			android:layout_weight="0">
 
-		<RelativeLayout
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:layout_gravity="top"
+				android:background="?attr/colorPrimary"
+				app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+		</android.support.design.widget.AppBarLayout>
+
+		<LinearLayout
 			android:layout_width="match_parent"
-			android:layout_height="match_parent">
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:background="?android:windowContentOverlay"
+			android:gravity="center"
+			android:orientation="vertical">
 
-			<android.support.design.widget.CoordinatorLayout
+			<TextView
+				android:id="@+id/textView_pickDate"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/margin_small"
+				android:background="?selectableItemBackground"
+				android:padding="@dimen/margin_small"
+				android:text="@string/bus_not_pick_date"
+				android:textColor="@color/accent"
+				android:textSize="@dimen/text_subhead"/>
+
+			<silent.kuasapmaterial.libs.segmentcontrol.SegmentControl
+				android:id="@+id/segment_control"
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:layout_marginBottom="@dimen/margin_medium"
+				android:layout_marginLeft="@dimen/margin_medium"
+				android:layout_marginRight="@dimen/margin_medium"
+				android:layout_marginTop="@dimen/margin_small"
+				android:textSize="@dimen/text_action"
+				segmentcontrol:colors="@color/blue_600"
+				segmentcontrol:cornerRadius="5dip"
+				segmentcontrol:direction="horizon"
+				segmentcontrol:texts="@string/bus_segment"
+				segmentcontrol:verticalGap="10dip"/>
+
+			<RelativeLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-				<android.support.v4.widget.SwipeRefreshLayout
-					android:id="@+id/swipeRefreshLayout"
+				<android.support.design.widget.CoordinatorLayout
 					android:layout_width="match_parent"
 					android:layout_height="match_parent">
 
-					<ListView
-						android:id="@+id/listView"
+					<android.support.v4.widget.SwipeRefreshLayout
+						android:id="@+id/swipeRefreshLayout"
 						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:cacheColorHint="@color/app_bg"
-						android:divider="@color/app_bg"
-						android:drawSelectorOnTop="true"
-						android:listSelector="?selectableItemBackground"
-						tools:listitem="@layout/list_bus"/>
-				</android.support.v4.widget.SwipeRefreshLayout>
+						android:layout_height="match_parent">
 
-				<android.support.design.widget.FloatingActionButton
-					android:id="@+id/fab"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_gravity="bottom|end"
-					android:src="@drawable/ic_search_white_24dp"
-					app:backgroundTint="@color/green_600"
-					app:borderWidth="@dimen/fab_border_width"
-					app:elevation="@dimen/fab_elevation"
-					app:layout_anchor="@id/listView"
-					app:layout_anchorGravity="bottom|right|end"/>
-			</android.support.design.widget.CoordinatorLayout>
+						<ListView
+							android:id="@+id/listView"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:cacheColorHint="@color/app_bg"
+							android:divider="@color/app_bg"
+							android:drawSelectorOnTop="true"
+							android:listSelector="?selectableItemBackground"
+							tools:listitem="@layout/list_bus"/>
+					</android.support.v4.widget.SwipeRefreshLayout>
 
-			<LinearLayout
-				android:id="@+id/linearLayout_no_bus"
-				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:background="?selectableItemBackground"
-				android:gravity="center"
-				android:orientation="vertical"
-				android:visibility="gone">
+					<android.support.design.widget.FloatingActionButton
+						android:id="@+id/fab"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="bottom|end"
+						android:src="@drawable/ic_search_white_24dp"
+						app:backgroundTint="@color/green_600"
+						app:borderWidth="@dimen/fab_border_width"
+						app:elevation="@dimen/fab_elevation"
+						app:layout_anchor="@id/listView"
+						app:layout_anchorGravity="bottom|right|end"/>
+				</android.support.design.widget.CoordinatorLayout>
 
-				<ImageView
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:contentDescription="@null"
-					android:src="@drawable/ic_directions_bus_grey600"/>
-
-				<TextView
-					android:id="@+id/textView_no_bus"
-					android:layout_width="wrap_content"
-					android:layout_height="wrap_content"
-					android:layout_margin="@dimen/margin_medium"
+				<LinearLayout
+					android:id="@+id/linearLayout_no_bus"
+					android:layout_width="match_parent"
+					android:layout_height="match_parent"
+					android:background="?selectableItemBackground"
 					android:gravity="center"
-					android:lineSpacingMultiplier="1.3"
-					android:textColor="@color/black_text_secondary"
-					android:textSize="@dimen/text_subhead"
-					tools:text="@string/bus_no_reservation"/>
-			</LinearLayout>
+					android:orientation="vertical"
+					android:visibility="gone">
 
-			<silent.kuasapmaterial.libs.ProgressWheel
-				android:id="@+id/progress_wheel"
-				android:layout_width="42sp"
-				android:layout_height="42sp"
-				android:layout_centerInParent="true"
-				wheel:matProg_barColor="@color/progress_red"
-				wheel:matProg_circleBackground="false"
-				wheel:matProg_fillRadius="true"
-				wheel:matProg_material="true"
-				wheel:matProg_progressIndeterminate="true"
-				wheel:matProg_shadowSize="3"/>
-		</RelativeLayout>
+					<ImageView
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:contentDescription="@null"
+						android:src="@drawable/ic_directions_bus_grey600"/>
+
+					<TextView
+						android:id="@+id/textView_no_bus"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_margin="@dimen/margin_medium"
+						android:gravity="center"
+						android:lineSpacingMultiplier="1.3"
+						android:textColor="@color/black_text_secondary"
+						android:textSize="@dimen/text_subhead"
+						tools:text="@string/bus_no_reservation"/>
+				</LinearLayout>
+
+				<silent.kuasapmaterial.libs.ProgressWheel
+					android:id="@+id/progress_wheel"
+					android:layout_width="42sp"
+					android:layout_height="42sp"
+					android:layout_centerInParent="true"
+					wheel:matProg_barColor="@color/progress_red"
+					wheel:matProg_circleBackground="false"
+					wheel:matProg_fillRadius="true"
+					wheel:matProg_material="true"
+					wheel:matProg_progressIndeterminate="true"
+					wheel:matProg_shadowSize="3"/>
+			</RelativeLayout>
+		</LinearLayout>
 	</LinearLayout>
 
 	<android.support.design.widget.NavigationView

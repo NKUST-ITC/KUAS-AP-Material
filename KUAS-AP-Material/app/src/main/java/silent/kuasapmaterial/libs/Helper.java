@@ -528,7 +528,7 @@ public class Helper {
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
 				try {
-					if (response.has("message")) {
+					if (!response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onFail(response.getString("message"));
 						}
@@ -575,7 +575,7 @@ public class Helper {
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
 				try {
-					if (response.has("message")) {
+					if (!response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onFail(response.getString("message"));
 						}

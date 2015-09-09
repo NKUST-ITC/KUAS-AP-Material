@@ -1,30 +1,6 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
-	<item>
-		<shape>
-			<solid android:color="@color/app_bg"/>
-			<corners android:bottomRightRadius="5dp"/>
-			<stroke
-				android:width="2dp"
-				android:color="@color/black_dividers"/>
-		</shape>
-	</item>
-	<item
-		android:bottom="2dp"
-		android:left="1dp"
-		android:right="2dp"
-		android:top="1dp">
-		<shape>
-			<padding
-				android:bottom="10dp"
-				android:left="5dp"
-				android:right="5dp"
-				android:top="10dp"/>
-			<solid android:color="@color/app_bg"/>
-			<corners android:bottomRightRadius="5dp"/>
-			<stroke
-				android:width="1dp"
-				android:color="@color/app_bg"/>
-		</shape>
-	</item>
-</layer-list>
+<selector xmlns:android="http://schemas.android.com/apk/res/android"
+          android:exitFadeDuration="@android:integer/config_shortAnimTime">
+	<item android:drawable="@drawable/course_bottom_right_pressed" android:state_pressed="true"/>
+	<item android:drawable="@drawable/course_bottom_right_normal"/>
+
+</selector>

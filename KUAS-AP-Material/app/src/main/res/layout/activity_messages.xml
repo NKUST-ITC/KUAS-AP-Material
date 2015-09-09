@@ -14,39 +14,46 @@
 		android:background="@color/app_bg"
 		android:orientation="vertical">
 
-		<android.support.v7.widget.Toolbar
-			android:id="@+id/toolbar"
+		<android.support.design.widget.AppBarLayout
 			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			android:layout_gravity="top"
-			android:background="?attr/colorPrimary"
-			app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
-			app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+			android:layout_height="wrap_content"
+			android:layout_weight="0">
 
-		<android.support.design.widget.TabLayout
-			android:id="@+id/tabs_main"
-			android:layout_width="match_parent"
-			android:layout_height="?attr/actionBarSize"
-			android:background="@color/main_theme"
-			android:clipToPadding="false"
-			android:paddingLeft="@dimen/margin_medium"
-			android:paddingRight="@dimen/margin_medium"
-			android:textColor="@color/white_text_secondary"
-			android:theme="@style/TabTheme"
-			app:tabIndicatorColor="@color/white"/>
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:layout_gravity="top"
+				android:background="?attr/colorPrimary"
+				app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+
+			<android.support.design.widget.TabLayout
+				android:id="@+id/tabs_main"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:background="@color/main_theme"
+				android:clipToPadding="false"
+				android:paddingLeft="@dimen/margin_medium"
+				android:paddingRight="@dimen/margin_medium"
+				android:textColor="@color/white_text_secondary"
+				android:theme="@style/TabTheme"
+				app:tabIndicatorColor="@color/white"/>
+		</android.support.design.widget.AppBarLayout>
 
 		<FrameLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
-			android:foreground="@drawable/shadow_content_overlay">
+			android:layout_weight="1"
+			android:foreground="?android:windowContentOverlay">
 
 			<android.support.v4.view.ViewPager
 				android:id="@+id/viewPager"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
 				app:tabGravity="fill"
-				app:tabMode="scrollable"
-				app:tabMaxWidth="0dp"/>
+				app:tabMaxWidth="0dp"
+				app:tabMode="scrollable"/>
 		</FrameLayout>
 	</LinearLayout>
 

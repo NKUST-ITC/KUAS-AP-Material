@@ -8,10 +8,10 @@
 		android:allowBackup="true"
 		android:icon="@mipmap/ic_launcher"
 		android:label="@string/app_name"
-		android:theme="@style/ToolbarAppTheme">
+		android:theme="@style/DrawerToolbarAppTheme">
 		<activity
 			android:name=".LoginActivity"
-			android:theme="@style/AppTheme">
+			android:theme="@style/DrawerToolbarAppTheme">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 
@@ -20,25 +20,25 @@
 		</activity>
 		<activity
 			android:name=".LoadingActivity"
-			android:theme="@style/AppTheme"/>
+			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
 			android:name=".LogoutActivity"
-			android:theme="@style/AppTheme"/>
+			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
 			android:name=".MessagesActivity"
-			android:theme="@style/AppTheme"/>
+			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
 			android:name=".BusActivity"
-			android:theme="@style/AppTheme"/>
+			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
 			android:name=".BusReservationsActivity"
-			android:theme="@style/AppTheme"/>
+			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
 			android:name=".CourseActivity"
-			android:theme="@style/AppTheme"/>
+			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
 			android:name=".PickSemesterActivity"
-			android:theme="@style/AppTheme"/>
+			android:theme="@style/DrawerToolbarAppTheme"/>
 	</application>
 
 </manifest>
