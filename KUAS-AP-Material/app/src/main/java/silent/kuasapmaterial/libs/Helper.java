@@ -285,17 +285,18 @@ public class Helper {
 				super.onSuccess(statusCode, headers, response);
 				try {
 					List<List<CourseModel>> modelList = new ArrayList<>();
-					if (!response.keys().hasNext()) {
+					JSONObject coursetables = response.getJSONObject("coursetables");
+					if (!coursetables.keys().hasNext()) {
 						if (callback != null) {
 							callback.onSuccess(modelList);
 						}
 						return;
 					}
 					for (int i = 0; i < weekdays.size(); i++) {
-						if (response.has(weekdays.get(i))) {
+						if (coursetables.has(weekdays.get(i))) {
 							List<CourseModel> tmpList = new ArrayList<>(
 									Arrays.asList(new CourseModel[sections.size()]));
-							JSONArray jsonArray = response.getJSONArray(weekdays.get(i));
+							JSONArray jsonArray = coursetables.getJSONArray(weekdays.get(i));
 							for (int j = 0; j < jsonArray.length(); j++) {
 								CourseModel model = new CourseModel();
 								JSONObject jsonObject = jsonArray.getJSONObject(j);
