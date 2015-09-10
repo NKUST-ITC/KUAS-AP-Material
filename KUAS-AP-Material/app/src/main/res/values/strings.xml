@@ -50,6 +50,7 @@
 	<string name="course_holiday">旋轉橫向即可查看周末課表 %s</string>
 	<string name="no_internet">沒有網路連線，請檢查你的網路</string>
 	<string name="setting_internet">設定網路</string>
+	<string name="score_no_score">Oops！本學期沒有任何成績資料哦～\n請選擇其他學期 %s</string>
 
 	<string name="about_detail">史上最強高應大校務系統APP\n「高 應 校 務
 		通」\n\n你是新生嗎？\n不知道學校的消息、電話、行事曆嗎？\n你是舊生嗎？\n每次開課表、查成績、定校車都一肚子氣？\n\n沒有問題，以後沒有這種問題了！\n\n高應校務通讓你不管是新手老手，\n從此一手掌握你的高應人生！\n\n從你的手機看課表，成績，缺曠課紀錄！\n加上預定/取消校車，校園消息！\n\n\n\n簡單、方便、直覺！\n\n尊爵、不凡、你，值得擁有。</string>
@@ -153,5 +154,17 @@
 		<item>還等什麼，快來參加資研社講座吧！</item>
 		<item>John黑黑der</item>
 		<item>你聽過Lu嗎？他是傳說中的高應戰神！</item>
+	</array>
+
+	<array name="score_sections">
+		<item>科目</item>
+		<item>期中成績</item>
+		<item>學期成績</item>
+	</array>
+	<array name="score_detail_sections">
+		<item>操行成績：</item>
+		<item>總平均：</item>
+		<item>班名次/班人數：</item>
+		<item>班名次百分比：</item>
 	</array>
 </resources>

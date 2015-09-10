@@ -44,6 +44,9 @@
 		<activity
 			android:name=".AboutActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
+		<activity
+			android:name=".ScoreActivity"
+			android:theme="@style/DrawerToolbarAppTheme"/>
 	</application>
 
 </manifest>

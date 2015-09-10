@@ -251,7 +251,7 @@ public class BusActivity extends SilentActivity
 		mSwipeRefreshLayout.setEnabled(false);
 		mFab.hide();
 
-		Helper.getBusQuery(this, mDate, new BusCallback() {
+		Helper.getBusTimeTable(this, mDate, new BusCallback() {
 
 			@Override
 			public void onSuccess(List<BusModel> jiangongList, List<BusModel> yanchaoList) {
@@ -391,8 +391,7 @@ public class BusActivity extends SilentActivity
 					@Override
 					public void onFail(String errorMessage) {
 						super.onFail(errorMessage);
-						Toast.makeText(BusActivity.this, errorMessage,
-								Toast.LENGTH_SHORT).show();
+						Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
 					}
 				});
 	}
@@ -416,8 +415,7 @@ public class BusActivity extends SilentActivity
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
-				Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_SHORT)
-						.show();
+				Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}

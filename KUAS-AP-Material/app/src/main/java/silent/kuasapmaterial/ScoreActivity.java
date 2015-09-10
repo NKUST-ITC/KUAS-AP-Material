@@ -5,14 +5,14 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
-import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
+import android.widget.TableRow;
 import android.widget.TextView;
 
 import com.google.gson.Gson;
@@ -22,40 +22,42 @@ import java.util.ArrayList;
 import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
-import silent.kuasapmaterial.callback.CourseCallback;
+import silent.kuasapmaterial.callback.ScoreCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
-import silent.kuasapmaterial.models.CourseModel;
+import silent.kuasapmaterial.models.ScoreDetailModel;
+import silent.kuasapmaterial.models.ScoreModel;
 import silent.kuasapmaterial.models.SemesterModel;
 
-public class CourseActivity extends SilentActivity
+public class ScoreActivity extends SilentActivity
 		implements NavigationView.OnNavigationItemSelectedListener,
 		SwipeRefreshLayout.OnRefreshListener {
 
 	View mPickYmsView;
 	ImageView mPickYmsImageView;
-	TextView mNoCourseTextView, mHolidayTextView, mPickYmsTextView;
-	LinearLayout mNoCourseLinearLayout;
+	TextView mNoScoreTextView, mPickYmsTextView;
+	LinearLayout mNoScoreLinearLayout;
 	ProgressWheel mProgressWheel;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	ScrollView mScrollView;
+	TableLayout mScoreTableLayout, mDetailTableLayout;
 
 	String mYms;
-	List<List<CourseModel>> mList;
+	List<ScoreModel> mList;
 	List<SemesterModel> mSemesterList;
 	SemesterModel mSelectedModel;
+	ScoreDetailModel mScoreDetailModel;
 	private int mPos = 0;
-	private boolean isHoliday, isNight, isHolidayNight, isB, isHolidayB;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-		setContentView(R.layout.activity_course);
-		init(R.string.course, this, R.id.nav_course);
+		setContentView(R.layout.activity_score);
+		init(R.string.score, this, R.id.nav_score);
 
 		restoreArgs(savedInstanceState);
 		findViews();
@@ -83,15 +85,10 @@ public class CourseActivity extends SilentActivity
 		if (savedInstanceState != null) {
 			mYms = savedInstanceState.getString("mYms");
 			mPos = savedInstanceState.getInt("mPos");
-			isHoliday = savedInstanceState.getBoolean("isHoliday");
-			isNight = savedInstanceState.getBoolean("isNight");
-			isHolidayNight = savedInstanceState.getBoolean("isHolidayNight");
-			isB = savedInstanceState.getBoolean("isB");
-			isHolidayB = savedInstanceState.getBoolean("isHolidayB");
 
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
-						new TypeToken<List<List<CourseModel>>>() {
+						new TypeToken<List<ScoreModel>>() {
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSelectedModel")) {
@@ -103,6 +100,12 @@ public class CourseActivity extends SilentActivity
 				mSemesterList = new Gson().fromJson(savedInstanceState.getString("mSemesterList"),
 						new TypeToken<List<SemesterModel>>() {
 						}.getType());
+			}
+			if (savedInstanceState.containsKey("mScoreDetailModel")) {
+				mScoreDetailModel = new Gson()
+						.fromJson(savedInstanceState.getString("mScoreDetailModel"),
+								new TypeToken<ScoreDetailModel>() {
+								}.getType());
 			}
 		}
 
@@ -116,11 +119,6 @@ public class CourseActivity extends SilentActivity
 		super.onSaveInstanceState(outState);
 
 		outState.putString("mYms", mYms);
-		outState.putBoolean("isHoliday", isHoliday);
-		outState.putBoolean("isNight", isNight);
-		outState.putBoolean("isHolidayNight", isHolidayNight);
-		outState.putBoolean("isB", isB);
-		outState.putBoolean("isHolidayB", isHolidayB);
 		if (mScrollView != null) {
 			outState.putInt("mPos", mScrollView.getVerticalScrollbarPosition());
 		}
@@ -132,6 +130,9 @@ public class CourseActivity extends SilentActivity
 		}
 		if (mSemesterList != null) {
 			outState.putString("mSemesterList", new Gson().toJson(mSemesterList));
+		}
+		if (mScoreDetailModel != null) {
+			outState.putString("mScoreDetailModel", new Gson().toJson(mScoreDetailModel));
 		}
 	}
 
@@ -181,15 +182,15 @@ public class CourseActivity extends SilentActivity
 		mPickYmsImageView = (ImageView) findViewById(R.id.imageView_pickYms);
 		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
 		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-		mNoCourseLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_course);
-		mNoCourseTextView = (TextView) findViewById(R.id.textView_no_course);
-		mHolidayTextView = (TextView) findViewById(R.id.textView_holiday);
+		mNoScoreLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_course);
+		mNoScoreTextView = (TextView) findViewById(R.id.textView_no_course);
+		mScoreTableLayout = (TableLayout) findViewById(R.id.tableLayout_score);
+		mDetailTableLayout = (TableLayout) findViewById(R.id.tableLayout_detail);
 	}
 
 	private void setUpViews() {
 		setUpPullRefresh();
-		mNoCourseTextView.setText(getString(R.string.course_no_course, "\uD83D\uDE0B"));
-		mHolidayTextView.setText(getString(R.string.course_holiday, "\uD83D\uDE06"));
+		mNoScoreTextView.setText(getString(R.string.score_no_score, "\uD83D\uDE0B"));
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
 				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
@@ -200,16 +201,16 @@ public class CourseActivity extends SilentActivity
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(CourseActivity.this, PickSemesterActivity.class);
+				Intent intent = new Intent(ScoreActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
 				startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
 			}
 		});
-		mNoCourseLinearLayout.setOnClickListener(new View.OnClickListener() {
+		mNoScoreLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(CourseActivity.this, PickSemesterActivity.class);
+				Intent intent = new Intent(ScoreActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
 				startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
@@ -218,7 +219,7 @@ public class CourseActivity extends SilentActivity
 
 		if (mSelectedModel != null && mSemesterList != null) {
 			mPickYmsTextView.setText(mSelectedModel.text);
-			setUpCourseTable();
+			setUpScoreTable();
 		} else {
 			getSemester();
 		}
@@ -241,175 +242,123 @@ public class CourseActivity extends SilentActivity
 		mProgressWheel.setVisibility(View.VISIBLE);
 		mPickYmsView.setEnabled(false);
 		mScrollView.setVisibility(View.GONE);
-		mNoCourseLinearLayout.setVisibility(View.GONE);
-		mHolidayTextView.setVisibility(View.GONE);
+		mNoScoreLinearLayout.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(false);
 
-		Helper.getCourseTimeTable(this, mYms.split(",")[0], mYms.split(",")[1],
-				new CourseCallback() {
+		Helper.getScoreTimeTable(this, mYms.split(",")[0], mYms.split(",")[1], new ScoreCallback() {
 
-					@Override
-					public void onSuccess(List<List<CourseModel>> modelList) {
-						super.onSuccess(modelList);
+			@Override
+			public void onSuccess(List<ScoreModel> modelList, ScoreDetailModel scoreDetailModel) {
+				super.onSuccess(modelList, scoreDetailModel);
+				mList = modelList;
+				mScoreDetailModel = scoreDetailModel;
+				setUpScoreTable();
+			}
 
-						mList = modelList;
-						setUpCourseTable();
-						mPickYmsView.setEnabled(true);
-					}
+			@Override
+			public void onFail(String errorMessage) {
+				super.onFail(errorMessage);
 
-					@Override
-					public void onFail(String errorMessage) {
-						super.onFail(errorMessage);
-
-						mList.clear();
-						mProgressWheel.setVisibility(View.GONE);
-						mSwipeRefreshLayout.setEnabled(true);
-						mNoCourseLinearLayout.setVisibility(View.VISIBLE);
-						mSwipeRefreshLayout.setRefreshing(false);
-						mPickYmsView.setEnabled(true);
-					}
-				});
+				mList.clear();
+				mProgressWheel.setVisibility(View.GONE);
+				mSwipeRefreshLayout.setEnabled(true);
+				mSwipeRefreshLayout.setRefreshing(false);
+				mNoScoreLinearLayout.setVisibility(View.VISIBLE);
+				mPickYmsView.setEnabled(true);
+			}
+		});
 	}
 
-	private void setUpCourseTable() {
-		isHoliday = false;
-		isNight = false;
-		isHolidayNight = false;
-		isB = false;
-		isHolidayB = false;
+	private void setUpScoreTable() {
+		mScoreTableLayout.setStretchAllColumns(true);
+		mScoreTableLayout.removeAllViews();
+		mDetailTableLayout.removeAllViews();
 
-		mScrollView.removeAllViews();
 		if (mList.size() == 0) {
 			mProgressWheel.setVisibility(View.GONE);
 			mSwipeRefreshLayout.setEnabled(true);
 			mSwipeRefreshLayout.setRefreshing(false);
-			mNoCourseLinearLayout.setVisibility(View.VISIBLE);
 			mScrollView.setVisibility(View.VISIBLE);
+			mNoScoreLinearLayout.setVisibility(View.VISIBLE);
+			mPickYmsView.setEnabled(true);
 			return;
-		} else {
-			mNoCourseLinearLayout.setVisibility(View.GONE);
 		}
-		checkCourseTableType();
-		TableLayout table = selectCourseTable();
+
+		TableRow sectionTableRow = new TableRow(this);
+		String[] sections = getResources().getStringArray(R.array.score_sections);
+		for (int i = 0; i < sections.length; i++) {
+			TextView sectionTextView = new TextView(this);
+			sectionTextView.setText(sections[i]);
+			sectionTextView.setTextColor(getResources().getColor(R.color.accent));
+			sectionTextView.setTextSize(15);
+			sectionTextView.setGravity(Gravity.CENTER);
+
+			int drawable = getResources()
+					.getIdentifier("table_top_" + (i == 0 ? "left" : (i == 1 ? "center" : "right")),
+							"drawable", getPackageName());
+			sectionTextView.setBackgroundResource(drawable);
+
+			sectionTableRow.addView(sectionTextView);
+		}
+		mScoreTableLayout.addView(sectionTableRow);
 
 		for (int i = 0; i < mList.size(); i++) {
-			if (mList.get(i) != null) {
-				for (int j = 0; j < mList.get(i).size(); j++) {
-					int id = getResources()
-							.getIdentifier("textView" + j + "_" + (i + 1), "id", getPackageName());
-					final TextView courseTextView = (TextView) table.findViewById(id);
-					if (mList.get(i).get(j) != null) {
-						if (courseTextView == null) {
-							continue;
-						}
-						courseTextView.setText(mList.get(i).get(j).title.substring(0, 2));
+			TableRow scoreTableRow = new TableRow(this);
+			for (int j = 0; j < sections.length; j++) {
+				TextView scoreTextView = new TextView(this);
+				scoreTextView.setTextSize(14);
+				scoreTextView.setTextColor(getResources().getColor(R.color.black_text));
+				scoreTextView.setText(j == 0 ? mList.get(i).title :
+						(j == 1 ? mList.get(i).middle_score : mList.get(i).final_score));
+				scoreTextView.setGravity(Gravity.CENTER);
 
-						final int weekday = i;
-						final int section = j;
-						courseTextView.setOnClickListener(new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								showCourseDialog(weekday, section);
-							}
-						});
-					} else {
-						if (courseTextView != null) {
-							courseTextView.setText("　　");
-						}
-					}
-				}
-			} else {
-				for (int j = 0; j < getResources().getStringArray(R.array.sections).length; j++) {
-					int id = getResources()
-							.getIdentifier("textView" + j + "_" + (i + 1), "id", getPackageName());
-					final TextView courseTextView = (TextView) table.findViewById(id);
-					if (courseTextView != null) {
-						courseTextView.setText("　　");
-					}
-				}
+				int drawable = getResources()
+						.getIdentifier("table_" + (i == mList.size() - 1 ? "bottom_" : "normal_") +
+										(j == 0 ? "left" : (j == 1 ? "center" : "right")),
+								"drawable", getPackageName());
+				scoreTextView.setBackgroundResource(drawable);
+
+				scoreTableRow.addView(scoreTextView,
+						new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+								TableRow.LayoutParams.MATCH_PARENT));
 			}
+			mScoreTableLayout.addView(scoreTableRow);
 		}
 
-		mScrollView.addView(table);
+		List<String> detailList = new ArrayList<>();
+		String[] detailSections = getResources().getStringArray(R.array.score_detail_sections);
+		detailList.add(Double.toString(mScoreDetailModel.conduct));
+		detailList.add(Double.toString(mScoreDetailModel.average));
+		detailList.add(mScoreDetailModel.class_rank);
+		detailList.add(Double.toString(mScoreDetailModel.class_percentage));
+
+		for (int i = 0; i < detailList.size(); i++) {
+			TableRow detailTableRow = new TableRow(this);
+			TextView detailTextView = new TextView(this);
+			detailTextView.setTextSize(14);
+			detailTextView.setTextColor(getResources().getColor(R.color.black_text));
+			detailTextView.setGravity(Gravity.CENTER);
+			boolean isDetailHaveContent =
+					!(detailList.get(i).equals("0.0") || detailList.get(i).length() == 0);
+			detailTextView
+					.setText(detailSections[i] + (isDetailHaveContent ? detailList.get(i) : "N/A"));
+
+			int drawable = getResources().getIdentifier("table_oneitem_" +
+							(i == 0 ? "top" : (i == detailList.size() - 1 ? "bottom" : "normal")),
+					"drawable", getPackageName());
+			detailTextView.setBackgroundResource(drawable);
+
+			detailTableRow.addView(detailTextView,
+					new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
+							TableRow.LayoutParams.MATCH_PARENT));
+			mDetailTableLayout.addView(detailTableRow);
+		}
+
 		mProgressWheel.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(true);
 		mSwipeRefreshLayout.setRefreshing(false);
 		mScrollView.setVisibility(View.VISIBLE);
-	}
-
-	private void showCourseDialog(final int weekday, final int section) {
-		String instructors = mList.get(weekday).get(section).instructors.size() > 0 ?
-				mList.get(weekday).get(section).instructors.get(0) : "";
-		for (int k = 1; k < mList.get(weekday).get(section).instructors.size(); k++) {
-			instructors += "," + mList.get(weekday).get(section).instructors.get(k);
-		}
-
-		new AlertDialog.Builder(CourseActivity.this).setTitle(R.string.course_dialog_title)
-				.setMessage(getString(R.string.course_dialog_messages,
-						mList.get(weekday).get(section).title, instructors,
-						mList.get(weekday).get(section).room,
-						mList.get(weekday).get(section).start_time + " - " +
-								mList.get(weekday).get(section).end_time))
-				.setPositiveButton(R.string.ok, null).show();
-	}
-
-	private void checkCourseTableType() {
-		for (int i = 0; i < mList.size() && !(isHolidayNight && isHoliday &&
-				isNight && isHolidayB && isB); i++) {
-			if (mList.get(i) != null) {
-				if (i > 4) {
-					isHoliday = true;
-				}
-				for (int j = 0; j < mList.get(i).size() && !(isHolidayNight && isHoliday &&
-						isNight && isHolidayB && isB); j++) {
-					if (mList.get(i).get(j) != null) {
-						if (j > 10) {
-							if (i > 4) {
-								isHolidayNight = true;
-							} else {
-								isNight = true;
-							}
-						} else if (j == 10) {
-							if (i > 4) {
-								isHolidayB = true;
-							} else {
-								isB = true;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-
-	private TableLayout selectCourseTable() {
-		if ((Utils.isWide(this) || Utils.isLand(this)) && isHoliday) {
-			if (isHolidayNight || isNight) {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_holiday_night, null);
-			} else if (isHolidayB || isB) {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_holiday_b, null);
-			} else {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_holiday, null);
-			}
-		} else {
-			if (isHoliday) {
-				mHolidayTextView.setVisibility(View.VISIBLE);
-			} else {
-				mHolidayTextView.setVisibility(View.GONE);
-			}
-			if (isNight) {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_normal_night, null);
-			} else if (isB) {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_normal_b, null);
-			} else {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_normal, null);
-			}
-		}
+		mNoScoreLinearLayout.setVisibility(View.GONE);
+		mPickYmsView.setEnabled(true);
 	}
 }

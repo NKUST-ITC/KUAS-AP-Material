@@ -26,12 +26,15 @@ import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.CourseCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.NotificationCallback;
+import silent.kuasapmaterial.callback.ScoreCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
 import silent.kuasapmaterial.callback.UserInfoCallback;
 import silent.kuasapmaterial.models.BusModel;
 import silent.kuasapmaterial.models.CourseModel;
 import silent.kuasapmaterial.models.NotificationModel;
+import silent.kuasapmaterial.models.ScoreDetailModel;
+import silent.kuasapmaterial.models.ScoreModel;
 import silent.kuasapmaterial.models.SemesterModel;
 import silent.kuasapmaterial.models.ServerStatusModel;
 import silent.kuasapmaterial.models.UserInfoModel;
@@ -65,12 +68,15 @@ public class Helper {
 	public static final String LOGOUT_URL = BASE_URL + "/ap/logout";
 	public static final String CHECK_LOGIN_URL = BASE_URL + "/ap/is_login";
 	public static final String SEMESTER_URL = BASE_URL + "/latest/ap/semester";
-	public static final String AP_QUERY_URL = BASE_URL + "/latest/ap/users/coursetables/%s/%s";
+	public static final String COURSE_TIMETABLE_URL =
+			BASE_URL + "/latest/ap/users/coursetables/%s/%s";
+	public static final String SCORE_TIMETABLE_URL =
+			BASE_URL + "/latest/ap/users/scores/%s/%s";
 	public static final String USER_INFO_URL = BASE_URL + "/ap/user/info";
 	public static final String USER_PIC_URL = BASE_URL + "/ap/user/picture";
 	public static final String LEAVE_QUERY_URL = BASE_URL + "/leave";
 	public static final String LEAVE_SUBMIT_URL = BASE_URL + "/leave/submit";
-	public static final String BUS_QUERY_URL = BASE_URL + "/latest/bus/timetables";
+	public static final String BUS_TIMETABLE_URL = BASE_URL + "/latest/bus/timetables";
 	public static final String BUS_RESERVATIONS_URL = BASE_URL + "/latest/bus/reservations";
 	public static final String BUS_BOOKING_URL = BASE_URL + "/latest/bus/reservations/%s";
 	public static final String NOTIFICATION_URL = BASE_URL + "/latest/notifications/%s";
@@ -270,14 +276,14 @@ public class Helper {
 		});
 	}
 
-	public static void getAP_Query(final Context context, String year, String semester,
-	                               final CourseCallback callback) {
+	public static void getCourseTimeTable(final Context context, String year, String semester,
+	                                      final CourseCallback callback) {
 		final List<String> weekdays = new ArrayList<>(
 				Arrays.asList(context.getResources().getStringArray(R.array.weekdays)));
 		final List<String> sections = new ArrayList<>(
 				Arrays.asList(context.getResources().getStringArray(R.array.sections)));
 
-		String url = String.format(AP_QUERY_URL, year, semester);
+		String url = String.format(COURSE_TIMETABLE_URL, year, semester);
 		mClient.get(url, new JsonHttpResponseHandler() {
 
 			@Override
@@ -323,6 +329,60 @@ public class Helper {
 					}
 					if (callback != null) {
 						callback.onSuccess(modelList);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
+				}
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+			                      JSONObject errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
+			}
+		});
+	}
+
+	public static void getScoreTimeTable(final Context context, String year, String semester,
+	                                      final ScoreCallback callback) {
+		String url = String.format(SCORE_TIMETABLE_URL, year, semester);
+		mClient.get(url, new JsonHttpResponseHandler() {
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
+				super.onSuccess(statusCode, headers, response);
+				try {
+					List<ScoreModel> modelList = new ArrayList<>();
+					ScoreDetailModel scoreDetailModel = new ScoreDetailModel();
+					JSONObject scores = response.getJSONObject("scores");
+					if (!scores.keys().hasNext()) {
+						if (callback != null) {
+							callback.onSuccess(modelList, scoreDetailModel);
+						}
+						return;
+					}
+					JSONArray scoreList = scores.getJSONArray("scores");
+					JSONObject detail = scores.getJSONObject("detail");
+					for (int i = 0; i < scoreList.length(); i++) {
+						JSONObject jsonObject = scoreList.getJSONObject(i);
+						ScoreModel scoreModel = new ScoreModel();
+						scoreModel.middle_score = jsonObject.getString("middle_score");
+						scoreModel.final_score = jsonObject.getString("final_score");
+						scoreModel.units = jsonObject.getString("units");
+						scoreModel.remark = jsonObject.getString("remark");
+						scoreModel.at = jsonObject.getString("at");
+						scoreModel.hours = jsonObject.getString("hours");
+						scoreModel.title = jsonObject.getString("title");
+						scoreModel.required = jsonObject.getString("required");
+						modelList.add(scoreModel);
+					}
+					scoreDetailModel.average = detail.getDouble("average");
+					scoreDetailModel.class_percentage = detail.getDouble("class_percentage");
+					scoreDetailModel.class_rank = detail.getString("class_rank");
+					scoreDetailModel.conduct = detail.getDouble("conduct");
+					if (callback != null) {
+						callback.onSuccess(modelList, scoreDetailModel);
 					}
 				} catch (JSONException e) {
 					onHelperFail(context, callback, e);
@@ -438,12 +498,13 @@ public class Helper {
 		});
 	}
 
-	public static void getBusQuery(final Context context, String date, final BusCallback callback) {
+	public static void getBusTimeTable(final Context context, String date,
+	                                   final BusCallback callback) {
 		RequestParams params = new RequestParams();
 		if (date != null) {
 			params.put("date", date);
 		}
-		mClient.get(BUS_QUERY_URL, params, new JsonHttpResponseHandler() {
+		mClient.get(BUS_TIMETABLE_URL, params, new JsonHttpResponseHandler() {
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
