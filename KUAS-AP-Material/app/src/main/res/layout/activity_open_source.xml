@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
 <android.support.v4.widget.DrawerLayout
 	android:id="@+id/drawer_layout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
@@ -16,37 +24,16 @@
 		<android.support.design.widget.AppBarLayout
 			android:id="@+id/app_bar"
 			android:layout_width="match_parent"
-			android:layout_height="@dimen/detail_backdrop_height"
+			android:layout_height="?attr/actionBarSize"
 			android:fitsSystemWindows="true"
 			android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-			<android.support.design.widget.CollapsingToolbarLayout
-				android:id="@+id/collapsing_toolbar"
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/toolbar"
 				android:layout_width="match_parent"
-				android:layout_height="match_parent"
-				android:fitsSystemWindows="true"
-				app:contentScrim="?attr/colorPrimary"
-				app:expandedTitleMarginEnd="64dp"
-				app:expandedTitleMarginStart="48dp"
-				app:layout_scrollFlags="scroll|exitUntilCollapsed">
-
-				<ImageView
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:contentDescription="@null"
-					android:fitsSystemWindows="true"
-					android:scaleType="centerCrop"
-					android:src="@drawable/kuasap3"
-					app:layout_collapseMode="parallax"/>
-
-				<android.support.v7.widget.Toolbar
-					android:id="@+id/toolbar"
-					android:layout_width="match_parent"
-					android:layout_height="?attr/actionBarSize"
-					app:layout_collapseMode="pin"
-					app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
-
-			</android.support.design.widget.CollapsingToolbarLayout>
+				android:layout_height="?attr/actionBarSize"
+				app:layout_collapseMode="pin"
+				app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
 		</android.support.design.widget.AppBarLayout>
 
 		<android.support.v4.widget.NestedScrollView
@@ -74,15 +61,16 @@
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:text="@string/about_author_title"
+							android:text="@string/open_source_android"
 							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
 							android:lineSpacingMultiplier="1.3"
-							android:text="@string/about_author_content"
+							android:text="@string/open_source_android_content"
 							android:textColor="@color/black_text_secondary"
 							android:textSize="@dimen/text_action"/>
 
@@ -92,9 +80,7 @@
 				<android.support.v7.widget.CardView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/card_margin"
-					android:layout_marginLeft="@dimen/card_margin"
-					android:layout_marginRight="@dimen/card_margin"
+					android:layout_margin="@dimen/card_margin"
 					card_view:cardElevation="5dp">
 
 					<LinearLayout
@@ -105,16 +91,16 @@
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:layout_marginTop="@dimen/margin_small"
-							android:text="@string/about"
+							android:text="@string/open_source_android_async_http"
 							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
 							android:lineSpacingMultiplier="1.3"
-							android:text="@string/about_us"
+							android:text="@string/open_source_android_async_http_content"
 							android:textColor="@color/black_text_secondary"
 							android:textSize="@dimen/text_action"/>
 
@@ -124,9 +110,7 @@
 				<android.support.v7.widget.CardView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/card_margin"
-					android:layout_marginLeft="@dimen/card_margin"
-					android:layout_marginRight="@dimen/card_margin"
+					android:layout_margin="@dimen/card_margin"
 					card_view:cardElevation="5dp">
 
 					<LinearLayout
@@ -137,16 +121,16 @@
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:layout_marginTop="@dimen/margin_small"
-							android:text="@string/about_recruit_title"
+							android:text="@string/open_source_gson"
 							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
 							android:lineSpacingMultiplier="1.3"
-							android:text="@string/about_recruit_content"
+							android:text="@string/open_source_gson_content"
 							android:textColor="@color/black_text_secondary"
 							android:textSize="@dimen/text_action"/>
 
@@ -156,59 +140,7 @@
 				<android.support.v7.widget.CardView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/card_margin"
-					android:layout_marginLeft="@dimen/card_margin"
-					android:layout_marginRight="@dimen/card_margin"
-					card_view:cardElevation="5dp">
-
-					<RelativeLayout
-						android:layout_width="match_parent"
-						android:layout_height="wrap_content">
-
-						<LinearLayout
-							android:id="@+id/view_easter_egg"
-							style="@style/Widget.CardContent"
-							android:layout_width="match_parent"
-							android:layout_height="wrap_content">
-
-							<TextView
-								android:layout_width="match_parent"
-								android:layout_height="wrap_content"
-								android:layout_marginTop="@dimen/margin_small"
-								android:text="@string/about_itc_title"
-								android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
-
-							<TextView
-								android:layout_width="match_parent"
-								android:layout_height="wrap_content"
-								android:layout_marginTop="@dimen/margin_small"
-								android:lineSpacingMultiplier="1.3"
-								android:text="@string/about_itc_content"
-								android:textColor="@color/black_text_secondary"
-								android:textSize="@dimen/text_action"/>
-
-						</LinearLayout>
-
-						<ImageView
-							android:id="@+id/view_itc"
-							android:layout_width="100dp"
-							android:layout_height="wrap_content"
-							android:layout_alignParentRight="true"
-							android:adjustViewBounds="true"
-							android:clickable="true"
-							android:contentDescription="@null"
-							android:paddingRight="@dimen/margin_small"
-							android:paddingTop="@dimen/margin_small"
-							android:src="@drawable/kuas_itc"/>
-					</RelativeLayout>
-				</android.support.v7.widget.CardView>
-
-				<android.support.v7.widget.CardView
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/card_margin"
-					android:layout_marginLeft="@dimen/card_margin"
-					android:layout_marginRight="@dimen/card_margin"
+					android:layout_margin="@dimen/card_margin"
 					card_view:cardElevation="5dp">
 
 					<LinearLayout
@@ -219,49 +151,26 @@
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:text="@string/about_contact_us"
+							android:text="@string/open_source_materialdatetimepicker"
 							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
-						<LinearLayout
+						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="@dimen/margin_small"
-							android:orientation="horizontal">
+							android:autoLink="web|email"
+							android:lineSpacingMultiplier="1.3"
+							android:text="@string/open_source_materialdatetimepicker_content"
+							android:textColor="@color/black_text_secondary"
+							android:textSize="@dimen/text_action"/>
 
-							<ImageView
-								android:id="@+id/view_fb"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_weight="1"
-								android:contentDescription="@null"
-								android:src="@drawable/ic_fb"/>
-
-							<ImageView
-								android:id="@+id/view_github"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_weight="1"
-								android:contentDescription="@null"
-								android:src="@drawable/ic_github"/>
-
-							<ImageView
-								android:id="@+id/view_email"
-								android:layout_width="wrap_content"
-								android:layout_height="wrap_content"
-								android:layout_weight="1"
-								android:contentDescription="@null"
-								android:src="@drawable/ic_email"/>
-
-						</LinearLayout>
 					</LinearLayout>
 				</android.support.v7.widget.CardView>
 
 				<android.support.v7.widget.CardView
 					android:layout_width="match_parent"
 					android:layout_height="wrap_content"
-					android:layout_marginBottom="@dimen/card_margin"
-					android:layout_marginLeft="@dimen/card_margin"
-					android:layout_marginRight="@dimen/card_margin"
+					android:layout_margin="@dimen/card_margin"
 					card_view:cardElevation="5dp">
 
 					<LinearLayout
@@ -272,42 +181,52 @@
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:layout_marginTop="@dimen/margin_small"
-							android:text="@string/about_open_source_title"
+							android:text="@string/open_source_pinned_section_listview"
 							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
 
 						<TextView
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:layout_marginTop="@dimen/margin_small"
-							android:autoLink="web"
+							android:autoLink="web|email"
 							android:lineSpacingMultiplier="1.3"
-							android:text="@string/about_open_source_content"
+							android:text="@string/open_source_pinned_section_listview_content"
 							android:textColor="@color/black_text_secondary"
 							android:textSize="@dimen/text_action"/>
+
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+
+				<android.support.v7.widget.CardView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/card_margin"
+					card_view:cardElevation="5dp">
+
+					<LinearLayout
+						style="@style/Widget.CardContent"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="@string/open_source_progresswheel"
+							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
+							android:lineSpacingMultiplier="1.3"
+							android:text="@string/open_source_progresswheel_content"
+							android:textColor="@color/black_text_secondary"
+							android:textSize="@dimen/text_action"/>
+
 					</LinearLayout>
 				</android.support.v7.widget.CardView>
 			</LinearLayout>
 		</android.support.v4.widget.NestedScrollView>
-
-		<android.support.design.widget.FloatingActionButton
-			android:id="@+id/fab"
-			android:layout_width="wrap_content"
-			android:layout_height="wrap_content"
-			android:layout_margin="@dimen/fab_margin"
-			android:clickable="true"
-			android:src="@drawable/ic_code_white_24dp"
-			app:layout_anchor="@id/app_bar"
-			app:layout_anchorGravity="bottom|right|end"/>
 	</android.support.design.widget.CoordinatorLayout>
-
-	<android.support.design.widget.NavigationView
-		android:id="@+id/nav_view"
-		android:layout_width="wrap_content"
-		android:layout_height="match_parent"
-		android:layout_gravity="start"
-		android:background="#ffffffff"
-		android:fitsSystemWindows="true"
-		app:headerLayout="@layout/drawer_header"
-		app:menu="@menu/drawer_menu"/>
 </android.support.v4.widget.DrawerLayout>

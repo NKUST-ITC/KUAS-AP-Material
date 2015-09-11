@@ -50,6 +50,9 @@
 		<activity
 			android:name=".LeaveActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
+		<activity
+			android:name=".OpenSourceActivity"
+			android:theme="@style/DrawerToolbarAppTheme"/>
 	</application>
 
 </manifest>

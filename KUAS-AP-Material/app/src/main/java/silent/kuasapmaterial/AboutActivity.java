@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
@@ -15,6 +16,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 
 	CollapsingToolbarLayout mCollapsingToolbar;
 	View view_fb, view_github, view_email, view_itc, view_easter_egg;
+	FloatingActionButton mFab;
 
 	private long lastDebugPressTime = 0l;
 	private int easterEggCount = 0;
@@ -45,6 +47,8 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 		view_email = findViewById(R.id.view_email);
 		view_itc = findViewById(R.id.view_itc);
 		view_easter_egg = findViewById(R.id.view_easter_egg);
+
+		mFab = (FloatingActionButton) findViewById(R.id.fab);
 	}
 
 	private void setUpViews() {
@@ -56,6 +60,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 		view_email.setOnClickListener(this);
 		view_itc.setOnClickListener(this);
 		view_easter_egg.setOnClickListener(this);
+		mFab.setOnClickListener(this);
 	}
 
 	@Override
@@ -100,6 +105,8 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 				easterEggCount = 1;
 			}
 			lastDebugPressTime = System.currentTimeMillis();
+		} else if (v.getId() == R.id.fab) {
+			startActivity(new Intent(this, OpenSourceActivity.class));
 		}
 	}
 }

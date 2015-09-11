@@ -67,7 +67,7 @@
 	<string name="about_itc_content">在103學年度，\n我們也成立了高應大資訊研習社！\n\n如果你對資訊有熱誠或是對我們作品有興趣，歡迎來社課或是講座，也可以來找我們聊聊天。</string>
 	<string name="about_itc_title">高應資研社</string>
 	<string name="about_contact_us">聯繫我們</string>
-	<string name="about_open_source_title">開放原始碼</string>
+	<string name="about_open_source_title">開放原始碼授權</string>
 	<string name="about_open_source_content">https://github.com/hearsilent/KUAS-AP-Material\n\n本專案採
 		MIT 開放原始碼授權：\nThe MIT License (MIT)\n\nCopyright &#169; 2015 HearSilent\n\nPermission is
 		hereby granted, free of charge, to any person obtaining a copy of this software and
@@ -232,4 +232,51 @@
 		<item>班名次/班人數：</item>
 		<item>班名次百分比：</item>
 	</array>
+
+	<!--Open Source Project-->
+	<string name="open_source_android">Android</string>
+	<string name="open_source_android_content">https://source.android.com/\n\nCopyright &#169; 
+		2006-2011 Android Open Source
+		Project.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not
+		use this file except in compliance with the License. You may obtain a copy of the License
+		at:\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="open_source_android_async_http">Asynchronous Http Client for Android</string>
+	<string
+		name="open_source_android_async_http_content">https://github.com/loopj/android-async-http\n\nCopyright &#169; 2011 James Smith
+		(james@loopj.com)\nhttps://loopj.com\n\nLicensed under the Apache License, Version 2.0
+		(the "License"); you may not use this file except in compliance with the License. You may
+		obtain a copy of the License at\n\nhttps://www.apache.org/licenses/LICENSE-2.0\n\nUnless
+		required by applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+		either express or implied. See the License for the specific language governing
+		permissions and limitations under the License.</string>
+	<string name="open_source_gson">Gson</string>
+	<string name="open_source_gson_content">https://github.com/google/gson\n\nCopyright 2008 Google
+		Inc.\n\nLicensed under the Apache
+		License, Version 2.0 (the "License"); you may not use this file except in compliance with
+		the License. You may obtain a copy of the License
+		at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or
+		agreed to in writing, software distributed under the License is distributed on an "AS IS"
+		BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+		License for the specific language governing permissions and limitations under the
+		License.</string>
+	<string name="open_source_materialdatetimepicker">Material DateTime Picker</string>
+	<string name="open_source_materialdatetimepicker_content">https://github.com/wdullaer/MaterialDateTimePicker\n\nCopyright &#169; 2015 Wouter Dullaert\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="open_source_pinned_section_listview">Pinned Section ListView</string>
+	<string name="open_source_pinned_section_listview_content">https://github.com/beworker/pinned&#8211;section&#8211;listview\n\nCopyright 2013&#8211;2014 Sergej Shafarenka, halfbit.de\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="open_source_progresswheel">Progress Wheel</string>
+	<string name="open_source_progresswheel_content">https://github.com/Todd-Davies/ProgressWheel
+		\n\nThe MIT License (MIT)\n\nCopyright &#169; 2015 Todd Davies\n\nPermission is hereby
+		granted, free of charge, to any person obtaining a copy of this software and associated
+		documentation files (the "Software"), to deal in the Software without restriction,
+		including without limitation the rights to use, copy, modify, merge, publish, distribute,
+		sublicense, and/or sell copies of the Software, and to permit persons to whom the
+		Software is furnished to do so, subject to the following conditions:\n\nThe above copyright
+		notice and this permission notice shall be included in all copies or substantial portions
+		of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+		EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+		COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+		ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+		SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</string>
 </resources>
