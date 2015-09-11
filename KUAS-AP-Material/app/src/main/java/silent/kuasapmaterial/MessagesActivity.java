@@ -1,21 +1,18 @@
 package silent.kuasapmaterial;
 
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.view.MenuItem;
 
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.fragment.NotificationFragment;
 import silent.kuasapmaterial.fragment.PhoneFragment;
 import silent.kuasapmaterial.fragment.ScheduleFragment;
 
-public class MessagesActivity extends SilentActivity
-		implements NavigationView.OnNavigationItemSelectedListener {
+public class MessagesActivity extends SilentActivity {
 
 	TabLayout mTabLayout;
 	ViewPager mViewPager;
@@ -28,7 +25,7 @@ public class MessagesActivity extends SilentActivity
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		setContentView(R.layout.activity_messages);
-		init(R.string.messages, this, R.id.nav_messages);
+		init(R.string.messages, R.layout.activity_messages, R.id.nav_messages);
 
 		findViews();
 		setUpViews();
@@ -39,16 +36,6 @@ public class MessagesActivity extends SilentActivity
 		super.finish();
 
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-	}
-
-	// TODO Wait for handle navigation items
-	@Override
-	public boolean onNavigationItemSelected(MenuItem menuItem) {
-		drawer.closeDrawers();
-		if (menuItem.isChecked()) {
-			return true;
-		}
-		return true;
 	}
 
 	private void findViews() {

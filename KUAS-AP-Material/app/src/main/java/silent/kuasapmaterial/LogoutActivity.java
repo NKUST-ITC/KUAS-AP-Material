@@ -3,8 +3,6 @@ package silent.kuasapmaterial;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.view.MenuItem;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,8 +14,7 @@ import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.ProgressWheel;
 
-public class LogoutActivity extends SilentActivity
-		implements View.OnClickListener, NavigationView.OnNavigationItemSelectedListener {
+public class LogoutActivity extends SilentActivity implements View.OnClickListener {
 
 	TextView mTitleTextView;
 	WebView mWebView;
@@ -41,31 +38,10 @@ public class LogoutActivity extends SilentActivity
 		} else {
 			setContentView(R.layout.activity_logout_news);
 		}
-		init(R.string.news, this);
+		init(R.string.news, R.layout.activity_logout);
 
 		findViews();
 		setUpViews();
-	}
-
-	// TODO Wait for handle navigation items
-	@Override
-	public boolean onNavigationItemSelected(MenuItem menuItem) {
-		drawer.closeDrawers();
-		if (menuItem.isChecked()) {
-			return true;
-		}
-		if (menuItem.getItemId() == R.id.nav_messages) {
-			startActivity(new Intent(this, MessagesActivity.class));
-		} else if (menuItem.getItemId() == R.id.nav_bus) {
-			startActivity(new Intent(this, BusActivity.class));
-		} else if (menuItem.getItemId() == R.id.nav_course) {
-			startActivity(new Intent(this, CourseActivity.class));
-		} else if (menuItem.getItemId() == R.id.nav_about) {
-			startActivity(new Intent(this, AboutActivity.class));
-		} else if (menuItem.getItemId() == R.id.nav_score) {
-			startActivity(new Intent(this, ScoreActivity.class));
-		}
-		return true;
 	}
 
 	private void findViews() {

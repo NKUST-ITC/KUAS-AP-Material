@@ -6,11 +6,9 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -40,8 +38,7 @@ import silent.kuasapmaterial.libs.segmentcontrol.SegmentControl;
 import silent.kuasapmaterial.models.BusModel;
 
 public class BusActivity extends SilentActivity
-		implements NavigationView.OnNavigationItemSelectedListener,
-		SegmentControl.OnSegmentControlClickListener, AdapterView.OnItemClickListener,
+		implements SegmentControl.OnSegmentControlClickListener, AdapterView.OnItemClickListener,
 		DatePickerDialog.OnDateSetListener, ListScrollDistanceCalculator.ScrollDistanceListener,
 		SwipeRefreshLayout.OnRefreshListener {
 
@@ -65,7 +62,7 @@ public class BusActivity extends SilentActivity
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		setContentView(R.layout.activity_bus);
-		init(R.string.bus, this, R.id.nav_bus);
+		init(R.string.bus, R.layout.activity_bus, R.id.nav_bus);
 
 		restoreArgs(savedInstanceState);
 		findViews();
@@ -77,16 +74,6 @@ public class BusActivity extends SilentActivity
 		super.finish();
 
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-	}
-
-	// TODO Wait for handle navigation items
-	@Override
-	public boolean onNavigationItemSelected(MenuItem menuItem) {
-		drawer.closeDrawers();
-		if (menuItem.isChecked()) {
-			return true;
-		}
-		return true;
 	}
 
 	private void restoreArgs(Bundle savedInstanceState) {

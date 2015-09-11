@@ -5,11 +5,9 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
 import android.view.KeyEvent;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -30,8 +28,7 @@ import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.ServerStatusModel;
 
 public class LoginActivity extends SilentActivity
-		implements TextView.OnEditorActionListener, View.OnClickListener,
-		NavigationView.OnNavigationItemSelectedListener {
+		implements TextView.OnEditorActionListener, View.OnClickListener {
 
 	TextInputLayout mIdTextInputLayout, mPasswordTextInputLayout;
 	EditText mIdEditText, mPasswordEditText;
@@ -44,28 +41,13 @@ public class LoginActivity extends SilentActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
-		init(R.string.app_name, this);
+		init(R.string.app_name, R.layout.activity_login);
 
 		findViews();
 		setUpViews();
 		getVersion();
 		checkServerStatus();
 		getNews();
-	}
-
-	// TODO Wait for handle navigation items
-	@Override
-	public boolean onNavigationItemSelected(MenuItem menuItem) {
-		drawer.closeDrawers();
-		if (menuItem.isChecked()) {
-			return true;
-		}
-		if (menuItem.getItemId() == R.id.nav_messages) {
-			startActivity(new Intent(this, MessagesActivity.class));
-		} else if (menuItem.getItemId() == R.id.nav_about) {
-			startActivity(new Intent(this, AboutActivity.class));
-		}
-		return true;
 	}
 
 	private void getVersion() {
@@ -129,6 +111,8 @@ public class LoginActivity extends SilentActivity
 	}
 
 	private void setUpViews() {
+		Memory.setBoolean(this, Constant.PREF_IS_LOGIN, false);
+
 		mLoginButton.setOnClickListener(this);
 		mPasswordEditText.setOnEditorActionListener(this);
 		mIdTextInputLayout.setHint(getString(R.string.id_hint));
@@ -221,7 +205,7 @@ public class LoginActivity extends SilentActivity
 				} catch (Exception e) {
 					e.printStackTrace();
 				}
-
+				Memory.setBoolean(LoginActivity.this, Constant.PREF_IS_LOGIN, true);
 				startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
 			}
 		});

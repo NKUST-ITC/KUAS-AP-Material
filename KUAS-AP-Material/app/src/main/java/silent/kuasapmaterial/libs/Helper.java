@@ -25,6 +25,7 @@ import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.CourseCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.callback.LeaveCallback;
 import silent.kuasapmaterial.callback.NotificationCallback;
 import silent.kuasapmaterial.callback.ScoreCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
@@ -32,6 +33,8 @@ import silent.kuasapmaterial.callback.ServerStatusCallback;
 import silent.kuasapmaterial.callback.UserInfoCallback;
 import silent.kuasapmaterial.models.BusModel;
 import silent.kuasapmaterial.models.CourseModel;
+import silent.kuasapmaterial.models.LeaveModel;
+import silent.kuasapmaterial.models.LeaveSectionsModel;
 import silent.kuasapmaterial.models.NotificationModel;
 import silent.kuasapmaterial.models.ScoreDetailModel;
 import silent.kuasapmaterial.models.ScoreModel;
@@ -70,11 +73,10 @@ public class Helper {
 	public static final String SEMESTER_URL = BASE_URL + "/latest/ap/semester";
 	public static final String COURSE_TIMETABLE_URL =
 			BASE_URL + "/latest/ap/users/coursetables/%s/%s";
-	public static final String SCORE_TIMETABLE_URL =
-			BASE_URL + "/latest/ap/users/scores/%s/%s";
+	public static final String SCORE_TIMETABLE_URL = BASE_URL + "/latest/ap/users/scores/%s/%s";
 	public static final String USER_INFO_URL = BASE_URL + "/ap/user/info";
 	public static final String USER_PIC_URL = BASE_URL + "/ap/user/picture";
-	public static final String LEAVE_QUERY_URL = BASE_URL + "/leave";
+	public static final String LEAVE_TABLE_URL = BASE_URL + "/latest/leaves/%s/%s";
 	public static final String LEAVE_SUBMIT_URL = BASE_URL + "/leave/submit";
 	public static final String BUS_TIMETABLE_URL = BASE_URL + "/latest/bus/timetables";
 	public static final String BUS_RESERVATIONS_URL = BASE_URL + "/latest/bus/reservations";
@@ -279,9 +281,9 @@ public class Helper {
 	public static void getCourseTimeTable(final Context context, String year, String semester,
 	                                      final CourseCallback callback) {
 		final List<String> weekdays = new ArrayList<>(
-				Arrays.asList(context.getResources().getStringArray(R.array.weekdays)));
+				Arrays.asList(context.getResources().getStringArray(R.array.course_weekdays)));
 		final List<String> sections = new ArrayList<>(
-				Arrays.asList(context.getResources().getStringArray(R.array.sections)));
+				Arrays.asList(context.getResources().getStringArray(R.array.course_sections)));
 
 		String url = String.format(COURSE_TIMETABLE_URL, year, semester);
 		mClient.get(url, new JsonHttpResponseHandler() {
@@ -345,7 +347,7 @@ public class Helper {
 	}
 
 	public static void getScoreTimeTable(final Context context, String year, String semester,
-	                                      final ScoreCallback callback) {
+	                                     final ScoreCallback callback) {
 		String url = String.format(SCORE_TIMETABLE_URL, year, semester);
 		mClient.get(url, new JsonHttpResponseHandler() {
 
@@ -450,22 +452,45 @@ public class Helper {
 		});
 	}
 
-	public static void getLeaveQuery(final Context context, String arg01, String arg02,
-	                                 final GeneralCallback callback) {
-		RequestParams params = new RequestParams();
-		params.put("arg01", arg01);
-		params.put("arg02", arg02);
-		mClient.post(LEAVE_QUERY_URL, params, new JsonHttpResponseHandler() {
+	public static void getLeaveTable(final Context context, String year, String semester,
+	                                 final LeaveCallback callback) {
+		String url = String.format(LEAVE_TABLE_URL, year, semester);
+		mClient.get(url, new JsonHttpResponseHandler() {
 
 			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
+			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
-				// TODO Wait for check this API response
+				try {
+					JSONArray leaves = response.getJSONArray("leaves");
+					List<LeaveModel> modelList = new ArrayList<>();
+					for (int i = 0; i < leaves.length(); i++) {
+						JSONObject jsonObject = leaves.getJSONObject(i);
+						LeaveModel model = new LeaveModel();
+						model.leave_sections = new ArrayList<>();
+						JSONArray jsonArray = jsonObject.getJSONArray("leave_sections");
+						for (int j = 0; j < jsonArray.length(); j++) {
+							LeaveSectionsModel leaveSectionsModel = new LeaveSectionsModel();
+							JSONObject sectionObject = jsonArray.getJSONObject(j);
+							leaveSectionsModel.reason = sectionObject.getString("reason");
+							leaveSectionsModel.section = sectionObject.getString("section");
+							model.leave_sections.add(leaveSectionsModel);
+						}
+						model.date = jsonObject.getString("date");
+						model.instructors_comment = jsonObject.getString("instructors_comment");
+						model.leave_sheet_id = jsonObject.getString("leave_sheet_id");
+						modelList.add(model);
+					}
+					if (callback != null) {
+						callback.onSuccess(modelList);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
+				}
 			}
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-			                      JSONArray errorResponse) {
+			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
 			}

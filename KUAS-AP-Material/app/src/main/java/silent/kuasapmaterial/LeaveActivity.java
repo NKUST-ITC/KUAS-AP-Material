@@ -17,43 +17,42 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
-import silent.kuasapmaterial.callback.ScoreCallback;
+import silent.kuasapmaterial.callback.LeaveCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
-import silent.kuasapmaterial.models.ScoreDetailModel;
-import silent.kuasapmaterial.models.ScoreModel;
+import silent.kuasapmaterial.models.LeaveModel;
 import silent.kuasapmaterial.models.SemesterModel;
 
-public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.OnRefreshListener {
+public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.OnRefreshListener {
 
 	View mPickYmsView;
 	ImageView mPickYmsImageView;
-	TextView mNoScoreTextView, mPickYmsTextView;
-	LinearLayout mNoScoreLinearLayout;
+	TextView mNoLeaveTextView, mPickYmsTextView, mLeaveNightTextView;
+	LinearLayout mNoLeaveLinearLayout;
 	ProgressWheel mProgressWheel;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	ScrollView mScrollView;
-	TableLayout mScoreTableLayout, mDetailTableLayout;
+	TableLayout mLeaveTableLayout;
 
 	String mYms;
-	List<ScoreModel> mList;
+	List<LeaveModel> mList;
 	List<SemesterModel> mSemesterList;
 	SemesterModel mSelectedModel;
-	ScoreDetailModel mScoreDetailModel;
 	private int mPos = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-		setContentView(R.layout.activity_score);
-		init(R.string.score, R.layout.activity_score, R.id.nav_score);
+		setContentView(R.layout.activity_leave);
+		init(R.string.leave, R.layout.activity_leave, R.id.nav_leave);
 
 		restoreArgs(savedInstanceState);
 		findViews();
@@ -74,7 +73,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
-						new TypeToken<List<ScoreModel>>() {
+						new TypeToken<List<LeaveModel>>() {
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSelectedModel")) {
@@ -86,12 +85,6 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 				mSemesterList = new Gson().fromJson(savedInstanceState.getString("mSemesterList"),
 						new TypeToken<List<SemesterModel>>() {
 						}.getType());
-			}
-			if (savedInstanceState.containsKey("mScoreDetailModel")) {
-				mScoreDetailModel = new Gson()
-						.fromJson(savedInstanceState.getString("mScoreDetailModel"),
-								new TypeToken<ScoreDetailModel>() {
-								}.getType());
 			}
 		}
 
@@ -116,9 +109,6 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		}
 		if (mSemesterList != null) {
 			outState.putString("mSemesterList", new Gson().toJson(mSemesterList));
-		}
-		if (mScoreDetailModel != null) {
-			outState.putString("mScoreDetailModel", new Gson().toJson(mScoreDetailModel));
 		}
 	}
 
@@ -168,15 +158,16 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		mPickYmsImageView = (ImageView) findViewById(R.id.imageView_pickYms);
 		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
 		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-		mNoScoreLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_course);
-		mNoScoreTextView = (TextView) findViewById(R.id.textView_no_course);
-		mScoreTableLayout = (TableLayout) findViewById(R.id.tableLayout_score);
-		mDetailTableLayout = (TableLayout) findViewById(R.id.tableLayout_detail);
+		mNoLeaveLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_leave);
+		mNoLeaveTextView = (TextView) findViewById(R.id.textView_no_leave);
+		mLeaveTableLayout = (TableLayout) findViewById(R.id.tableLayout_leave);
+		mLeaveNightTextView = (TextView) findViewById(R.id.textView_night);
 	}
 
 	private void setUpViews() {
 		setUpPullRefresh();
-		mNoScoreTextView.setText(getString(R.string.score_no_score, "\uD83D\uDE0B"));
+		mNoLeaveTextView.setText(getString(R.string.leave_no_leave, "\uD83D\uDE0B"));
+		mLeaveNightTextView.setText(getString(R.string.leave_night, "\uD83D\uDE06"));
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
 				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
@@ -187,16 +178,16 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ScoreActivity.this, PickSemesterActivity.class);
+				Intent intent = new Intent(LeaveActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
 				startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
 			}
 		});
-		mNoScoreLinearLayout.setOnClickListener(new View.OnClickListener() {
+		mNoLeaveLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				Intent intent = new Intent(ScoreActivity.this, PickSemesterActivity.class);
+				Intent intent = new Intent(LeaveActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
 				startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
@@ -205,7 +196,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 
 		if (mSelectedModel != null && mSemesterList != null) {
 			mPickYmsTextView.setText(mSelectedModel.text);
-			setUpScoreTable();
+			setUpLeaveTable();
 		} else {
 			getSemester();
 		}
@@ -228,17 +219,16 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		mProgressWheel.setVisibility(View.VISIBLE);
 		mPickYmsView.setEnabled(false);
 		mScrollView.setVisibility(View.GONE);
-		mNoScoreLinearLayout.setVisibility(View.GONE);
+		mNoLeaveLinearLayout.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(false);
 
-		Helper.getScoreTimeTable(this, mYms.split(",")[0], mYms.split(",")[1], new ScoreCallback() {
+		Helper.getLeaveTable(this, mYms.split(",")[0], mYms.split(",")[1], new LeaveCallback() {
 
 			@Override
-			public void onSuccess(List<ScoreModel> modelList, ScoreDetailModel scoreDetailModel) {
-				super.onSuccess(modelList, scoreDetailModel);
+			public void onSuccess(List<LeaveModel> modelList) {
+				super.onSuccess(modelList);
 				mList = modelList;
-				mScoreDetailModel = scoreDetailModel;
-				setUpScoreTable();
+				setUpLeaveTable();
 			}
 
 			@Override
@@ -249,102 +239,108 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 				mProgressWheel.setVisibility(View.GONE);
 				mSwipeRefreshLayout.setEnabled(true);
 				mSwipeRefreshLayout.setRefreshing(false);
-				mNoScoreLinearLayout.setVisibility(View.VISIBLE);
+				mNoLeaveLinearLayout.setVisibility(View.VISIBLE);
 				mPickYmsView.setEnabled(true);
 			}
 		});
 	}
 
-	private void setUpScoreTable() {
-		mScoreTableLayout.setStretchAllColumns(true);
-		mScoreTableLayout.removeAllViews();
-		mDetailTableLayout.removeAllViews();
+	private void setUpLeaveTable() {
+		mLeaveTableLayout.setStretchAllColumns(true);
+		mLeaveTableLayout.removeAllViews();
 
 		if (mList.size() == 0) {
 			mProgressWheel.setVisibility(View.GONE);
 			mSwipeRefreshLayout.setEnabled(true);
 			mSwipeRefreshLayout.setRefreshing(false);
 			mScrollView.setVisibility(View.VISIBLE);
-			mNoScoreLinearLayout.setVisibility(View.VISIBLE);
+			mNoLeaveLinearLayout.setVisibility(View.VISIBLE);
 			mPickYmsView.setEnabled(true);
 			return;
 		}
 
+		boolean isNight = checkLeaveTableNightType();
+		if (!(Utils.isLand(this) || Utils.isWide(this)) && isNight) {
+			mLeaveNightTextView.setVisibility(View.VISIBLE);
+		} else {
+			mLeaveNightTextView.setVisibility(View.GONE);
+		}
+
 		TableRow sectionTableRow = new TableRow(this);
-		String[] sections = getResources().getStringArray(R.array.score_sections);
+		String[] sections = ((Utils.isLand(this) || Utils.isWide(this)) && isNight) ?
+				getResources().getStringArray(R.array.leave_night_sections_fixed) :
+				getResources().getStringArray(R.array.leave_sections_fixed);
 		for (int i = 0; i < sections.length; i++) {
 			TextView sectionTextView = new TextView(this);
 			sectionTextView.setText(sections[i]);
 			sectionTextView.setTextColor(getResources().getColor(R.color.accent));
-			sectionTextView.setTextSize(15);
+			sectionTextView.setTextSize(14);
 			sectionTextView.setGravity(Gravity.CENTER);
 
-			int drawable = getResources()
-					.getIdentifier("table_top_" + (i == 0 ? "left" : (i == 1 ? "center" : "right")),
-							"drawable", getPackageName());
+			int drawable = getResources().getIdentifier("table_top_" +
+							(i == 0 ? "left" : (i == sections.length - 1 ? "right" : "center")),
+					"drawable", getPackageName());
 			sectionTextView.setBackgroundResource(drawable);
 
 			sectionTableRow.addView(sectionTextView);
 		}
-		mScoreTableLayout.addView(sectionTableRow);
+		mLeaveTableLayout.addView(sectionTableRow);
 
 		for (int i = 0; i < mList.size(); i++) {
 			TableRow scoreTableRow = new TableRow(this);
+			List<String> allSections = new ArrayList<>(
+					Arrays.asList(getResources().getStringArray(R.array.leave_night_sections)));
 			for (int j = 0; j < sections.length; j++) {
 				TextView scoreTextView = new TextView(this);
+				int index = -1;
+				for (int k = 0; k < mList.get(i).leave_sections.size() && j != 0; k++) {
+					if (allSections.get(j - 1).equals(mList.get(i).leave_sections.get(k).section)) {
+						index = k;
+						break;
+					}
+				}
 				scoreTextView.setTextSize(14);
 				scoreTextView.setTextColor(getResources().getColor(R.color.black_text));
-				scoreTextView.setText(j == 0 ? mList.get(i).title :
-						(j == 1 ? mList.get(i).middle_score : mList.get(i).final_score));
+
+				if (j == 0) {
+					scoreTextView.setText(mList.get(i).date.split("/", 2)[1]);
+				} else if (index > -1) {
+					scoreTextView.setText(mList.get(i).leave_sections.get(index).reason);
+				}
 				scoreTextView.setGravity(Gravity.CENTER);
 
 				int drawable = getResources()
 						.getIdentifier("table_" + (i == mList.size() - 1 ? "bottom_" : "normal_") +
-										(j == 0 ? "left" : (j == 1 ? "center" : "right")),
-								"drawable", getPackageName());
+										(j == sections.length - 1 ? "right" :
+												(j == 0 ? "left" : "center")), "drawable",
+								getPackageName());
 				scoreTextView.setBackgroundResource(drawable);
 
 				scoreTableRow.addView(scoreTextView,
 						new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
 								TableRow.LayoutParams.MATCH_PARENT));
 			}
-			mScoreTableLayout.addView(scoreTableRow);
-		}
-
-		List<String> detailList = new ArrayList<>();
-		String[] detailSections = getResources().getStringArray(R.array.score_detail_sections);
-		detailList.add(Double.toString(mScoreDetailModel.conduct));
-		detailList.add(Double.toString(mScoreDetailModel.average));
-		detailList.add(mScoreDetailModel.class_rank);
-		detailList.add(Double.toString(mScoreDetailModel.class_percentage));
-
-		for (int i = 0; i < detailList.size(); i++) {
-			TableRow detailTableRow = new TableRow(this);
-			TextView detailTextView = new TextView(this);
-			detailTextView.setTextSize(14);
-			detailTextView.setTextColor(getResources().getColor(R.color.black_text));
-			detailTextView.setGravity(Gravity.CENTER);
-			boolean isDetailHaveContent =
-					!(detailList.get(i).equals("0.0") || detailList.get(i).length() == 0);
-			detailTextView
-					.setText(detailSections[i] + (isDetailHaveContent ? detailList.get(i) : "N/A"));
-
-			int drawable = getResources().getIdentifier("table_oneitem_" +
-							(i == 0 ? "top" : (i == detailList.size() - 1 ? "bottom" : "normal")),
-					"drawable", getPackageName());
-			detailTextView.setBackgroundResource(drawable);
-
-			detailTableRow.addView(detailTextView,
-					new TableRow.LayoutParams(TableRow.LayoutParams.MATCH_PARENT,
-							TableRow.LayoutParams.MATCH_PARENT));
-			mDetailTableLayout.addView(detailTableRow);
+			mLeaveTableLayout.addView(scoreTableRow);
 		}
 
 		mProgressWheel.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(true);
 		mSwipeRefreshLayout.setRefreshing(false);
 		mScrollView.setVisibility(View.VISIBLE);
-		mNoScoreLinearLayout.setVisibility(View.GONE);
+		mNoLeaveLinearLayout.setVisibility(View.GONE);
 		mPickYmsView.setEnabled(true);
+	}
+
+	private boolean checkLeaveTableNightType() {
+		List<String> sections = new ArrayList<>(
+				Arrays.asList(getResources().getStringArray(R.array.leave_night_sections)));
+		for (int i = 0; i < mList.size(); i++) {
+			for (int j = 0; j < mList.get(i).leave_sections.size(); j++) {
+				if (sections.indexOf(mList.get(i).leave_sections.get(j).section) > 9) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 }

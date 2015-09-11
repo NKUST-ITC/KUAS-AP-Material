@@ -3,11 +3,9 @@ package silent.kuasapmaterial;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -19,6 +17,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
@@ -31,9 +30,7 @@ import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.CourseModel;
 import silent.kuasapmaterial.models.SemesterModel;
 
-public class CourseActivity extends SilentActivity
-		implements NavigationView.OnNavigationItemSelectedListener,
-		SwipeRefreshLayout.OnRefreshListener {
+public class CourseActivity extends SilentActivity implements SwipeRefreshLayout.OnRefreshListener {
 
 	View mPickYmsView;
 	ImageView mPickYmsImageView;
@@ -55,7 +52,7 @@ public class CourseActivity extends SilentActivity
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		setContentView(R.layout.activity_course);
-		init(R.string.course, this, R.id.nav_course);
+		init(R.string.course, R.layout.activity_course, R.id.nav_course);
 
 		restoreArgs(savedInstanceState);
 		findViews();
@@ -67,16 +64,6 @@ public class CourseActivity extends SilentActivity
 		super.finish();
 
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-	}
-
-	// TODO Wait for handle navigation items
-	@Override
-	public boolean onNavigationItemSelected(MenuItem menuItem) {
-		drawer.closeDrawers();
-		if (menuItem.isChecked()) {
-			return true;
-		}
-		return true;
 	}
 
 	private void restoreArgs(Bundle savedInstanceState) {
@@ -319,7 +306,9 @@ public class CourseActivity extends SilentActivity
 					}
 				}
 			} else {
-				for (int j = 0; j < getResources().getStringArray(R.array.sections).length; j++) {
+				List<String> sections = new ArrayList<>(
+						Arrays.asList(getResources().getStringArray(R.array.course_sections)));
+				for (int j = 0; j < sections.size(); j++) {
 					int id = getResources()
 							.getIdentifier("textView" + j + "_" + (i + 1), "id", getPackageName());
 					final TextView courseTextView = (TextView) table.findViewById(id);

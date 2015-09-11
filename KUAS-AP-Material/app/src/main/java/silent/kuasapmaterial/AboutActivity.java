@@ -4,17 +4,14 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
-import android.view.MenuItem;
 import android.view.View;
 
 import java.util.Random;
 
 import silent.kuasapmaterial.base.SilentActivity;
 
-public class AboutActivity extends SilentActivity
-		implements NavigationView.OnNavigationItemSelectedListener, View.OnClickListener {
+public class AboutActivity extends SilentActivity implements View.OnClickListener {
 
 	CollapsingToolbarLayout mCollapsingToolbar;
 	View view_fb, view_github, view_email, view_itc, view_easter_egg;
@@ -27,7 +24,7 @@ public class AboutActivity extends SilentActivity
 		super.onCreate(savedInstanceState);
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
 		setContentView(R.layout.activity_about);
-		init(R.string.about, this, R.id.nav_about);
+		init(R.string.about, R.layout.activity_about, R.id.nav_about);
 
 		findViews();
 		setUpViews();
@@ -38,19 +35,6 @@ public class AboutActivity extends SilentActivity
 		super.finish();
 
 		overridePendingTransition(android.R.anim.fade_in, android.R.anim.fade_out);
-	}
-
-	// TODO Wait for handle navigation items
-	@Override
-	public boolean onNavigationItemSelected(MenuItem menuItem) {
-		drawer.closeDrawers();
-		if (menuItem.isChecked()) {
-			return true;
-		}
-		if (menuItem.getItemId() == R.id.nav_messages) {
-			startActivity(new Intent(this, MessagesActivity.class));
-		}
-		return true;
 	}
 
 	private void findViews() {
