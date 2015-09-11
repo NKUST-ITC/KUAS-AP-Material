@@ -75,11 +75,11 @@
 				android:textSize="@dimen/text_action"
 				android:visibility="gone"/>
 
-			<RelativeLayout
+			<android.support.design.widget.CoordinatorLayout
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-				<android.support.design.widget.CoordinatorLayout
+				<RelativeLayout
 					android:layout_width="match_parent"
 					android:layout_height="match_parent">
 
@@ -107,59 +107,59 @@
 						</silent.kuasapmaterial.libs.ObservableScrollView>
 					</android.support.v4.widget.SwipeRefreshLayout>
 
-					<android.support.design.widget.FloatingActionButton
-						android:id="@+id/fab"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_gravity="bottom|end"
-						android:layout_margin="@dimen/fab_margin"
-						android:src="@drawable/ic_mode_edit_white_24dp"
-						app:backgroundTint="@color/main_theme"
-						app:borderWidth="@dimen/fab_border_width"
-						app:elevation="@dimen/fab_elevation"
-						app:layout_anchor="@id/scrollView"
-						app:layout_anchorGravity="bottom|right|end"/>
-				</android.support.design.widget.CoordinatorLayout>
-
-				<LinearLayout
-					android:id="@+id/linearLayout_no_leave"
-					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:background="?selectableItemBackground"
-					android:gravity="center"
-					android:orientation="vertical"
-					android:visibility="gone">
-
-					<ImageView
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:contentDescription="@null"
-						android:src="@drawable/ic_event_grey600"/>
-
-					<TextView
-						android:id="@+id/textView_no_leave"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_margin="@dimen/margin_medium"
+					<LinearLayout
+						android:id="@+id/linearLayout_no_leave"
+						android:layout_width="match_parent"
+						android:layout_height="match_parent"
+						android:background="?selectableItemBackground"
 						android:gravity="center"
-						android:lineSpacingMultiplier="1.3"
-						android:textColor="@color/black_text_secondary"
-						android:textSize="@dimen/text_subhead"
-						tools:text="@string/leave_no_leave"/>
-				</LinearLayout>
+						android:orientation="vertical"
+						android:visibility="gone">
 
-				<silent.kuasapmaterial.libs.ProgressWheel
-					android:id="@+id/progress_wheel"
-					android:layout_width="42sp"
-					android:layout_height="42sp"
-					android:layout_centerInParent="true"
-					wheel:matProg_barColor="@color/progress_red"
-					wheel:matProg_circleBackground="false"
-					wheel:matProg_fillRadius="true"
-					wheel:matProg_material="true"
-					wheel:matProg_progressIndeterminate="true"
-					wheel:matProg_shadowSize="3"/>
-			</RelativeLayout>
+						<ImageView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:contentDescription="@null"
+							android:src="@drawable/ic_event_grey600"/>
+
+						<TextView
+							android:id="@+id/textView_no_leave"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_margin="@dimen/margin_medium"
+							android:gravity="center"
+							android:lineSpacingMultiplier="1.3"
+							android:textColor="@color/black_text_secondary"
+							android:textSize="@dimen/text_subhead"
+							tools:text="@string/leave_no_leave"/>
+					</LinearLayout>
+
+					<silent.kuasapmaterial.libs.ProgressWheel
+						android:id="@+id/progress_wheel"
+						android:layout_width="42sp"
+						android:layout_height="42sp"
+						android:layout_centerInParent="true"
+						wheel:matProg_barColor="@color/progress_red"
+						wheel:matProg_circleBackground="false"
+						wheel:matProg_fillRadius="true"
+						wheel:matProg_material="true"
+						wheel:matProg_progressIndeterminate="true"
+						wheel:matProg_shadowSize="3"/>
+				</RelativeLayout>
+
+				<android.support.design.widget.FloatingActionButton
+					android:id="@+id/fab"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
+					android:layout_gravity="bottom|end"
+					android:layout_margin="@dimen/fab_margin"
+					android:src="@drawable/ic_mode_edit_white_24dp"
+					app:backgroundTint="@color/main_theme"
+					app:borderWidth="@dimen/fab_border_width"
+					app:elevation="@dimen/fab_elevation"
+					app:layout_anchor="@id/scrollView"
+					app:layout_anchorGravity="bottom|right|end"/>
+			</android.support.design.widget.CoordinatorLayout>
 		</LinearLayout>
 	</LinearLayout>
 
