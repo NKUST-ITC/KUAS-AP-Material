@@ -3,12 +3,12 @@ package silent.kuasapmaterial;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -25,6 +25,7 @@ import silent.kuasapmaterial.callback.LeaveCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.ObservableScrollView;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.LeaveModel;
@@ -38,8 +39,9 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 	LinearLayout mNoLeaveLinearLayout;
 	ProgressWheel mProgressWheel;
 	SwipeRefreshLayout mSwipeRefreshLayout;
-	ScrollView mScrollView;
+	ObservableScrollView mScrollView;
 	TableLayout mLeaveTableLayout;
+	FloatingActionButton mFab;
 
 	String mYms;
 	List<LeaveModel> mList;
@@ -152,7 +154,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 	}
 
 	private void findViews() {
-		mScrollView = (ScrollView) findViewById(R.id.scrollView);
+		mScrollView = (ObservableScrollView) findViewById(R.id.scrollView);
 		mPickYmsTextView = (TextView) findViewById(R.id.textView_pickYms);
 		mPickYmsView = findViewById(R.id.view_pickYms);
 		mPickYmsImageView = (ImageView) findViewById(R.id.imageView_pickYms);
@@ -162,12 +164,24 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		mNoLeaveTextView = (TextView) findViewById(R.id.textView_no_leave);
 		mLeaveTableLayout = (TableLayout) findViewById(R.id.tableLayout_leave);
 		mLeaveNightTextView = (TextView) findViewById(R.id.textView_night);
+		mFab = (FloatingActionButton) findViewById(R.id.fab);
 	}
 
 	private void setUpViews() {
 		setUpPullRefresh();
 		mNoLeaveTextView.setText(getString(R.string.leave_no_leave, "\uD83D\uDE0B"));
 		mLeaveNightTextView.setText(getString(R.string.leave_night, "\uD83D\uDE06"));
+		mScrollView.setOnScrollListener(new ObservableScrollView.OnScrollListener() {
+			@Override
+			public void onScrollDown() {
+				mFab.hide();
+			}
+
+			@Override
+			public void onScrollUp() {
+				mFab.show();
+			}
+		});
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
 				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
@@ -221,6 +235,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		mScrollView.setVisibility(View.GONE);
 		mNoLeaveLinearLayout.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(false);
+		mFab.hide();
 
 		Helper.getLeaveTable(this, mYms.split(",")[0], mYms.split(",")[1], new LeaveCallback() {
 
@@ -241,6 +256,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 				mSwipeRefreshLayout.setRefreshing(false);
 				mNoLeaveLinearLayout.setVisibility(View.VISIBLE);
 				mPickYmsView.setEnabled(true);
+				mFab.show();
 			}
 		});
 	}
@@ -256,6 +272,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			mScrollView.setVisibility(View.VISIBLE);
 			mNoLeaveLinearLayout.setVisibility(View.VISIBLE);
 			mPickYmsView.setEnabled(true);
+			mFab.show();
 			return;
 		}
 
@@ -329,6 +346,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		mScrollView.setVisibility(View.VISIBLE);
 		mNoLeaveLinearLayout.setVisibility(View.GONE);
 		mPickYmsView.setEnabled(true);
+		mFab.show();
 	}
 
 	private boolean checkLeaveTableNightType() {

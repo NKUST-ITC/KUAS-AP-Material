@@ -79,29 +79,47 @@
 				android:layout_width="match_parent"
 				android:layout_height="match_parent">
 
-				<android.support.v4.widget.SwipeRefreshLayout
-					android:id="@+id/swipeRefreshLayout"
+				<android.support.design.widget.CoordinatorLayout
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:layout_marginBottom="@dimen/margin_medium"
-					android:layout_marginLeft="@dimen/margin_medium"
-					android:layout_marginRight="@dimen/margin_medium"
-					android:layout_marginTop="@dimen/margin_small">
+					android:layout_height="match_parent">
 
-					<ScrollView
-						android:id="@+id/scrollView"
+					<android.support.v4.widget.SwipeRefreshLayout
+						android:id="@+id/swipeRefreshLayout"
 						android:layout_width="match_parent"
 						android:layout_height="match_parent"
-						android:fillViewport="true">
+						android:layout_marginBottom="@dimen/margin_medium"
+						android:layout_marginLeft="@dimen/margin_medium"
+						android:layout_marginRight="@dimen/margin_medium"
+						android:layout_marginTop="@dimen/margin_small">
 
-						<TableLayout
-							android:id="@+id/tableLayout_leave"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:shrinkColumns="0"
-							android:stretchColumns="*"/>
-					</ScrollView>
-				</android.support.v4.widget.SwipeRefreshLayout>
+						<silent.kuasapmaterial.libs.ObservableScrollView
+							android:id="@+id/scrollView"
+							android:layout_width="match_parent"
+							android:layout_height="match_parent"
+							android:fillViewport="true">
+
+							<TableLayout
+								android:id="@+id/tableLayout_leave"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:shrinkColumns="0"
+								android:stretchColumns="*"/>
+						</silent.kuasapmaterial.libs.ObservableScrollView>
+					</android.support.v4.widget.SwipeRefreshLayout>
+
+					<android.support.design.widget.FloatingActionButton
+						android:id="@+id/fab"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_gravity="bottom|end"
+						android:layout_margin="@dimen/fab_margin"
+						android:src="@drawable/ic_mode_edit_white_24dp"
+						app:backgroundTint="@color/main_theme"
+						app:borderWidth="@dimen/fab_border_width"
+						app:elevation="@dimen/fab_elevation"
+						app:layout_anchor="@id/scrollView"
+						app:layout_anchorGravity="bottom|right|end"/>
+				</android.support.design.widget.CoordinatorLayout>
 
 				<LinearLayout
 					android:id="@+id/linearLayout_no_leave"
@@ -116,7 +134,7 @@
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:contentDescription="@null"
-						android:src="@drawable/ic_class_grey600"/>
+						android:src="@drawable/ic_event_grey600"/>
 
 					<TextView
 						android:id="@+id/textView_no_leave"
