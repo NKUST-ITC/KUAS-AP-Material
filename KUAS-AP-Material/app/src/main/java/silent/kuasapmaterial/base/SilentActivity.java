@@ -21,6 +21,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.kuas.ap.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -56,6 +59,7 @@ public class SilentActivity extends AppCompatActivity
 	public AnimationActionBarDrawerToggle mDrawerToggle;
 
 	public ImageLoader mImageLoader;
+	public Tracker mTracker;
 
 	public boolean isDisplayHomeAsUp = false;
 	public List<Integer> itemList = new ArrayList<>(
@@ -78,6 +82,13 @@ public class SilentActivity extends AppCompatActivity
 
 		setUpUserPhoto();
 		setUpUserInfo();
+	}
+
+	public void initGA(String screenName) {
+		GoogleAnalytics analytics = GoogleAnalytics.getInstance(this);
+		mTracker = analytics.newTracker(Constant.GA_ID);
+		mTracker.setScreenName(screenName);
+		mTracker.send(new HitBuilders.ScreenViewBuilder().build());
 	}
 
 	public void setUpToolBar(String title) {
@@ -334,11 +345,20 @@ public class SilentActivity extends AppCompatActivity
 			drawer.closeDrawers();
 		} else {
 			if (mLayoutID == R.layout.activity_logout) {
+				if (mTracker != null) {
+					mTracker.send(new HitBuilders.EventBuilder().setCategory("logout dialog")
+							.setAction("create").build());
+				}
 				new AlertDialog.Builder(this).setTitle(R.string.app_name)
 						.setMessage(R.string.logout_check).setPositiveButton(R.string.determine,
 						new DialogInterface.OnClickListener() {
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
+								if (mTracker != null) {
+									mTracker.send(new HitBuilders.EventBuilder()
+											.setCategory("logout dialog").setAction("click")
+											.build());
+								}
 								clearUserData();
 								finish();
 							}

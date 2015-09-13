@@ -12,7 +12,9 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kuas.ap.R;
@@ -30,7 +32,6 @@ import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.ScoreDetailModel;
 import silent.kuasapmaterial.models.ScoreModel;
 import silent.kuasapmaterial.models.SemesterModel;
-import com.kuas.ap.R;
 
 public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.OnRefreshListener {
 
@@ -57,6 +58,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		setContentView(R.layout.activity_score);
 		init(R.string.score, R.layout.activity_score, R.id.nav_score);
 
+		initGA("Score Screen");
 		restoreArgs(savedInstanceState);
 		findViews();
 		setUpViews();
@@ -159,6 +161,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
+				Toast.makeText(ScoreActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -189,6 +192,9 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
+								.build());
 				Intent intent = new Intent(ScoreActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
@@ -198,6 +204,9 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		mNoScoreLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
+								.build());
 				Intent intent = new Intent(ScoreActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
@@ -215,8 +224,10 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 
 	@Override
 	public void onRefresh() {
-		mSwipeRefreshLayout.setRefreshing(true);
 		if (mYms != null) {
+			mTracker.send(new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe")
+					.build());
+			mSwipeRefreshLayout.setRefreshing(true);
 			getData();
 		}
 	}
@@ -259,6 +270,9 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			public void onTokenExpired() {
 				super.onTokenExpired();
 				Utils.createTokenExpired(ScoreActivity.this).show();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
+								.build());
 			}
 		});
 	}

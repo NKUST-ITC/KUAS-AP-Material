@@ -9,6 +9,7 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import silent.kuasapmaterial.base.SilentActivity;
@@ -42,6 +43,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 		}
 		init(R.string.news, R.layout.activity_logout);
 
+		initGA("Logout Screen");
 		findViews();
 		setUpViews();
 	}
@@ -88,9 +90,14 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.button_openUrl) {
+			mTracker.send(
+					new HitBuilders.EventBuilder().setCategory("open url").setAction("click")
+							.build());
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mURL));
 			startActivity(browserIntent);
 		} else if (v.getId() == R.id.button_logout) {
+			mTracker.send(new HitBuilders.EventBuilder().setCategory("logout").setAction("click")
+							.build());
 			clearUserData();
 			startActivity(new Intent(this, LoginActivity.class));
 			finish();

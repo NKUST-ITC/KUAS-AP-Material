@@ -32,6 +32,7 @@ public class UserInfoActivity extends SilentActivity {
 		setContentView(R.layout.activity_user_info);
 		setUpToolBar(getString(R.string.user));
 
+		initGA("User Info Screen");
 		restoreArgs(savedInstanceState);
 		findViews();
 		setUpViews();

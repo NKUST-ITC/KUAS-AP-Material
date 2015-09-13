@@ -17,15 +17,17 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import silent.kuasapmaterial.base.SilentFragment;
 import silent.kuasapmaterial.libs.PinnedSectionListView;
 import silent.kuasapmaterial.models.PhoneModel;
 
-public class PhoneFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class PhoneFragment extends SilentFragment implements AdapterView.OnItemClickListener {
 
 	private View view;
 	private PinnedSectionListView mListView;
@@ -54,6 +56,7 @@ public class PhoneFragment extends Fragment implements AdapterView.OnItemClickLi
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		this.activity = activity;
+		initGA("Messages Screen", activity);
 	}
 
 	private void restoreArgs(Bundle savedInstanceState) {
@@ -102,11 +105,17 @@ public class PhoneFragment extends Fragment implements AdapterView.OnItemClickLi
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+		mTracker.send(
+				new HitBuilders.EventBuilder().setCategory("call phone").setAction
+						("create")
+						.build());
 		new AlertDialog.Builder(activity).setTitle(R.string.call_phone_title)
 				.setMessage(getString(R.string.call_phone_content, mList.get(position).name))
 				.setPositiveButton(R.string.call_phone, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						mTracker.send(new HitBuilders.EventBuilder().setCategory("call phone")
+										.setAction("click").build());
 						Intent myIntentDial = new Intent(Intent.ACTION_DIAL,
 								Uri.parse("tel:" + mList.get(position).phone.replace("#", ",")));
 						startActivity(myIntentDial);

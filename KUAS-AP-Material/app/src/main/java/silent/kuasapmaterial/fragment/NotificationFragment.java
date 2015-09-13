@@ -5,7 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +14,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kuas.ap.R;
@@ -22,13 +22,14 @@ import com.kuas.ap.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import silent.kuasapmaterial.base.SilentFragment;
 import silent.kuasapmaterial.callback.NotificationCallback;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.PinnedSectionListView;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.NotificationModel;
 
-public class NotificationFragment extends Fragment
+public class NotificationFragment extends SilentFragment
 		implements PinnedSectionListView.OnBottomReachedListener,
 		SwipeRefreshLayout.OnRefreshListener {
 
@@ -61,6 +62,7 @@ public class NotificationFragment extends Fragment
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		this.activity = activity;
+		initGA("Messages Screen", activity);
 	}
 
 	private void restoreArgs(Bundle savedInstanceState) {
@@ -112,6 +114,8 @@ public class NotificationFragment extends Fragment
 
 			@Override
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("notification link")
+						.setAction("click").build());
 				if (position < mList.size()) {
 					if (mList.get(position).link.startsWith("http")) {
 						Intent browserIntent =
@@ -130,6 +134,8 @@ public class NotificationFragment extends Fragment
 	@Override
 	public void onRefresh() {
 		if (!isLoadingPosts) {
+			mTracker.send(new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe")
+					.setLabel("notification").build());
 			isRetry = false;
 			mSwipeRefreshLayout.setRefreshing(true);
 			getNotificationData(true);
@@ -144,6 +150,9 @@ public class NotificationFragment extends Fragment
 	@Override
 	public void onBottomReached() {
 		if (!isLoadingPosts && !isRetry) {
+			mTracker.send(
+					new HitBuilders.EventBuilder().setCategory("load more").setAction("scroll")
+							.build());
 			getNotificationData(false);
 		}
 	}

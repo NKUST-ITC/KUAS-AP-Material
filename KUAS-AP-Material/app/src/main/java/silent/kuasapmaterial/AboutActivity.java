@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import java.util.Random;
@@ -30,6 +31,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 		setContentView(R.layout.activity_about);
 		init(R.string.about, R.layout.activity_about, R.id.nav_about);
 
+		initGA("About Screen");
 		findViews();
 		setUpViews();
 	}
@@ -68,6 +70,8 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.view_fb || v.getId() == R.id.view_itc) {
+			mTracker.send(
+					new HitBuilders.EventBuilder().setCategory("fb").setAction("click").build());
 			try {
 				Intent browserIntent =
 						new Intent(Intent.ACTION_VIEW, Uri.parse("fb://page/735951703168873"));
@@ -78,17 +82,26 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 				startActivity(browserIntent);
 			}
 		} else if (v.getId() == R.id.view_github) {
+			mTracker.send(new HitBuilders.EventBuilder().setCategory("github").setAction("click")
+					.build());
 			Intent browserIntent =
 					new Intent(Intent.ACTION_VIEW, Uri.parse("https://github.com/kuastw"));
 			startActivity(browserIntent);
 		} else if (v.getId() == R.id.view_email) {
+			mTracker.send(
+					new HitBuilders.EventBuilder().setCategory("email").setAction("click").build());
 			Intent browserIntent =
 					new Intent(Intent.ACTION_VIEW, Uri.parse("mailto:1102108133@kuas.edu.tw"));
 			startActivity(browserIntent);
 		} else if (v.getId() == R.id.view_easter_egg) {
+			mTracker.send(
+					new HitBuilders.EventBuilder().setCategory("easter egg").setAction("click")
+							.build());
 			if (System.currentTimeMillis() - lastDebugPressTime <= 500) {
 				easterEggCount++;
 				if (easterEggCount == 3) {
+					mTracker.send(new HitBuilders.EventBuilder().setCategory("easter egg")
+							.setAction("click").setLabel("success").build());
 					lastDebugPressTime = 0l;
 					easterEggCount = 0;
 					String[] easterEggList = getResources().getStringArray(R.array.easter_egg);
@@ -108,6 +121,9 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 			}
 			lastDebugPressTime = System.currentTimeMillis();
 		} else if (v.getId() == R.id.fab) {
+			mTracker.send(
+					new HitBuilders.EventBuilder().setCategory("open source").setAction("click")
+							.build());
 			startActivity(new Intent(this, OpenSourceActivity.class));
 		}
 	}

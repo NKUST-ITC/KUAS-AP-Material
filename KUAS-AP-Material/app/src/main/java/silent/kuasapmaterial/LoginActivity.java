@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import java.io.UnsupportedEncodingException;
@@ -51,6 +52,7 @@ public class LoginActivity extends SilentActivity
 		clearUserData();
 		init(R.string.app_name, R.layout.activity_login);
 
+		initGA("Login Screen");
 		findViews();
 		setUpViews();
 		getVersion();
@@ -167,6 +169,9 @@ public class LoginActivity extends SilentActivity
 	}
 
 	private void login() {
+		mTracker.send(
+				new HitBuilders.EventBuilder().setCategory("login").setAction("click").build());
+
 		mIdTextInputLayout.setErrorEnabled(false);
 		mPasswordTextInputLayout.setErrorEnabled(false);
 

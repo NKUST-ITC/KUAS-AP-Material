@@ -18,6 +18,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import com.google.gson.Gson;
@@ -66,6 +67,7 @@ public class BusActivity extends SilentActivity
 		setContentView(R.layout.activity_bus);
 		init(R.string.bus, R.layout.activity_bus, R.id.nav_bus);
 
+		initGA("Bus Screen");
 		restoreArgs(savedInstanceState);
 		findViews();
 		setUpViews();
@@ -174,6 +176,8 @@ public class BusActivity extends SilentActivity
 		mFab.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("bus reservations")
+						.setAction("click").build());
 				startActivityForResult(new Intent(BusActivity.this, BusReservationsActivity.class),
 						Constant.REQUEST_BUS_RESERVATIONS);
 			}
@@ -188,12 +192,18 @@ public class BusActivity extends SilentActivity
 		mTextView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("pick date").setAction("click")
+								.build());
 				showDatePickerDialog();
 			}
 		});
 		mNoBusLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("pick date").setAction("click")
+								.build());
 				showDatePickerDialog();
 			}
 		});
@@ -212,6 +222,8 @@ public class BusActivity extends SilentActivity
 		if (mDate == null || mDate.length() == 0) {
 			return;
 		}
+		mTracker.send(
+				new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe").build());
 		mSwipeRefreshLayout.setRefreshing(true);
 		getData();
 	}
@@ -276,12 +288,18 @@ public class BusActivity extends SilentActivity
 			public void onTokenExpired() {
 				super.onTokenExpired();
 				Utils.createTokenExpired(BusActivity.this).show();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
+								.build());
 			}
 		});
 	}
 
 	@Override
 	public void onSegmentControlClick(int index) {
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("segment").setAction("click")
+				.setLabel(Integer.toString(index)).build());
+
 		mIndex = index;
 		mAdapter.notifyDataSetChanged();
 
@@ -339,6 +357,9 @@ public class BusActivity extends SilentActivity
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
 		final List<BusModel> modelList = mIndex == 0 ? mJianGongList : mYanChaoList;
 		if (modelList.get(position).isReserve) {
+			mTracker.send(
+					new HitBuilders.EventBuilder().setCategory("cancel bus").setAction("create")
+							.build());
 			new AlertDialog.Builder(this).setTitle(R.string.bus_cancel_reserve_confirm_title)
 					.setMessage(getString(R.string.bus_cancel_reserve_confirm_content, getString(
 									mIndex == 0 ? R.string.bus_from_jiangong :
@@ -348,10 +369,15 @@ public class BusActivity extends SilentActivity
 							new DialogInterface.OnClickListener() {
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
+									mTracker.send(
+											new HitBuilders.EventBuilder().setCategory("cancel bus")
+													.setAction("click").build());
 									cancelBookBus(modelList, position);
 								}
 							}).setNegativeButton(R.string.back, null).show();
 		} else {
+			mTracker.send(new HitBuilders.EventBuilder().setCategory("book bus").setAction("create")
+					.build());
 			new AlertDialog.Builder(this).setTitle(R.string.bus_reserve_confirm_title).setMessage(
 					getString(R.string.bus_reserve_confirm_content, getString(
 									mIndex == 0 ? R.string.bus_from_jiangong :
@@ -360,6 +386,8 @@ public class BusActivity extends SilentActivity
 					.setPositiveButton(R.string.bus_reserve, new DialogInterface.OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
+							mTracker.send(new HitBuilders.EventBuilder().setCategory("book bus")
+									.setAction("click").build());
 							bookBus(modelList, position);
 						}
 					}).setNegativeButton(R.string.cancel, null).show();
@@ -430,6 +458,8 @@ public class BusActivity extends SilentActivity
 	@Override
 	public void onDateSet(DatePickerDialog view, int year, int monthOfYear, int dayOfMonth) {
 		mDate = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("date set").setAction("click")
+				.setLabel(mDate).build());
 		mTextView.setText(getString(R.string.bus_pick_date, mDate));
 		getData();
 	}

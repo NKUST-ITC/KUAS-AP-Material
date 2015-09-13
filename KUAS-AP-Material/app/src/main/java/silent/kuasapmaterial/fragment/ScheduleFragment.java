@@ -17,6 +17,7 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import org.json.JSONArray;
@@ -26,9 +27,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import silent.kuasapmaterial.base.SilentFragment;
 import silent.kuasapmaterial.libs.PinnedSectionListView;
 
-public class ScheduleFragment extends Fragment implements AdapterView.OnItemClickListener {
+public class ScheduleFragment extends SilentFragment implements AdapterView.OnItemClickListener {
 
 	private View view;
 	private PinnedSectionListView mListView;
@@ -68,6 +70,7 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 	public void onAttach(Activity activity) {
 		super.onAttach(activity);
 		this.activity = activity;
+		initGA("Messages Screen", activity);
 	}
 
 	private void restoreArgs(Bundle savedInstanceState) {
@@ -121,11 +124,15 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("add schedule").setAction("create")
+				.build());
 		new AlertDialog.Builder(activity).setTitle(R.string.schedule).setMessage(
 				getString(R.string.add_cal_content, mList.get(position).split("\\) ")[1]))
 				.setPositiveButton(R.string.determine, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						mTracker.send(new HitBuilders.EventBuilder().setCategory("add schedule")
+								.setAction("click").build());
 						AddCalendarEvent(mList.get(position).substring(1));
 					}
 				}).setNegativeButton(R.string.cancel, null).show();

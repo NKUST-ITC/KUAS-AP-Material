@@ -15,6 +15,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kuas.ap.R;
@@ -24,7 +25,6 @@ import java.util.List;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.SemesterModel;
-import com.kuas.ap.R;
 
 public class PickSemesterActivity extends SilentActivity
 		implements AdapterView.OnItemClickListener {
@@ -43,6 +43,7 @@ public class PickSemesterActivity extends SilentActivity
 		setContentView(R.layout.activity_pick_semester);
 		setUpToolBar(getString(R.string.pick_semester));
 
+		initGA("Pick Semester Screen");
 		restoreArgs(savedInstanceState);
 		getBundle();
 		findViews();
@@ -125,6 +126,8 @@ public class PickSemesterActivity extends SilentActivity
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
+				.setLabel(mSemesterList.get(position).text).build());
 		Intent intent = new Intent();
 		intent.putExtra("mSelectedModel", new Gson().toJson(mSemesterList.get(position)));
 		setResult(RESULT_OK, intent);

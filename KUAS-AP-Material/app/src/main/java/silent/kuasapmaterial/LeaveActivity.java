@@ -14,6 +14,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import com.google.gson.Gson;
@@ -59,6 +60,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		setContentView(R.layout.activity_leave);
 		init(R.string.leave, R.layout.activity_leave, R.id.nav_leave);
 
+		initGA("Leave Screen");
 		restoreArgs(savedInstanceState);
 		findViews();
 		setUpViews();
@@ -202,6 +204,9 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
+								.build());
 				Intent intent = new Intent(LeaveActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
@@ -211,6 +216,9 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		mNoLeaveLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
+								.build());
 				Intent intent = new Intent(LeaveActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
@@ -228,8 +236,10 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 
 	@Override
 	public void onRefresh() {
-		mSwipeRefreshLayout.setRefreshing(true);
 		if (mYms != null) {
+			mTracker.send(new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe")
+							.build());
+			mSwipeRefreshLayout.setRefreshing(true);
 			getData();
 		}
 	}
@@ -273,6 +283,9 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			public void onTokenExpired() {
 				super.onTokenExpired();
 				Utils.createTokenExpired(LeaveActivity.this).show();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
+								.build());
 			}
 		});
 	}

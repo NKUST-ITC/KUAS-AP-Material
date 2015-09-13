@@ -14,6 +14,7 @@ public class OpenSourceActivity extends SilentActivity {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_open_source);
 		setUpToolBar(getString(R.string.about_open_source_title));
+		initGA("Open Source Screen");
 	}
 
 	@Override

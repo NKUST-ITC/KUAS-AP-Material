@@ -17,6 +17,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import com.google.gson.Gson;
@@ -54,6 +55,7 @@ public class BusReservationsActivity extends SilentActivity
 		setContentView(R.layout.activity_bus_reservations);
 		setUpToolBar(getString(R.string.bus));
 
+		initGA("Bus Reservations Screen");
 		restoreArgs(savedInstanceState);
 		findViews();
 		setUpViews();
@@ -143,6 +145,8 @@ public class BusReservationsActivity extends SilentActivity
 
 	@Override
 	public void onRefresh() {
+		mTracker.send(
+				new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe").build());
 		mSwipeRefreshLayout.setRefreshing(true);
 		getData();
 	}
@@ -197,12 +201,17 @@ public class BusReservationsActivity extends SilentActivity
 			public void onTokenExpired() {
 				super.onTokenExpired();
 				Utils.createTokenExpired(BusReservationsActivity.this).show();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
+								.build());
 			}
 		});
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus").setAction("create")
+				.build());
 		boolean index = mList.get(position).endStation.equals("燕巢");
 		new AlertDialog.Builder(this).setTitle(R.string.bus_cancel_reserve_confirm_title)
 				.setMessage(getString(R.string.bus_cancel_reserve_confirm_content,
@@ -211,6 +220,8 @@ public class BusReservationsActivity extends SilentActivity
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
+						mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus")
+								.setAction("click").build());
 						cancelBookBus(mList, position);
 					}
 				}).setNegativeButton(R.string.back, null).show();

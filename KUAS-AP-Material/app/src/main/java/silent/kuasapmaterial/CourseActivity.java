@@ -12,7 +12,9 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import com.google.gson.Gson;
@@ -56,6 +58,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		setContentView(R.layout.activity_course);
 		init(R.string.course, R.layout.activity_course, R.id.nav_course);
 
+		initGA("Course Screen");
 		restoreArgs(savedInstanceState);
 		findViews();
 		setUpViews();
@@ -159,6 +162,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
+				Toast.makeText(CourseActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
 			}
 		});
 	}
@@ -189,6 +193,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
+								.build());
 				Intent intent = new Intent(CourseActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
@@ -198,6 +205,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		mNoCourseLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
+								.build());
 				Intent intent = new Intent(CourseActivity.this, PickSemesterActivity.class);
 				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
 				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
@@ -215,6 +225,8 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 
 	@Override
 	public void onRefresh() {
+		mTracker.send(
+				new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe").build());
 		mSwipeRefreshLayout.setRefreshing(true);
 		if (mYms != null) {
 			getData();
@@ -262,6 +274,8 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 					public void onTokenExpired() {
 						super.onTokenExpired();
 						Utils.createTokenExpired(CourseActivity.this).show();
+						mTracker.send(new HitBuilders.EventBuilder().setCategory("token")
+								.setAction("expired").build());
 					}
 				});
 	}
@@ -335,6 +349,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	}
 
 	private void showCourseDialog(final int weekday, final int section) {
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("show course").setAction("click")
+				.setLabel(mList.get(weekday).get(section).title).build());
+
 		String instructors = mList.get(weekday).get(section).instructors.size() > 0 ?
 				mList.get(weekday).get(section).instructors.get(0) : "";
 		for (int k = 1; k < mList.get(weekday).get(section).instructors.size(); k++) {
