@@ -13,6 +13,8 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
 
+import com.kuas.ap.R;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

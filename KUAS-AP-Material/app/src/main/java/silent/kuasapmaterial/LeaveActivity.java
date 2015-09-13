@@ -14,6 +14,8 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.kuas.ap.R;
+
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 

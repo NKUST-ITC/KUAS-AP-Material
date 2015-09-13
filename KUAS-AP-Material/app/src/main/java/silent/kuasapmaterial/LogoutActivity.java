@@ -9,6 +9,8 @@ import android.webkit.WebViewClient;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.kuas.ap.R;
+
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Memory;
@@ -89,6 +91,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mURL));
 			startActivity(browserIntent);
 		} else if (v.getId() == R.id.button_logout) {
+			clearUserData();
 			startActivity(new Intent(this, LoginActivity.class));
 			finish();
 		}

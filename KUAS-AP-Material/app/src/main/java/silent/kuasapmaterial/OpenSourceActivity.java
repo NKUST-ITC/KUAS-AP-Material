@@ -3,6 +3,8 @@ package silent.kuasapmaterial;
 import android.os.Bundle;
 import android.view.MenuItem;
 
+import com.kuas.ap.R;
+
 import silent.kuasapmaterial.base.SilentActivity;
 
 public class OpenSourceActivity extends SilentActivity {

@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
+import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
@@ -22,6 +23,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
 
+import com.kuas.ap.R;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
+import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
+import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
+import com.nostra13.universalimageloader.core.process.BitmapProcessor;
+
 import java.security.spec.AlgorithmParameterSpec;
 
 import javax.crypto.Cipher;
@@ -29,7 +39,6 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import silent.kuasapmaterial.LoginActivity;
-import silent.kuasapmaterial.R;
 
 public class Utils {
 
@@ -169,5 +178,55 @@ public class Utils {
 		drawable.draw(canvas);
 
 		return bitmap;
+	}
+
+	public static ImageLoader getDefaultImageLoader(Context context) {
+		ImageLoaderConfiguration config =
+				new ImageLoaderConfiguration.Builder(context).threadPoolSize(5).build();
+		ImageLoader imageLoader = ImageLoader.getInstance();
+		imageLoader.init(config);
+
+		return imageLoader;
+	}
+
+	public static DisplayImageOptions.Builder getDefaultDisplayImageBuilder() {
+		return new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
+				.bitmapConfig(Bitmap.Config.RGB_565).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+				.displayer(new FadeInBitmapDisplayer(500));
+	}
+
+	public static DisplayImageOptions getDefaultDisplayImageOptions() {
+		// big light loading + fade in
+		return getDefaultDisplayImageBuilder().build();
+	}
+
+	public static DisplayImageOptions getHeadDisplayImageOptions(final int cornerPixels) {
+		// rounded head
+		return new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
+				.bitmapConfig(Bitmap.Config.RGB_565).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
+				.showImageOnLoading(R.drawable.ic_head_anon).preProcessor(new BitmapProcessor() {
+
+					public Bitmap process(Bitmap src) {
+						Bitmap result;
+						Matrix matrix = new Matrix();
+						if (src.getWidth() >= src.getHeight()) {
+							float scale = src.getHeight() / cornerPixels * 2f;
+							matrix.setScale(scale, scale);
+							result = Bitmap.createBitmap(src,
+									src.getWidth() / 2 - src.getHeight() / 2, 0, src.getHeight(),
+									src.getHeight(), matrix, false);
+
+						} else {
+							float scale = src.getWidth() / cornerPixels * 2f;
+							matrix.setScale(scale, scale);
+							result = Bitmap.createBitmap(src, 0,
+									src.getHeight() / 2 - src.getWidth() / 2, src.getWidth(),
+									src.getWidth(), matrix, false);
+						}
+						src.recycle();
+
+						return result;
+					}
+				}).displayer(new RoundedBitmapDisplayer(cornerPixels)).build();
 	}
 }

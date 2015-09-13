@@ -16,8 +16,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
+import com.kuas.ap.R;
+
 import java.io.UnsupportedEncodingException;
 
+import io.fabric.sdk.android.Fabric;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
@@ -42,7 +46,9 @@ public class LoginActivity extends SilentActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		Fabric.with(this, new Crashlytics());
 		setContentView(R.layout.activity_login);
+		clearUserData();
 		init(R.string.app_name, R.layout.activity_login);
 
 		findViews();
@@ -129,8 +135,6 @@ public class LoginActivity extends SilentActivity
 	}
 
 	private void setUpViews() {
-		Memory.setBoolean(this, Constant.PREF_IS_LOGIN, false);
-
 		mLoginButton.setOnClickListener(this);
 		mPasswordEditText.setOnEditorActionListener(this);
 		mIdTextInputLayout.setHint(getString(R.string.id_hint));

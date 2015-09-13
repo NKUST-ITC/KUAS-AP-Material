@@ -15,6 +15,7 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kuas.ap.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,6 +30,7 @@ import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.ScoreDetailModel;
 import silent.kuasapmaterial.models.ScoreModel;
 import silent.kuasapmaterial.models.SemesterModel;
+import com.kuas.ap.R;
 
 public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.OnRefreshListener {
 

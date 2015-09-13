@@ -14,7 +14,7 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewConfiguration;
 
-import silent.kuasapmaterial.R;
+import com.kuas.ap.R;
 
 public class SegmentControl extends View {
 

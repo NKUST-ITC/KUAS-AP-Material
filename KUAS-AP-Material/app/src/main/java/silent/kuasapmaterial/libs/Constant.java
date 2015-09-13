@@ -20,6 +20,10 @@ public class Constant {
 	public static final String PREF_SEMESTER = "pref_semester";
 	public static final String PREF_SEMESTER_SELECTED = "pref_semester_selected";
 
+	public static final String PREF_USER_PIC = "pref_user_pic";
+	public static final String PREF_USER_NAME = "pref_user_name";
+	public static final String PREF_USER_ID = "pref_user_id";
+
 	// Activity request code
 	public static final int REQUEST_BUS_RESERVATIONS = 100;
 	public static final int REQUEST_PICK_SEMESTER = 101;

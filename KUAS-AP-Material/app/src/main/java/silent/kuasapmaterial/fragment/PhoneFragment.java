@@ -17,10 +17,11 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.kuas.ap.R;
+
 import java.util.ArrayList;
 import java.util.List;
 
-import silent.kuasapmaterial.R;
 import silent.kuasapmaterial.libs.PinnedSectionListView;
 import silent.kuasapmaterial.models.PhoneModel;
 

@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+	android:id="@+id/drawer_layout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:wheel="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/app_bg"
+	android:fitsSystemWindows="true">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/app_bg"
+		android:gravity="center_horizontal"
+		android:orientation="vertical">
+
+		<android.support.design.widget.AppBarLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="0">
+
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:layout_gravity="top"
+				android:background="?attr/colorPrimary"
+				app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+		</android.support.design.widget.AppBarLayout>
+
+		<RelativeLayout
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:layout_weight="1"
+			android:background="?android:windowContentOverlay">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical">
+
+				<RelativeLayout
+					android:id="@+id/user"
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_marginLeft="@dimen/margin_small"
+					android:layout_marginRight="@dimen/margin_small"
+					android:layout_marginTop="@dimen/margin_small"
+					android:background="@drawable/user_top"
+					android:gravity="center_vertical">
+
+					<ImageView
+						android:id="@+id/imageView"
+						android:layout_width="30sp"
+						android:layout_height="30sp"
+						android:scaleType="fitStart"
+						android:src="@drawable/ic_done_black_24dp"/>
+
+					<TextView
+						android:id="@+id/userName"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_alignBottom="@+id/imageView"
+						android:layout_alignTop="@+id/imageView"
+						android:layout_marginLeft="7sp"
+						android:layout_toRightOf="@+id/imageView"
+						android:gravity="center_vertical"
+						android:textColor="@color/black_text"
+						android:textSize="19sp"/>
+				</RelativeLayout>
+
+				<ScrollView
+					android:id="@+id/scrollView"
+					android:layout_width="fill_parent"
+					android:layout_height="fill_parent"
+					android:layout_marginBottom="@dimen/margin_small"
+					android:layout_marginLeft="@dimen/margin_small"
+					android:layout_marginRight="@dimen/margin_small"
+					android:background="@drawable/user_bottom"
+					android:fillViewport="true">
+
+					<TableLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:gravity="center_horizontal"
+						android:shrinkColumns="*"
+						android:stretchColumns="*">
+
+						<TableRow
+							android:layout_width="match_parent"
+							android:layout_height="match_parent">
+
+							<TableLayout
+								android:layout_width="match_parent"
+								android:layout_height="match_parent"
+								android:layout_alignParentTop="true"
+								android:layout_centerHorizontal="true"
+								android:layout_weight="1"
+								android:background="@drawable/user_oneitem">
+
+								<TableRow
+									android:layout_width="match_parent"
+									android:layout_height="match_parent"
+									android:gravity="center_vertical"
+									android:paddingBottom="10sp"
+									android:paddingTop="10sp">
+
+									<TextView
+										android:id="@+id/education"
+										android:layout_marginLeft="15sp"
+										android:text="學制："
+										android:textColor="@color/black_text"
+										android:textSize="16sp"/>
+								</TableRow>
+
+								<TableRow
+									android:layout_width="match_parent"
+									android:layout_height="match_parent"
+									android:gravity="center_horizontal">
+
+									<View
+										android:layout_height="1sp"
+										android:layout_marginTop="1dp"
+										android:layout_weight="1"
+										android:background="#ffa8abad"/>
+								</TableRow>
+
+								<TableRow
+									android:layout_width="match_parent"
+									android:layout_height="match_parent"
+									android:gravity="center_vertical"
+									android:paddingBottom="10sp"
+									android:paddingTop="10sp">
+
+									<TextView
+										android:id="@+id/department"
+										android:layout_marginLeft="15sp"
+										android:text="科系："
+										android:textColor="@color/black_text"
+										android:textSize="16sp"/>
+								</TableRow>
+
+								<TableRow
+									android:layout_width="match_parent"
+									android:layout_height="match_parent"
+									android:gravity="center_horizontal">
+
+									<View
+										android:layout_height="1sp"
+										android:layout_marginTop="1dp"
+										android:layout_weight="1"
+										android:background="#ffa8abad"/>
+								</TableRow>
+
+								<TableRow
+									android:layout_width="match_parent"
+									android:layout_height="match_parent"
+									android:gravity="center_vertical"
+									android:paddingBottom="10sp"
+									android:paddingTop="10sp">
+
+									<TextView
+										android:id="@+id/stuClass"
+										android:layout_marginLeft="15sp"
+										android:text="班級："
+										android:textColor="@color/black_text"
+										android:textSize="16sp"/>
+								</TableRow>
+
+								<TableRow
+									android:layout_width="match_parent"
+									android:layout_height="match_parent"
+									android:gravity="center_horizontal">
+
+									<View
+										android:layout_height="1sp"
+										android:layout_marginTop="1dp"
+										android:layout_weight="1"
+										android:background="#ffa8abad"/>
+								</TableRow>
+
+								<TableRow
+									android:layout_width="match_parent"
+									android:layout_height="match_parent"
+									android:gravity="center_vertical"
+									android:paddingBottom="10sp"
+									android:paddingTop="10sp">
+
+									<TextView
+										android:id="@+id/id"
+										android:layout_marginLeft="15sp"
+										android:text="學號："
+										android:textColor="@color/black_text"
+										android:textSize="16sp"/>
+								</TableRow>
+
+							</TableLayout>
+						</TableRow>
+
+						<TableRow
+							android:layout_width="fill_parent"
+							android:layout_height="fill_parent"
+							android:layout_marginBottom="15sp"
+							android:layout_marginTop="15sp"
+							android:layout_weight="1"
+							android:gravity="center">
+
+							<ImageView
+								android:id="@+id/picture"
+								android:layout_width="fill_parent"
+								android:layout_height="fill_parent"
+								android:layout_marginLeft="20sp"
+								android:layout_marginRight="20sp"
+								android:adjustViewBounds="true"
+								android:scaleType="fitCenter"/>
+						</TableRow>
+					</TableLayout>
+				</ScrollView>
+			</LinearLayout>
+
+			<silent.kuasapmaterial.libs.ProgressWheel
+				android:id="@+id/progress_wheel"
+				android:layout_width="42sp"
+				android:layout_height="42sp"
+				android:layout_centerInParent="true"
+				wheel:matProg_barColor="@color/progress_red"
+				wheel:matProg_circleBackground="false"
+				wheel:matProg_fillRadius="true"
+				wheel:matProg_material="true"
+				wheel:matProg_progressIndeterminate="true"
+				wheel:matProg_shadowSize="3"/>
+		</RelativeLayout>
+	</LinearLayout>
+</android.support.v4.widget.DrawerLayout>

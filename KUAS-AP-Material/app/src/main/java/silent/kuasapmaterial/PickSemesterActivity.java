@@ -17,12 +17,14 @@ import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kuas.ap.R;
 
 import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.SemesterModel;
+import com.kuas.ap.R;
 
 public class PickSemesterActivity extends SilentActivity
 		implements AdapterView.OnItemClickListener {

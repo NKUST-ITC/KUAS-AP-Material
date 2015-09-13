@@ -2,6 +2,7 @@ package silent.kuasapmaterial.libs;
 
 import android.content.Context;
 
+import com.kuas.ap.R;
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
@@ -20,7 +21,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import silent.kuasapmaterial.R;
 import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.CourseCallback;
@@ -63,19 +63,16 @@ public class Helper {
 	public static final String SERVER_HOST = "kuas.grd.idv.tw";
 	public static final int SERVER_PORT = 14769;
 	public static final String BASE_URL = "https://" + SERVER_HOST + ":" + SERVER_PORT;
-	public static final String BACKUP_URL = "http://api.grd.idv.tw:14768";
 
 	public static final String SERVER_STATUS_URL = BASE_URL + "/latest/servers/status";
 	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android";
 	public static final String LOGIN_URL = BASE_URL + "/latest/token";
-	public static final String LOGOUT_URL = BASE_URL + "/ap/logout";
-	public static final String CHECK_LOGIN_URL = BASE_URL + "/ap/is_login";
 	public static final String SEMESTER_URL = BASE_URL + "/latest/ap/semester";
 	public static final String COURSE_TIMETABLE_URL =
 			BASE_URL + "/latest/ap/users/coursetables/%s/%s";
 	public static final String SCORE_TIMETABLE_URL = BASE_URL + "/latest/ap/users/scores/%s/%s";
-	public static final String USER_INFO_URL = BASE_URL + "/ap/user/info";
-	public static final String USER_PIC_URL = BASE_URL + "/ap/user/picture";
+	public static final String USER_INFO_URL = BASE_URL + "/latest/ap/users/info";
+	public static final String USER_PIC_URL = BASE_URL + "/latest/ap/users/picture";
 	public static final String LEAVE_TABLE_URL = BASE_URL + "/latest/leaves/%s/%s";
 	public static final String LEAVE_SUBMIT_URL = BASE_URL + "/leave/submit";
 	public static final String BUS_TIMETABLE_URL = BASE_URL + "/latest/bus/timetables";
@@ -83,7 +80,6 @@ public class Helper {
 	public static final String BUS_BOOKING_URL = BASE_URL + "/latest/bus/reservations/%s";
 	public static final String NOTIFICATION_URL = BASE_URL + "/latest/notifications/%s";
 	public static final String NEWS_URL = BASE_URL + "/news";
-	public static final String NEWS_STATUS_URL = BASE_URL + "/news/status";
 
 	private static void onHelperTimeOut(GeneralCallback callback) {
 		if (callback != null) {
@@ -402,7 +398,7 @@ public class Helper {
 		});
 	}
 
-	public static void userInfo(final Context context, final UserInfoCallback callback) {
+	public static void getUserInfo(final Context context, final UserInfoCallback callback) {
 		mClient.get(USER_INFO_URL, new JsonHttpResponseHandler() {
 
 			@Override
@@ -410,7 +406,7 @@ public class Helper {
 				super.onSuccess(statusCode, headers, response);
 				try {
 					UserInfoModel model = new UserInfoModel();
-					model.department = response.getString("model");
+					model.department = response.getString("department");
 					model.education_system = response.getString("education_system");
 					model.student_class = response.getString("class");
 					model.student_id = response.getString("student_id");
@@ -433,7 +429,7 @@ public class Helper {
 		});
 	}
 
-	public static void userPicture(final Context context, final GeneralCallback callback) {
+	public static void getUserPicture(final Context context, final GeneralCallback callback) {
 		mClient.get(USER_PIC_URL, new TextHttpResponseHandler() {
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString,
@@ -763,24 +759,6 @@ public class Helper {
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-			}
-		});
-	}
-
-	public static void getNewsStatus(final Context context, final GeneralCallback callback) {
-		mClient.get(NEWS_STATUS_URL, new JsonHttpResponseHandler() {
-
-			@Override
-			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
-				super.onSuccess(statusCode, headers, response);
-				// TODO Wait for check this API response
-			}
-
-			@Override
-			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
-			                      JSONArray errorResponse) {
-				super.onFailure(statusCode, headers, throwable, errorResponse);
-				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
 			}
 		});
 	}

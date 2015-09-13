@@ -17,14 +17,15 @@ import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.kuas.ap.R;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import silent.kuasapmaterial.R;
 import silent.kuasapmaterial.libs.PinnedSectionListView;
 
 public class ScheduleFragment extends Fragment implements AdapterView.OnItemClickListener {
@@ -37,6 +38,17 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 	Activity activity;
 
 	private int mInitListPos = 0, mInitListOffset = 0;
+
+	String mScheduleData =
+			"[{\"events\": [\"(9/14) 日間部、進修推廣處開學\"], \"week\": \"第一週\"}, {\"events\": [\"(9/28) " +
+					"補假一天(補 9/27 中秋節)\"], \"week\": \"第三週\"}, {\"events\": [\"(10/9) 補假一天(補 10/10" +
+					" 國慶日)\"], \"week\": \"第四週\"}, {\"events\": [\"(10/25) 校運會\", \"(10/29) " +
+					"校運會補假ㄧ天\", \"(10/30) 校慶放假一天\"], \"week\": \"第七週\"}, {\"events\": [\"" +
+					"(11/9 ~ 11/14) 日間部、進修推廣處期中考試\"], \"week\": \"第九週\"}, {\"events\": [\"(1/1) " +
+					"開國紀念日放假ㄧ天\"], \"week\": \"第十六週\"}, {\"events\": [\"(1/9 ~ 1/15) " +
+					"日間部、進修推廣處期末考試\"], \"week\": \"第十八週\"}, {\"events\": [\"(1/30) 補行上班\"], " +
+					"\"week\": \"第十週\"}, {\"events\": [\"(11/26) 燕巢 三合一選舉\", \"(11/27) 建工 " +
+					"三合一選舉\"], \"week\": \"寒假\"}]";
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -87,27 +99,19 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 		mListView.setDividerHeight(0);
 
 		mList = new ArrayList<>();
-		BufferedReader reader = null;
 		try {
-			reader = new BufferedReader(
-					new InputStreamReader(activity.getAssets().open("schedule.txt"), "UTF-8"));
-
-			String mLine = reader.readLine();
-			while (mLine != null) {
-				mList.add(mLine);
-				mLine = reader.readLine();
-			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			if (reader != null) {
-				try {
-					reader.close();
-				} catch (IOException e) {
-					e.printStackTrace();
+			JSONArray jsonArray = new JSONArray(mScheduleData.trim());
+			for (int i = 0; i < jsonArray.length(); i++) {
+				mList.add(jsonArray.getJSONObject(i).getString("week"));
+				JSONArray eventArray = jsonArray.getJSONObject(i).getJSONArray("events");
+				for (int j = 0; j < eventArray.length(); j++) {
+					mList.add("*" + eventArray.getString(j));
 				}
 			}
+		} catch (JSONException e) {
+			e.printStackTrace();
 		}
+
 		ScheduleAdapter adapter = new ScheduleAdapter(activity);
 		mListView.setAdapter(adapter);
 		mListView.setOnItemClickListener(this);
@@ -122,8 +126,7 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 				.setPositiveButton(R.string.determine, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
-						// TODO Wait for API
-						//AddCalendarEvent(mList.get(position).substring(1));
+						AddCalendarEvent(mList.get(position).substring(1));
 					}
 				}).setNegativeButton(R.string.cancel, null).show();
 	}
@@ -133,9 +136,9 @@ public class ScheduleFragment extends Fragment implements AdapterView.OnItemClic
 		String _msg = Msg.split("\\) ")[1];
 		String _startTime;
 		String _endTime;
-		if (_time.contains("-")) {
-			_startTime = _time.split("-")[0].replace(" ", "");
-			_endTime = _time.split("-")[1].replace(" ", "");
+		if (_time.contains("~")) {
+			_startTime = _time.split("~")[0].replace(" ", "");
+			_endTime = _time.split("~")[1].replace(" ", "");
 		} else {
 			_startTime = _time;
 			_endTime = _time;

@@ -3,6 +3,8 @@ package silent.kuasapmaterial;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 
+import com.kuas.ap.R;
+
 import silent.kuasapmaterial.libs.MetaballView;
 
 public class LoadingActivity extends AppCompatActivity {

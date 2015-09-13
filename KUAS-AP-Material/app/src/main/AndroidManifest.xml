@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest
-	package="silent.kuasapmaterial"
+	package="com.kuas.ap"
 	xmlns:android="http://schemas.android.com/apk/res/android">
 
 	<uses-permission android:name="android.permission.INTERNET"/>
@@ -12,7 +12,7 @@
 		android:label="@string/app_name"
 		android:theme="@style/DrawerToolbarAppTheme">
 		<activity
-			android:name=".LoginActivity"
+			android:name="silent.kuasapmaterial.LoginActivity"
 			android:theme="@style/DrawerToolbarAppTheme">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
@@ -21,38 +21,44 @@
 			</intent-filter>
 		</activity>
 		<activity
-			android:name=".LoadingActivity"
+			android:name="silent.kuasapmaterial.LoadingActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".LogoutActivity"
+			android:name="silent.kuasapmaterial.LogoutActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".MessagesActivity"
+			android:name="silent.kuasapmaterial.MessagesActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".BusActivity"
+			android:name="silent.kuasapmaterial.BusActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".BusReservationsActivity"
+			android:name="silent.kuasapmaterial.BusReservationsActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".CourseActivity"
+			android:name="silent.kuasapmaterial.CourseActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".PickSemesterActivity"
+			android:name="silent.kuasapmaterial.PickSemesterActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".AboutActivity"
+			android:name="silent.kuasapmaterial.AboutActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".ScoreActivity"
+			android:name="silent.kuasapmaterial.ScoreActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".LeaveActivity"
+			android:name="silent.kuasapmaterial.LeaveActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
-			android:name=".OpenSourceActivity"
+			android:name="silent.kuasapmaterial.OpenSourceActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
-	</application>
+		<activity
+			android:name="silent.kuasapmaterial.UserInfoActivity"
+			android:theme="@style/DrawerToolbarAppTheme"/>
+	    <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="e15d6071bb62dddcb64d4b3ac3bbc9a870c2b90b" />
+    </application>
 
 </manifest>

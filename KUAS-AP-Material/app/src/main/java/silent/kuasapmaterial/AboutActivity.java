@@ -8,6 +8,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.kuas.ap.R;
+
 import java.util.Random;
 
 import silent.kuasapmaterial.base.SilentActivity;

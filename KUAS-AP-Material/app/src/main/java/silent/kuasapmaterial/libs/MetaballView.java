@@ -13,10 +13,10 @@ import android.view.animation.AccelerateDecelerateInterpolator;
 import android.view.animation.Animation;
 import android.view.animation.Transformation;
 
+import com.kuas.ap.R;
+
 import java.util.ArrayList;
 import java.util.Arrays;
-
-import silent.kuasapmaterial.R;
 
 /**
  * Created by dodola on 15/7/27.

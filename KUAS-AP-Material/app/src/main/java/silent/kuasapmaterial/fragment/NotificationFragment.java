@@ -17,11 +17,11 @@ import android.widget.TextView;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kuas.ap.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import silent.kuasapmaterial.R;
 import silent.kuasapmaterial.callback.NotificationCallback;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.PinnedSectionListView;
