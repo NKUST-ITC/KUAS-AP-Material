@@ -190,6 +190,12 @@ public class BusReservationsActivity extends SilentActivity
 				mSwipeRefreshLayout.setEnabled(true);
 				mSwipeRefreshLayout.setRefreshing(false);
 			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				Utils.createTokenExpired(BusReservationsActivity.this).show();
+			}
 		});
 	}
 
@@ -235,6 +241,12 @@ public class BusReservationsActivity extends SilentActivity
 						super.onFail(errorMessage);
 						Toast.makeText(BusReservationsActivity.this, R.string.something_error,
 								Toast.LENGTH_SHORT).show();
+					}
+
+					@Override
+					public void onTokenExpired() {
+						super.onTokenExpired();
+						Utils.createTokenExpired(BusReservationsActivity.this).show();
 					}
 				});
 	}

@@ -37,6 +37,8 @@ public class LoginActivity extends SilentActivity
 	TextView mVersionTextView;
 	Button mLoginButton;
 
+	String version;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -53,16 +55,32 @@ public class LoginActivity extends SilentActivity
 	private void getVersion() {
 		try {
 			PackageInfo pkgInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			mVersionTextView.setText(getString(R.string.version, pkgInfo.versionName));
+			version = pkgInfo.versionName;
+			mVersionTextView.setText(getString(R.string.version, version));
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
+			version = "1.0.0";
 			mVersionTextView.setText(getString(R.string.version, "1.0.0"));
 		}
 		Helper.getAppVersion(this, new GeneralCallback() {
 			@Override
 			public void onSuccess(String data) {
 				super.onSuccess(data);
-				mVersionTextView.setText(getString(R.string.version, data));
+				String[] serverVersions = data.split("\\.");
+				String[] currentVersions = version.split("\\.");
+
+				if (Integer.valueOf(serverVersions[0]) > Integer.valueOf(currentVersions[0])) {
+					Utils.createUpdateDialog(LoginActivity.this).show();
+				} else if (serverVersions[0].equals(currentVersions[0])) {
+					if (Integer.valueOf(serverVersions[1]) > Integer.valueOf(currentVersions[1])) {
+						Utils.createUpdateDialog(LoginActivity.this).show();
+					} else if (serverVersions[1].equals(currentVersions[1])) {
+						if (Integer.valueOf(serverVersions[2]) >
+								Integer.valueOf(currentVersions[2])) {
+							Utils.createUpdateDialog(LoginActivity.this).show();
+						}
+					}
+				}
 			}
 		});
 	}

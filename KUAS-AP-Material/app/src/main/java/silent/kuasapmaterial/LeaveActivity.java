@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -182,6 +183,13 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 				mFab.show();
 			}
 		});
+		mFab.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				Toast.makeText(LeaveActivity.this, R.string.function_not_open, Toast.LENGTH_SHORT)
+						.show();
+			}
+		});
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
 				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
@@ -257,6 +265,12 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 				mNoLeaveLinearLayout.setVisibility(View.VISIBLE);
 				mPickYmsView.setEnabled(true);
 				mFab.show();
+			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				Utils.createTokenExpired(LeaveActivity.this).show();
 			}
 		});
 	}

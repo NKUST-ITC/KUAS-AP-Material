@@ -124,7 +124,9 @@ public class Helper {
 	private static void onHelperFail(Context context, GeneralCallback callback, int statusCode,
 	                                 Header[] headers, Throwable throwable, String errorMessage) {
 		if (callback != null) {
-			if (statusCode == 0) {
+			if (errorMessage != null && errorMessage.toLowerCase().contains("token expired")) {
+				callback.onTokenExpired();
+			} else if (statusCode == 0) {
 				callback.onFail(context.getString(R.string.timeout_message));
 			} else {
 				callback.onFail(context.getString(R.string.something_error) + "：" +

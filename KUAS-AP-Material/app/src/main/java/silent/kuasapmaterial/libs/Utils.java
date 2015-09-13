@@ -1,7 +1,10 @@
 package silent.kuasapmaterial.libs;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -13,6 +16,7 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -24,6 +28,7 @@ import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
+import silent.kuasapmaterial.LoginActivity;
 import silent.kuasapmaterial.R;
 
 public class Utils {
@@ -87,6 +92,39 @@ public class Utils {
 		}
 		return new AlertDialog.Builder(context).setTitle(title).setView(dialogView)
 				.setCancelable(false).create();
+	}
+
+	@SuppressLint("InflateParams")
+	public static AlertDialog createTokenExpired(final Activity activity) {
+		return new AlertDialog.Builder(activity).setTitle(R.string.token_expired_title)
+				.setMessage(R.string.token_expired_content)
+				.setPositiveButton(R.string.determine, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (activity.isFinishing()) {
+							return;
+						}
+						activity.startActivity(new Intent(activity, LoginActivity.class));
+						activity.finish();
+					}
+				}).setCancelable(false).create();
+	}
+
+	@SuppressLint("InflateParams")
+	public static AlertDialog createUpdateDialog(final Activity activity) {
+		return new AlertDialog.Builder(activity).setTitle(R.string.update_title)
+				.setMessage(R.string.update_content)
+				.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (activity.isFinishing()) {
+							return;
+						}
+						activity.startActivity(new Intent(Intent.ACTION_VIEW,
+								Uri.parse("market://details?id=" + activity.getPackageName())));
+						activity.finish();
+					}
+				}).setCancelable(false).create();
 	}
 
 	public static int[] getSwipeRefreshColors(Context context) {

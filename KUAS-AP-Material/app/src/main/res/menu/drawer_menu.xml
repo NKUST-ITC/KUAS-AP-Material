@@ -21,7 +21,8 @@
 		<item
 			android:id="@+id/nav_simcourse"
 			android:icon="@drawable/ic_star_white_24dp"
-			android:title="@string/simcourse"/>
+			android:title="@string/simcourse"
+			android:visible="false"/>
 		<item
 			android:id="@+id/nav_messages"
 			android:icon="@drawable/ic_info_white_24dp"
@@ -33,6 +34,7 @@
 		<item
 			android:id="@+id/nav_settings"
 			android:icon="@drawable/ic_settings_white_24dp"
-			android:title="@string/settings"/>
+			android:title="@string/settings"
+			android:visible="false"/>
 	</group>
 </menu>

@@ -255,6 +255,12 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 						mSwipeRefreshLayout.setRefreshing(false);
 						mPickYmsView.setEnabled(true);
 					}
+
+					@Override
+					public void onTokenExpired() {
+						super.onTokenExpired();
+						Utils.createTokenExpired(CourseActivity.this).show();
+					}
 				});
 	}
 

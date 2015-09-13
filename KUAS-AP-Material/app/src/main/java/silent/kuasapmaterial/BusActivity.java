@@ -269,6 +269,12 @@ public class BusActivity extends SilentActivity
 				mSwipeRefreshLayout.setEnabled(true);
 				mSwipeRefreshLayout.setRefreshing(false);
 			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				Utils.createTokenExpired(BusActivity.this).show();
+			}
 		});
 	}
 
@@ -380,6 +386,12 @@ public class BusActivity extends SilentActivity
 						super.onFail(errorMessage);
 						Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
 					}
+
+					@Override
+					public void onTokenExpired() {
+						super.onTokenExpired();
+						Utils.createTokenExpired(BusActivity.this).show();
+					}
 				});
 	}
 
@@ -403,6 +415,12 @@ public class BusActivity extends SilentActivity
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
 				Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				Utils.createTokenExpired(BusActivity.this).show();
 			}
 		});
 	}

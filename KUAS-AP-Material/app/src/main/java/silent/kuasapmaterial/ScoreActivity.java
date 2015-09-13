@@ -252,6 +252,12 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 				mNoScoreLinearLayout.setVisibility(View.VISIBLE);
 				mPickYmsView.setEnabled(true);
 			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				Utils.createTokenExpired(ScoreActivity.this).show();
+			}
 		});
 	}
 

@@ -19,7 +19,7 @@ public class GeneralCallback {
 	public void onFail(String errorMessage) {
 	}
 
-	public void onLoginAgain() {
+	public void onTokenExpired() {
 	}
 
 	public void onTimeOut() {
