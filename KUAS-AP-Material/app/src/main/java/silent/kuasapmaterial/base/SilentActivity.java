@@ -2,6 +2,7 @@ package silent.kuasapmaterial.base;
 
 import android.animation.ValueAnimator;
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -17,6 +18,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -199,6 +201,9 @@ public class SilentActivity extends AppCompatActivity
 			public void onDrawerSlide(View drawerView, float slideOffset) {
 				if (drawerView == navigationView) {
 					super.onDrawerSlide(drawerView, slideOffset);
+					InputMethodManager inputMethodManager =
+							(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					inputMethodManager.hideSoftInputFromWindow(drawerView.getWindowToken(), 0);
 				}
 			}
 
@@ -206,6 +211,9 @@ public class SilentActivity extends AppCompatActivity
 			public void onDrawerClosed(View drawerView) {
 				if (drawerView == navigationView) {
 					super.onDrawerClosed(drawerView);
+					InputMethodManager inputMethodManager =
+							(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					inputMethodManager.hideSoftInputFromWindow(drawerView.getWindowToken(), 0);
 				}
 			}
 
@@ -213,6 +221,9 @@ public class SilentActivity extends AppCompatActivity
 			public void onDrawerOpened(View drawerView) {
 				if (drawerView == navigationView) {
 					super.onDrawerOpened(drawerView);
+					InputMethodManager inputMethodManager =
+							(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+					inputMethodManager.hideSoftInputFromWindow(drawerView.getWindowToken(), 0);
 				}
 			}
 		};
@@ -254,6 +265,9 @@ public class SilentActivity extends AppCompatActivity
 
 	public void setDrawerIconState(float slideOffset) {
 		mDrawerToggle.onAnimationDrawerSlide(navigationView, slideOffset);
+		InputMethodManager inputMethodManager =
+				(InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+		inputMethodManager.hideSoftInputFromWindow(navigationView.getWindowToken(), 0);
 	}
 
 	@Override

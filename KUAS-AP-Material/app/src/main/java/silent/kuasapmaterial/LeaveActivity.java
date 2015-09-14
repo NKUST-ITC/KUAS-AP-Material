@@ -204,6 +204,9 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (mSelectedModel == null) {
+					return;
+				}
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
 								.build());
@@ -230,6 +233,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			mPickYmsTextView.setText(mSelectedModel.text);
 			setUpLeaveTable();
 		} else {
+			mPickYmsView.setEnabled(false);
 			getSemester();
 		}
 	}

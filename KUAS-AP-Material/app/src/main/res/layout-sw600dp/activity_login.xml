@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
 <android.support.v4.widget.DrawerLayout
 	android:id="@+id/drawer_layout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
@@ -50,15 +58,17 @@
 
 					<ImageView
 						android:id="@+id/imageView_kuasap"
-						android:layout_width="280dp"
+						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
+						android:layout_margin="@dimen/margin_xlarge"
 						android:layout_marginBottom="@dimen/margin_medium"
 						android:adjustViewBounds="true"
 						android:src="@drawable/kuasap_text"/>
 
 					<android.support.design.widget.TextInputLayout
-						android:layout_width="250dp"
-						android:layout_height="wrap_content">
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:minWidth="500dp">
 
 						<EditText
 							android:id="@+id/editText_id"
@@ -72,8 +82,9 @@
 					</android.support.design.widget.TextInputLayout>
 
 					<android.support.design.widget.TextInputLayout
-						android:layout_width="250dp"
-						android:layout_height="wrap_content">
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:minWidth="500dp">
 
 						<EditText
 							android:id="@+id/editText_password"
@@ -90,7 +101,7 @@
 						android:layout_height="wrap_content"
 						android:layout_marginTop="@dimen/margin_small"
 						android:background="@drawable/button_login"
-						android:minWidth="250dp"
+						android:minWidth="500dp"
 						android:text="@string/login"
 						android:textColor="@color/white_text"
 						android:textSize="@dimen/text_subhead"/>
@@ -98,7 +109,7 @@
 					<LinearLayout
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:minWidth="250dp">
+						android:minWidth="500dp">
 
 						<CheckBox
 							android:id="@+id/checkbox_remember"
@@ -130,6 +141,7 @@
 					<LinearLayout
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
+						android:layout_marginRight="@dimen/margin_xlarge"
 						android:gravity="center"
 						android:orientation="vertical"
 						android:paddingBottom="@dimen/margin_small">
@@ -152,7 +164,8 @@
 					<LinearLayout
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginLeft="@dimen/margin_large"
+						android:layout_marginLeft="@dimen/margin_xlarge"
+						android:layout_marginRight="@dimen/margin_xlarge"
 						android:gravity="center"
 						android:orientation="vertical"
 						android:paddingBottom="@dimen/margin_small">
@@ -175,7 +188,7 @@
 					<LinearLayout
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
-						android:layout_marginLeft="@dimen/margin_large"
+						android:layout_marginLeft="@dimen/margin_xlarge"
 						android:gravity="center"
 						android:orientation="vertical"
 						android:paddingBottom="@dimen/margin_small">

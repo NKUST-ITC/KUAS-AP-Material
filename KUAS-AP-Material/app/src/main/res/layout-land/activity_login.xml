@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
 <android.support.v4.widget.DrawerLayout
 	android:id="@+id/drawer_layout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
@@ -29,32 +37,120 @@
 				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 		</android.support.design.widget.AppBarLayout>
 
-		<ScrollView
+		<LinearLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent"
 			android:layout_weight="1"
 			android:background="?android:windowContentOverlay"
-			android:fillViewport="true">
+			android:gravity="center"
+			android:orientation="horizontal"
+			android:paddingLeft="@dimen/margin_large"
+			android:paddingRight="@dimen/margin_large">
 
 			<LinearLayout
 				android:layout_width="match_parent"
-				android:layout_height="wrap_content"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:gravity="center"
 				android:orientation="vertical">
+
+				<ImageView
+					android:id="@+id/imageView_kuasap"
+					android:layout_width="250dp"
+					android:layout_height="wrap_content"
+					android:layout_marginBottom="@dimen/margin_medium"
+					android:adjustViewBounds="true"
+					android:contentDescription="@null"
+					android:src="@drawable/kuasap_text"/>
 
 				<LinearLayout
 					android:layout_width="match_parent"
-					android:layout_height="match_parent"
-					android:layout_weight="1"
+					android:layout_height="wrap_content"
+					android:layout_marginTop="5dp"
+					android:gravity="center"
+					android:padding="@dimen/margin_small">
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:gravity="center"
+						android:orientation="vertical"
+						android:paddingBottom="@dimen/margin_small">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/dot_ap"
+							android:textColor="@color/black_text"
+							android:textSize="@dimen/text_caption"/>
+
+						<ImageView
+							android:id="@+id/dot_ap"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_margin="@dimen/margin_small"
+							android:src="@drawable/dot_red"/>
+					</LinearLayout>
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="@dimen/margin_xlarge"
+						android:gravity="center"
+						android:orientation="vertical"
+						android:paddingBottom="@dimen/margin_small">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/dot_leave"
+							android:textColor="@color/black_text"
+							android:textSize="@dimen/text_caption"/>
+
+						<ImageView
+							android:id="@+id/dot_leave"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_margin="@dimen/margin_small"
+							android:src="@drawable/dot_red"/>
+					</LinearLayout>
+
+					<LinearLayout
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:layout_marginLeft="@dimen/margin_xlarge"
+						android:gravity="center"
+						android:orientation="vertical"
+						android:paddingBottom="@dimen/margin_small">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/dot_bus"
+							android:textColor="@color/black_text"
+							android:textSize="@dimen/text_caption"/>
+
+						<ImageView
+							android:id="@+id/dot_bus"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_margin="@dimen/margin_small"
+							android:src="@drawable/dot_red"/>
+					</LinearLayout>
+				</LinearLayout>
+			</LinearLayout>
+
+			<ScrollView
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:layout_weight="1"
+				android:fillViewport="true">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
 					android:gravity="center"
 					android:orientation="vertical">
-
-					<ImageView
-						android:id="@+id/imageView_kuasap"
-						android:layout_width="280dp"
-						android:layout_height="wrap_content"
-						android:layout_marginBottom="@dimen/margin_medium"
-						android:adjustViewBounds="true"
-						android:src="@drawable/kuasap_text"/>
 
 					<android.support.design.widget.TextInputLayout
 						android:layout_width="250dp"
@@ -118,85 +214,8 @@
 							android:textColor="@color/black_text"/>
 					</LinearLayout>
 				</LinearLayout>
-
-				<LinearLayout
-					android:layout_width="match_parent"
-					android:layout_height="wrap_content"
-					android:layout_marginTop="5dp"
-					android:layout_weight="0"
-					android:gravity="center"
-					android:padding="@dimen/margin_small">
-
-					<LinearLayout
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:gravity="center"
-						android:orientation="vertical"
-						android:paddingBottom="@dimen/margin_small">
-
-						<TextView
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="@string/dot_ap"
-							android:textColor="@color/black_text"
-							android:textSize="@dimen/text_caption"/>
-
-						<ImageView
-							android:id="@+id/dot_ap"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_margin="@dimen/margin_small"
-							android:src="@drawable/dot_red"/>
-					</LinearLayout>
-
-					<LinearLayout
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="@dimen/margin_large"
-						android:gravity="center"
-						android:orientation="vertical"
-						android:paddingBottom="@dimen/margin_small">
-
-						<TextView
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="@string/dot_leave"
-							android:textColor="@color/black_text"
-							android:textSize="@dimen/text_caption"/>
-
-						<ImageView
-							android:id="@+id/dot_leave"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_margin="@dimen/margin_small"
-							android:src="@drawable/dot_red"/>
-					</LinearLayout>
-
-					<LinearLayout
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:layout_marginLeft="@dimen/margin_large"
-						android:gravity="center"
-						android:orientation="vertical"
-						android:paddingBottom="@dimen/margin_small">
-
-						<TextView
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:text="@string/dot_bus"
-							android:textColor="@color/black_text"
-							android:textSize="@dimen/text_caption"/>
-
-						<ImageView
-							android:id="@+id/dot_bus"
-							android:layout_width="wrap_content"
-							android:layout_height="wrap_content"
-							android:layout_margin="@dimen/margin_small"
-							android:src="@drawable/dot_red"/>
-					</LinearLayout>
-				</LinearLayout>
-			</LinearLayout>
-		</ScrollView>
+			</ScrollView>
+		</LinearLayout>
 	</LinearLayout>
 
 	<android.support.design.widget.NavigationView

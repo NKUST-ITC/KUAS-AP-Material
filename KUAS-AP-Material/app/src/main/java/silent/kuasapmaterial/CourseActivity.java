@@ -193,6 +193,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
+				if (mSelectedModel == null) {
+					return;
+				}
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
 								.build());
@@ -219,6 +222,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			mPickYmsTextView.setText(mSelectedModel.text);
 			setUpCourseTable();
 		} else {
+			mPickYmsView.setEnabled(false);
 			getSemester();
 		}
 	}

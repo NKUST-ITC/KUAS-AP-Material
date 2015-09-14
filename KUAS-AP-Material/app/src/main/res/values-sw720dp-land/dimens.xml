@@ -1,0 +1,5 @@
+<resources>
+
+	<dimen name="detail_backdrop_height">640dp</dimen>
+
+</resources>

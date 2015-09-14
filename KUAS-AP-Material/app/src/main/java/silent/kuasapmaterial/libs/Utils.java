@@ -18,9 +18,11 @@ import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.kuas.ap.R;
@@ -228,5 +230,14 @@ public class Utils {
 						return result;
 					}
 				}).displayer(new RoundedBitmapDisplayer(cornerPixels)).build();
+	}
+
+	public static void hideSoftKeyboard(@NonNull Activity activity) {
+		InputMethodManager inputManager =
+				(InputMethodManager) activity.getSystemService(Context.INPUT_METHOD_SERVICE);
+		if (activity.getCurrentFocus() != null) {
+			inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
+					InputMethodManager.HIDE_NOT_ALWAYS);
+		}
 	}
 }
