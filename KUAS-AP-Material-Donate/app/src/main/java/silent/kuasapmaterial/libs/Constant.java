@@ -4,7 +4,7 @@ public class Constant {
 
 	public static final String TAG = "HearSilent";
 
-	public static final String GA_ID = "UA-46334408-2";
+	public static final String GA_ID = "UA-46334408-3";
 
 	public final static String IvAES = "auc9OV5r0nLwjCAH";
 	public final static String KeyAES = "l9r1W3wcsnJTayxCXwoFt62w1i4sQ5J9";

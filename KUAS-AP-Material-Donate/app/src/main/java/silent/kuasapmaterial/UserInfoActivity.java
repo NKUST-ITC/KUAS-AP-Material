@@ -154,41 +154,14 @@ public class UserInfoActivity extends SilentActivity {
 			mImageLoader = Utils.getDefaultImageLoader(this);
 		}
 		if (photo.length() > 0) {
-			mImageLoader
-					.displayImage(photo, mPhotoImageView, Utils.getDefaultDisplayImageOptions());
-			mProgressWheel.setVisibility(View.GONE);
+			setUpUserPhoto(photo);
 		} else {
 			Helper.getUserPicture(this, new GeneralCallback() {
 
 				@Override
 				public void onSuccess(String data) {
 					super.onSuccess(data);
-					mImageLoader.displayImage(data, mPhotoImageView,
-							Utils.getDefaultDisplayImageOptions(), new ImageLoadingListener() {
-								@Override
-								public void onLoadingStarted(String imageUri, View view) {
-
-								}
-
-								@Override
-								public void onLoadingFailed(String imageUri, View view,
-								                            FailReason failReason) {
-									mDetailView.setVisibility(View.VISIBLE);
-								}
-
-								@Override
-								public void onLoadingComplete(String imageUri, View view,
-								                              Bitmap loadedImage) {
-									mProgressWheel.setVisibility(View.GONE);
-									mPhotoImageView.setVisibility(View.VISIBLE);
-									mDetailView.setVisibility(View.VISIBLE);
-								}
-
-								@Override
-								public void onLoadingCancelled(String imageUri, View view) {
-
-								}
-							});
+					setUpUserPhoto(data);
 				}
 
 				@Override
@@ -204,5 +177,32 @@ public class UserInfoActivity extends SilentActivity {
 				}
 			});
 		}
+	}
+
+	private void setUpUserPhoto(String photo) {
+		mImageLoader.displayImage(photo, mPhotoImageView, Utils.getDefaultDisplayImageOptions(),
+				new ImageLoadingListener() {
+					@Override
+					public void onLoadingStarted(String imageUri, View view) {
+
+					}
+
+					@Override
+					public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
+						mDetailView.setVisibility(View.VISIBLE);
+					}
+
+					@Override
+					public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
+						mProgressWheel.setVisibility(View.GONE);
+						mPhotoImageView.setVisibility(View.VISIBLE);
+						mDetailView.setVisibility(View.VISIBLE);
+					}
+
+					@Override
+					public void onLoadingCancelled(String imageUri, View view) {
+
+					}
+				});
 	}
 }
