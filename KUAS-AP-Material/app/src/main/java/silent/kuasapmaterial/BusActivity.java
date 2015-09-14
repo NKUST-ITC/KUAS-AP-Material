@@ -405,12 +405,7 @@ public class BusActivity extends SilentActivity
 					@Override
 					public void onSuccess() {
 						super.onSuccess();
-						if (mIndex == 0) {
-							mJianGongList.get(position).isReserve = false;
-						} else {
-							mYanChaoList.get(position).isReserve = false;
-						}
-						mAdapter.notifyDataSetChanged();
+						getData();
 						Toast.makeText(BusActivity.this, R.string.bus_cancel_reserve_success,
 								Toast.LENGTH_SHORT).show();
 					}
@@ -435,12 +430,7 @@ public class BusActivity extends SilentActivity
 			@Override
 			public void onSuccess() {
 				super.onSuccess();
-				if (mIndex == 0) {
-					mJianGongList.get(position).isReserve = true;
-				} else {
-					mYanChaoList.get(position).isReserve = true;
-				}
-				mAdapter.notifyDataSetChanged();
+				getData();
 				Toast.makeText(BusActivity.this, R.string.bus_reserve_success, Toast.LENGTH_SHORT)
 						.show();
 			}

@@ -235,18 +235,9 @@ public class BusReservationsActivity extends SilentActivity
 					@Override
 					public void onSuccess() {
 						super.onSuccess();
-						mList.remove(position);
-						mAdapter.notifyDataSetChanged();
+						getData();
 						Toast.makeText(BusReservationsActivity.this,
 								R.string.bus_cancel_reserve_success, Toast.LENGTH_SHORT).show();
-
-						if (modelList.size() == 0) {
-							mListView.setVisibility(View.GONE);
-							mNoReservationLinearLayout.setVisibility(View.VISIBLE);
-						} else {
-							mListView.setVisibility(View.VISIBLE);
-							mNoReservationLinearLayout.setVisibility(View.GONE);
-						}
 					}
 
 					@Override
