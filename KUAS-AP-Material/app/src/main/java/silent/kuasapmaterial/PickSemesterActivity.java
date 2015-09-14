@@ -4,7 +4,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
@@ -50,6 +52,20 @@ public class PickSemesterActivity extends SilentActivity
 		setUpViews();
 	}
 
+	public void setUpToolBar(String title) {
+		toolbar = (Toolbar) findViewById(R.id.toolbar);
+		setSupportActionBar(toolbar);
+		if (getSupportActionBar() != null) {
+			getSupportActionBar().setTitle(title);
+		}
+	}
+
+	@Override
+	public boolean onCreateOptionsMenu(Menu menu) {
+		getMenuInflater().inflate(R.menu.pick_semester_menu, menu);
+		return super.onCreateOptionsMenu(menu);
+	}
+
 	@Override
 	public void finish() {
 		super.finish();
@@ -60,11 +76,18 @@ public class PickSemesterActivity extends SilentActivity
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 		switch (item.getItemId()) {
-			case android.R.id.home:
+			case R.id.cancel:
 				onBackPressed();
 				break;
 		}
 		return false;
+	}
+
+	@Override
+	public void onBackPressed() {
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
+				.setLabel("cancel").build());
+		super.onBackPressed();
 	}
 
 	private void getBundle() {

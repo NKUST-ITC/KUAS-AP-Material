@@ -186,7 +186,6 @@ public class BusActivity extends SilentActivity
 		mSegmentControl.setIndex(mIndex);
 		setUpSegmentColor();
 		setUpPullRefresh();
-		mNoBusTextView.setText(getString(R.string.bus_no_bus, "\uD83D\uDE0B"));
 
 		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
 		mTextView.setOnClickListener(new View.OnClickListener() {
@@ -347,6 +346,11 @@ public class BusActivity extends SilentActivity
 		mListView.setVisibility(View.VISIBLE);
 		int count = mIndex == 0 ? mJianGongList.size() : mYanChaoList.size();
 		if (count == 0) {
+			if (mDate == null || mDate.length() == 0) {
+				mNoBusTextView.setText(getString(R.string.bus_not_pick, "\uD83D\uDE0B"));
+			} else {
+				mNoBusTextView.setText(getString(R.string.bus_no_bus, "\uD83D\uDE0B"));
+			}
 			mNoBusLinearLayout.setVisibility(View.VISIBLE);
 		} else {
 			mNoBusLinearLayout.setVisibility(View.GONE);

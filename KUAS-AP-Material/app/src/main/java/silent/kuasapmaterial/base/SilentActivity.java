@@ -179,6 +179,9 @@ public class SilentActivity extends AppCompatActivity
 									startActivity(
 											new Intent(SilentActivity.this, LoginActivity.class));
 								}
+							} else if (mLayoutID == R.layout.activity_login) {
+								Toast.makeText(SilentActivity.this, R.string.login_first,
+										Toast.LENGTH_SHORT).show();
 							} else {
 								showUserInfo();
 							}
