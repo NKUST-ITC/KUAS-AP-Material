@@ -125,7 +125,7 @@ public class Utils {
 	}
 
 	@SuppressLint("InflateParams")
-	public static AlertDialog createUpdateDialog(final Activity activity) {
+	public static AlertDialog createForceUpdateDialog(final Activity activity) {
 		return new AlertDialog.Builder(activity).setTitle(R.string.update_title)
 				.setMessage(R.string.update_content)
 				.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
@@ -139,6 +139,22 @@ public class Utils {
 						activity.finish();
 					}
 				}).setCancelable(false).create();
+	}
+
+	@SuppressLint("InflateParams")
+	public static AlertDialog createUpdateDialog(final Activity activity) {
+		return new AlertDialog.Builder(activity).setTitle(R.string.update_title)
+				.setMessage(R.string.update_content)
+				.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+					@Override
+					public void onClick(DialogInterface dialog, int which) {
+						if (activity.isFinishing()) {
+							return;
+						}
+						activity.startActivity(new Intent(Intent.ACTION_VIEW,
+								Uri.parse("market://details?id=" + activity.getPackageName())));
+					}
+				}).setNegativeButton(R.string.skip, null).create();
 	}
 
 	public static int[] getSwipeRefreshColors(Context context) {

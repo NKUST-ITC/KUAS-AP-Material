@@ -79,10 +79,10 @@ public class LoginActivity extends SilentActivity
 				String[] currentVersions = version.split("\\.");
 
 				if (Integer.valueOf(serverVersions[0]) > Integer.valueOf(currentVersions[0])) {
-					Utils.createUpdateDialog(LoginActivity.this).show();
+					Utils.createForceUpdateDialog(LoginActivity.this).show();
 				} else if (serverVersions[0].equals(currentVersions[0])) {
 					if (Integer.valueOf(serverVersions[1]) > Integer.valueOf(currentVersions[1])) {
-						Utils.createUpdateDialog(LoginActivity.this).show();
+						Utils.createForceUpdateDialog(LoginActivity.this).show();
 					} else if (serverVersions[1].equals(currentVersions[1])) {
 						if (Integer.valueOf(serverVersions[2]) >
 								Integer.valueOf(currentVersions[2])) {
