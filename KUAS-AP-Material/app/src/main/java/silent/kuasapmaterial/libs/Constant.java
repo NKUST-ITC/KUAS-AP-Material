@@ -26,6 +26,8 @@ public class Constant {
 	public static final String PREF_USER_NAME = "pref_user_name";
 	public static final String PREF_USER_ID = "pref_user_id";
 
+	public static final String PREF_HEAD_PHOTO = "pref_head_photo";
+
 	// Activity request code
 	public static final int REQUEST_BUS_RESERVATIONS = 100;
 	public static final int REQUEST_PICK_SEMESTER = 101;

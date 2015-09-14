@@ -43,7 +43,7 @@
 			android:layout_height="@dimen/head_mycard"
 			android:layout_marginBottom="@dimen/margin_medium"
 			android:scaleType="centerCrop"
-			android:src="@drawable/ic_head_anon"/>
+			android:src="@drawable/ic_account_circle_white_48dp"/>
 
 		<LinearLayout
 			android:layout_width="match_parent"

@@ -62,6 +62,23 @@
 	<string name="update">更新</string>
 	<string name="function_not_open">此功能尚未開放，敬啟期待！</string>
 	<string name="bus_not_pick">您尚未選擇日期！\n請先選擇日期 %s</string>
+	<string name="easter_egg_juke">這不是彩蛋</string>
+
+	<string name="education_system">學制</string>
+	<string name="department">科系</string>
+	<string name="student_class">班級</string>
+	<string name="student_id">學號</string>
+	<string name="student_name_cht">姓名</string>
+
+	<string name="notification_item">通知項目</string>
+	<string name="other_info">其他資訊</string>
+	<string name="other_settings">其他設定</string>
+	<string name="head_photo_setting">顯示大頭貼</string>
+	<string name="course_notify">上課提醒</string>
+	<string name="bus_notify">校車提醒</string>
+	<string name="feedback">回饋意見</string>
+	<string name="feedback_via_facebook">私訊給粉絲專頁</string>
+	<string name="app_version">App 版本</string>
 
 	<string name="about_detail">史上最強高應大校務系統APP\n「高 應 校 務
 		通」\n\n你是新生嗎？\n不知道學校的消息、電話、行事曆嗎？\n你是舊生嗎？\n每次開課表、查成績、定校車都一肚子氣？\n\n沒有問題，以後沒有這種問題了！\n\n高應校務通讓你不管是新手老手，\n從此一手掌握你的高應人生！\n\n從你的手機看課表，成績，缺曠課紀錄！\n加上預定/取消校車，校園消息！\n\n\n\n簡單、方便、直覺！\n\n尊爵、不凡、你，值得擁有。</string>

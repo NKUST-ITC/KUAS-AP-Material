@@ -11,6 +11,7 @@ import android.view.KeyEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -159,6 +160,14 @@ public class LoginActivity extends SilentActivity
 
 		mRememberCheckBox
 				.setChecked(Memory.getBoolean(this, Constant.PREF_REMEMBER_PASSWORD, true));
+		mRememberCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if (!mRememberCheckBox.isChecked()) {
+					Memory.setString(LoginActivity.this, Constant.PREF_PASSWORD, "");
+				}
+			}
+		});
 	}
 
 	@Override
@@ -196,6 +205,17 @@ public class LoginActivity extends SilentActivity
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
+
+				progressDialog.dismiss();
+				mIdTextInputLayout.setError(getString(R.string.check_login_hint));
+				mIdTextInputLayout.setErrorEnabled(true);
+				mPasswordTextInputLayout.setError(getString(R.string.check_login_hint));
+				mPasswordTextInputLayout.setErrorEnabled(true);
+			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
 
 				progressDialog.dismiss();
 				mIdTextInputLayout.setError(getString(R.string.check_login_hint));

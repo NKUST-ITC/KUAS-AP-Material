@@ -13,6 +13,7 @@ import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -20,8 +21,10 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
@@ -206,7 +209,8 @@ public class Utils {
 		// rounded head
 		return new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
-				.showImageOnLoading(R.drawable.ic_head_anon).preProcessor(new BitmapProcessor() {
+				.showImageOnLoading(R.drawable.ic_account_circle_white_48dp)
+				.preProcessor(new BitmapProcessor() {
 
 					public Bitmap process(Bitmap src) {
 						Bitmap result;
@@ -239,5 +243,21 @@ public class Utils {
 			inputManager.hideSoftInputFromWindow(activity.getCurrentFocus().getWindowToken(),
 					InputMethodManager.HIDE_NOT_ALWAYS);
 		}
+	}
+
+	public static Point getDisplayDimen(Context context) {
+		Display display = ((WindowManager) context.getSystemService(Context.WINDOW_SERVICE))
+				.getDefaultDisplay();
+		Point size = new Point();
+		display.getSize(size);
+		return size;
+	}
+
+	public static int getDisplayHeight(Context context) {
+		return getDisplayDimen(context).y;
+	}
+
+	public static int getDisplayWidth(Context context) {
+		return getDisplayDimen(context).x;
 	}
 }

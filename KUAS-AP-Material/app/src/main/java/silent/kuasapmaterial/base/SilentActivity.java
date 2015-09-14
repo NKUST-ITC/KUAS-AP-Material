@@ -40,6 +40,7 @@ import silent.kuasapmaterial.LeaveActivity;
 import silent.kuasapmaterial.LoginActivity;
 import silent.kuasapmaterial.MessagesActivity;
 import silent.kuasapmaterial.ScoreActivity;
+import silent.kuasapmaterial.SettingsActivity;
 import silent.kuasapmaterial.UserInfoActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.UserInfoCallback;
@@ -136,26 +137,33 @@ public class SilentActivity extends AppCompatActivity
 		if (!Memory.getBoolean(this, Constant.PREF_IS_LOGIN, false) || navigationView == null) {
 			return;
 		}
-		mImageLoader = Utils.getDefaultImageLoader(this);
-		String photo = Memory.getString(this, Constant.PREF_USER_PIC, "");
-		if (photo.length() > 0) {
-			mImageLoader.displayImage(photo,
-					(ImageView) navigationView.findViewById(R.id.imageView_user),
-					Utils.getHeadDisplayImageOptions(
-							getResources().getDimensionPixelSize(R.dimen.head_mycard) / 2));
-		} else {
-			Helper.getUserPicture(this, new GeneralCallback() {
+		boolean isSetUpHeadPhoto = Memory.getBoolean(this, Constant.PREF_HEAD_PHOTO, true);
+		if (isSetUpHeadPhoto) {
+			mImageLoader = Utils.getDefaultImageLoader(this);
+			String photo = Memory.getString(this, Constant.PREF_USER_PIC, "");
+			if (photo.length() > 0) {
+				mImageLoader.displayImage(photo,
+						(ImageView) navigationView.findViewById(R.id.imageView_user),
+						Utils.getHeadDisplayImageOptions(
+								getResources().getDimensionPixelSize(R.dimen.head_mycard) / 2));
+			} else {
+				Helper.getUserPicture(this, new GeneralCallback() {
 
-				@Override
-				public void onSuccess(String data) {
-					super.onSuccess(data);
-					Memory.setString(SilentActivity.this, Constant.PREF_USER_PIC, data);
-					mImageLoader.displayImage(data,
-							(ImageView) navigationView.findViewById(R.id.imageView_user),
-							Utils.getHeadDisplayImageOptions(
-									getResources().getDimensionPixelSize(R.dimen.head_mycard) / 2));
-				}
-			});
+					@Override
+					public void onSuccess(String data) {
+						super.onSuccess(data);
+						Memory.setString(SilentActivity.this, Constant.PREF_USER_PIC, data);
+						mImageLoader.displayImage(data,
+								(ImageView) navigationView.findViewById(R.id.imageView_user),
+								Utils.getHeadDisplayImageOptions(
+										getResources().getDimensionPixelSize(R.dimen.head_mycard) /
+												2));
+					}
+				});
+			}
+		} else {
+			((ImageView) navigationView.findViewById(R.id.imageView_user))
+					.setImageResource(R.drawable.ic_account_circle_white_48dp);
 		}
 	}
 
@@ -298,6 +306,7 @@ public class SilentActivity extends AppCompatActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
+		setUpUserPhoto();
 		checkNetwork();
 	}
 
@@ -334,6 +343,8 @@ public class SilentActivity extends AppCompatActivity
 				startActivity(new Intent(this, ScoreActivity.class));
 			} else if (menuItem.getItemId() == R.id.nav_leave) {
 				startActivity(new Intent(this, LeaveActivity.class));
+			} else if (menuItem.getItemId() == R.id.nav_settings) {
+				startActivity(new Intent(this, SettingsActivity.class));
 			}
 			if (mLayoutID != R.layout.activity_logout && mLayoutID != R.layout.activity_login) {
 				finish();

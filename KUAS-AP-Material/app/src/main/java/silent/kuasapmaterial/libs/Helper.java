@@ -160,7 +160,7 @@ public class Helper {
 				if (throwable.getCause() instanceof ConnectTimeoutException) {
 					onHelperTimeOut(callback);
 				} else {
-					onHelperFail(context, callback, statusCode, headers, throwable);
+					onHelperFail(context, callback, statusCode, headers, throwable, responseString);
 				}
 			}
 

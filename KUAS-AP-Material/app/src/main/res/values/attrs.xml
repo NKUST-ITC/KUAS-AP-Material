@@ -34,4 +34,11 @@
 		<attr name="matProg_barWidth" format="dimension"/>
 		<attr name="matProg_linearProgress" format="boolean"/>
 	</declare-styleable>
+
+	<declare-styleable name="OverScrollView">
+		<attr name="oslvMaxOverScrollDistance" format="dimension"/>
+		<attr name="oslvSlowEffect" format="boolean" />
+		<attr name="oslvAnimationTime" format="integer" />
+		<attr name="oslvSlowCoefficient" format="float" />
+	</declare-styleable>
 </resources>

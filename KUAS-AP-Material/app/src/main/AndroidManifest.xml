@@ -13,7 +13,8 @@
 		android:theme="@style/DrawerToolbarAppTheme">
 		<activity
 			android:name="silent.kuasapmaterial.LoginActivity"
-			android:theme="@style/DrawerToolbarAppTheme">
+			android:theme="@style/DrawerToolbarAppTheme"
+			android:windowSoftInputMode="stateHidden">
 			<intent-filter>
 				<action android:name="android.intent.action.MAIN"/>
 
@@ -56,9 +57,13 @@
 		<activity
 			android:name="silent.kuasapmaterial.UserInfoActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
-	    <meta-data
-            android:name="io.fabric.ApiKey"
-            android:value="e15d6071bb62dddcb64d4b3ac3bbc9a870c2b90b" />
-    </application>
+		<activity
+			android:name="silent.kuasapmaterial.SettingsActivity"
+			android:theme="@style/DrawerToolbarAppTheme"/>
+
+		<meta-data
+			android:name="io.fabric.ApiKey"
+			android:value="e15d6071bb62dddcb64d4b3ac3bbc9a870c2b90b"/>
+	</application>
 
 </manifest>
