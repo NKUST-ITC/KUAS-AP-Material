@@ -1,0 +1,307 @@
+<resources>
+	<string name="app_name">高應校務通</string>
+
+	<string name="something_error">發生錯誤</string>
+	<string name="timeout_message">連線逾時，請稍候再試</string>
+	<string name="login_first">請先登入</string>
+	<string name="logout_check">是否要登出？</string>
+	<string name="login">登入系統</string>
+	<string name="dot_ap">校務</string>
+	<string name="dot_leave">缺曠</string>
+	<string name="dot_bus">校車</string>
+	<string name="schedule">行事曆</string>
+	<string name="loading">Loading&#8230;</string>
+	<string name="id_hint">學號</string>
+	<string name="password_hint">密碼</string>
+	<string name="remember_password">記住密碼</string>
+	<string name="version">v.%s</string>
+	<string name="login_ing">登入中&#8230;</string>
+	<string name="call_phone_title">撥出電話</string>
+	<string name="call_phone_content">確定要撥給「%s」？</string>
+	<string name="call_phone">撥出</string>
+	<string name="determine">確定</string>
+	<string name="cancel">取消</string>
+	<string name="add_cal_content">確定要將「%s」新增至行事曆？</string>
+	<string name="click_to_retry">發生錯誤，點擊重試</string>
+	<string name="bus_pick_date">選擇乘車時間：%s</string>
+	<string name="bus_not_pick_date">選擇乘車時間</string>
+	<string name="bus_count" formatted="false">(%s / %s)</string>
+	<string name="bus_jiangong_reservations">到燕巢，發車日期：</string>
+	<string name="bus_yanchao_reservations">到建工，發車日期：</string>
+	<string name="bus_jiangong">到燕巢，發車：</string>
+	<string name="bus_yanchao">到建工，發車：</string>
+	<string name="bus_jiangong_reserved">√ 到燕巢，發車：</string>
+	<string name="bus_yanchao_reserved">√ 到建工，發車：</string>
+	<string name="back">返回</string>
+	<string name="bus_reserve">預定校車</string>
+	<string name="bus_cancel_reserve">取消預定校車</string>
+	<string name="bus_reserve_confirm_title">確定要<b>預定</b>本校車車次？</string>
+	<string name="bus_reserve_confirm_content" formatted="false">要預定從%s\n%s 的校車嗎？</string>
+	<string name="bus_cancel_reserve_confirm_title">確定要<b>取消</b>本校車車次？</string>
+	<string name="bus_cancel_reserve_confirm_content" formatted="false">要取消從%s\n%s 的校車嗎？</string>
+	<string name="bus_from_jiangong">建工到燕巢</string>
+	<string name="bus_from_yanchao">燕巢到建工</string>
+	<string name="bus_reserve_success">預約成功！</string>
+	<string name="bus_cancel_reserve_success">取消預約成功！</string>
+	<string name="bus_no_reservation">Oops！您還沒有預約任何校車喔～\n多多搭乘大眾運輸，節能減碳救地球 %s</string>
+	<string name="bus_no_bus">Oops！本日校車沒上班喔～\n請選擇其他日期 %s</string>
+	<string name="course_no_course">Oops！本學期沒有任何課哦～\n請選擇其他學期 %s</string>
+	<string name="ok">好</string>
+	<string name="course_dialog_messages" formatted="false">課程名稱：%s\n授課老師：%s\n教室位置：%s\n上課時間：%s</string>
+	<string name="course_dialog_title">課程資訊</string>
+	<string name="course_holiday">旋轉橫向即可查看周末課表 %s</string>
+	<string name="no_internet">沒有網路連線，請檢查你的網路</string>
+	<string name="setting_internet">設定網路</string>
+	<string name="score_no_score">Oops！本學期沒有任何成績資料哦～\n請選擇其他學期 %s</string>
+	<string name="leave_night">旋轉橫向即可查看夜間缺曠 %s</string>
+	<string name="leave_no_leave">Oops！本學期沒有任何缺曠課紀錄哦～\n請選擇其他學期 %s</string>
+	<string name="token_expired_title">重新登入</string>
+	<string name="token_expired_content">登入資訊過期，請重新登入！</string>
+	<string name="update_content">高應校務通 在 Google Play 有新版本喲！</string>
+	<string name="update_title">版本更新</string>
+	<string name="update">更新</string>
+	<string name="function_not_open">此功能尚未開放，敬啟期待！</string>
+	<string name="bus_not_pick">您尚未選擇日期！\n請先選擇日期 %s</string>
+	<string name="easter_egg_juke">這不是彩蛋</string>
+	<string name="skip">稍後再說</string>
+
+	<string name="education_system">學制</string>
+	<string name="department">科系</string>
+	<string name="student_class">班級</string>
+	<string name="student_id">學號</string>
+	<string name="student_name_cht">姓名</string>
+
+	<string name="notification_item">通知項目</string>
+	<string name="other_info">其他資訊</string>
+	<string name="other_settings">其他設定</string>
+	<string name="head_photo_setting">顯示大頭貼</string>
+	<string name="course_notify">上課提醒</string>
+	<string name="bus_notify">校車提醒</string>
+	<string name="feedback">回饋意見</string>
+	<string name="feedback_via_facebook">私訊給粉絲專頁</string>
+	<string name="app_version">App 版本</string>
+
+	<string name="about_detail">史上最強高應大校務系統APP\n「高 應 校 務
+		通」\n\n你是新生嗎？\n不知道學校的消息、電話、行事曆嗎？\n你是舊生嗎？\n每次開課表、查成績、定校車都一肚子氣？\n\n沒有問題，以後沒有這種問題了！\n\n高應校務通讓你不管是新手老手，\n從此一手掌握你的高應人生！\n\n從你的手機看課表，成績，缺曠課紀錄！\n加上預定/取消校車，校園消息！\n\n\n\n簡單、方便、直覺！\n\n尊爵、不凡、你，值得擁有。</string>
+	<string name="about_author_title">作者群</string>
+	<string name="about_author_content">呂紹榕(Louie Lu), 姜尚德(JohnThunder), \nregisterAutumn, 詹濬鍵(Evans), \n陳建霖(HearSilent)</string>
+	<string name="about_us">「不要問為何沒有人做這個，\n先承認你就是『沒有人』」。\n因為，「沒有人」是萬能的。\n\n因為沒有人做這些，所以我們跳下來做。\n先後完成了高應無線通、高應校務通，到後來的高應美食通、模擬選課等等.......\n無非是希望帶給大家更便利的校園生活！</string>
+	<string name="about_recruit_title">We Need You !</string>
+	<string name="about_recruit_content">如果你是 Objective-C、Swift 高手，或是 Java 神手，又或是對 Coding
+		充滿著熱誠！\n\n歡迎私訊我們粉絲專頁！\n你的程式碼將有機會出現在周遭同學的手中～</string>
+	<string name="about_itc_content">在103學年度，\n我們也成立了高應大資訊研習社！\n\n如果你對資訊有熱誠或是對我們作品有興趣，歡迎來社課或是講座，也可以來找我們聊聊天。</string>
+	<string name="about_itc_title">高應資研社</string>
+	<string name="about_contact_us">聯繫我們</string>
+	<string name="about_open_source_title">開放原始碼授權</string>
+	<string name="about_open_source_content">https://github.com/hearsilent/KUAS-AP-Material\n\n本專案採
+		MIT 開放原始碼授權：\nThe MIT License (MIT)\n\nCopyright &#169; 2015 HearSilent\n\nPermission is
+		hereby granted, free of charge, to any person obtaining a copy of this software and
+		associated documentation files (the "Software"), to deal in the Software without
+		restriction, including without limitation the rights to use, copy, modify, merge,
+		publish, distribute, sublicense, and/or sell copies of the Software, and to permit
+		persons to whom the Software is furnished to do so, subject to the following
+		conditions:\n\nThe above copyright notice and this permission notice shall be included in
+		all copies or substantial portions of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS",
+		WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE
+		WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN
+		NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
+		IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</string>
+
+	<string name="open_drawer">打開功能表</string>
+	<string name="close_drawer">打開功能表</string>
+
+	<string name="news">最新消息</string>
+	<string name="offline_course">離線課表</string>
+	<string name="course">學期課表</string>
+	<string name="score">學期成績</string>
+	<string name="leave">缺曠系統</string>
+	<string name="bus">校車系統</string>
+	<string name="simcourse">模擬選課</string>
+	<string name="messages">校園資訊</string>
+	<string name="user">個人資訊</string>
+	<string name="about">關於我們</string>
+	<string name="settings">設定</string>
+	<string name="guest">訪客</string>
+	<string name="tap_here_to_login">點擊登入</string>
+	<string name="pick_semester">選擇學期</string>
+
+	<string name="enter_username_hint">請輸入帳號</string>
+	<string name="enter_password_hint">請輸入密碼</string>
+	<string name="check_login_hint">請檢查帳號密碼</string>
+
+	<string name="bus_segment">從建工出發的車次|從燕巢出發的車次</string>
+
+	<array name="messages">
+		<item>最新消息</item>
+		<item>常用電話</item>
+		<item>行事曆</item>
+	</array>
+
+	<string name="lorem_title">Lorem ipsum</string>
+	<string name="lorem_sentence">Lorem ipsum dolor sit amet.</string>
+	<string name="lorem_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+	<string name="lorem_number">123</string>
+	<string name="lorem_date">2015&#8211;09&#8211;06</string>
+	<string name="lorem_time">09:20</string>
+	<string name="lorem_bus_count">(1 / 999)</string>
+	<string name="lorem_phone">(01) 234&#8211;5678</string>
+	<string name="lorem_semester">104學年度第1學期</string>
+
+	<array name="course_sections">
+		<item>M</item>
+		<item>第 1 節</item>
+		<item>第 2 節</item>
+		<item>第 3 節</item>
+		<item>第 4 節</item>
+		<item>A</item>
+		<item>第 5 節</item>
+		<item>第 6 節</item>
+		<item>第 7 節</item>
+		<item>第 8 節</item>
+		<item>B</item>
+		<item>第 11 節</item>
+		<item>第 12 節</item>
+		<item>第 13 節</item>
+		<item>第 14 節</item>
+	</array>
+	<array name="course_weekdays">
+		<item>Monday</item>
+		<item>Tuesday</item>
+		<item>Wednesday</item>
+		<item>Thursday</item>
+		<item>Friday</item>
+		<item>Saturday</item>
+		<item>Sunday</item>
+	</array>
+
+	<array name="leave_sections">
+		<item>A</item>
+		<item>"1"</item>
+		<item>"2"</item>
+		<item>"3"</item>
+		<item>"4"</item>
+		<item>B</item>
+		<item>"5"</item>
+		<item>"6"</item>
+		<item>"7"</item>
+		<item>"8"</item>
+	</array>
+	<array name="leave_night_sections">
+		<item>A</item>
+		<item>"1"</item>
+		<item>"2"</item>
+		<item>"3"</item>
+		<item>"4"</item>
+		<item>B</item>
+		<item>"5"</item>
+		<item>"6"</item>
+		<item>"7"</item>
+		<item>"8"</item>
+		<item>C</item>
+		<item>"11"</item>
+		<item>"12"</item>
+		<item>"13"</item>
+		<item>"14"</item>
+	</array>
+	<array name="leave_sections_fixed">
+		<item>日期</item>
+		<item>M</item>
+		<item>"1"</item>
+		<item>"2"</item>
+		<item>"3"</item>
+		<item>"4"</item>
+		<item>A</item>
+		<item>"5"</item>
+		<item>"6"</item>
+		<item>"7"</item>
+		<item>"8"</item>
+	</array>
+	<array name="leave_night_sections_fixed">
+		<item>日期</item>
+		<item>M</item>
+		<item>"1"</item>
+		<item>"2"</item>
+		<item>"3"</item>
+		<item>"4"</item>
+		<item>A</item>
+		<item>"5"</item>
+		<item>"6"</item>
+		<item>"7"</item>
+		<item>"8"</item>
+		<item>B</item>
+		<item>"11"</item>
+		<item>"12"</item>
+		<item>"13"</item>
+		<item>"14"</item>
+	</array>
+
+	<array name="easter_egg">
+		<item>你是 Objective-C 高手嗎？</item>
+		<item>莫非你是 Swift 高手？</item>
+		<item>難道是 Java 神手？</item>
+		<item>別再戳我啦，趕快來資研社社課吧！</item>
+		<item>還等什麼，快來參加資研社講座吧！</item>
+		<item>John黑黑der</item>
+		<item>你聽過Lu嗎？他是傳說中的高應戰神！</item>
+	</array>
+
+	<array name="score_sections">
+		<item>科目</item>
+		<item>期中成績</item>
+		<item>學期成績</item>
+	</array>
+	<array name="score_detail_sections">
+		<item>操行成績：</item>
+		<item>總平均：</item>
+		<item>班名次/班人數：</item>
+		<item>班名次百分比：</item>
+	</array>
+
+	<!--Open Source Project-->
+	<string name="open_source_android">Android</string>
+	<string name="open_source_android_content">https://source.android.com/\n\nCopyright &#169; 
+		2006-2011 Android Open Source
+		Project.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not
+		use this file except in compliance with the License. You may obtain a copy of the License
+		at:\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="open_source_android_async_http">Asynchronous Http Client for Android</string>
+	<string
+		name="open_source_android_async_http_content">https://github.com/loopj/android-async-http\n\nCopyright &#169; 2011 James Smith
+		(james@loopj.com)\nhttps://loopj.com\n\nLicensed under the Apache License, Version 2.0
+		(the "License"); you may not use this file except in compliance with the License. You may
+		obtain a copy of the License at\n\nhttps://www.apache.org/licenses/LICENSE-2.0\n\nUnless
+		required by applicable law or agreed to in writing, software distributed under the
+		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
+		either express or implied. See the License for the specific language governing
+		permissions and limitations under the License.</string>
+	<string name="open_source_gson">Gson</string>
+	<string name="open_source_gson_content">https://github.com/google/gson\n\nCopyright 2008 Google
+		Inc.\n\nLicensed under the Apache
+		License, Version 2.0 (the "License"); you may not use this file except in compliance with
+		the License. You may obtain a copy of the License
+		at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or
+		agreed to in writing, software distributed under the License is distributed on an "AS IS"
+		BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+		License for the specific language governing permissions and limitations under the
+		License.</string>
+	<string name="open_source_materialdatetimepicker">Material DateTime Picker</string>
+	<string name="open_source_materialdatetimepicker_content">https://github.com/wdullaer/MaterialDateTimePicker\n\nCopyright &#169; 2015 Wouter Dullaert\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="open_source_pinned_section_listview">Pinned Section ListView</string>
+	<string name="open_source_pinned_section_listview_content">https://github.com/beworker/pinned&#8211;section&#8211;listview\n\nCopyright 2013&#8211;2014 Sergej Shafarenka, halfbit.de\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+	<string name="open_source_progresswheel">Progress Wheel</string>
+	<string name="open_source_progresswheel_content">https://github.com/Todd-Davies/ProgressWheel
+		\n\nThe MIT License (MIT)\n\nCopyright &#169; 2015 Todd Davies\n\nPermission is hereby
+		granted, free of charge, to any person obtaining a copy of this software and associated
+		documentation files (the "Software"), to deal in the Software without restriction,
+		including without limitation the rights to use, copy, modify, merge, publish, distribute,
+		sublicense, and/or sell copies of the Software, and to permit persons to whom the
+		Software is furnished to do so, subject to the following conditions:\n\nThe above copyright
+		notice and this permission notice shall be included in all copies or substantial portions
+		of the Software.\n\nTHE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+		EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+		FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR
+		COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
+		ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+		SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</string>
+</resources>

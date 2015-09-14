@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/app_bg"
+	android:padding="@dimen/margin_medium">
+
+	<TextView
+		android:id="@+id/textView_author"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentLeft="true"
+		android:layout_below="@+id/textView_content"
+		android:layout_marginTop="@dimen/margin_small"
+		android:textColor="@color/black_text_secondary"
+		android:textSize="@dimen/text_action"
+		tools:text="@string/lorem_title"/>
+
+	<TextView
+		android:id="@+id/textView_content"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:lineSpacingMultiplier="1.3"
+		android:textColor="@color/black_text"
+		android:textSize="@dimen/text_subhead"
+		android:textStyle="bold"
+		tools:text="@string/lorem_paragraph"/>
+
+	<TextView
+		android:id="@+id/textView_date"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_alignParentRight="true"
+		android:layout_below="@+id/textView_content"
+		android:layout_marginTop="@dimen/margin_small"
+		android:textColor="@color/black_text_secondary"
+		android:textSize="@dimen/text_action"
+		tools:text="@string/lorem_date"/>
+</RelativeLayout>

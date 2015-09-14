@@ -1,0 +1,42 @@
+<LinearLayout
+	android:id="@+id/linearLayout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:background="@color/blue_600"
+	android:gravity="center"
+	android:orientation="vertical"
+	android:padding="@dimen/margin_medium">
+
+	<TextView
+		android:id="@+id/textView_location"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:textColor="@color/white_text"
+		android:textSize="@dimen/text_action"
+		tools:text="@string/bus_jiangong_reservations"/>
+
+	<LinearLayout
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:layout_marginTop="@dimen/margin_xsmall">
+
+		<TextView
+			android:id="@+id/textView_date"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:textColor="@color/white_text"
+			android:textSize="@dimen/text_title"
+			tools:text="@string/lorem_date"/>
+
+		<TextView
+			android:id="@+id/textView_time"
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_marginLeft="@dimen/margin_small"
+			android:textColor="@color/white_text"
+			android:textSize="@dimen/text_display_1"
+			tools:text="@string/lorem_time"/>
+	</LinearLayout>
+</LinearLayout>

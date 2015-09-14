@@ -1,0 +1,264 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.DrawerLayout
+	android:id="@+id/drawer_layout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:segmentcontrol="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	xmlns:wheel="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/app_bg"
+	android:fitsSystemWindows="true">
+
+	<LinearLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:background="@color/app_bg"
+		android:gravity="center_horizontal"
+		android:orientation="vertical">
+
+		<android.support.design.widget.AppBarLayout
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:layout_weight="0">
+
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				android:layout_gravity="top"
+				android:background="?attr/colorPrimary"
+				app:popupTheme="@style/ThemeOverlay.AppCompat.Light"
+				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+		</android.support.design.widget.AppBarLayout>
+
+		<ScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="?android:windowContentOverlay">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="wrap_content"
+				android:divider="?android:attr/listDivider"
+				android:orientation="vertical"
+				android:paddingLeft="@dimen/margin_responsive"
+				android:paddingRight="@dimen/margin_responsive"
+				android:showDividers="middle">
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:fontFamily="sans-serif-medium"
+						android:paddingLeft="@dimen/margin_medium"
+						android:paddingRight="@dimen/margin_medium"
+						android:paddingTop="@dimen/margin_medium"
+						android:text="@string/notification_item"
+						android:textColor="@color/main_theme"
+						android:textSize="@dimen/text_body_1"/>
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:paddingBottom="@dimen/margin_small"
+						android:paddingTop="@dimen/margin_small">
+
+						<RelativeLayout
+							android:id="@+id/view_course_notify"
+							android:layout_width="match_parent"
+							android:layout_height="@dimen/list_single_line_tile_height"
+							android:background="?attr/selectableItemBackground"
+							android:paddingLeft="@dimen/margin_medium"
+							android:paddingRight="@dimen/margin_medium">
+
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_centerVertical="true"
+								android:text="@string/course_notify"
+								android:textColor="@color/black_text"
+								android:textSize="@dimen/text_subhead"/>
+
+							<android.support.v7.widget.SwitchCompat
+								android:id="@+id/switch_course_notify"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentRight="true"
+								android:layout_centerVertical="true"
+								android:background="@color/transparent"
+								android:clickable="false"
+								android:focusable="false"/>
+						</RelativeLayout>
+
+						<RelativeLayout
+							android:id="@+id/view_bus_notify"
+							android:layout_width="match_parent"
+							android:layout_height="@dimen/list_single_line_tile_height"
+							android:background="?attr/selectableItemBackground"
+							android:paddingLeft="@dimen/margin_medium"
+							android:paddingRight="@dimen/margin_medium">
+
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_centerVertical="true"
+								android:text="@string/bus_notify"
+								android:textColor="@color/black_text"
+								android:textSize="@dimen/text_subhead"/>
+
+							<android.support.v7.widget.SwitchCompat
+								android:id="@+id/switch_bus_notify"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentRight="true"
+								android:layout_centerVertical="true"
+								android:background="@color/transparent"
+								android:clickable="false"
+								android:focusable="false"/>
+						</RelativeLayout>
+					</LinearLayout>
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:fontFamily="sans-serif-medium"
+						android:paddingLeft="@dimen/margin_medium"
+						android:paddingRight="@dimen/margin_medium"
+						android:paddingTop="@dimen/margin_medium"
+						android:text="@string/other_settings"
+						android:textColor="@color/main_theme"
+						android:textSize="@dimen/text_body_1"/>
+
+					<LinearLayout
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:orientation="vertical"
+						android:paddingBottom="@dimen/margin_small"
+						android:paddingTop="@dimen/margin_small">
+
+						<RelativeLayout
+							android:id="@+id/view_head_photo"
+							android:layout_width="match_parent"
+							android:layout_height="@dimen/list_single_line_tile_height"
+							android:background="?attr/selectableItemBackground"
+							android:paddingLeft="@dimen/margin_medium"
+							android:paddingRight="@dimen/margin_medium">
+
+							<TextView
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_centerVertical="true"
+								android:text="@string/head_photo_setting"
+								android:textColor="@color/black_text"
+								android:textSize="@dimen/text_subhead"/>
+
+							<android.support.v7.widget.SwitchCompat
+								android:id="@+id/switch_head_photo"
+								android:layout_width="wrap_content"
+								android:layout_height="wrap_content"
+								android:layout_alignParentRight="true"
+								android:layout_centerVertical="true"
+								android:background="@color/transparent"
+								android:clickable="false"
+								android:focusable="false"/>
+						</RelativeLayout>
+					</LinearLayout>
+				</LinearLayout>
+
+				<LinearLayout
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:orientation="vertical">
+
+					<TextView
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content"
+						android:fontFamily="sans-serif-medium"
+						android:paddingLeft="@dimen/margin_medium"
+						android:paddingRight="@dimen/margin_medium"
+						android:paddingTop="@dimen/margin_medium"
+						android:text="@string/other_info"
+						android:textColor="@color/main_theme"
+						android:textSize="@dimen/text_body_1"/>
+
+					<LinearLayout
+						android:id="@+id/view_feedback"
+						android:layout_width="match_parent"
+						android:layout_height="@dimen/list_two_line_tile_height"
+						android:layout_marginTop="@dimen/margin_small"
+						android:background="?attr/selectableItemBackground"
+						android:gravity="center_vertical"
+						android:orientation="vertical"
+						android:paddingLeft="@dimen/margin_medium"
+						android:paddingRight="@dimen/margin_medium">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/feedback"
+							android:textColor="@color/black_text"
+							android:textSize="@dimen/text_subhead"/>
+
+						<TextView
+							android:id="@+id/textView_feedback"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="4dp"
+							android:text="@string/feedback_via_facebook"
+							android:textColor="@color/black_text_secondary"/>
+					</LinearLayout>
+
+					<LinearLayout
+						android:id="@+id/view_app_version"
+						android:layout_width="match_parent"
+						android:layout_height="@dimen/list_two_line_tile_height"
+						android:layout_marginBottom="@dimen/margin_small"
+						android:background="?attr/selectableItemBackground"
+						android:gravity="center_vertical"
+						android:orientation="vertical"
+						android:paddingLeft="@dimen/margin_medium"
+						android:paddingRight="@dimen/margin_medium">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/app_version"
+							android:textColor="@color/black_text"
+							android:textSize="@dimen/text_subhead"/>
+
+						<TextView
+							android:id="@+id/textView_app_version"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="4dp"
+							android:textColor="@color/black_text_secondary"
+							tools:text="@string/lorem_title"/>
+					</LinearLayout>
+				</LinearLayout>
+			</LinearLayout>
+		</ScrollView>
+	</LinearLayout>
+
+	<android.support.design.widget.NavigationView
+		android:id="@+id/nav_view"
+		android:layout_width="wrap_content"
+		android:layout_height="match_parent"
+		android:layout_gravity="start"
+		android:background="#ffffffff"
+		android:fitsSystemWindows="true"
+		app:headerLayout="@layout/drawer_header"
+		app:menu="@menu/drawer_menu"/>
+</android.support.v4.widget.DrawerLayout>

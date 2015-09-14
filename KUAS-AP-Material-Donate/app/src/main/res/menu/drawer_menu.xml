@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+	<group android:checkableBehavior="single">
+		<item
+			android:id="@+id/nav_course"
+			android:icon="@drawable/ic_class_white_24dp"
+			android:title="@string/course"/>
+		<item
+			android:id="@+id/nav_score"
+			android:icon="@drawable/ic_assignment_white_24dp"
+			android:title="@string/score"/>
+		<item
+			android:id="@+id/nav_leave"
+			android:icon="@drawable/ic_event_white_24dp"
+			android:title="@string/leave"/>
+		<item
+			android:id="@+id/nav_bus"
+			android:icon="@drawable/ic_directions_bus_white_24dp"
+			android:title="@string/bus"/>
+		<item
+			android:id="@+id/nav_simcourse"
+			android:icon="@drawable/ic_star_white_24dp"
+			android:title="@string/simcourse"
+			android:visible="false"/>
+		<item
+			android:id="@+id/nav_messages"
+			android:icon="@drawable/ic_info_white_24dp"
+			android:title="@string/messages"/>
+		<item
+			android:id="@+id/nav_about"
+			android:icon="@drawable/ic_code_white_24dp"
+			android:title="@string/about"/>
+		<item
+			android:id="@+id/nav_settings"
+			android:icon="@drawable/ic_settings_white_24dp"
+			android:title="@string/settings"/>
+	</group>
+</menu>

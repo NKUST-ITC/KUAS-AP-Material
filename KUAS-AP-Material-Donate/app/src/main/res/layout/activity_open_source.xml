@@ -1,0 +1,232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ~ Copyright (c) 2015. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
+  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
+  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
+  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
+  -->
+
+<android.support.v4.widget.DrawerLayout
+	android:id="@+id/drawer_layout"
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:card_view="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:background="@color/app_bg"
+	android:fitsSystemWindows="true">
+
+	<android.support.design.widget.CoordinatorLayout
+		android:layout_width="match_parent"
+		android:layout_height="match_parent">
+
+		<android.support.design.widget.AppBarLayout
+			android:id="@+id/app_bar"
+			android:layout_width="match_parent"
+			android:layout_height="?attr/actionBarSize"
+			android:fitsSystemWindows="true"
+			android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+			<android.support.v7.widget.Toolbar
+				android:id="@+id/toolbar"
+				android:layout_width="match_parent"
+				android:layout_height="?attr/actionBarSize"
+				app:layout_collapseMode="pin"
+				app:popupTheme="@style/ThemeOverlay.AppCompat.Light"/>
+		</android.support.design.widget.AppBarLayout>
+
+		<android.support.v4.widget.NestedScrollView
+			android:layout_width="match_parent"
+			android:layout_height="match_parent"
+			android:background="?android:windowContentOverlay"
+			app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+			<LinearLayout
+				android:layout_width="match_parent"
+				android:layout_height="match_parent"
+				android:orientation="vertical">
+
+				<android.support.v7.widget.CardView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/card_margin"
+					card_view:cardElevation="5dp">
+
+					<LinearLayout
+						style="@style/Widget.CardContent"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="@string/open_source_android"
+							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
+							android:lineSpacingMultiplier="1.3"
+							android:text="@string/open_source_android_content"
+							android:textColor="@color/black_text_secondary"
+							android:textSize="@dimen/text_action"/>
+
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+
+				<android.support.v7.widget.CardView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/card_margin"
+					card_view:cardElevation="5dp">
+
+					<LinearLayout
+						style="@style/Widget.CardContent"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="@string/open_source_android_async_http"
+							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
+							android:lineSpacingMultiplier="1.3"
+							android:text="@string/open_source_android_async_http_content"
+							android:textColor="@color/black_text_secondary"
+							android:textSize="@dimen/text_action"/>
+
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+
+				<android.support.v7.widget.CardView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/card_margin"
+					card_view:cardElevation="5dp">
+
+					<LinearLayout
+						style="@style/Widget.CardContent"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="@string/open_source_gson"
+							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
+							android:lineSpacingMultiplier="1.3"
+							android:text="@string/open_source_gson_content"
+							android:textColor="@color/black_text_secondary"
+							android:textSize="@dimen/text_action"/>
+
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+
+				<android.support.v7.widget.CardView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/card_margin"
+					card_view:cardElevation="5dp">
+
+					<LinearLayout
+						style="@style/Widget.CardContent"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="@string/open_source_materialdatetimepicker"
+							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
+							android:lineSpacingMultiplier="1.3"
+							android:text="@string/open_source_materialdatetimepicker_content"
+							android:textColor="@color/black_text_secondary"
+							android:textSize="@dimen/text_action"/>
+
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+
+				<android.support.v7.widget.CardView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/card_margin"
+					card_view:cardElevation="5dp">
+
+					<LinearLayout
+						style="@style/Widget.CardContent"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="@string/open_source_pinned_section_listview"
+							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
+							android:lineSpacingMultiplier="1.3"
+							android:text="@string/open_source_pinned_section_listview_content"
+							android:textColor="@color/black_text_secondary"
+							android:textSize="@dimen/text_action"/>
+
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+
+				<android.support.v7.widget.CardView
+					android:layout_width="match_parent"
+					android:layout_height="wrap_content"
+					android:layout_margin="@dimen/card_margin"
+					card_view:cardElevation="5dp">
+
+					<LinearLayout
+						style="@style/Widget.CardContent"
+						android:layout_width="match_parent"
+						android:layout_height="wrap_content">
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:text="@string/open_source_progresswheel"
+							android:textAppearance="@style/TextAppearance.AppCompat.Title"/>
+
+						<TextView
+							android:layout_width="match_parent"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="@dimen/margin_small"
+							android:autoLink="web|email"
+							android:lineSpacingMultiplier="1.3"
+							android:text="@string/open_source_progresswheel_content"
+							android:textColor="@color/black_text_secondary"
+							android:textSize="@dimen/text_action"/>
+
+					</LinearLayout>
+				</android.support.v7.widget.CardView>
+			</LinearLayout>
+		</android.support.v4.widget.NestedScrollView>
+	</android.support.design.widget.CoordinatorLayout>
+</android.support.v4.widget.DrawerLayout>

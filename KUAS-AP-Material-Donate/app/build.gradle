@@ -20,7 +20,7 @@ android {
     buildToolsVersion "22.0.1"
 
     defaultConfig {
-        applicationId "com.kuas.ap"
+        applicationId "com.kuas.ap.donate"
         minSdkVersion 14
         targetSdkVersion 22
         versionCode 20101
