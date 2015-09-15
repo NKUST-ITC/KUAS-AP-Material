@@ -86,7 +86,12 @@ public class LoginActivity extends SilentActivity
 					} else if (serverVersions[1].equals(currentVersions[1])) {
 						if (Integer.valueOf(serverVersions[2]) >
 								Integer.valueOf(currentVersions[2])) {
-							Utils.createUpdateDialog(LoginActivity.this).show();
+							if (Integer.valueOf(serverVersions[2]) -
+									Integer.valueOf(currentVersions[2]) >= 5) {
+								Utils.createForceUpdateDialog(LoginActivity.this).show();
+							} else {
+								Utils.createUpdateDialog(LoginActivity.this).show();
+							}
 						}
 					}
 				}

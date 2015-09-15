@@ -105,10 +105,10 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 			mTracker.send(new HitBuilders.EventBuilder().setCategory("feedback").setAction("click")
 					.build());
 			try {
-				Uri uri = Uri.parse("fb://messaging/735951703168873");
+				Uri uri = Uri.parse("fb://messaging/954175941266264");
 				startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			} catch (ActivityNotFoundException e) {
-				Uri uri = Uri.parse("https://www.facebook.com/messages/735951703168873");
+				Uri uri = Uri.parse("https://www.facebook.com/messages/954175941266264");
 				startActivity(new Intent(Intent.ACTION_VIEW, uri));
 			}
 		} else if (v == mAppVersionView) {
