@@ -42,6 +42,7 @@
 				android:id="@+id/linearLayout_no_reservation"
 				android:layout_width="match_parent"
 				android:layout_height="match_parent"
+				android:layout_margin="@dimen/margin_medium"
 				android:gravity="center"
 				android:orientation="vertical"
 				android:visibility="gone">

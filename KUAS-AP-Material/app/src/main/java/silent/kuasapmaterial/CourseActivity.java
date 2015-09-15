@@ -12,13 +12,11 @@ import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.kuas.ap.R;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kuas.ap.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -50,6 +48,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	SemesterModel mSelectedModel;
 	private int mPos = 0;
 	private boolean isHoliday, isNight, isHolidayNight, isB, isHolidayB;
+	boolean isRetry = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -80,6 +79,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			isHolidayNight = savedInstanceState.getBoolean("isHolidayNight");
 			isB = savedInstanceState.getBoolean("isB");
 			isHolidayB = savedInstanceState.getBoolean("isHolidayB");
+			isRetry = savedInstanceState.getBoolean("isRetry");
 
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
@@ -113,6 +113,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		outState.putBoolean("isHolidayNight", isHolidayNight);
 		outState.putBoolean("isB", isB);
 		outState.putBoolean("isHolidayB", isHolidayB);
+		outState.putBoolean("isRetry", isRetry);
 		if (mScrollView != null) {
 			outState.putInt("mPos", mScrollView.getVerticalScrollbarPosition());
 		}
@@ -162,7 +163,8 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
-				Toast.makeText(CourseActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+				isRetry = true;
+				setUpCourseTable();
 			}
 		});
 	}
@@ -181,7 +183,6 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 
 	private void setUpViews() {
 		setUpPullRefresh();
-		mNoCourseTextView.setText(getString(R.string.course_no_course, "\uD83D\uDE0B"));
 		mHolidayTextView.setText(getString(R.string.course_holiday, "\uD83D\uDE06"));
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
@@ -208,13 +209,24 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		mNoCourseLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mTracker.send(
-						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
-								.build());
-				Intent intent = new Intent(CourseActivity.this, PickSemesterActivity.class);
-				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
-				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
-				startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
+				if (isRetry) {
+					mTracker.send(
+							new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
+									.setLabel((mSemesterList == null) + "").build());
+					isRetry = false;
+					if (mSemesterList == null) {
+						getSemester();
+					} else {
+						getData();
+					}
+				} else {
+					mTracker.send(new HitBuilders.EventBuilder().setCategory("pick yms")
+							.setAction("click").build());
+					Intent intent = new Intent(CourseActivity.this, PickSemesterActivity.class);
+					intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
+					intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
+					startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
+				}
 			}
 		});
 
@@ -267,10 +279,8 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 						super.onFail(errorMessage);
 
 						mList.clear();
-						mProgressWheel.setVisibility(View.GONE);
-						mSwipeRefreshLayout.setEnabled(true);
-						mNoCourseLinearLayout.setVisibility(View.VISIBLE);
-						mSwipeRefreshLayout.setRefreshing(false);
+						isRetry = true;
+						setUpCourseTable();
 						mPickYmsView.setEnabled(true);
 					}
 
@@ -293,11 +303,17 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 
 		mScrollView.removeAllViews();
 		if (mList.size() == 0) {
+			if (isRetry) {
+				mNoCourseTextView.setText(R.string.click_to_retry);
+			} else {
+				mNoCourseTextView.setText(getString(R.string.course_no_course, "\uD83D\uDE0B"));
+			}
 			mProgressWheel.setVisibility(View.GONE);
 			mSwipeRefreshLayout.setEnabled(true);
 			mSwipeRefreshLayout.setRefreshing(false);
 			mNoCourseLinearLayout.setVisibility(View.VISIBLE);
 			mScrollView.setVisibility(View.VISIBLE);
+			mHolidayTextView.setVisibility(View.GONE);
 			return;
 		} else {
 			mNoCourseLinearLayout.setVisibility(View.GONE);

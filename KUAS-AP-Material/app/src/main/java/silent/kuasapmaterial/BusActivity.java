@@ -59,6 +59,7 @@ public class BusActivity extends SilentActivity
 	private int mInitListPos = 0, mInitListOffset = 0, mIndex = 0;
 	BusAdapter mAdapter;
 	ListScrollDistanceCalculator mListScrollDistanceCalculator;
+	boolean isRetry = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +87,7 @@ public class BusActivity extends SilentActivity
 			mIndex = savedInstanceState.getInt("mIndex");
 			mInitListPos = savedInstanceState.getInt("mInitListPos");
 			mInitListOffset = savedInstanceState.getInt("mInitListOffset");
+			isRetry = savedInstanceState.getBoolean("isRetry");
 
 			if (savedInstanceState.containsKey("mJianGongList")) {
 				mJianGongList = new Gson().fromJson(savedInstanceState.getString("mJianGongList"),
@@ -115,6 +117,7 @@ public class BusActivity extends SilentActivity
 
 		outState.putString("mDate", mDate);
 		outState.putInt("mIndex", mIndex);
+		outState.putBoolean("isRetry", isRetry);
 		if (mListView != null) {
 			outState.putInt("mInitListPos", mListView.getFirstVisiblePosition());
 			View vNewTop = mListView.getChildAt(0);
@@ -200,10 +203,17 @@ public class BusActivity extends SilentActivity
 		mNoBusLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mTracker.send(
-						new HitBuilders.EventBuilder().setCategory("pick date").setAction("click")
-								.build());
-				showDatePickerDialog();
+				if (isRetry) {
+					mTracker.send(
+							new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
+									.build());
+					isRetry = false;
+					getData();
+				} else {
+					mTracker.send(new HitBuilders.EventBuilder().setCategory("pick date")
+									.setAction("click").build());
+					showDatePickerDialog();
+				}
 			}
 		});
 
@@ -224,6 +234,7 @@ public class BusActivity extends SilentActivity
 		mTracker.send(
 				new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe").build());
 		mSwipeRefreshLayout.setRefreshing(true);
+		isRetry = false;
 		getData();
 	}
 
@@ -274,6 +285,7 @@ public class BusActivity extends SilentActivity
 
 				mJianGongList.clear();
 				mYanChaoList.clear();
+				isRetry = true;
 				setUpListView();
 				mAdapter.notifyDataSetChanged();
 
@@ -346,7 +358,9 @@ public class BusActivity extends SilentActivity
 		mListView.setVisibility(View.VISIBLE);
 		int count = mIndex == 0 ? mJianGongList.size() : mYanChaoList.size();
 		if (count == 0) {
-			if (mDate == null || mDate.length() == 0) {
+			if (isRetry) {
+				mNoBusTextView.setText(R.string.click_to_retry);
+			} else if (mDate == null || mDate.length() == 0) {
 				mNoBusTextView.setText(getString(R.string.bus_not_pick, "\uD83D\uDE0B"));
 			} else {
 				mNoBusTextView.setText(getString(R.string.bus_no_bus, "\uD83D\uDE0B"));

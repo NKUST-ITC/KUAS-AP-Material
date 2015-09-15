@@ -46,7 +46,7 @@ public class BusReservationsActivity extends SilentActivity
 	List<BusModel> mList;
 	private int mInitListPos = 0, mInitListOffset = 0;
 	BusAdapter mAdapter;
-	boolean isRefresh = false;
+	boolean isRefresh = false, isRetry = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -132,7 +132,18 @@ public class BusReservationsActivity extends SilentActivity
 		mListView.setAdapter(mAdapter);
 
 		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
-		mNoReservationTextView.setText(getString(R.string.bus_no_reservation, "\uD83D\uDE06"));
+		mNoReservationLinearLayout.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				if (isRetry) {
+					mTracker.send(
+							new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
+									.build());
+					isRetry = false;
+					getData();
+				}
+			}
+		});
 		setUpPullRefresh();
 
 		if (mList.size() > 0) {
@@ -174,6 +185,8 @@ public class BusReservationsActivity extends SilentActivity
 				mAdapter.notifyDataSetChanged();
 
 				if (modelList.size() == 0) {
+					mNoReservationTextView
+							.setText(getString(R.string.bus_no_reservation, "\uD83D\uDE06"));
 					mNoReservationLinearLayout.setVisibility(View.VISIBLE);
 				} else {
 					mNoReservationLinearLayout.setVisibility(View.GONE);
@@ -187,8 +200,11 @@ public class BusReservationsActivity extends SilentActivity
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
 
+				isRetry = true;
+
 				mListView.setVisibility(View.VISIBLE);
 				mProgressWheel.setVisibility(View.GONE);
+				mNoReservationTextView.setText(R.string.click_to_retry);
 				mNoReservationLinearLayout.setVisibility(View.VISIBLE);
 				mList.clear();
 				mAdapter.notifyDataSetChanged();
