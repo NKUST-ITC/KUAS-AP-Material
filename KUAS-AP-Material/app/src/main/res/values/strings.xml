@@ -64,6 +64,8 @@
 	<string name="bus_not_pick">您尚未選擇日期！\n請先選擇日期 %s</string>
 	<string name="easter_egg_juke">這不是彩蛋</string>
 	<string name="skip">稍後再說</string>
+	<string name="share_to">分享至…</string>
+	<string name="send_from">Send from 高應校務通 Android</string>
 
 	<string name="education_system">學制</string>
 	<string name="department">科系</string>
