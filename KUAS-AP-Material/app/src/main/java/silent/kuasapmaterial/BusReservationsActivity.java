@@ -159,6 +159,7 @@ public class BusReservationsActivity extends SilentActivity
 		mTracker.send(
 				new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe").build());
 		mSwipeRefreshLayout.setRefreshing(true);
+		isRetry = false;
 		getData();
 	}
 

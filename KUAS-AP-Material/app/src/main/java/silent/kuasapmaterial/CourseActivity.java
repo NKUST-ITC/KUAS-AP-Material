@@ -241,10 +241,11 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 
 	@Override
 	public void onRefresh() {
-		mTracker.send(
-				new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe").build());
-		mSwipeRefreshLayout.setRefreshing(true);
 		if (mYms != null) {
+			mTracker.send(new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe")
+					.build());
+			isRetry = false;
+			mSwipeRefreshLayout.setRefreshing(true);
 			getData();
 		}
 	}

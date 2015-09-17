@@ -244,6 +244,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		if (mYms != null) {
 			mTracker.send(new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe")
 					.build());
+			isRetry = false;
 			mSwipeRefreshLayout.setRefreshing(true);
 			getData();
 		}
