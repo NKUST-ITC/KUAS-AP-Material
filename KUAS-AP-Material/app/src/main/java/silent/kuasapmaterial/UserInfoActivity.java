@@ -14,6 +14,7 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kuas.ap.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -126,7 +127,7 @@ public class UserInfoActivity extends SilentActivity {
 			@Override
 			public void onClick(View v) {
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
-								.build());
+						.build());
 				mProgressWheel.setVisibility(View.VISIBLE);
 				mPhotoImageView.setVisibility(View.GONE);
 				mDetailView.setVisibility(View.GONE);
@@ -181,9 +182,6 @@ public class UserInfoActivity extends SilentActivity {
 		mUserTextView.setText(mUserInfoModel.student_name_cht);
 
 		String photo = Memory.getString(this, Constant.PREF_USER_PIC, "");
-		if (mImageLoader == null) {
-			mImageLoader = Utils.getDefaultImageLoader(this);
-		}
 		if (photo.length() > 0) {
 			setUpUserPhoto(photo);
 		} else {
@@ -217,29 +215,32 @@ public class UserInfoActivity extends SilentActivity {
 	}
 
 	private void setUpUserPhoto(String photo) {
-		mImageLoader.displayImage(photo, mPhotoImageView, Utils.getDefaultDisplayImageOptions(),
-				new ImageLoadingListener() {
-					@Override
-					public void onLoadingStarted(String imageUri, View view) {
+		ImageLoader.getInstance()
+				.displayImage(photo, mPhotoImageView, Utils.getDefaultDisplayImageOptions(),
+						new ImageLoadingListener() {
+							@Override
+							public void onLoadingStarted(String imageUri, View view) {
 
-					}
+							}
 
-					@Override
-					public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-						mDetailView.setVisibility(View.VISIBLE);
-					}
+							@Override
+							public void onLoadingFailed(String imageUri, View view,
+							                            FailReason failReason) {
+								mDetailView.setVisibility(View.VISIBLE);
+							}
 
-					@Override
-					public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-						mProgressWheel.setVisibility(View.GONE);
-						mPhotoImageView.setVisibility(View.VISIBLE);
-						mDetailView.setVisibility(View.VISIBLE);
-					}
+							@Override
+							public void onLoadingComplete(String imageUri, View view,
+							                              Bitmap loadedImage) {
+								mProgressWheel.setVisibility(View.GONE);
+								mPhotoImageView.setVisibility(View.VISIBLE);
+								mDetailView.setVisibility(View.VISIBLE);
+							}
 
-					@Override
-					public void onLoadingCancelled(String imageUri, View view) {
+							@Override
+							public void onLoadingCancelled(String imageUri, View view) {
 
-					}
-				});
+							}
+						});
 	}
 }

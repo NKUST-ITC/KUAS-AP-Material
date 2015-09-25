@@ -30,8 +30,6 @@ import android.widget.TextView;
 
 import com.kuas.ap.R;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
 import com.nostra13.universalimageloader.core.display.FadeInBitmapDisplayer;
 import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
@@ -199,15 +197,6 @@ public class Utils {
 		drawable.draw(canvas);
 
 		return bitmap;
-	}
-
-	public static ImageLoader getDefaultImageLoader(Context context) {
-		ImageLoaderConfiguration config =
-				new ImageLoaderConfiguration.Builder(context).threadPoolSize(5).build();
-		ImageLoader imageLoader = ImageLoader.getInstance();
-		imageLoader.init(config);
-
-		return imageLoader;
 	}
 
 	public static DisplayImageOptions.Builder getDefaultDisplayImageBuilder() {

@@ -1,12 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--
-  ~ Copyright (c) 2015. Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-  ~ Morbi non lorem porttitor neque feugiat blandit. Ut vitae ipsum eget quam lacinia accumsan.
-  ~ Etiam sed turpis ac ipsum condimentum fringilla. Maecenas magna.
-  ~ Proin dapibus sapien vel ante. Aliquam erat volutpat. Pellentesque sagittis ligula eget metus.
-  ~ Vestibulum commodo. Ut rhoncus gravida arcu.
-  -->
-
 <android.support.v4.widget.DrawerLayout
 	android:id="@+id/drawer_layout"
 	xmlns:android="http://schemas.android.com/apk/res/android"
@@ -161,8 +153,7 @@
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:imeOptions="actionGo"
-							android:inputType="number"
-							android:maxLength="10"
+							android:inputType="textEmailAddress"
 							android:singleLine="true"
 							android:textSize="@dimen/text_title"/>
 					</android.support.design.widget.TextInputLayout>
@@ -175,7 +166,7 @@
 							android:id="@+id/editText_password"
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
-							android:imeOptions="actionGo"
+							android:imeOptions="actionSend"
 							android:inputType="textPassword"
 							android:textSize="@dimen/text_title"/>
 					</android.support.design.widget.TextInputLayout>

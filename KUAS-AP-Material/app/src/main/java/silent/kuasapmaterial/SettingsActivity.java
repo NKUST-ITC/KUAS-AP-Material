@@ -21,7 +21,8 @@ import silent.kuasapmaterial.libs.Memory;
 
 public class SettingsActivity extends SilentActivity implements View.OnClickListener {
 
-	private View mNotifyCourseView, mNotifyBusView, mHeadPhotoView, mAppVersionView, mFeedbackView;
+	private View mNotifyCourseView, mNotifyBusView, mHeadPhotoView, mAppVersionView, mFeedbackView,
+			mDonateView;
 	private SwitchCompat mNotifyCourseSwitch, mNotifyBusSwitch, mHeadPhotoSwitch;
 	private TextView mAppVersionTextView;
 
@@ -54,6 +55,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		mFeedbackView = findViewById(R.id.view_feedback);
 		mAppVersionView = findViewById(R.id.view_app_version);
 		mHeadPhotoView = findViewById(R.id.view_head_photo);
+		mDonateView = findViewById(R.id.view_donate);
 
 		mNotifyCourseSwitch = (SwitchCompat) findViewById(R.id.switch_course_notify);
 		mNotifyBusSwitch = (SwitchCompat) findViewById(R.id.switch_bus_notify);
@@ -68,6 +70,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		mHeadPhotoView.setOnClickListener(this);
 		mFeedbackView.setOnClickListener(this);
 		mAppVersionView.setOnClickListener(this);
+		mDonateView.setOnClickListener(this);
 
 		try {
 			PackageInfo pkgInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -130,6 +133,20 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				easterEggCount = 1;
 			}
 			lastDebugPressTime = System.currentTimeMillis();
+		} else if (v == mDonateView) {
+			try {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("donate").setAction("click")
+								.build());
+				Intent intent = new Intent(Intent.ACTION_VIEW);
+				intent.setData(Uri.parse("market://details?id=com.kuas.ap.donate"));
+				startActivity(intent);
+			} catch (Exception e) {
+				Toast.makeText(this, R.string.donate_error, Toast.LENGTH_LONG).show();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("donate").setAction("click")
+								.setLabel("error").build());
+			}
 		}
 	}
 }

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.util.Base64;
@@ -211,6 +212,9 @@ public class LoginActivity extends SilentActivity
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
 
+				if (isFinishing()) {
+					return;
+				}
 				progressDialog.dismiss();
 				Toast.makeText(LoginActivity.this, R.string.timeout_message, Toast.LENGTH_SHORT)
 						.show();
@@ -220,6 +224,9 @@ public class LoginActivity extends SilentActivity
 			public void onTokenExpired() {
 				super.onTokenExpired();
 
+				if (isFinishing()) {
+					return;
+				}
 				progressDialog.dismiss();
 				mIdTextInputLayout.setError(getString(R.string.check_login_hint));
 				mIdTextInputLayout.setErrorEnabled(true);
@@ -231,6 +238,9 @@ public class LoginActivity extends SilentActivity
 			public void onSuccess() {
 				super.onSuccess();
 
+				if (isFinishing()) {
+					return;
+				}
 				progressDialog.dismiss();
 				try {
 					Memory.setString(LoginActivity.this, Constant.PREF_USERNAME, id);

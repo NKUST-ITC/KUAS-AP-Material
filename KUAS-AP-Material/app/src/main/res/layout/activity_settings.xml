@@ -222,6 +222,32 @@
 					</LinearLayout>
 
 					<LinearLayout
+						android:id="@+id/view_donate"
+						android:layout_width="match_parent"
+						android:layout_height="@dimen/list_two_line_tile_height"
+						android:layout_marginBottom="@dimen/margin_small"
+						android:background="?attr/selectableItemBackground"
+						android:gravity="center_vertical"
+						android:orientation="vertical"
+						android:paddingLeft="@dimen/margin_medium"
+						android:paddingRight="@dimen/margin_medium">
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:text="@string/donate_title"
+							android:textColor="@color/black_text"
+							android:textSize="@dimen/text_subhead"/>
+
+						<TextView
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
+							android:layout_marginTop="4dp"
+							android:text="@string/donate_content"
+							android:textColor="@color/black_text_secondary"/>
+					</LinearLayout>
+
+					<LinearLayout
 						android:id="@+id/view_app_version"
 						android:layout_width="match_parent"
 						android:layout_height="@dimen/list_two_line_tile_height"

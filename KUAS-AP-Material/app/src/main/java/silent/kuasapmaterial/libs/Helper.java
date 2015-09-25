@@ -143,7 +143,7 @@ public class Helper {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
-				if (statusCode == 200 && response.has("auth_token")) {
+				if (statusCode == 200 && response != null && response.has("auth_token")) {
 					if (callback != null) {
 						callback.onSuccess();
 					}
@@ -605,14 +605,16 @@ public class Helper {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
+				if (response == null) {
+					onHelperFail(context, callback, statusCode, headers);
+					return;
+				}
 				try {
 					if (!response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onFail(response.getString("message"));
 						}
-						return;
-					}
-					if (response.has("success") && response.getBoolean("success")) {
+					} else if (response.has("success") && response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onSuccess();
 						}
@@ -629,7 +631,7 @@ public class Helper {
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				try {
-					if (errorResponse.has("message")) {
+					if (errorResponse != null && errorResponse.has("message")) {
 						if (callback != null) {
 							callback.onFail(errorResponse.getString("message"));
 						}
@@ -652,14 +654,16 @@ public class Helper {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
+				if (response == null) {
+					onHelperFail(context, callback, statusCode, headers);
+					return;
+				}
 				try {
 					if (!response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onFail(response.getString("message"));
 						}
-						return;
-					}
-					if (response.has("success") && response.getBoolean("success")) {
+					} else if (response.has("success") && response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onSuccess();
 						}
@@ -676,7 +680,7 @@ public class Helper {
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				try {
-					if (errorResponse.has("message")) {
+					if (errorResponse != null && errorResponse.has("message")) {
 						if (callback != null) {
 							callback.onFail(errorResponse.getString("message"));
 						}
