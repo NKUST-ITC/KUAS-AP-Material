@@ -3,6 +3,7 @@ package silent.kuasapmaterial;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -90,14 +91,13 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.button_openUrl) {
-			mTracker.send(
-					new HitBuilders.EventBuilder().setCategory("open url").setAction("click")
+			mTracker.send(new HitBuilders.EventBuilder().setCategory("open url").setAction("click")
 							.build());
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mURL));
 			startActivity(browserIntent);
 		} else if (v.getId() == R.id.button_logout) {
 			mTracker.send(new HitBuilders.EventBuilder().setCategory("logout").setAction("click")
-							.build());
+					.build());
 			clearUserData();
 			startActivity(new Intent(this, LoginActivity.class));
 			finish();

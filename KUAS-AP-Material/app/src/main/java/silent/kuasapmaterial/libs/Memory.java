@@ -70,8 +70,7 @@ public class Memory {
 		prefsEditor.commit();
 	}
 
-	public static boolean getBoolean(Context context, String key,
-			boolean defValue) {
+	public static boolean getBoolean(Context context, String key, boolean defValue) {
 		init(context);
 
 		return appSharedPrefs.getBoolean(key, defValue);
@@ -84,7 +83,7 @@ public class Memory {
 		prefsEditor.commit();
 	}
 
-	@SuppressWarnings({ "unchecked", "rawtypes" })
+	@SuppressWarnings({"unchecked", "rawtypes"})
 	public static Object getObject(Context context, String key, Class cls) {
 		init(context);
 
