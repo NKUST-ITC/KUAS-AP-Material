@@ -70,6 +70,13 @@
 	<string name="donate_content">貢獻一點心力支持作者，\n可以提早使用未開放功能！</string>
 	<string name="donate_error">哎呀！發生了點錯誤 :(\n不過沒關係到 Google Play\n搜尋「高應校務通
 		Donate」\n一樣可以支持喔！</string>
+	<string name="bus_notify_hint" formatted="false">校車預約將於發車前三十分鐘提醒！</string>
+	<string name="bus_notify_content" formatted="false">親，您有一班 %s 從%s出發的校車！</string>
+	<string name="bus_notify_jiangong">建工</string>
+	<string name="bus_notify_yanchao">燕巢</string>
+	<string name="course_notify_hint" formatted="false">將於上課前十分鐘提醒！</string>
+	<string name="course_notify_content" formatted="false">親，上課地點在 %s！</string>
+	<string name="course_notify_unknown" formatted="false">外太空</string>
 
 	<string name="education_system">學制</string>
 	<string name="department">科系</string>

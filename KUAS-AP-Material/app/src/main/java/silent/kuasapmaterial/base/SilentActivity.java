@@ -42,14 +42,12 @@ import silent.kuasapmaterial.MessagesActivity;
 import silent.kuasapmaterial.ScoreActivity;
 import silent.kuasapmaterial.SettingsActivity;
 import silent.kuasapmaterial.UserInfoActivity;
-import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.UserInfoCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.Utils;
-import silent.kuasapmaterial.models.BusModel;
 import silent.kuasapmaterial.models.UserInfoModel;
 
 public class SilentActivity extends AppCompatActivity
@@ -405,23 +403,6 @@ public class SilentActivity extends AppCompatActivity
 		Memory.setString(this, Constant.PREF_USER_PIC, "");
 		Memory.setString(this, Constant.PREF_USER_ID, "");
 		Memory.setString(this, Constant.PREF_USER_NAME, "");
-	}
-
-	public void saveBusNotify() {
-		Helper.getBusReservations(this, new BusReservationsCallback() {
-			
-			@Override
-			public void onSuccess(List<BusModel> modelList) {
-				super.onSuccess(modelList);
-				Memory.setObject(SilentActivity.this, Constant.PREF_BUS_NOTIFY, modelList);
-			}
-		});
-	}
-
-	public List<BusModel> loadBusNotify() {
-		BusModel[] busModels =
-				(BusModel[]) Memory.getObject(this, Constant.PREF_BUS_NOTIFY, BusModel[].class);
-		return busModels == null ? null : new ArrayList<>(Arrays.asList(busModels));
 	}
 
 	public class AnimationActionBarDrawerToggle extends ActionBarDrawerToggle {
