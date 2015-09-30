@@ -48,7 +48,8 @@ public class CourseAlarmService extends Service {
 
 		String title = bundle.getString("title", "");
 		String room = bundle.getString("room", "");
-		String content = getString(R.string.course_notify_content,
+		String time = bundle.getString("time", "");
+		String content = getString(R.string.course_notify_content, time,
 				room.length() == 0 ? getString(R.string.course_notify_unknown) : room);
 
 		NotificationHelper

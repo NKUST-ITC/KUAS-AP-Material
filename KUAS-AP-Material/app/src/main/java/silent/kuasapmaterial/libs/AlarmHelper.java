@@ -13,6 +13,7 @@ import java.util.Calendar;
 import java.util.List;
 
 import silent.kuasapmaterial.BusAlarmService;
+import silent.kuasapmaterial.CourseAlarmService;
 import silent.kuasapmaterial.models.BusModel;
 import silent.kuasapmaterial.models.CourseModel;
 
@@ -99,16 +100,17 @@ public class AlarmHelper {
 
 	public static void setCourseAlarm(Context context, String room, String title, String time,
 	                                  int dayOfWeek) {
-		Intent intent = new Intent(context, BusAlarmService.class);
+		Intent intent = new Intent(context, CourseAlarmService.class);
 
 		Bundle bundle = new Bundle();
 		bundle.putString("room", room);
 		bundle.putString("title", title);
+		bundle.putString("time", time);
 		intent.putExtras(bundle);
 
 		Calendar calendar = Calendar.getInstance();
 		calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
-		calendar.set(Calendar.HOUR, Integer.parseInt(time.split(":")[0]));
+		calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
 		calendar.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
 		calendar.add(Calendar.MINUTE, -10);
 		PendingIntent sender =
