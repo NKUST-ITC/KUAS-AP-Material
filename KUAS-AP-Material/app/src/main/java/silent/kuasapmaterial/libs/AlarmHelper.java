@@ -10,6 +10,7 @@ import android.os.Bundle;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import silent.kuasapmaterial.BusAlarmService;
@@ -25,7 +26,7 @@ public class AlarmHelper {
 		}
 		for (int i = 0; i < busModelList.size(); i++) {
 			BusModel model = busModelList.get(i);
-			setBusAlarm(context, model.endStation, model.Time);
+			setBusAlarm(context, model.endStation, model.Time, Integer.parseInt(model.cancelKey));
 		}
 	}
 
@@ -36,7 +37,7 @@ public class AlarmHelper {
 		}
 		for (int i = 0; i < busModelList.size(); i++) {
 			BusModel model = busModelList.get(i);
-			setBusAlarm(context, model.endStation, model.Time);
+			setBusAlarm(context, model.endStation, model.Time, Integer.parseInt(model.cancelKey));
 		}
 	}
 
@@ -57,7 +58,8 @@ public class AlarmHelper {
 						}
 						setCourseAlarm(context, courseModelList.get(i).get(j).room.trim(),
 								courseModelList.get(i).get(j).title,
-								courseModelList.get(i).get(j).start_time, i == 6 ? 1 : (i + 2));
+								courseModelList.get(i).get(j).start_time, i == 6 ? 1 : (i + 2),
+								j * 10 + i);
 					}
 				}
 			}
@@ -76,7 +78,7 @@ public class AlarmHelper {
 	//		}
 	//	}
 
-	public static void setBusAlarm(Context context, String endStation, String time) {
+	public static void setBusAlarm(Context context, String endStation, String time, int id) {
 		Intent intent = new Intent(context, BusAlarmService.class);
 
 		Bundle bundle = new Bundle();
@@ -91,15 +93,19 @@ public class AlarmHelper {
 				Integer.parseInt(_date.split("-")[1]) - 1, Integer.parseInt(_date.split("-")[2]),
 				Integer.parseInt(_time.split(":")[0]), Integer.parseInt(_time.split(":")[1]));
 		calendar.add(Calendar.MINUTE, -30);
-		PendingIntent sender =
-				PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent pendingIntent =
+				PendingIntent.getService(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 		AlarmManager alarm = (AlarmManager) context.getSystemService(Service.ALARM_SERVICE);
-		alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), sender);
+		alarm.cancel(pendingIntent);
+		Date now = new Date(System.currentTimeMillis());
+		if (calendar.getTime().after(now)) {
+			alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+		}
 	}
 
 	public static void setCourseAlarm(Context context, String room, String title, String time,
-	                                  int dayOfWeek) {
+	                                  int dayOfWeek, int id) {
 		Intent intent = new Intent(context, CourseAlarmService.class);
 
 		Bundle bundle = new Bundle();
@@ -112,13 +118,19 @@ public class AlarmHelper {
 		calendar.set(Calendar.DAY_OF_WEEK, dayOfWeek);
 		calendar.set(Calendar.HOUR_OF_DAY, Integer.parseInt(time.split(":")[0]));
 		calendar.set(Calendar.MINUTE, Integer.parseInt(time.split(":")[1]));
+		calendar.set(Calendar.SECOND, 0);
 		calendar.add(Calendar.MINUTE, -10);
-		PendingIntent sender =
-				PendingIntent.getService(context, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		PendingIntent pendingIntent =
+				PendingIntent.getService(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		Date now = new Date(System.currentTimeMillis());
+		if (calendar.getTime().before(now)) {
+			calendar.add(Calendar.DAY_OF_MONTH, 7);
+		}
 
 		AlarmManager alarm = (AlarmManager) context.getSystemService(Service.ALARM_SERVICE);
+		alarm.cancel(pendingIntent);
 		alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
-				AlarmManager.INTERVAL_DAY * 7, sender);
+				AlarmManager.INTERVAL_DAY * 7, pendingIntent);
 	}
 
 	private static List<BusModel> loadBusNotify(Context context) {

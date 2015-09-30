@@ -75,7 +75,7 @@
 	<string name="bus_notify_jiangong">建工</string>
 	<string name="bus_notify_yanchao">燕巢</string>
 	<string name="course_notify_hint">將於上課前十分鐘提醒！</string>
-	<string name="course_notify_content" formatted="false">親，%s上課地點在 %s！</string>
+	<string name="course_notify_content" formatted="false">親，%s上課教室在 %s！</string>
 	<string name="course_notify_unknown">外太空</string>
 
 	<string name="education_system">學制</string>
