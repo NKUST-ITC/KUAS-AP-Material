@@ -254,16 +254,20 @@ public class BusReservationsActivity extends SilentActivity
 					@Override
 					public void onSuccess() {
 						super.onSuccess();
+						mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus")
+								.setAction("status").setLabel("success").build());
 						getData();
 						Toast.makeText(BusReservationsActivity.this,
-								R.string.bus_cancel_reserve_success, Toast.LENGTH_SHORT).show();
+								R.string.bus_cancel_reserve_success, Toast.LENGTH_LONG).show();
 					}
 
 					@Override
 					public void onFail(String errorMessage) {
 						super.onFail(errorMessage);
+						mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus")
+								.setAction("status").setLabel("fail " + errorMessage).build());
 						Toast.makeText(BusReservationsActivity.this, R.string.something_error,
-								Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_LONG).show();
 					}
 
 					@Override
