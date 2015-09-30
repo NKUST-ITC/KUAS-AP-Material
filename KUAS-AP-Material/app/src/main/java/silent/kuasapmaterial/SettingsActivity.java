@@ -16,20 +16,11 @@ import android.widget.Toast;
 import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
-import java.util.List;
-
 import silent.kuasapmaterial.base.SilentActivity;
-import silent.kuasapmaterial.callback.BusReservationsCallback;
-import silent.kuasapmaterial.callback.CourseCallback;
-import silent.kuasapmaterial.callback.SemesterCallback;
-import silent.kuasapmaterial.libs.AlarmHelper;
+import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.Constant;
-import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.Utils;
-import silent.kuasapmaterial.models.BusModel;
-import silent.kuasapmaterial.models.CourseModel;
-import silent.kuasapmaterial.models.SemesterModel;
 
 public class SettingsActivity extends SilentActivity implements View.OnClickListener {
 
@@ -159,9 +150,11 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 	}
 
 	private void setUpBusNotify() {
-		mTracker.send(new HitBuilders.EventBuilder().setCategory("notify bus").setAction("click")
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("notify bus").setAction("create")
 				.build());
 		mNotifyBusSwitch.setChecked(!mNotifyBusSwitch.isChecked());
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("notify bus").setAction("click")
+				.setLabel(mNotifyBusSwitch.isChecked() + "").build());
 		if (!mNotifyBusSwitch.isChecked()) {
 			Memory.setBoolean(SettingsActivity.this, Constant.PREF_BUS_NOTIFY, false);
 			return;
@@ -169,13 +162,14 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 
 		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
 		progressDialog.show();
-		Helper.getBusReservations(this, new BusReservationsCallback() {
+		Utils.setUpCourseNotify(this, new GeneralCallback() {
 			@Override
-			public void onSuccess(List<BusModel> modelList) {
-				super.onSuccess(modelList);
+			public void onSuccess() {
+				super.onSuccess();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
+								.setLabel("success").build());
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_BUS_NOTIFY, true);
-				Memory.setObject(SettingsActivity.this, Constant.PREF_BUS_NOTIFY_DATA, modelList);
-				AlarmHelper.setBusNotification(SettingsActivity.this, modelList);
 				progressDialog.dismiss();
 				Toast.makeText(SettingsActivity.this, R.string.bus_notify_hint, Toast.LENGTH_SHORT)
 						.show();
@@ -184,26 +178,34 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
+								.setLabel("fail " + errorMessage).build());
+				progressDialog.dismiss();
 				mNotifyBusSwitch.setChecked(false);
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_BUS_NOTIFY, false);
-				progressDialog.dismiss();
+				Toast.makeText(SettingsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
-				mNotifyBusSwitch.setChecked(false);
-				Memory.setBoolean(SettingsActivity.this, Constant.PREF_BUS_NOTIFY, false);
-				Utils.createTokenExpired(SettingsActivity.this).show();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
+								.setLabel("token expired").build());
 				progressDialog.dismiss();
+				Utils.createTokenExpired(SettingsActivity.this).show();
 			}
 		});
 	}
 
 	private void setUpCourseNotify() {
-		mTracker.send(new HitBuilders.EventBuilder().setCategory("notify course").setAction("click")
-				.build());
+		mTracker.send(
+				new HitBuilders.EventBuilder().setCategory("notify course").setAction("create")
+						.build());
 		mNotifyCourseSwitch.setChecked(!mNotifyCourseSwitch.isChecked());
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("notify course").setAction("click")
+				.setLabel(mNotifyCourseSwitch.isChecked() + "").build());
 		if (!mNotifyCourseSwitch.isChecked()) {
 			Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_NOTIFY, false);
 			return;
@@ -211,53 +213,36 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 
 		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
 		progressDialog.show();
-		Helper.getSemester(this, new SemesterCallback() {
+		Utils.setUpCourseNotify(this, new GeneralCallback() {
 			@Override
-			public void onSuccess(List<SemesterModel> modelList, SemesterModel selectedModel) {
-				super.onSuccess(modelList, selectedModel);
-				Helper.getCourseTimeTable(SettingsActivity.this, selectedModel.value.split(",")[0],
-						selectedModel.value.split(",")[1], new CourseCallback() {
-							@Override
-							public void onSuccess(List<List<CourseModel>> modelList) {
-								super.onSuccess(modelList);
-								Memory.setBoolean(SettingsActivity.this,
-										Constant.PREF_COURSE_NOTIFY, true);
-								AlarmHelper.setCourseNotification(SettingsActivity.this, modelList);
-								progressDialog.dismiss();
-								Toast.makeText(SettingsActivity.this, R.string.course_notify_hint,
-										Toast.LENGTH_SHORT).show();
-							}
-
-							@Override
-							public void onTokenExpired() {
-								super.onTokenExpired();
-								progressDialog.dismiss();
-								mNotifyCourseSwitch.setChecked(false);
-								Memory.setBoolean(SettingsActivity.this,
-										Constant.PREF_COURSE_NOTIFY, false);
-								Utils.createTokenExpired(SettingsActivity.this).show();
-							}
-
-							@Override
-							public void onFail(String errorMessage) {
-								super.onFail(errorMessage);
-								progressDialog.dismiss();
-								mNotifyCourseSwitch.setChecked(false);
-								Memory.setBoolean(SettingsActivity.this,
-										Constant.PREF_COURSE_NOTIFY, false);
-								Toast.makeText(SettingsActivity.this, errorMessage,
-										Toast.LENGTH_SHORT).show();
-							}
-						});
+			public void onSuccess() {
+				super.onSuccess();
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("notify course")
+								.setAction("status").setLabel("success").build());
+				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_NOTIFY, true);
+				progressDialog.dismiss();
+				Toast.makeText(SettingsActivity.this, R.string.course_notify_hint,
+						Toast.LENGTH_SHORT).show();
 			}
 
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("notify course")
+								.setAction("status").setLabel("fail " + errorMessage).build());
 				progressDialog.dismiss();
 				mNotifyCourseSwitch.setChecked(false);
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_NOTIFY, false);
 				Toast.makeText(SettingsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("notify course")
+						.setAction("status").setLabel("token expired").build());
+				progressDialog.dismiss();
+				Utils.createTokenExpired(SettingsActivity.this).show();
 			}
 		});
 	}

@@ -11,4 +11,6 @@ public class CourseModel {
 	public String end_time;
 	public String weekday;
 	public String section;
+	public int dayOfWeek;
+	public int notifyKey;
 }

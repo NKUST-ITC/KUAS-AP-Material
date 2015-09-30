@@ -180,6 +180,8 @@ public class BusReservationsActivity extends SilentActivity
 			public void onSuccess(List<BusModel> modelList) {
 				super.onSuccess(modelList);
 
+				Utils.saveBusNotify(BusReservationsActivity.this, modelList);
+
 				mList = modelList;
 				mListView.setVisibility(View.VISIBLE);
 				mProgressWheel.setVisibility(View.GONE);

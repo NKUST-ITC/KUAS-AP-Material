@@ -1,9 +1,9 @@
 package silent.kuasapmaterial;
 
+import android.app.Dialog;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -14,9 +14,11 @@ import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
 import silent.kuasapmaterial.base.SilentActivity;
+import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.ProgressWheel;
+import silent.kuasapmaterial.libs.Utils;
 
 public class LogoutActivity extends SilentActivity implements View.OnClickListener {
 
@@ -45,8 +47,42 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 		init(R.string.news, R.layout.activity_logout);
 
 		initGA("Logout Screen");
+		setUpBusNotify();
 		findViews();
 		setUpViews();
+	}
+
+	private void setUpBusNotify() {
+		if (!Memory.getBoolean(this, Constant.PREF_BUS_NOTIFY, false)) {
+			return;
+		}
+		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
+		progressDialog.show();
+		Utils.setUpBusNotify(this, new GeneralCallback() {
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				progressDialog.dismiss();
+			}
+
+			@Override
+			public void onFail(String errorMessage) {
+				super.onFail(errorMessage);
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
+								.setLabel("fail " + errorMessage).build());
+				progressDialog.dismiss();
+			}
+
+			@Override
+			public void onSuccess() {
+				super.onSuccess();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
+								.setLabel("success").build());
+				progressDialog.dismiss();
+			}
+		});
 	}
 
 	private void findViews() {
@@ -92,7 +128,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 	public void onClick(View v) {
 		if (v.getId() == R.id.button_openUrl) {
 			mTracker.send(new HitBuilders.EventBuilder().setCategory("open url").setAction("click")
-							.build());
+					.build());
 			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mURL));
 			startActivity(browserIntent);
 		} else if (v.getId() == R.id.button_logout) {

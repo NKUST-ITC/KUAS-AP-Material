@@ -35,6 +35,7 @@ import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.ListScrollDistanceCalculator;
+import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.libs.segmentcontrol.SegmentControl;
@@ -211,7 +212,7 @@ public class BusActivity extends SilentActivity
 					getData();
 				} else {
 					mTracker.send(new HitBuilders.EventBuilder().setCategory("pick date")
-									.setAction("click").build());
+							.setAction("click").build());
 					showDatePickerDialog();
 				}
 			}
@@ -419,7 +420,43 @@ public class BusActivity extends SilentActivity
 					@Override
 					public void onSuccess() {
 						super.onSuccess();
-						getData();
+						if (Memory.getBoolean(BusActivity.this, Constant.PREF_BUS_NOTIFY, false)) {
+							mProgressWheel.setVisibility(View.VISIBLE);
+							mListView.setVisibility(View.GONE);
+							mNoBusLinearLayout.setVisibility(View.GONE);
+							mFab.setEnabled(false);
+							mSwipeRefreshLayout.setEnabled(false);
+							mFab.hide();
+							Utils.setUpBusNotify(BusActivity.this, new GeneralCallback() {
+								@Override
+								public void onSuccess() {
+									super.onSuccess();
+									mTracker.send(
+											new HitBuilders.EventBuilder().setCategory("notify bus")
+													.setAction("status").setLabel("success")
+													.build());
+									getData();
+								}
+
+								@Override
+								public void onFail(String errorMessage) {
+									super.onFail(errorMessage);
+									mTracker.send(
+											new HitBuilders.EventBuilder().setCategory("notify bus")
+													.setAction("status")
+													.setLabel("fail " + errorMessage).build());
+									getData();
+								}
+
+								@Override
+								public void onTokenExpired() {
+									super.onTokenExpired();
+									Utils.createTokenExpired(BusActivity.this).show();
+								}
+							});
+						} else {
+							getData();
+						}
 						Toast.makeText(BusActivity.this, R.string.bus_cancel_reserve_success,
 								Toast.LENGTH_SHORT).show();
 					}
@@ -444,7 +481,39 @@ public class BusActivity extends SilentActivity
 			@Override
 			public void onSuccess() {
 				super.onSuccess();
-				getData();
+				if (Memory.getBoolean(BusActivity.this, Constant.PREF_BUS_NOTIFY, false)) {
+					mProgressWheel.setVisibility(View.VISIBLE);
+					mListView.setVisibility(View.GONE);
+					mNoBusLinearLayout.setVisibility(View.GONE);
+					mFab.setEnabled(false);
+					mSwipeRefreshLayout.setEnabled(false);
+					mFab.hide();
+					Utils.setUpBusNotify(BusActivity.this, new GeneralCallback() {
+						@Override
+						public void onSuccess() {
+							super.onSuccess();
+							mTracker.send(new HitBuilders.EventBuilder().setCategory("notify bus")
+									.setAction("status").setLabel("success").build());
+							getData();
+						}
+
+						@Override
+						public void onFail(String errorMessage) {
+							super.onFail(errorMessage);
+							mTracker.send(new HitBuilders.EventBuilder().setCategory("notify bus")
+									.setAction("status").setLabel("fail " + errorMessage).build());
+							getData();
+						}
+
+						@Override
+						public void onTokenExpired() {
+							super.onTokenExpired();
+							Utils.createTokenExpired(BusActivity.this).show();
+						}
+					});
+				} else {
+					getData();
+				}
 				Toast.makeText(BusActivity.this, R.string.bus_reserve_success, Toast.LENGTH_SHORT)
 						.show();
 			}

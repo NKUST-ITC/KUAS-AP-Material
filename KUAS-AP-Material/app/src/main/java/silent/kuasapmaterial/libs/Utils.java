@@ -36,12 +36,22 @@ import com.nostra13.universalimageloader.core.display.RoundedBitmapDisplayer;
 import com.nostra13.universalimageloader.core.process.BitmapProcessor;
 
 import java.security.spec.AlgorithmParameterSpec;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.crypto.Cipher;
 import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import silent.kuasapmaterial.LoginActivity;
+import silent.kuasapmaterial.callback.BusReservationsCallback;
+import silent.kuasapmaterial.callback.CourseCallback;
+import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.callback.SemesterCallback;
+import silent.kuasapmaterial.models.BusModel;
+import silent.kuasapmaterial.models.CourseModel;
+import silent.kuasapmaterial.models.SemesterModel;
 
 public class Utils {
 
@@ -264,5 +274,118 @@ public class Utils {
 
 	public static int getDisplayWidth(Context context) {
 		return getDisplayDimen(context).x;
+	}
+
+	/**
+	 * Save Notify Data
+	 */
+	public static void saveCourseNotify(Context context, List<CourseModel> modelList) {
+		Memory.setObject(context, Constant.PREF_COURSE_NOTIFY_DATA, modelList);
+	}
+
+	public static void saveCourseNotifyNoKey(Context context,
+	                                         List<List<CourseModel>> courseModelList) {
+		List<String> keyList = new ArrayList<>();
+		List<CourseModel> saveModelList = new ArrayList<>();
+		for (int i = 0; i < courseModelList.size(); i++) {
+			if (courseModelList.get(i) != null) {
+				for (int j = 0; j < courseModelList.get(i).size(); j++) {
+					if (courseModelList.get(i).get(j) != null) {
+						if (keyList.contains(courseModelList.get(i).get(j).title + i)) {
+							continue;
+						} else {
+							keyList.add(courseModelList.get(i).get(j).title + i);
+						}
+
+						CourseModel courseModel = courseModelList.get(i).get(j);
+						courseModel.dayOfWeek = i == 6 ? 1 : (i + 2);
+						courseModel.notifyKey = j * 10 + i;
+						saveModelList.add(courseModel);
+					}
+				}
+			}
+		}
+		saveCourseNotify(context, saveModelList);
+	}
+
+	public static void saveBusNotify(Context context, List<BusModel> modelList) {
+		Memory.setObject(context, Constant.PREF_BUS_NOTIFY_DATA, modelList);
+	}
+
+	/**
+	 * Load Notify Data
+	 */
+	public static List<CourseModel> loadCourseNotify(Context context) {
+		CourseModel[] courseModels = (CourseModel[]) Memory
+				.getObject(context, Constant.PREF_COURSE_NOTIFY_DATA, CourseModel[].class);
+		return courseModels == null ? null : new ArrayList<>(Arrays.asList(courseModels));
+	}
+
+	public static List<BusModel> loadBusNotify(Context context) {
+		BusModel[] busModels = (BusModel[]) Memory
+				.getObject(context, Constant.PREF_BUS_NOTIFY_DATA, BusModel[].class);
+		return busModels == null ? null : new ArrayList<>(Arrays.asList(busModels));
+	}
+
+	/**
+	 * Set Up Notify
+	 */
+	public static void setUpCourseNotify(final Context context, final GeneralCallback callback) {
+		Helper.getSemester(context, new SemesterCallback() {
+			@Override
+			public void onSuccess(List<SemesterModel> modelList, SemesterModel selectedModel) {
+				super.onSuccess(modelList, selectedModel);
+				Helper.getCourseTimeTable(context, selectedModel.value.split(",")[0],
+						selectedModel.value.split(",")[1], new CourseCallback() {
+							@Override
+							public void onSuccess(List<List<CourseModel>> modelList) {
+								super.onSuccess(modelList);
+								AlarmHelper.setCourseNotification(context, modelList);
+								callback.onSuccess();
+							}
+
+							@Override
+							public void onTokenExpired() {
+								super.onTokenExpired();
+								callback.onTokenExpired();
+							}
+
+							@Override
+							public void onFail(String errorMessage) {
+								super.onFail(errorMessage);
+								callback.onFail(errorMessage);
+							}
+						});
+			}
+
+			@Override
+			public void onFail(String errorMessage) {
+				super.onFail(errorMessage);
+				callback.onFail(errorMessage);
+			}
+		});
+	}
+
+	public static void setUpBusNotify(final Context context, final GeneralCallback callback) {
+		Helper.getBusReservations(context, new BusReservationsCallback() {
+			@Override
+			public void onSuccess(List<BusModel> modelList) {
+				super.onSuccess(modelList);
+				AlarmHelper.setBusNotification(context, modelList);
+				callback.onSuccess();
+			}
+
+			@Override
+			public void onFail(String errorMessage) {
+				super.onFail(errorMessage);
+				callback.onFail(errorMessage);
+			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				callback.onTokenExpired();
+			}
+		});
 	}
 }

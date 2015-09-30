@@ -11,6 +11,6 @@ public class BootCompletedReceiver extends BroadcastReceiver {
 	@Override
 	public void onReceive(Context context, Intent intent) {
 		AlarmHelper.setBusNotification(context);
-		//AlarmHelper.setCourseNotification(context);
+		AlarmHelper.setCourseNotification(context);
 	}
 }

@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -24,6 +23,7 @@ public class AlarmHelper {
 		if (busModelList == null || busModelList.size() == 0) {
 			return;
 		}
+		Utils.saveBusNotify(context, busModelList);
 		for (int i = 0; i < busModelList.size(); i++) {
 			BusModel model = busModelList.get(i);
 			setBusAlarm(context, model.endStation, model.Time, Integer.parseInt(model.cancelKey));
@@ -31,7 +31,7 @@ public class AlarmHelper {
 	}
 
 	public static void setBusNotification(Context context) {
-		List<BusModel> busModelList = loadBusNotify(context);
+		List<BusModel> busModelList = Utils.loadBusNotify(context);
 		if (busModelList == null || busModelList.size() == 0) {
 			return;
 		}
@@ -47,6 +47,7 @@ public class AlarmHelper {
 			return;
 		}
 		List<String> keyList = new ArrayList<>();
+		List<CourseModel> saveModelList = new ArrayList<>();
 		for (int i = 0; i < courseModelList.size(); i++) {
 			if (courseModelList.get(i) != null) {
 				for (int j = 0; j < courseModelList.get(i).size(); j++) {
@@ -56,27 +57,33 @@ public class AlarmHelper {
 						} else {
 							keyList.add(courseModelList.get(i).get(j).title + i);
 						}
-						setCourseAlarm(context, courseModelList.get(i).get(j).room.trim(),
-								courseModelList.get(i).get(j).title,
-								courseModelList.get(i).get(j).start_time, i == 6 ? 1 : (i + 2),
-								j * 10 + i);
+
+						CourseModel courseModel = courseModelList.get(i).get(j);
+						courseModel.dayOfWeek = i == 6 ? 1 : (i + 2);
+						courseModel.notifyKey = j * 10 + i;
+						saveModelList.add(courseModel);
+
+						setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+								courseModel.start_time, courseModel.dayOfWeek,
+								courseModel.notifyKey);
 					}
 				}
 			}
 		}
+		Utils.saveCourseNotify(context, saveModelList);
 	}
 
-	// TODO wait for save course table
-	//	public static void setCourseNotification(Context context) {
-	//		List<CourseModel> courseModelList = loadCourseNotify(context);
-	//		if (courseModelList == null || courseModelList.size() == 0) {
-	//			return;
-	//		}
-	//		for (int i = 0; i < courseModelList.size(); i++) {
-	//			CourseModel model = courseModelList.get(i);
-	//			setBusAlarm(context, model.room, model.title);
-	//		}
-	//	}
+	public static void setCourseNotification(Context context) {
+		List<CourseModel> courseModelList = Utils.loadCourseNotify(context);
+		if (courseModelList == null) {
+			return;
+		}
+		for (int i = 0; i < courseModelList.size(); i++) {
+			setCourseAlarm(context, courseModelList.get(i).room.trim(),
+					courseModelList.get(i).title, courseModelList.get(i).start_time,
+					courseModelList.get(i).dayOfWeek, courseModelList.get(i).notifyKey);
+		}
+	}
 
 	public static void setBusAlarm(Context context, String endStation, String time, int id) {
 		Intent intent = new Intent(context, BusAlarmService.class);
@@ -131,18 +138,5 @@ public class AlarmHelper {
 		alarm.cancel(pendingIntent);
 		alarm.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(),
 				AlarmManager.INTERVAL_DAY * 7, pendingIntent);
-	}
-
-	private static List<BusModel> loadBusNotify(Context context) {
-		BusModel[] busModels = (BusModel[]) Memory
-				.getObject(context, Constant.PREF_BUS_NOTIFY_DATA, BusModel[].class);
-		return busModels == null ? null : new ArrayList<>(Arrays.asList(busModels));
-	}
-
-	// TODO wait for save course table
-	private static List<CourseModel> loadCourseNotify(Context context) {
-		CourseModel[] courseModels = (CourseModel[]) Memory
-				.getObject(context, Constant.PREF_COURSE_NOTIFY_DATA, CourseModel[].class);
-		return courseModels == null ? null : new ArrayList<>(Arrays.asList(courseModels));
 	}
 }

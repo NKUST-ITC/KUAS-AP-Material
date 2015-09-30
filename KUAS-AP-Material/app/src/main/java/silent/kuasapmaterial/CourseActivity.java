@@ -140,7 +140,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 								}.getType());
 						mYms = mSelectedModel.value;
 						mPickYmsTextView.setText(mSelectedModel.text);
-						getData();
+						getData(false);
 					}
 				}
 				break;
@@ -157,7 +157,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 				mSelectedModel = selectedModel;
 				mYms = mSelectedModel.value;
 				mPickYmsTextView.setText(mSelectedModel.text);
-				getData();
+				getData(true);
 			}
 
 			@Override
@@ -217,7 +217,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 					if (mSemesterList == null) {
 						getSemester();
 					} else {
-						getData();
+						getData(false);
 					}
 				} else {
 					mTracker.send(new HitBuilders.EventBuilder().setCategory("pick yms")
@@ -246,7 +246,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 					.build());
 			isRetry = false;
 			mSwipeRefreshLayout.setRefreshing(true);
-			getData();
+			getData(false);
 		}
 	}
 
@@ -255,7 +255,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		mSwipeRefreshLayout.setColorSchemeColors(Utils.getSwipeRefreshColors(this));
 	}
 
-	private void getData() {
+	private void getData(final boolean isSave) {
 		mProgressWheel.setVisibility(View.VISIBLE);
 		mPickYmsView.setEnabled(false);
 		mScrollView.setVisibility(View.GONE);
@@ -269,6 +269,10 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 					@Override
 					public void onSuccess(List<List<CourseModel>> modelList) {
 						super.onSuccess(modelList);
+
+						if (isSave) {
+							Utils.saveCourseNotifyNoKey(CourseActivity.this, modelList);
+						}
 
 						mList = modelList;
 						setUpCourseTable();
