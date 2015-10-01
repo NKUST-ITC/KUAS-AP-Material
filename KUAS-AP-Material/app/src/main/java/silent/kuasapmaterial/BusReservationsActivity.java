@@ -183,7 +183,6 @@ public class BusReservationsActivity extends SilentActivity
 			public void onSuccess(List<BusModel> modelList) {
 				super.onSuccess(modelList);
 
-				Utils.saveBusNotify(BusReservationsActivity.this, modelList);
 				if (Memory.getBoolean(BusReservationsActivity.this, Constant.PREF_BUS_NOTIFY,
 						false)) {
 					AlarmHelper.setBusNotification(BusReservationsActivity.this, modelList);

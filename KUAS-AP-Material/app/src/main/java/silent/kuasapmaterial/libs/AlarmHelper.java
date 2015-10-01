@@ -23,6 +23,19 @@ public class AlarmHelper {
 		if (busModelList == null || busModelList.size() == 0) {
 			return;
 		}
+
+		// Must cancel bus alarm if user cancel on web
+		List<BusModel> savedBusModelList = Utils.loadBusNotify(context);
+		if (savedBusModelList != null && savedBusModelList.size() != 0) {
+			for (int i = 0; i < savedBusModelList.size(); i++) {
+				if (!busModelList.contains(savedBusModelList.get(i))) {
+					BusModel model = savedBusModelList.get(i);
+					cancelBusAlarm(context, model.endStation, model.runDateTime,
+							Integer.parseInt(model.cancelKey));
+				}
+			}
+		}
+
 		Utils.saveBusNotify(context, busModelList);
 		for (int i = 0; i < busModelList.size(); i++) {
 			BusModel model = busModelList.get(i);
@@ -48,6 +61,7 @@ public class AlarmHelper {
 		if (courseModelList == null) {
 			return;
 		}
+
 		List<String> keyList = new ArrayList<>();
 		List<CourseModel> saveModelList = new ArrayList<>();
 		for (int i = 0; i < courseModelList.size(); i++) {
@@ -72,6 +86,19 @@ public class AlarmHelper {
 				}
 			}
 		}
+
+		// Must cancel course alarm if user cancel on web
+		List<CourseModel> savedCourseModelList = Utils.loadCourseNotify(context);
+		if (savedCourseModelList != null && savedCourseModelList.size() != 0) {
+			for (int i = 0; i < savedCourseModelList.size(); i++) {
+				if (!saveModelList.contains(savedCourseModelList.get(i))) {
+					CourseModel courseModel = savedCourseModelList.get(i);
+					cancelCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+							courseModel.start_time, courseModel.notifyKey);
+				}
+			}
+		}
+
 		Utils.saveCourseNotify(context, saveModelList);
 	}
 
@@ -95,13 +122,6 @@ public class AlarmHelper {
 		bundle.putString("Time", time);
 		intent.putExtras(bundle);
 
-		Calendar calendar = Calendar.getInstance();
-		String _date = time.split(" ")[0];
-		String _time = time.split(" ")[1];
-		calendar.set(Integer.parseInt(_date.split("-")[0]),
-				Integer.parseInt(_date.split("-")[1]) - 1, Integer.parseInt(_date.split("-")[2]),
-				Integer.parseInt(_time.split(":")[0]), Integer.parseInt(_time.split(":")[1]));
-		calendar.add(Calendar.MINUTE, -30);
 		PendingIntent pendingIntent =
 				PendingIntent.getService(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
@@ -133,6 +153,22 @@ public class AlarmHelper {
 		if (calendar.getTime().after(now)) {
 			alarm.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
 		}
+	}
+
+	public static void cancelCourseAlarm(Context context, String room, String title, String time,
+	                                     int id) {
+		Intent intent = new Intent(context, CourseAlarmService.class);
+
+		Bundle bundle = new Bundle();
+		bundle.putString("room", room);
+		bundle.putString("title", title);
+		bundle.putString("time", time);
+		intent.putExtras(bundle);
+
+		PendingIntent pendingIntent =
+				PendingIntent.getService(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		AlarmManager alarm = (AlarmManager) context.getSystemService(Service.ALARM_SERVICE);
+		alarm.cancel(pendingIntent);
 	}
 
 	public static void setCourseAlarm(Context context, String room, String title, String time,

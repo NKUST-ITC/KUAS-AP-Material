@@ -276,12 +276,10 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 					public void onSuccess(List<List<CourseModel>> modelList) {
 						super.onSuccess(modelList);
 
-						if (isSave) {
-							Utils.saveCourseNotifyNoKey(CourseActivity.this, modelList);
-							if (Memory.getBoolean(CourseActivity.this, Constant.PREF_COURSE_NOTIFY,
-									false)) {
-								AlarmHelper.setCourseNotification(CourseActivity.this, modelList);
-							}
+						if (isSave &&
+								Memory.getBoolean(CourseActivity.this, Constant.PREF_COURSE_NOTIFY,
+										false)) {
+							AlarmHelper.setCourseNotification(CourseActivity.this, modelList);
 						}
 
 						mList = modelList;
