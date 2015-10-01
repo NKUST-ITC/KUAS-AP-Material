@@ -29,7 +29,10 @@ import java.util.List;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.libs.AlarmHelper;
+import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.BusModel;
@@ -181,6 +184,10 @@ public class BusReservationsActivity extends SilentActivity
 				super.onSuccess(modelList);
 
 				Utils.saveBusNotify(BusReservationsActivity.this, modelList);
+				if (Memory.getBoolean(BusReservationsActivity.this, Constant.PREF_BUS_NOTIFY,
+						false)) {
+					AlarmHelper.setBusNotification(BusReservationsActivity.this, modelList);
+				}
 
 				mList = modelList;
 				mListView.setVisibility(View.VISIBLE);
@@ -256,6 +263,16 @@ public class BusReservationsActivity extends SilentActivity
 						super.onSuccess();
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus")
 								.setAction("status").setLabel("success").build());
+
+						if (Memory
+								.getBoolean(BusReservationsActivity.this, Constant.PREF_BUS_NOTIFY,
+										false)) {
+							// must cancel alarm
+							AlarmHelper.cancelBusAlarm(BusReservationsActivity.this,
+									modelList.get(position).endStation,
+									modelList.get(position).runDateTime,
+									Integer.parseInt(modelList.get(position).cancelKey));
+						}
 						getData();
 						Toast.makeText(BusReservationsActivity.this,
 								R.string.bus_cancel_reserve_success, Toast.LENGTH_LONG).show();

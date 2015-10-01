@@ -25,8 +25,10 @@ import java.util.List;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.CourseCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
+import silent.kuasapmaterial.libs.AlarmHelper;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.CourseModel;
@@ -276,6 +278,10 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 
 						if (isSave) {
 							Utils.saveCourseNotifyNoKey(CourseActivity.this, modelList);
+							if (Memory.getBoolean(CourseActivity.this, Constant.PREF_COURSE_NOTIFY,
+									false)) {
+								AlarmHelper.setCourseNotification(CourseActivity.this, modelList);
+							}
 						}
 
 						mList = modelList;

@@ -32,6 +32,7 @@ import java.util.List;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.libs.AlarmHelper;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.ListScrollDistanceCalculator;
@@ -413,7 +414,7 @@ public class BusActivity extends SilentActivity
 		}
 	}
 
-	private void cancelBookBus(List<BusModel> modelList, final int position) {
+	private void cancelBookBus(final List<BusModel> modelList, final int position) {
 		Helper.cancelBookingBus(BusActivity.this, modelList.get(position).cancelKey,
 				new GeneralCallback() {
 
@@ -423,45 +424,13 @@ public class BusActivity extends SilentActivity
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus")
 								.setAction("status").setLabel("success " + mIndex).build());
 						if (Memory.getBoolean(BusActivity.this, Constant.PREF_BUS_NOTIFY, false)) {
-							mProgressWheel.setVisibility(View.VISIBLE);
-							mListView.setVisibility(View.GONE);
-							mNoBusLinearLayout.setVisibility(View.GONE);
-							mFab.setEnabled(false);
-							mSwipeRefreshLayout.setEnabled(false);
-							mFab.hide();
-							Utils.setUpBusNotify(BusActivity.this, new GeneralCallback() {
-								@Override
-								public void onSuccess() {
-									super.onSuccess();
-									mTracker.send(
-											new HitBuilders.EventBuilder().setCategory("notify bus")
-													.setAction("status").setLabel("success")
-													.build());
-									getData();
-								}
-
-								@Override
-								public void onFail(String errorMessage) {
-									super.onFail(errorMessage);
-									mTracker.send(
-											new HitBuilders.EventBuilder().setCategory("notify bus")
-													.setAction("status")
-													.setLabel("fail " + errorMessage).build());
-									getData();
-								}
-
-								@Override
-								public void onTokenExpired() {
-									super.onTokenExpired();
-									Utils.createTokenExpired(BusActivity.this).show();
-									mTracker.send(
-											new HitBuilders.EventBuilder().setCategory("token")
-													.setAction("expired").build());
-								}
-							});
-						} else {
-							getData();
+							// must cancel alarm
+							AlarmHelper.cancelBusAlarm(BusActivity.this,
+									modelList.get(position).endStation,
+									modelList.get(position).runDateTime,
+									Integer.parseInt(modelList.get(position).cancelKey));
 						}
+						getData();
 						Toast.makeText(BusActivity.this, R.string.bus_cancel_reserve_success,
 								Toast.LENGTH_LONG).show();
 					}

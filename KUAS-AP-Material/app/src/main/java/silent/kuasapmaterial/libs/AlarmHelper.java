@@ -26,7 +26,8 @@ public class AlarmHelper {
 		Utils.saveBusNotify(context, busModelList);
 		for (int i = 0; i < busModelList.size(); i++) {
 			BusModel model = busModelList.get(i);
-			setBusAlarm(context, model.endStation, model.Time, Integer.parseInt(model.cancelKey));
+			setBusAlarm(context, model.endStation, model.runDateTime,
+					Integer.parseInt(model.cancelKey));
 		}
 	}
 
@@ -37,7 +38,8 @@ public class AlarmHelper {
 		}
 		for (int i = 0; i < busModelList.size(); i++) {
 			BusModel model = busModelList.get(i);
-			setBusAlarm(context, model.endStation, model.Time, Integer.parseInt(model.cancelKey));
+			setBusAlarm(context, model.endStation, model.runDateTime,
+					Integer.parseInt(model.cancelKey));
 		}
 	}
 
@@ -83,6 +85,28 @@ public class AlarmHelper {
 					courseModelList.get(i).title, courseModelList.get(i).start_time,
 					courseModelList.get(i).dayOfWeek, courseModelList.get(i).notifyKey);
 		}
+	}
+
+	public static void cancelBusAlarm(Context context, String endStation, String time, int id) {
+		Intent intent = new Intent(context, BusAlarmService.class);
+
+		Bundle bundle = new Bundle();
+		bundle.putString("endStation", endStation);
+		bundle.putString("Time", time);
+		intent.putExtras(bundle);
+
+		Calendar calendar = Calendar.getInstance();
+		String _date = time.split(" ")[0];
+		String _time = time.split(" ")[1];
+		calendar.set(Integer.parseInt(_date.split("-")[0]),
+				Integer.parseInt(_date.split("-")[1]) - 1, Integer.parseInt(_date.split("-")[2]),
+				Integer.parseInt(_time.split(":")[0]), Integer.parseInt(_time.split(":")[1]));
+		calendar.add(Calendar.MINUTE, -30);
+		PendingIntent pendingIntent =
+				PendingIntent.getService(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		AlarmManager alarm = (AlarmManager) context.getSystemService(Service.ALARM_SERVICE);
+		alarm.cancel(pendingIntent);
 	}
 
 	public static void setBusAlarm(Context context, String endStation, String time, int id) {
