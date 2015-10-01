@@ -214,12 +214,16 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 							new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
 									.setLabel((mSemesterList == null) + "").build());
 					isRetry = false;
-					if (mSemesterList == null) {
+					if (mSemesterList == null || mSelectedModel == null) {
 						getSemester();
 					} else {
 						getData();
 					}
 				} else {
+					if (mSemesterList == null || mSelectedModel == null) {
+						getSemester();
+						return;
+					}
 					mTracker.send(new HitBuilders.EventBuilder().setCategory("pick yms")
 							.setAction("click").build());
 					Intent intent = new Intent(ScoreActivity.this, PickSemesterActivity.class);

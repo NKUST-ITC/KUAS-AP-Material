@@ -27,8 +27,18 @@ public class Constant {
 	public static final String PREF_USER_ID = "pref_user_id";
 
 	public static final String PREF_HEAD_PHOTO = "pref_head_photo";
+	public static final String PREF_COURSE_NOTIFY = "pref_course_notify";
+	public static final String PREF_BUS_NOTIFY = "pref_bus_notify";
+	public static final String PREF_COURSE_NOTIFY_DATA = "pref_course_notify_data";
+	public static final String PREF_BUS_NOTIFY_DATA = "pref_bus_notify_data";
+
+	public static final String PREF_UPDATE_NOTE = "pref_update_note";
 
 	// Activity request code
 	public static final int REQUEST_BUS_RESERVATIONS = 100;
 	public static final int REQUEST_PICK_SEMESTER = 101;
+
+	// Notification ID
+	public static final int NOTIFICATION_BUS_ID = 100;
+	public static final int NOTIFICATION_COURSE_ID = 101;
 }

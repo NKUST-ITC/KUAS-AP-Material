@@ -35,6 +35,7 @@ import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.ListScrollDistanceCalculator;
+import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.libs.segmentcontrol.SegmentControl;
@@ -59,6 +60,7 @@ public class BusActivity extends SilentActivity
 	private int mInitListPos = 0, mInitListOffset = 0, mIndex = 0;
 	BusAdapter mAdapter;
 	ListScrollDistanceCalculator mListScrollDistanceCalculator;
+	boolean isRetry = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,6 +88,7 @@ public class BusActivity extends SilentActivity
 			mIndex = savedInstanceState.getInt("mIndex");
 			mInitListPos = savedInstanceState.getInt("mInitListPos");
 			mInitListOffset = savedInstanceState.getInt("mInitListOffset");
+			isRetry = savedInstanceState.getBoolean("isRetry");
 
 			if (savedInstanceState.containsKey("mJianGongList")) {
 				mJianGongList = new Gson().fromJson(savedInstanceState.getString("mJianGongList"),
@@ -115,6 +118,7 @@ public class BusActivity extends SilentActivity
 
 		outState.putString("mDate", mDate);
 		outState.putInt("mIndex", mIndex);
+		outState.putBoolean("isRetry", isRetry);
 		if (mListView != null) {
 			outState.putInt("mInitListPos", mListView.getFirstVisiblePosition());
 			View vNewTop = mListView.getChildAt(0);
@@ -200,10 +204,17 @@ public class BusActivity extends SilentActivity
 		mNoBusLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mTracker.send(
-						new HitBuilders.EventBuilder().setCategory("pick date").setAction("click")
-								.build());
-				showDatePickerDialog();
+				if (isRetry) {
+					mTracker.send(
+							new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
+									.build());
+					isRetry = false;
+					getData();
+				} else {
+					mTracker.send(new HitBuilders.EventBuilder().setCategory("pick date")
+							.setAction("click").build());
+					showDatePickerDialog();
+				}
 			}
 		});
 
@@ -224,6 +235,7 @@ public class BusActivity extends SilentActivity
 		mTracker.send(
 				new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe").build());
 		mSwipeRefreshLayout.setRefreshing(true);
+		isRetry = false;
 		getData();
 	}
 
@@ -274,6 +286,7 @@ public class BusActivity extends SilentActivity
 
 				mJianGongList.clear();
 				mYanChaoList.clear();
+				isRetry = true;
 				setUpListView();
 				mAdapter.notifyDataSetChanged();
 
@@ -346,7 +359,9 @@ public class BusActivity extends SilentActivity
 		mListView.setVisibility(View.VISIBLE);
 		int count = mIndex == 0 ? mJianGongList.size() : mYanChaoList.size();
 		if (count == 0) {
-			if (mDate == null || mDate.length() == 0) {
+			if (isRetry) {
+				mNoBusTextView.setText(R.string.click_to_retry);
+			} else if (mDate == null || mDate.length() == 0) {
 				mNoBusTextView.setText(getString(R.string.bus_not_pick, "\uD83D\uDE0B"));
 			} else {
 				mNoBusTextView.setText(getString(R.string.bus_no_bus, "\uD83D\uDE0B"));
@@ -405,21 +420,66 @@ public class BusActivity extends SilentActivity
 					@Override
 					public void onSuccess() {
 						super.onSuccess();
-						getData();
+						mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus")
+								.setAction("status").setLabel("success " + mIndex).build());
+						if (Memory.getBoolean(BusActivity.this, Constant.PREF_BUS_NOTIFY, false)) {
+							mProgressWheel.setVisibility(View.VISIBLE);
+							mListView.setVisibility(View.GONE);
+							mNoBusLinearLayout.setVisibility(View.GONE);
+							mFab.setEnabled(false);
+							mSwipeRefreshLayout.setEnabled(false);
+							mFab.hide();
+							Utils.setUpBusNotify(BusActivity.this, new GeneralCallback() {
+								@Override
+								public void onSuccess() {
+									super.onSuccess();
+									mTracker.send(
+											new HitBuilders.EventBuilder().setCategory("notify bus")
+													.setAction("status").setLabel("success")
+													.build());
+									getData();
+								}
+
+								@Override
+								public void onFail(String errorMessage) {
+									super.onFail(errorMessage);
+									mTracker.send(
+											new HitBuilders.EventBuilder().setCategory("notify bus")
+													.setAction("status")
+													.setLabel("fail " + errorMessage).build());
+									getData();
+								}
+
+								@Override
+								public void onTokenExpired() {
+									super.onTokenExpired();
+									Utils.createTokenExpired(BusActivity.this).show();
+									mTracker.send(
+											new HitBuilders.EventBuilder().setCategory("token")
+													.setAction("expired").build());
+								}
+							});
+						} else {
+							getData();
+						}
 						Toast.makeText(BusActivity.this, R.string.bus_cancel_reserve_success,
-								Toast.LENGTH_SHORT).show();
+								Toast.LENGTH_LONG).show();
 					}
 
 					@Override
 					public void onFail(String errorMessage) {
 						super.onFail(errorMessage);
-						Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+						mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus")
+								.setAction("status").setLabel("fail " + mIndex).build());
+						Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_LONG).show();
 					}
 
 					@Override
 					public void onTokenExpired() {
 						super.onTokenExpired();
 						Utils.createTokenExpired(BusActivity.this).show();
+						mTracker.send(new HitBuilders.EventBuilder().setCategory("token")
+								.setAction("expired").build());
 					}
 				});
 	}
@@ -430,21 +490,62 @@ public class BusActivity extends SilentActivity
 			@Override
 			public void onSuccess() {
 				super.onSuccess();
-				getData();
-				Toast.makeText(BusActivity.this, R.string.bus_reserve_success, Toast.LENGTH_SHORT)
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("book bus").setAction("status")
+								.setLabel("success " + mIndex).build());
+				if (Memory.getBoolean(BusActivity.this, Constant.PREF_BUS_NOTIFY, false)) {
+					mProgressWheel.setVisibility(View.VISIBLE);
+					mListView.setVisibility(View.GONE);
+					mNoBusLinearLayout.setVisibility(View.GONE);
+					mFab.setEnabled(false);
+					mSwipeRefreshLayout.setEnabled(false);
+					mFab.hide();
+					Utils.setUpBusNotify(BusActivity.this, new GeneralCallback() {
+						@Override
+						public void onSuccess() {
+							super.onSuccess();
+							mTracker.send(new HitBuilders.EventBuilder().setCategory("notify bus")
+									.setAction("status").setLabel("success").build());
+							getData();
+						}
+
+						@Override
+						public void onFail(String errorMessage) {
+							super.onFail(errorMessage);
+							mTracker.send(new HitBuilders.EventBuilder().setCategory("notify bus")
+									.setAction("status").setLabel("fail " + errorMessage).build());
+							getData();
+						}
+
+						@Override
+						public void onTokenExpired() {
+							super.onTokenExpired();
+							Utils.createTokenExpired(BusActivity.this).show();
+						}
+					});
+				} else {
+					getData();
+				}
+				Toast.makeText(BusActivity.this, R.string.bus_reserve_success, Toast.LENGTH_LONG)
 						.show();
 			}
 
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
-				Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("book bus").setAction("status")
+								.setLabel("fail " + mIndex).build());
+				Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_LONG).show();
 			}
 
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
 				Utils.createTokenExpired(BusActivity.this).show();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
+								.build());
 			}
 		});
 	}

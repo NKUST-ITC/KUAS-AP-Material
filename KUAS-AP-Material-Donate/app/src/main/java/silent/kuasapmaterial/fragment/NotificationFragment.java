@@ -128,6 +128,25 @@ public class NotificationFragment extends SilentFragment
 				}
 			}
 		});
+		mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+			@Override
+			public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
+			                               long id) {
+				String shareData =
+						mList.get(position).content + "\n" + mList.get(position).link + "\n\n" +
+								getString(R.string.send_from);
+
+				Intent sendIntent = new Intent();
+				sendIntent.setAction(Intent.ACTION_SEND);
+				sendIntent.putExtra(Intent.EXTRA_TEXT, shareData);
+				sendIntent.setType("text/plain");
+				startActivity(Intent.createChooser(sendIntent, getString(R.string.share_to)));
+
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("share").setAction("click")
+						.setLabel(shareData).build());
+				return true;
+			}
+		});
 		setUpPullRefresh();
 	}
 

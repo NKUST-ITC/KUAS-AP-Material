@@ -173,6 +173,8 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				progressDialog.dismiss();
 				Toast.makeText(SettingsActivity.this, R.string.bus_notify_hint, Toast.LENGTH_SHORT)
 						.show();
+				Toast.makeText(SettingsActivity.this, R.string.beta_function, Toast.LENGTH_SHORT)
+						.show();
 			}
 
 			@Override
@@ -218,18 +220,20 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 			public void onSuccess() {
 				super.onSuccess();
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("notify course")
-								.setAction("status").setLabel("success").build());
+						.setAction("status").setLabel("success").build());
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_NOTIFY, true);
 				progressDialog.dismiss();
 				Toast.makeText(SettingsActivity.this, R.string.course_notify_hint,
 						Toast.LENGTH_SHORT).show();
+				Toast.makeText(SettingsActivity.this, R.string.beta_function, Toast.LENGTH_SHORT)
+						.show();
 			}
 
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("notify course")
-								.setAction("status").setLabel("fail " + errorMessage).build());
+						.setAction("status").setLabel("fail " + errorMessage).build());
 				progressDialog.dismiss();
 				mNotifyCourseSwitch.setChecked(false);
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_NOTIFY, false);

@@ -12,7 +12,6 @@ import android.widget.ScrollView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
@@ -50,6 +49,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 	SemesterModel mSelectedModel;
 	ScoreDetailModel mScoreDetailModel;
 	private int mPos = 0;
+	boolean isRetry = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +75,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		if (savedInstanceState != null) {
 			mYms = savedInstanceState.getString("mYms");
 			mPos = savedInstanceState.getInt("mPos");
+			isRetry = savedInstanceState.getBoolean("isRetry");
 
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
@@ -109,6 +110,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		super.onSaveInstanceState(outState);
 
 		outState.putString("mYms", mYms);
+		outState.putBoolean("isRetry", isRetry);
 		if (mScrollView != null) {
 			outState.putInt("mPos", mScrollView.getVerticalScrollbarPosition());
 		}
@@ -161,7 +163,8 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
-				Toast.makeText(ScoreActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+				isRetry = true;
+				setUpScoreTable();
 			}
 		});
 	}
@@ -181,7 +184,6 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 
 	private void setUpViews() {
 		setUpPullRefresh();
-		mNoScoreTextView.setText(getString(R.string.score_no_score, "\uD83D\uDE0B"));
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
 				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
@@ -207,13 +209,28 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		mNoScoreLinearLayout.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				mTracker.send(
-						new HitBuilders.EventBuilder().setCategory("pick yms").setAction("click")
-								.build());
-				Intent intent = new Intent(ScoreActivity.this, PickSemesterActivity.class);
-				intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
-				intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
-				startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
+				if (isRetry) {
+					mTracker.send(
+							new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
+									.setLabel((mSemesterList == null) + "").build());
+					isRetry = false;
+					if (mSemesterList == null || mSelectedModel == null) {
+						getSemester();
+					} else {
+						getData();
+					}
+				} else {
+					if (mSemesterList == null || mSelectedModel == null) {
+						getSemester();
+						return;
+					}
+					mTracker.send(new HitBuilders.EventBuilder().setCategory("pick yms")
+							.setAction("click").build());
+					Intent intent = new Intent(ScoreActivity.this, PickSemesterActivity.class);
+					intent.putExtra("mSemesterList", new Gson().toJson(mSemesterList));
+					intent.putExtra("mSelectedModel", new Gson().toJson(mSelectedModel));
+					startActivityForResult(intent, Constant.REQUEST_PICK_SEMESTER);
+				}
 			}
 		});
 
@@ -231,6 +248,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		if (mYms != null) {
 			mTracker.send(new HitBuilders.EventBuilder().setCategory("refresh").setAction("swipe")
 					.build());
+			isRetry = false;
 			mSwipeRefreshLayout.setRefreshing(true);
 			getData();
 		}
@@ -263,11 +281,8 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 				super.onFail(errorMessage);
 
 				mList.clear();
-				mProgressWheel.setVisibility(View.GONE);
-				mSwipeRefreshLayout.setEnabled(true);
-				mSwipeRefreshLayout.setRefreshing(false);
-				mNoScoreLinearLayout.setVisibility(View.VISIBLE);
-				mPickYmsView.setEnabled(true);
+				isRetry = true;
+				setUpScoreTable();
 			}
 
 			@Override
@@ -287,6 +302,11 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		mDetailTableLayout.removeAllViews();
 
 		if (mList.size() == 0) {
+			if (isRetry) {
+				mNoScoreTextView.setText(R.string.click_to_retry);
+			} else {
+				mNoScoreTextView.setText(getString(R.string.score_no_score, "\uD83D\uDE0B"));
+			}
 			mProgressWheel.setVisibility(View.GONE);
 			mSwipeRefreshLayout.setEnabled(true);
 			mSwipeRefreshLayout.setRefreshing(false);

@@ -4,9 +4,9 @@ import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
@@ -62,6 +62,17 @@ public class LoginActivity extends SilentActivity
 		getNews();
 	}
 
+	private void checkUpdateNote(String version) {
+		if (!Memory.getString(this, Constant.PREF_UPDATE_NOTE, "")
+				.equals(getString(R.string.update_note_content))) {
+			new AlertDialog.Builder(this).setTitle(getString(R.string.update_note_title, version))
+					.setMessage(R.string.update_note_content).setPositiveButton(R.string.ok, null)
+					.show();
+			Memory.setString(this, Constant.PREF_UPDATE_NOTE,
+					getString(R.string.update_note_content));
+		}
+	}
+
 	private void getVersion() {
 		try {
 			PackageInfo pkgInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -72,6 +83,8 @@ public class LoginActivity extends SilentActivity
 			version = "1.0.0";
 			mVersionTextView.setText(getString(R.string.version, "1.0.0"));
 		}
+		checkUpdateNote(version);
+
 		Helper.getAppVersion(this, new GeneralCallback() {
 			@Override
 			public void onSuccess(String data) {

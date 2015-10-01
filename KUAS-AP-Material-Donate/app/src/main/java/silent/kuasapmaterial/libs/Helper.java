@@ -12,7 +12,6 @@ import org.apache.http.Header;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
 import org.apache.http.client.params.ClientPNames;
-import org.apache.http.conn.ConnectTimeoutException;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -65,7 +64,7 @@ public class Helper {
 	public static final String BASE_URL = "https://" + SERVER_HOST + ":" + SERVER_PORT;
 
 	public static final String SERVER_STATUS_URL = BASE_URL + "/latest/servers/status";
-	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android_donate";
+	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android";
 	public static final String LOGIN_URL = BASE_URL + "/latest/token";
 	public static final String SEMESTER_URL = BASE_URL + "/latest/ap/semester";
 	public static final String COURSE_TIMETABLE_URL =
@@ -144,7 +143,7 @@ public class Helper {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
-				if (statusCode == 200 && response.has("auth_token")) {
+				if (statusCode == 200 && response != null && response.has("auth_token")) {
 					if (callback != null) {
 						callback.onSuccess();
 					}
@@ -157,22 +156,14 @@ public class Helper {
 			public void onFailure(int statusCode, Header[] headers, String responseString,
 			                      Throwable throwable) {
 				super.onFailure(statusCode, headers, responseString, throwable);
-				if (throwable.getCause() instanceof ConnectTimeoutException) {
-					onHelperTimeOut(callback);
-				} else {
-					onHelperFail(context, callback, statusCode, headers, throwable, responseString);
-				}
+				onHelperFail(context, callback, statusCode, headers, throwable, responseString);
 			}
 
 			@Override
 			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
-				if (throwable.getCause() instanceof ConnectTimeoutException) {
-					onHelperTimeOut(callback);
-				} else {
-					onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
-				}
+				onHelperFail(context, callback, statusCode, headers, throwable, errorResponse);
 			}
 		});
 	}
@@ -614,14 +605,16 @@ public class Helper {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
+				if (response == null) {
+					onHelperFail(context, callback, statusCode, headers);
+					return;
+				}
 				try {
 					if (!response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onFail(response.getString("message"));
 						}
-						return;
-					}
-					if (response.has("success") && response.getBoolean("success")) {
+					} else if (response.has("success") && response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onSuccess();
 						}
@@ -638,7 +631,7 @@ public class Helper {
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				try {
-					if (errorResponse.has("message")) {
+					if (errorResponse != null && errorResponse.has("message")) {
 						if (callback != null) {
 							callback.onFail(errorResponse.getString("message"));
 						}
@@ -661,14 +654,16 @@ public class Helper {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
+				if (response == null) {
+					onHelperFail(context, callback, statusCode, headers);
+					return;
+				}
 				try {
 					if (!response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onFail(response.getString("message"));
 						}
-						return;
-					}
-					if (response.has("success") && response.getBoolean("success")) {
+					} else if (response.has("success") && response.getBoolean("success")) {
 						if (callback != null) {
 							callback.onSuccess();
 						}
@@ -685,7 +680,7 @@ public class Helper {
 			                      JSONObject errorResponse) {
 				super.onFailure(statusCode, headers, throwable, errorResponse);
 				try {
-					if (errorResponse.has("message")) {
+					if (errorResponse != null && errorResponse.has("message")) {
 						if (callback != null) {
 							callback.onFail(errorResponse.getString("message"));
 						}

@@ -32,6 +32,8 @@ public class Constant {
 	public static final String PREF_COURSE_NOTIFY_DATA = "pref_course_notify_data";
 	public static final String PREF_BUS_NOTIFY_DATA = "pref_bus_notify_data";
 
+	public static final String PREF_UPDATE_NOTE = "pref_update_note";
+
 	// Activity request code
 	public static final int REQUEST_BUS_RESERVATIONS = 100;
 	public static final int REQUEST_PICK_SEMESTER = 101;

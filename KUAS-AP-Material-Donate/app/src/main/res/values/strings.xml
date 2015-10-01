@@ -1,6 +1,9 @@
 <resources>
 	<string name="app_name">高應校務通</string>
 
+	<string name="update_note_title">更新日誌 %s</string>
+	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n\n修正：\n　外籍生無法登入之錯誤\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
+
 	<string name="something_error">發生錯誤</string>
 	<string name="timeout_message">連線逾時，請稍候再試</string>
 	<string name="login_first">請先登入</string>
@@ -60,10 +63,24 @@
 	<string name="update_content">高應校務通 在 Google Play 有新版本喲！</string>
 	<string name="update_title">版本更新</string>
 	<string name="update">更新</string>
-	<string name="function_not_open">此功能尚未開放，敬啟期待！</string>
+	<string name="function_not_open">此功能尚未開放，敬啟期待～\n贊助我們可以提前使用此功能！</string>
+	<string name="beta_function">此功能為測試版本，如有問題請立即回報！</string>
 	<string name="bus_not_pick">您尚未選擇日期！\n請先選擇日期 %s</string>
 	<string name="easter_egg_juke">這不是彩蛋</string>
 	<string name="skip">稍後再說</string>
+	<string name="share_to">分享至…</string>
+	<string name="send_from">Send from 高應校務通 Android</string>
+	<string name="donate_title">Donate</string>
+	<string name="donate_content">貢獻一點心力支持作者，\n可以提早使用未開放功能！</string>
+	<string name="donate_error">哎呀！發生了點錯誤 :(\n不過沒關係到 Google Play\n搜尋「高應校務通
+		Donate」\n一樣可以支持喔！</string>
+	<string name="bus_notify_hint">校車預約將於發車前三十分鐘提醒！\n若在網頁預約或取消校車請重登入此App。</string>
+	<string name="bus_notify_content" formatted="false">親，您有一班 %s 從%s出發的校車！</string>
+	<string name="bus_notify_jiangong">建工</string>
+	<string name="bus_notify_yanchao">燕巢</string>
+	<string name="course_notify_hint">將於上課前十分鐘提醒！</string>
+	<string name="course_notify_content" formatted="false">親，%s上課教室在 %s！</string>
+	<string name="course_notify_unknown">外太空</string>
 
 	<string name="education_system">學制</string>
 	<string name="department">科系</string>

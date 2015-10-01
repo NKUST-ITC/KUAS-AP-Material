@@ -9,11 +9,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+import com.google.android.gms.analytics.HitBuilders;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.kuas.ap.donate.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.FailReason;
 import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
@@ -31,7 +32,7 @@ import silent.kuasapmaterial.models.UserInfoModel;
 public class UserInfoActivity extends SilentActivity {
 
 	ProgressWheel mProgressWheel;
-	View mDetailView;
+	View mDetailView, mRetryView;
 	TextView mUserTextView, mEducationSystemTextView, mDepartmentTextView, mClassTextView,
 			mStuIdTextView;
 	ImageView mPhotoImageView;
@@ -85,6 +86,7 @@ public class UserInfoActivity extends SilentActivity {
 		mDetailView = findViewById(R.id.layout_detail);
 		mPhotoImageView = (ImageView) findViewById(R.id.imageView_photo);
 		mScrollView = (OverScrollView) findViewById(R.id.scrollView);
+		mRetryView = findViewById(R.id.linearLayout_retry);
 
 		mUserTextView = (TextView) findViewById(R.id.textView_student_name_content);
 		mEducationSystemTextView = (TextView) findViewById(R.id.textView_education_system_content);
@@ -121,6 +123,18 @@ public class UserInfoActivity extends SilentActivity {
 				return false;
 			}
 		});
+		mRetryView.setOnClickListener(new View.OnClickListener() {
+			@Override
+			public void onClick(View v) {
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
+						.build());
+				mProgressWheel.setVisibility(View.VISIBLE);
+				mPhotoImageView.setVisibility(View.GONE);
+				mDetailView.setVisibility(View.GONE);
+				mRetryView.setVisibility(View.GONE);
+				getData();
+			}
+		});
 		if (mUserInfoModel != null) {
 			setUpUser();
 		} else {
@@ -132,6 +146,24 @@ public class UserInfoActivity extends SilentActivity {
 		mProgressWheel.setVisibility(View.VISIBLE);
 
 		Helper.getUserInfo(this, new UserInfoCallback() {
+			@Override
+			public void onFail(String errorMessage) {
+				super.onFail(errorMessage);
+				mProgressWheel.setVisibility(View.GONE);
+				mPhotoImageView.setVisibility(View.GONE);
+				mDetailView.setVisibility(View.GONE);
+				mRetryView.setVisibility(View.VISIBLE);
+			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				Utils.createTokenExpired(UserInfoActivity.this).show();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
+								.build());
+			}
+
 			@Override
 			public void onSuccess(UserInfoModel userInfoModel) {
 				super.onSuccess(userInfoModel);
@@ -150,9 +182,6 @@ public class UserInfoActivity extends SilentActivity {
 		mUserTextView.setText(mUserInfoModel.student_name_cht);
 
 		String photo = Memory.getString(this, Constant.PREF_USER_PIC, "");
-		if (mImageLoader == null) {
-			mImageLoader = Utils.getDefaultImageLoader(this);
-		}
 		if (photo.length() > 0) {
 			setUpUserPhoto(photo);
 		} else {
@@ -167,42 +196,51 @@ public class UserInfoActivity extends SilentActivity {
 				@Override
 				public void onFail(String errorMessage) {
 					super.onFail(errorMessage);
-					Toast.makeText(UserInfoActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+					mProgressWheel.setVisibility(View.GONE);
+					mPhotoImageView.setVisibility(View.GONE);
+					mDetailView.setVisibility(View.GONE);
+					mRetryView.setVisibility(View.VISIBLE);
 				}
 
 				@Override
 				public void onTokenExpired() {
 					super.onTokenExpired();
 					Utils.createTokenExpired(UserInfoActivity.this).show();
+					mTracker.send(
+							new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
+									.build());
 				}
 			});
 		}
 	}
 
 	private void setUpUserPhoto(String photo) {
-		mImageLoader.displayImage(photo, mPhotoImageView, Utils.getDefaultDisplayImageOptions(),
-				new ImageLoadingListener() {
-					@Override
-					public void onLoadingStarted(String imageUri, View view) {
+		ImageLoader.getInstance()
+				.displayImage(photo, mPhotoImageView, Utils.getDefaultDisplayImageOptions(),
+						new ImageLoadingListener() {
+							@Override
+							public void onLoadingStarted(String imageUri, View view) {
 
-					}
+							}
 
-					@Override
-					public void onLoadingFailed(String imageUri, View view, FailReason failReason) {
-						mDetailView.setVisibility(View.VISIBLE);
-					}
+							@Override
+							public void onLoadingFailed(String imageUri, View view,
+							                            FailReason failReason) {
+								mDetailView.setVisibility(View.VISIBLE);
+							}
 
-					@Override
-					public void onLoadingComplete(String imageUri, View view, Bitmap loadedImage) {
-						mProgressWheel.setVisibility(View.GONE);
-						mPhotoImageView.setVisibility(View.VISIBLE);
-						mDetailView.setVisibility(View.VISIBLE);
-					}
+							@Override
+							public void onLoadingComplete(String imageUri, View view,
+							                              Bitmap loadedImage) {
+								mProgressWheel.setVisibility(View.GONE);
+								mPhotoImageView.setVisibility(View.VISIBLE);
+								mDetailView.setVisibility(View.VISIBLE);
+							}
 
-					@Override
-					public void onLoadingCancelled(String imageUri, View view) {
+							@Override
+							public void onLoadingCancelled(String imageUri, View view) {
 
-					}
-				});
+							}
+						});
 	}
 }

@@ -61,7 +61,6 @@ public class SilentActivity extends AppCompatActivity
 
 	public AnimationActionBarDrawerToggle mDrawerToggle;
 
-	public ImageLoader mImageLoader;
 	public Tracker mTracker;
 
 	public boolean isDisplayHomeAsUp = false;
@@ -138,32 +137,34 @@ public class SilentActivity extends AppCompatActivity
 			return;
 		}
 		boolean isSetUpHeadPhoto = Memory.getBoolean(this, Constant.PREF_HEAD_PHOTO, true);
-		if (isSetUpHeadPhoto) {
-			mImageLoader = Utils.getDefaultImageLoader(this);
-			String photo = Memory.getString(this, Constant.PREF_USER_PIC, "");
-			if (photo.length() > 0) {
-				mImageLoader.displayImage(photo,
-						(ImageView) navigationView.findViewById(R.id.imageView_user),
-						Utils.getHeadDisplayImageOptions(
-								getResources().getDimensionPixelSize(R.dimen.head_mycard) / 2));
-			} else {
-				Helper.getUserPicture(this, new GeneralCallback() {
+		try {
+			if (isSetUpHeadPhoto) {
+				String photo = Memory.getString(this, Constant.PREF_USER_PIC, "");
+				if (photo.length() > 0) {
+					ImageLoader.getInstance().displayImage(photo,
+							(ImageView) navigationView.findViewById(R.id.imageView_user),
+							Utils.getHeadDisplayImageOptions(
+									getResources().getDimensionPixelSize(R.dimen.head_mycard) / 2));
+				} else {
+					Helper.getUserPicture(this, new GeneralCallback() {
 
-					@Override
-					public void onSuccess(String data) {
-						super.onSuccess(data);
-						Memory.setString(SilentActivity.this, Constant.PREF_USER_PIC, data);
-						mImageLoader.displayImage(data,
-								(ImageView) navigationView.findViewById(R.id.imageView_user),
-								Utils.getHeadDisplayImageOptions(
-										getResources().getDimensionPixelSize(R.dimen.head_mycard) /
-												2));
-					}
-				});
+						@Override
+						public void onSuccess(String data) {
+							super.onSuccess(data);
+							Memory.setString(SilentActivity.this, Constant.PREF_USER_PIC, data);
+							ImageLoader.getInstance().displayImage(data,
+									(ImageView) navigationView.findViewById(R.id.imageView_user),
+									Utils.getHeadDisplayImageOptions(getResources()
+											.getDimensionPixelSize(R.dimen.head_mycard) / 2));
+						}
+					});
+				}
+			} else {
+				((ImageView) navigationView.findViewById(R.id.imageView_user))
+						.setImageResource(R.drawable.ic_account_circle_white_48dp);
 			}
-		} else {
-			((ImageView) navigationView.findViewById(R.id.imageView_user))
-					.setImageResource(R.drawable.ic_account_circle_white_48dp);
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
 		}
 	}
 

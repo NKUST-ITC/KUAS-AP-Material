@@ -6,6 +6,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
+import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
@@ -21,9 +22,9 @@ import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.donate.R;
 
-import io.fabric.sdk.android.Fabric;
 import java.io.UnsupportedEncodingException;
 
+import io.fabric.sdk.android.Fabric;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
@@ -61,6 +62,17 @@ public class LoginActivity extends SilentActivity
 		getNews();
 	}
 
+	private void checkUpdateNote(String version) {
+		if (!Memory.getString(this, Constant.PREF_UPDATE_NOTE, "")
+				.equals(getString(R.string.update_note_content))) {
+			new AlertDialog.Builder(this).setTitle(getString(R.string.update_note_title, version))
+					.setMessage(R.string.update_note_content).setPositiveButton(R.string.ok, null)
+					.show();
+			Memory.setString(this, Constant.PREF_UPDATE_NOTE,
+					getString(R.string.update_note_content));
+		}
+	}
+
 	private void getVersion() {
 		try {
 			PackageInfo pkgInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -69,8 +81,10 @@ public class LoginActivity extends SilentActivity
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
 			version = "1.0.0";
-			mVersionTextView.setText(getString(R.string.version, version + " Donate"));
+			mVersionTextView.setText(getString(R.string.version, "1.0.0 Donate"));
 		}
+		checkUpdateNote(getString(R.string.version, version));
+
 		Helper.getAppVersion(this, new GeneralCallback() {
 			@Override
 			public void onSuccess(String data) {
@@ -86,7 +100,12 @@ public class LoginActivity extends SilentActivity
 					} else if (serverVersions[1].equals(currentVersions[1])) {
 						if (Integer.valueOf(serverVersions[2]) >
 								Integer.valueOf(currentVersions[2])) {
-							Utils.createUpdateDialog(LoginActivity.this).show();
+							if (Integer.valueOf(serverVersions[2]) -
+									Integer.valueOf(currentVersions[2]) >= 5) {
+								Utils.createForceUpdateDialog(LoginActivity.this).show();
+							} else {
+								Utils.createUpdateDialog(LoginActivity.this).show();
+							}
 						}
 					}
 				}
@@ -206,37 +225,35 @@ public class LoginActivity extends SilentActivity
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
 
-				progressDialog.dismiss();
-				mIdTextInputLayout.setError(getString(R.string.check_login_hint));
-				mIdTextInputLayout.setErrorEnabled(true);
-				mPasswordTextInputLayout.setError(getString(R.string.check_login_hint));
-				mPasswordTextInputLayout.setErrorEnabled(true);
-			}
-
-			@Override
-			public void onTokenExpired() {
-				super.onTokenExpired();
-
-				progressDialog.dismiss();
-				mIdTextInputLayout.setError(getString(R.string.check_login_hint));
-				mIdTextInputLayout.setErrorEnabled(true);
-				mPasswordTextInputLayout.setError(getString(R.string.check_login_hint));
-				mPasswordTextInputLayout.setErrorEnabled(true);
-			}
-
-			@Override
-			public void onTimeOut() {
-				super.onTimeOut();
-
+				if (isFinishing()) {
+					return;
+				}
 				progressDialog.dismiss();
 				Toast.makeText(LoginActivity.this, R.string.timeout_message, Toast.LENGTH_SHORT)
 						.show();
 			}
 
 			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+
+				if (isFinishing()) {
+					return;
+				}
+				progressDialog.dismiss();
+				mIdTextInputLayout.setError(getString(R.string.check_login_hint));
+				mIdTextInputLayout.setErrorEnabled(true);
+				mPasswordTextInputLayout.setError(getString(R.string.check_login_hint));
+				mPasswordTextInputLayout.setErrorEnabled(true);
+			}
+
+			@Override
 			public void onSuccess() {
 				super.onSuccess();
 
+				if (isFinishing()) {
+					return;
+				}
 				progressDialog.dismiss();
 				try {
 					Memory.setString(LoginActivity.this, Constant.PREF_USERNAME, id);
