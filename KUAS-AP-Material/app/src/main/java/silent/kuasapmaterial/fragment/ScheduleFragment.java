@@ -24,6 +24,7 @@ import org.json.JSONException;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import silent.kuasapmaterial.base.SilentFragment;
@@ -100,6 +101,23 @@ public class ScheduleFragment extends SilentFragment implements AdapterView.OnIt
 				JSONArray eventArray = jsonArray.getJSONObject(i).getJSONArray("events");
 				for (int j = 0; j < eventArray.length(); j++) {
 					mList.add("*" + eventArray.getString(j));
+					if (mInitListPos == 0) {
+						try {
+							Calendar calendar = Calendar.getInstance();
+							Date now = new Date(System.currentTimeMillis());
+							String _time = eventArray.getString(j).split("\\) ")[0].substring(1);
+							String _startTime =
+									_time.contains("~") ? _time.split("~")[1].trim() : _time;
+							calendar.set(Calendar.getInstance().get(Calendar.YEAR),
+									Integer.parseInt(_startTime.split("/")[0]) - 1,
+									Integer.parseInt(_startTime.split("/")[1]));
+							if (calendar.getTime().after(now)) {
+								mInitListPos = mList.size() - 5 < 0 ? 0 : mList.size() - 5;
+							}
+						} catch (Exception e) {
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 		} catch (JSONException e) {
