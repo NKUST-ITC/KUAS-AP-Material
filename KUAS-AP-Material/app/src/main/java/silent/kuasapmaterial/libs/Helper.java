@@ -576,7 +576,7 @@ public class Helper {
 						BusModel model = new BusModel();
 						model.EndEnrollDateTime = jsonArray.getJSONObject(i).getString("endTime");
 						model.endStation = jsonArray.getJSONObject(i).getString("end");
-						model.Time = jsonArray.getJSONObject(i).getString("time");
+						model.runDateTime = jsonArray.getJSONObject(i).getString("time");
 						model.cancelKey = jsonArray.getJSONObject(i).getString("cancelKey");
 						modelList.add(model);
 					}

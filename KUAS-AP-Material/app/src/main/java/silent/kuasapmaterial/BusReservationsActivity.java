@@ -241,7 +241,7 @@ public class BusReservationsActivity extends SilentActivity
 		new AlertDialog.Builder(this).setTitle(R.string.bus_cancel_reserve_confirm_title)
 				.setMessage(getString(R.string.bus_cancel_reserve_confirm_content,
 						getString(index ? R.string.bus_from_jiangong : R.string.bus_from_yanchao),
-						mList.get(position).Time)).setPositiveButton(R.string.bus_cancel_reserve,
+						mList.get(position).runDateTime)).setPositiveButton(R.string.bus_cancel_reserve,
 				new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
@@ -347,8 +347,8 @@ public class BusReservationsActivity extends SilentActivity
 				holder.linearLayout.setBackgroundColor(getResources().getColor(R.color.green_600));
 				holder.textView_location.setText(getString(R.string.bus_yanchao_reservations));
 			}
-			holder.textView_date.setText(mList.get(position).Time.split(" ")[0]);
-			holder.textView_time.setText(mList.get(position).Time.split(" ")[1]);
+			holder.textView_date.setText(mList.get(position).runDateTime.split(" ")[0]);
+			holder.textView_time.setText(mList.get(position).runDateTime.split(" ")[1]);
 			return convertView;
 		}
 

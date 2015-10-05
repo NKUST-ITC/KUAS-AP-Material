@@ -46,7 +46,8 @@ public class AlarmHelper {
 		List<BusModel> busModelList = Utils.loadBusNotify(context);
 		if (busModelList != null) {
 			for (BusModel model : busModelList) {
-				setBusAlarm(context, model.endStation, model.runDateTime,
+				setBusAlarm(context, model.endStation,
+						model.runDateTime == null ? model.Time : model.runDateTime,
 						Integer.parseInt(model.cancelKey));
 			}
 		}
