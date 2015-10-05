@@ -27,9 +27,8 @@ public class AlarmHelper {
 		// Must cancel bus alarm if user cancel on web
 		List<BusModel> savedBusModelList = Utils.loadBusNotify(context);
 		if (savedBusModelList != null && savedBusModelList.size() != 0) {
-			for (int i = 0; i < savedBusModelList.size(); i++) {
-				if (!busModelList.contains(savedBusModelList.get(i))) {
-					BusModel model = savedBusModelList.get(i);
+			for (BusModel model : savedBusModelList) {
+				if (!busModelList.contains(model)) {
 					cancelBusAlarm(context, model.endStation, model.runDateTime,
 							Integer.parseInt(model.cancelKey));
 				}
@@ -37,8 +36,7 @@ public class AlarmHelper {
 		}
 
 		Utils.saveBusNotify(context, busModelList);
-		for (int i = 0; i < busModelList.size(); i++) {
-			BusModel model = busModelList.get(i);
+		for (BusModel model : busModelList) {
 			setBusAlarm(context, model.endStation, model.runDateTime,
 					Integer.parseInt(model.cancelKey));
 		}
@@ -46,13 +44,11 @@ public class AlarmHelper {
 
 	public static void setBusNotification(Context context) {
 		List<BusModel> busModelList = Utils.loadBusNotify(context);
-		if (busModelList == null || busModelList.size() == 0) {
-			return;
-		}
-		for (int i = 0; i < busModelList.size(); i++) {
-			BusModel model = busModelList.get(i);
-			setBusAlarm(context, model.endStation, model.runDateTime,
-					Integer.parseInt(model.cancelKey));
+		if (busModelList != null) {
+			for (BusModel model : busModelList) {
+				setBusAlarm(context, model.endStation, model.runDateTime,
+						Integer.parseInt(model.cancelKey));
+			}
 		}
 	}
 
@@ -78,10 +74,6 @@ public class AlarmHelper {
 						courseModel.dayOfWeek = i == 6 ? 1 : (i + 2);
 						courseModel.notifyKey = j * 10 + i;
 						saveModelList.add(courseModel);
-
-						setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
-								courseModel.start_time, courseModel.dayOfWeek,
-								courseModel.notifyKey);
 					}
 				}
 			}
@@ -89,14 +81,19 @@ public class AlarmHelper {
 
 		// Must cancel course alarm if user cancel on web
 		List<CourseModel> savedCourseModelList = Utils.loadCourseNotify(context);
-		if (savedCourseModelList != null && savedCourseModelList.size() != 0) {
-			for (int i = 0; i < savedCourseModelList.size(); i++) {
-				if (!saveModelList.contains(savedCourseModelList.get(i))) {
-					CourseModel courseModel = savedCourseModelList.get(i);
+		if (savedCourseModelList != null) {
+			for (CourseModel courseModel : savedCourseModelList) {
+				if (!saveModelList.contains(courseModel)) {
 					cancelCourseAlarm(context, courseModel.room.trim(), courseModel.title,
 							courseModel.start_time, courseModel.notifyKey);
 				}
 			}
+		}
+
+		// Must set alarm after cancel
+		for (CourseModel courseModel : saveModelList) {
+			setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+					courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
 		}
 
 		Utils.saveCourseNotify(context, saveModelList);
@@ -104,13 +101,11 @@ public class AlarmHelper {
 
 	public static void setCourseNotification(Context context) {
 		List<CourseModel> courseModelList = Utils.loadCourseNotify(context);
-		if (courseModelList == null) {
-			return;
-		}
-		for (int i = 0; i < courseModelList.size(); i++) {
-			setCourseAlarm(context, courseModelList.get(i).room.trim(),
-					courseModelList.get(i).title, courseModelList.get(i).start_time,
-					courseModelList.get(i).dayOfWeek, courseModelList.get(i).notifyKey);
+		if (courseModelList != null) {
+			for (CourseModel courseModel : courseModelList) {
+				setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+						courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
+			}
 		}
 	}
 
