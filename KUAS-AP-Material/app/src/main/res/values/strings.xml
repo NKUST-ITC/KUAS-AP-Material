@@ -2,7 +2,7 @@
 	<string name="app_name">高應校務通</string>
 
 	<string name="update_note_title">更新日誌 %s</string>
-	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n\n修正：\n　外籍生無法登入之錯誤\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
+	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n　上課震動功能\n\n修正：\n　外籍生無法登入之錯誤\n　部分用戶上課提醒崩潰\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
 
 	<string name="something_error">發生錯誤</string>
 	<string name="timeout_message">連線逾時，請稍候再試</string>
@@ -78,6 +78,7 @@
 	<string name="bus_notify_content" formatted="false">親，您有一班 %s 從%s出發的校車！</string>
 	<string name="bus_notify_jiangong">建工</string>
 	<string name="bus_notify_yanchao">燕巢</string>
+	<string name="course_vibrate_hint">將於上課時轉為震動，下課時恢復！</string>
 	<string name="course_notify_hint">將於上課前十分鐘提醒！</string>
 	<string name="course_notify_content" formatted="false">親，%s上課教室在 %s！</string>
 	<string name="course_notify_unknown">外太空</string>
@@ -93,6 +94,7 @@
 	<string name="other_settings">其他設定</string>
 	<string name="head_photo_setting">顯示大頭貼</string>
 	<string name="course_notify">上課提醒</string>
+	<string name="course_vibrate">上課震動</string>
 	<string name="bus_notify">校車提醒</string>
 	<string name="feedback">回饋意見</string>
 	<string name="feedback_via_facebook">私訊給粉絲專頁</string>

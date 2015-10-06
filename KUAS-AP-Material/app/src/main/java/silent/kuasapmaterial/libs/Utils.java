@@ -303,7 +303,7 @@ public class Utils {
 	}
 
 	/**
-	 * Set Up Notify
+	 * Set Up Notify and Vibrate
 	 */
 	public static void setUpCourseNotify(final Context context, final GeneralCallback callback) {
 		Helper.getSemester(context, new SemesterCallback() {
@@ -316,6 +316,7 @@ public class Utils {
 							public void onSuccess(List<List<CourseModel>> modelList) {
 								super.onSuccess(modelList);
 								AlarmHelper.setCourseNotification(context, modelList);
+								VibrateHelper.setCourseVibrate(context, modelList);
 								callback.onSuccess();
 							}
 
@@ -362,5 +363,21 @@ public class Utils {
 				callback.onTokenExpired();
 			}
 		});
+	}
+
+	/**
+	 * Save Vibrate Data
+	 */
+	public static void saveCourseVibrate(Context context, List<CourseModel> modelList) {
+		Memory.setObject(context, Constant.PREF_COURSE_VIBRATE_DATA, modelList);
+	}
+
+	/**
+	 * Load Vibrate Data
+	 */
+	public static List<CourseModel> loadCourseVibrate(Context context) {
+		CourseModel[] courseModels = (CourseModel[]) Memory
+				.getObject(context, Constant.PREF_COURSE_VIBRATE_DATA, CourseModel[].class);
+		return courseModels == null ? null : new ArrayList<>(Arrays.asList(courseModels));
 	}
 }

@@ -25,8 +25,9 @@ import silent.kuasapmaterial.libs.Utils;
 public class SettingsActivity extends SilentActivity implements View.OnClickListener {
 
 	private View mNotifyCourseView, mNotifyBusView, mHeadPhotoView, mAppVersionView, mFeedbackView,
-			mDonateView;
-	private SwitchCompat mNotifyCourseSwitch, mNotifyBusSwitch, mHeadPhotoSwitch;
+			mDonateView, mVibrateCourseView;
+	private SwitchCompat mNotifyCourseSwitch, mNotifyBusSwitch, mHeadPhotoSwitch,
+			mVibrateCourseSwitch;
 	private TextView mAppVersionTextView;
 
 	private long lastDebugPressTime = 0l;
@@ -59,8 +60,10 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		mAppVersionView = findViewById(R.id.view_app_version);
 		mHeadPhotoView = findViewById(R.id.view_head_photo);
 		mDonateView = findViewById(R.id.view_donate);
+		mVibrateCourseView = findViewById(R.id.view_course_vibrate);
 
 		mNotifyCourseSwitch = (SwitchCompat) findViewById(R.id.switch_course_notify);
+		mVibrateCourseSwitch = (SwitchCompat) findViewById(R.id.switch_course_vibrate);
 		mNotifyBusSwitch = (SwitchCompat) findViewById(R.id.switch_bus_notify);
 		mHeadPhotoSwitch = (SwitchCompat) findViewById(R.id.switch_head_photo);
 
@@ -74,6 +77,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		mFeedbackView.setOnClickListener(this);
 		mAppVersionView.setOnClickListener(this);
 		mDonateView.setOnClickListener(this);
+		mVibrateCourseView.setOnClickListener(this);
 
 		try {
 			PackageInfo pkgInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
@@ -88,6 +92,8 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		mHeadPhotoSwitch.setChecked(Memory.getBoolean(this, Constant.PREF_HEAD_PHOTO, true));
 		mNotifyCourseSwitch.setChecked(Memory.getBoolean(this, Constant.PREF_COURSE_NOTIFY, false));
 		mNotifyBusSwitch.setChecked(Memory.getBoolean(this, Constant.PREF_BUS_NOTIFY, false));
+		mVibrateCourseSwitch
+				.setChecked(Memory.getBoolean(this, Constant.PREF_COURSE_VIBRATE, false));
 	}
 
 	@Override
@@ -96,6 +102,8 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 			setUpCourseNotify();
 		} else if (v == mNotifyBusView) {
 			setUpBusNotify();
+		} else if (v == mVibrateCourseView) {
+			setUpCourseVibrate();
 		} else if (v == mHeadPhotoView) {
 			mHeadPhotoSwitch.setChecked(!mHeadPhotoSwitch.isChecked());
 			mTracker.send(
@@ -244,6 +252,57 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 			public void onTokenExpired() {
 				super.onTokenExpired();
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("notify course")
+						.setAction("status").setLabel("token expired").build());
+				progressDialog.dismiss();
+				Utils.createTokenExpired(SettingsActivity.this).show();
+			}
+		});
+	}
+
+	private void setUpCourseVibrate() {
+		mTracker.send(
+				new HitBuilders.EventBuilder().setCategory("vibrate course").setAction("create")
+						.build());
+		mVibrateCourseSwitch.setChecked(!mVibrateCourseSwitch.isChecked());
+		mTracker.send(
+				new HitBuilders.EventBuilder().setCategory("vibrate course").setAction("click")
+						.setLabel(mVibrateCourseSwitch.isChecked() + "").build());
+		if (!mVibrateCourseSwitch.isChecked()) {
+			Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_VIBRATE, false);
+			return;
+		}
+
+		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
+		progressDialog.show();
+		Utils.setUpCourseNotify(this, new GeneralCallback() {
+			@Override
+			public void onSuccess() {
+				super.onSuccess();
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("vibrate course")
+						.setAction("status").setLabel("success").build());
+				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_VIBRATE, true);
+				progressDialog.dismiss();
+				Toast.makeText(SettingsActivity.this, R.string.course_vibrate_hint,
+						Toast.LENGTH_SHORT).show();
+				Toast.makeText(SettingsActivity.this, R.string.beta_function, Toast.LENGTH_SHORT)
+						.show();
+			}
+
+			@Override
+			public void onFail(String errorMessage) {
+				super.onFail(errorMessage);
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("vibrate course")
+						.setAction("status").setLabel("fail " + errorMessage).build());
+				progressDialog.dismiss();
+				mVibrateCourseSwitch.setChecked(false);
+				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_VIBRATE, false);
+				Toast.makeText(SettingsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
+			}
+
+			@Override
+			public void onTokenExpired() {
+				super.onTokenExpired();
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("vibrate course")
 						.setAction("status").setLabel("token expired").build());
 				progressDialog.dismiss();
 				Utils.createTokenExpired(SettingsActivity.this).show();

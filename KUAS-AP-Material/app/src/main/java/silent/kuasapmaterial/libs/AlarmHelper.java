@@ -10,6 +10,7 @@ import android.os.Bundle;
 import com.kuas.ap.R;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -110,6 +111,13 @@ public class AlarmHelper {
 		List<CourseModel> courseModelList = Utils.loadCourseNotify(context);
 		if (courseModelList != null) {
 			for (CourseModel courseModel : courseModelList) {
+				if (!courseModel.start_time.trim().contains(":")) {
+					List<String> sectionList = new ArrayList<>(Arrays.asList(
+							context.getResources().getStringArray(R.array.course_sections)));
+					courseModel.start_time =
+							context.getResources().getStringArray(R.array.start_time)[sectionList
+									.indexOf(courseModel.section)];
+				}
 				setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
 						courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
 			}
@@ -132,6 +140,10 @@ public class AlarmHelper {
 	}
 
 	public static void setBusAlarm(Context context, String endStation, String time, int id) {
+		if (!time.contains(" ") || !time.contains("-") || !time.contains(":")) {
+			return;
+		}
+
 		Intent intent = new Intent(context, BusAlarmService.class);
 
 		Bundle bundle = new Bundle();
@@ -175,6 +187,10 @@ public class AlarmHelper {
 
 	public static void setCourseAlarm(Context context, String room, String title, String time,
 	                                  int dayOfWeek, int id) {
+		if (!time.contains(":")) {
+			return;
+		}
+
 		Intent intent = new Intent(context, CourseAlarmService.class);
 
 		Bundle bundle = new Bundle();
