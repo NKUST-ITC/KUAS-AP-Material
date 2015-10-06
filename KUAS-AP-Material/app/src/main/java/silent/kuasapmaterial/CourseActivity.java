@@ -391,13 +391,18 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			instructors += "," + mList.get(weekday).get(section).instructors.get(k);
 		}
 
+		String start_time = !mList.get(weekday).get(section).start_time.contains(":") ?
+				getResources().getStringArray(R.array.start_time)[section] :
+				mList.get(weekday).get(section).start_time;
+		String end_time = !mList.get(weekday).get(section).end_time.contains(":") ?
+				getResources().getStringArray(R.array.end_time)[section] :
+				mList.get(weekday).get(section).end_time;
+
 		new AlertDialog.Builder(CourseActivity.this).setTitle(R.string.course_dialog_title)
 				.setMessage(getString(R.string.course_dialog_messages,
 						mList.get(weekday).get(section).title, instructors,
-						mList.get(weekday).get(section).room,
-						mList.get(weekday).get(section).start_time + " - " +
-								mList.get(weekday).get(section).end_time))
-				.setPositiveButton(R.string.ok, null).show();
+						mList.get(weekday).get(section).room, start_time +
+								" - " + end_time)).setPositiveButton(R.string.ok, null).show();
 	}
 
 	private void checkCourseTableType() {

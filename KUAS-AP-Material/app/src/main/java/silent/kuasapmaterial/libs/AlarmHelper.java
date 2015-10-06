@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.kuas.ap.R;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
@@ -72,6 +74,10 @@ public class AlarmHelper {
 						}
 
 						CourseModel courseModel = courseModelList.get(i).get(j);
+						if (!courseModel.start_time.trim().contains(":")) {
+							courseModel.start_time =
+									context.getResources().getStringArray(R.array.start_time)[j];
+						}
 						courseModel.dayOfWeek = i == 6 ? 1 : (i + 2);
 						courseModel.notifyKey = j * 10 + i;
 						saveModelList.add(courseModel);
