@@ -89,6 +89,11 @@ public class LoginActivity extends SilentActivity
 			@Override
 			public void onSuccess(String data) {
 				super.onSuccess(data);
+
+				if (isFinishing()) {
+					return;
+				}
+
 				String[] serverVersions = data.split("\\.");
 				String[] currentVersions = version.split("\\.");
 
@@ -118,6 +123,11 @@ public class LoginActivity extends SilentActivity
 			@Override
 			public void onSuccess(ServerStatusModel model) {
 				super.onSuccess(model);
+
+				if (isFinishing()) {
+					return;
+				}
+
 				dot_ap.setImageResource(
 						model.ap_status == 200 ? R.drawable.dot_green : R.drawable.dot_red);
 				dot_leave.setImageResource(
@@ -129,6 +139,11 @@ public class LoginActivity extends SilentActivity
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
+
+				if (isFinishing()) {
+					return;
+				}
+
 				dot_ap.setImageResource(R.drawable.dot_red);
 				dot_leave.setImageResource(R.drawable.dot_red);
 				dot_bus.setImageResource(R.drawable.dot_red);
