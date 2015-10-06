@@ -179,7 +179,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 								.setLabel("success").build());
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_BUS_NOTIFY, true);
 				progressDialog.dismiss();
-				Toast.makeText(SettingsActivity.this, R.string.bus_notify_hint, Toast.LENGTH_SHORT)
+				Toast.makeText(SettingsActivity.this, R.string.bus_notify_hint, Toast.LENGTH_LONG)
 						.show();
 				Toast.makeText(SettingsActivity.this, R.string.beta_function, Toast.LENGTH_SHORT)
 						.show();
@@ -232,7 +232,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_NOTIFY, true);
 				progressDialog.dismiss();
 				Toast.makeText(SettingsActivity.this, R.string.course_notify_hint,
-						Toast.LENGTH_SHORT).show();
+						Toast.LENGTH_LONG).show();
 				Toast.makeText(SettingsActivity.this, R.string.beta_function, Toast.LENGTH_SHORT)
 						.show();
 			}
@@ -283,7 +283,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_VIBRATE, true);
 				progressDialog.dismiss();
 				Toast.makeText(SettingsActivity.this, R.string.course_vibrate_hint,
-						Toast.LENGTH_SHORT).show();
+						Toast.LENGTH_LONG).show();
 				Toast.makeText(SettingsActivity.this, R.string.beta_function, Toast.LENGTH_SHORT)
 						.show();
 			}

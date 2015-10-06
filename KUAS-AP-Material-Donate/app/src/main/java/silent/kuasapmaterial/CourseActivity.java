@@ -25,8 +25,10 @@ import java.util.List;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.CourseCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
+import silent.kuasapmaterial.libs.AlarmHelper;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.CourseModel;
@@ -274,8 +276,10 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 					public void onSuccess(List<List<CourseModel>> modelList) {
 						super.onSuccess(modelList);
 
-						if (isSave) {
-							Utils.saveCourseNotifyNoKey(CourseActivity.this, modelList);
+						if (isSave &&
+								Memory.getBoolean(CourseActivity.this, Constant.PREF_COURSE_NOTIFY,
+										false)) {
+							AlarmHelper.setCourseNotification(CourseActivity.this, modelList);
 						}
 
 						mList = modelList;
@@ -387,13 +391,18 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			instructors += "," + mList.get(weekday).get(section).instructors.get(k);
 		}
 
+		String start_time = !mList.get(weekday).get(section).start_time.contains(":") ?
+				getResources().getStringArray(R.array.start_time)[section] :
+				mList.get(weekday).get(section).start_time;
+		String end_time = !mList.get(weekday).get(section).end_time.contains(":") ?
+				getResources().getStringArray(R.array.end_time)[section] :
+				mList.get(weekday).get(section).end_time;
+
 		new AlertDialog.Builder(CourseActivity.this).setTitle(R.string.course_dialog_title)
 				.setMessage(getString(R.string.course_dialog_messages,
 						mList.get(weekday).get(section).title, instructors,
-						mList.get(weekday).get(section).room,
-						mList.get(weekday).get(section).start_time + " - " +
-								mList.get(weekday).get(section).end_time))
-				.setPositiveButton(R.string.ok, null).show();
+						mList.get(weekday).get(section).room, start_time +
+								" - " + end_time)).setPositiveButton(R.string.ok, null).show();
 	}
 
 	private void checkCourseTableType() {

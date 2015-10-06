@@ -7,7 +7,10 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.kuas.ap.donate.R;
+
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
@@ -23,21 +26,33 @@ public class AlarmHelper {
 		if (busModelList == null || busModelList.size() == 0) {
 			return;
 		}
+
+		// Must cancel bus alarm if user cancel on web
+		List<BusModel> savedBusModelList = Utils.loadBusNotify(context);
+		if (savedBusModelList != null && savedBusModelList.size() != 0) {
+			for (BusModel model : savedBusModelList) {
+				if (!busModelList.contains(model)) {
+					cancelBusAlarm(context, model.endStation, model.runDateTime,
+							Integer.parseInt(model.cancelKey));
+				}
+			}
+		}
+
 		Utils.saveBusNotify(context, busModelList);
-		for (int i = 0; i < busModelList.size(); i++) {
-			BusModel model = busModelList.get(i);
-			setBusAlarm(context, model.endStation, model.Time, Integer.parseInt(model.cancelKey));
+		for (BusModel model : busModelList) {
+			setBusAlarm(context, model.endStation, model.runDateTime,
+					Integer.parseInt(model.cancelKey));
 		}
 	}
 
 	public static void setBusNotification(Context context) {
 		List<BusModel> busModelList = Utils.loadBusNotify(context);
-		if (busModelList == null || busModelList.size() == 0) {
-			return;
-		}
-		for (int i = 0; i < busModelList.size(); i++) {
-			BusModel model = busModelList.get(i);
-			setBusAlarm(context, model.endStation, model.Time, Integer.parseInt(model.cancelKey));
+		if (busModelList != null) {
+			for (BusModel model : busModelList) {
+				setBusAlarm(context, model.endStation,
+						model.runDateTime == null ? model.Time : model.runDateTime,
+						Integer.parseInt(model.cancelKey));
+			}
 		}
 	}
 
@@ -46,6 +61,7 @@ public class AlarmHelper {
 		if (courseModelList == null) {
 			return;
 		}
+
 		List<String> keyList = new ArrayList<>();
 		List<CourseModel> saveModelList = new ArrayList<>();
 		for (int i = 0; i < courseModelList.size(); i++) {
@@ -59,33 +75,75 @@ public class AlarmHelper {
 						}
 
 						CourseModel courseModel = courseModelList.get(i).get(j);
+						if (!courseModel.start_time.trim().contains(":")) {
+							courseModel.start_time =
+									context.getResources().getStringArray(R.array.start_time)[j];
+						}
 						courseModel.dayOfWeek = i == 6 ? 1 : (i + 2);
 						courseModel.notifyKey = j * 10 + i;
 						saveModelList.add(courseModel);
-
-						setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
-								courseModel.start_time, courseModel.dayOfWeek,
-								courseModel.notifyKey);
 					}
 				}
 			}
 		}
+
+		// Must cancel course alarm if user cancel on web
+		List<CourseModel> savedCourseModelList = Utils.loadCourseNotify(context);
+		if (savedCourseModelList != null) {
+			for (CourseModel courseModel : savedCourseModelList) {
+				if (!saveModelList.contains(courseModel)) {
+					cancelCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+							courseModel.start_time, courseModel.notifyKey);
+				}
+			}
+		}
+
+		// Must set alarm after cancel
+		for (CourseModel courseModel : saveModelList) {
+			setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+					courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
+		}
+
 		Utils.saveCourseNotify(context, saveModelList);
 	}
 
 	public static void setCourseNotification(Context context) {
 		List<CourseModel> courseModelList = Utils.loadCourseNotify(context);
-		if (courseModelList == null) {
-			return;
-		}
-		for (int i = 0; i < courseModelList.size(); i++) {
-			setCourseAlarm(context, courseModelList.get(i).room.trim(),
-					courseModelList.get(i).title, courseModelList.get(i).start_time,
-					courseModelList.get(i).dayOfWeek, courseModelList.get(i).notifyKey);
+		if (courseModelList != null) {
+			for (CourseModel courseModel : courseModelList) {
+				if (!courseModel.start_time.trim().contains(":")) {
+					List<String> sectionList = new ArrayList<>(Arrays.asList(
+							context.getResources().getStringArray(R.array.course_sections)));
+					courseModel.start_time =
+							context.getResources().getStringArray(R.array.start_time)[sectionList
+									.indexOf(courseModel.section)];
+				}
+				setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+						courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
+			}
 		}
 	}
 
+	public static void cancelBusAlarm(Context context, String endStation, String time, int id) {
+		Intent intent = new Intent(context, BusAlarmService.class);
+
+		Bundle bundle = new Bundle();
+		bundle.putString("endStation", endStation);
+		bundle.putString("Time", time);
+		intent.putExtras(bundle);
+
+		PendingIntent pendingIntent =
+				PendingIntent.getService(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+		AlarmManager alarm = (AlarmManager) context.getSystemService(Service.ALARM_SERVICE);
+		alarm.cancel(pendingIntent);
+	}
+
 	public static void setBusAlarm(Context context, String endStation, String time, int id) {
+		if (!time.contains(" ") || !time.contains("-") || !time.contains(":")) {
+			return;
+		}
+
 		Intent intent = new Intent(context, BusAlarmService.class);
 
 		Bundle bundle = new Bundle();
@@ -111,8 +169,28 @@ public class AlarmHelper {
 		}
 	}
 
+	public static void cancelCourseAlarm(Context context, String room, String title, String time,
+	                                     int id) {
+		Intent intent = new Intent(context, CourseAlarmService.class);
+
+		Bundle bundle = new Bundle();
+		bundle.putString("room", room);
+		bundle.putString("title", title);
+		bundle.putString("time", time);
+		intent.putExtras(bundle);
+
+		PendingIntent pendingIntent =
+				PendingIntent.getService(context, id, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+		AlarmManager alarm = (AlarmManager) context.getSystemService(Service.ALARM_SERVICE);
+		alarm.cancel(pendingIntent);
+	}
+
 	public static void setCourseAlarm(Context context, String room, String title, String time,
 	                                  int dayOfWeek, int id) {
+		if (!time.contains(":")) {
+			return;
+		}
+
 		Intent intent = new Intent(context, CourseAlarmService.class);
 
 		Bundle bundle = new Bundle();

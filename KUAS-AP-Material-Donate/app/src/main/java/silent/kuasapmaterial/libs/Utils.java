@@ -283,31 +283,6 @@ public class Utils {
 		Memory.setObject(context, Constant.PREF_COURSE_NOTIFY_DATA, modelList);
 	}
 
-	public static void saveCourseNotifyNoKey(Context context,
-	                                         List<List<CourseModel>> courseModelList) {
-		List<String> keyList = new ArrayList<>();
-		List<CourseModel> saveModelList = new ArrayList<>();
-		for (int i = 0; i < courseModelList.size(); i++) {
-			if (courseModelList.get(i) != null) {
-				for (int j = 0; j < courseModelList.get(i).size(); j++) {
-					if (courseModelList.get(i).get(j) != null) {
-						if (keyList.contains(courseModelList.get(i).get(j).title + i)) {
-							continue;
-						} else {
-							keyList.add(courseModelList.get(i).get(j).title + i);
-						}
-
-						CourseModel courseModel = courseModelList.get(i).get(j);
-						courseModel.dayOfWeek = i == 6 ? 1 : (i + 2);
-						courseModel.notifyKey = j * 10 + i;
-						saveModelList.add(courseModel);
-					}
-				}
-			}
-		}
-		saveCourseNotify(context, saveModelList);
-	}
-
 	public static void saveBusNotify(Context context, List<BusModel> modelList) {
 		Memory.setObject(context, Constant.PREF_BUS_NOTIFY_DATA, modelList);
 	}
@@ -328,7 +303,7 @@ public class Utils {
 	}
 
 	/**
-	 * Set Up Notify
+	 * Set Up Notify and Vibrate
 	 */
 	public static void setUpCourseNotify(final Context context, final GeneralCallback callback) {
 		Helper.getSemester(context, new SemesterCallback() {
@@ -341,6 +316,7 @@ public class Utils {
 							public void onSuccess(List<List<CourseModel>> modelList) {
 								super.onSuccess(modelList);
 								AlarmHelper.setCourseNotification(context, modelList);
+								VibrateHelper.setCourseVibrate(context, modelList);
 								callback.onSuccess();
 							}
 
@@ -387,5 +363,21 @@ public class Utils {
 				callback.onTokenExpired();
 			}
 		});
+	}
+
+	/**
+	 * Save Vibrate Data
+	 */
+	public static void saveCourseVibrate(Context context, List<CourseModel> modelList) {
+		Memory.setObject(context, Constant.PREF_COURSE_VIBRATE_DATA, modelList);
+	}
+
+	/**
+	 * Load Vibrate Data
+	 */
+	public static List<CourseModel> loadCourseVibrate(Context context) {
+		CourseModel[] courseModels = (CourseModel[]) Memory
+				.getObject(context, Constant.PREF_COURSE_VIBRATE_DATA, CourseModel[].class);
+		return courseModels == null ? null : new ArrayList<>(Arrays.asList(courseModels));
 	}
 }

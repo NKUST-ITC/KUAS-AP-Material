@@ -31,6 +31,10 @@ public class Constant {
 	public static final String PREF_BUS_NOTIFY = "pref_bus_notify";
 	public static final String PREF_COURSE_NOTIFY_DATA = "pref_course_notify_data";
 	public static final String PREF_BUS_NOTIFY_DATA = "pref_bus_notify_data";
+	public static final String PREF_COURSE_VIBRATE = "pref_course_vibrate";
+	public static final String PREF_COURSE_VIBRATE_DATA = "pref_course_vibrate_data";
+	public static final String PREF_COURSE_VIBRATE_USER_SETTING =
+			"pref_course_vibrate_user_setting";
 
 	public static final String PREF_UPDATE_NOTE = "pref_update_note";
 

@@ -29,7 +29,10 @@ import java.util.List;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.libs.AlarmHelper;
+import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.BusModel;
@@ -180,7 +183,10 @@ public class BusReservationsActivity extends SilentActivity
 			public void onSuccess(List<BusModel> modelList) {
 				super.onSuccess(modelList);
 
-				Utils.saveBusNotify(BusReservationsActivity.this, modelList);
+				if (Memory.getBoolean(BusReservationsActivity.this, Constant.PREF_BUS_NOTIFY,
+						false)) {
+					AlarmHelper.setBusNotification(BusReservationsActivity.this, modelList);
+				}
 
 				mList = modelList;
 				mListView.setVisibility(View.VISIBLE);
@@ -235,15 +241,17 @@ public class BusReservationsActivity extends SilentActivity
 		new AlertDialog.Builder(this).setTitle(R.string.bus_cancel_reserve_confirm_title)
 				.setMessage(getString(R.string.bus_cancel_reserve_confirm_content,
 						getString(index ? R.string.bus_from_jiangong : R.string.bus_from_yanchao),
-						mList.get(position).Time)).setPositiveButton(R.string.bus_cancel_reserve,
-				new DialogInterface.OnClickListener() {
-					@Override
-					public void onClick(DialogInterface dialog, int which) {
-						mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus")
-								.setAction("click").build());
-						cancelBookBus(mList, position);
-					}
-				}).setNegativeButton(R.string.back, null).show();
+						mList.get(position).runDateTime))
+				.setPositiveButton(R.string.bus_cancel_reserve,
+						new DialogInterface.OnClickListener() {
+							@Override
+							public void onClick(DialogInterface dialog, int which) {
+								mTracker.send(
+										new HitBuilders.EventBuilder().setCategory("cancel bus")
+												.setAction("click").build());
+								cancelBookBus(mList, position);
+							}
+						}).setNegativeButton(R.string.back, null).show();
 	}
 
 	private void cancelBookBus(final List<BusModel> modelList, final int position) {
@@ -256,6 +264,16 @@ public class BusReservationsActivity extends SilentActivity
 						super.onSuccess();
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("cancel bus")
 								.setAction("status").setLabel("success").build());
+
+						if (Memory
+								.getBoolean(BusReservationsActivity.this, Constant.PREF_BUS_NOTIFY,
+										false)) {
+							// must cancel alarm
+							AlarmHelper.cancelBusAlarm(BusReservationsActivity.this,
+									modelList.get(position).endStation,
+									modelList.get(position).runDateTime,
+									Integer.parseInt(modelList.get(position).cancelKey));
+						}
 						getData();
 						Toast.makeText(BusReservationsActivity.this,
 								R.string.bus_cancel_reserve_success, Toast.LENGTH_LONG).show();
@@ -331,8 +349,8 @@ public class BusReservationsActivity extends SilentActivity
 				holder.linearLayout.setBackgroundColor(getResources().getColor(R.color.green_600));
 				holder.textView_location.setText(getString(R.string.bus_yanchao_reservations));
 			}
-			holder.textView_date.setText(mList.get(position).Time.split(" ")[0]);
-			holder.textView_time.setText(mList.get(position).Time.split(" ")[1]);
+			holder.textView_date.setText(mList.get(position).runDateTime.split(" ")[0]);
+			holder.textView_time.setText(mList.get(position).runDateTime.split(" ")[1]);
 			return convertView;
 		}
 
