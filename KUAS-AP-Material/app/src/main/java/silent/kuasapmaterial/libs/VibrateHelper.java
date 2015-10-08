@@ -26,11 +26,22 @@ public class VibrateHelper {
 			return;
 		}
 
+		List<String> keyList = new ArrayList<>();
 		List<CourseModel> saveModelList = new ArrayList<>();
 		for (int i = 0; i < courseModelList.size(); i++) {
 			if (courseModelList.get(i) != null) {
 				for (int j = 0; j < courseModelList.get(i).size(); j++) {
 					if (courseModelList.get(i).get(j) != null) {
+						if (keyList.contains(courseModelList.get(i).get(j).title + i) ||
+								(j > 0 && courseModelList.get(i).get(j - 1) != null)) {
+							if (!(j == courseModelList.get(i).size() - 1 ||
+									courseModelList.get(i).get(j + 1) == null)) {
+								continue;
+							}
+						} else {
+							keyList.add(courseModelList.get(i).get(j).title + i);
+						}
+
 						CourseModel courseModel = courseModelList.get(i).get(j);
 						if (!courseModel.start_time.contains(":") ||
 								!courseModel.end_time.contains(":")) {
@@ -48,22 +59,30 @@ public class VibrateHelper {
 		}
 
 		// Must cancel course alarm if user cancel on web
-		List<CourseModel> savedCourseModelList = Utils.loadCourseNotify(context);
+		List<CourseModel> savedCourseModelList = Utils.loadCourseVibrate(context);
 		if (savedCourseModelList != null) {
-			for (CourseModel courseModel : savedCourseModelList) {
+			for (int i = 0; i < savedCourseModelList.size(); i++) {
+				CourseModel courseModel = savedCourseModelList.get(i);
 				if (!saveModelList.contains(courseModel)) {
-					cancelCourseAlarm(context, courseModel.notifyKey * 1000, true);
-					cancelCourseAlarm(context, courseModel.notifyKey * 10000, false);
+					if (i % 2 == 0) {
+						cancelCourseAlarm(context, courseModel.notifyKey * 1000, true);
+					} else {
+						cancelCourseAlarm(context, courseModel.notifyKey * 10000, false);
+					}
 				}
 			}
 		}
 
 		// Must set alarm after cancel
-		for (CourseModel courseModel : saveModelList) {
-			setCourseAlarm(context, courseModel.start_time, courseModel.dayOfWeek,
-					courseModel.notifyKey, true);
-			setCourseAlarm(context, courseModel.end_time, courseModel.dayOfWeek,
-					courseModel.notifyKey, false);
+		for (int i = 0; i < saveModelList.size(); i++) {
+			CourseModel courseModel = saveModelList.get(i);
+			if (i % 2 == 0) {
+				setCourseAlarm(context, courseModel.start_time, courseModel.dayOfWeek,
+						courseModel.notifyKey * 1000, true);
+			} else {
+				setCourseAlarm(context, courseModel.end_time, courseModel.dayOfWeek,
+						courseModel.notifyKey * 10000, false);
+			}
 		}
 
 		Utils.saveCourseVibrate(context, saveModelList);

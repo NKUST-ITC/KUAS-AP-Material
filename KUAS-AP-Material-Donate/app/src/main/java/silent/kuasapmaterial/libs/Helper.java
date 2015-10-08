@@ -64,7 +64,7 @@ public class Helper {
 	public static final String BASE_URL = "https://" + SERVER_HOST + ":" + SERVER_PORT;
 
 	public static final String SERVER_STATUS_URL = BASE_URL + "/latest/servers/status";
-	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android";
+	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android_donate";
 	public static final String LOGIN_URL = BASE_URL + "/latest/token";
 	public static final String SEMESTER_URL = BASE_URL + "/latest/ap/semester";
 	public static final String COURSE_TIMETABLE_URL =
@@ -576,7 +576,7 @@ public class Helper {
 						BusModel model = new BusModel();
 						model.EndEnrollDateTime = jsonArray.getJSONObject(i).getString("endTime");
 						model.endStation = jsonArray.getJSONObject(i).getString("end");
-						model.Time = jsonArray.getJSONObject(i).getString("time");
+						model.runDateTime = jsonArray.getJSONObject(i).getString("time");
 						model.cancelKey = jsonArray.getJSONObject(i).getString("cancelKey");
 						modelList.add(model);
 					}

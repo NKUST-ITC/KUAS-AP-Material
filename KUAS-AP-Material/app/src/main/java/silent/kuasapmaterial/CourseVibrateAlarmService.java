@@ -54,7 +54,7 @@ public class CourseVibrateAlarmService extends Service {
 		} else {
 			audioManager.setRingerMode(
 					Memory.getInt(this, Constant.PREF_COURSE_VIBRATE_USER_SETTING,
-							AudioManager.RINGER_MODE_NORMAL));
+							audioManager.getRingerMode()));
 		}
 
 		stopService();
