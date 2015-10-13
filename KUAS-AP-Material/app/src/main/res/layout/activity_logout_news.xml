@@ -90,7 +90,8 @@
 					android:layout_marginRight="@dimen/margin_medium"
 					android:background="@drawable/button_login"
 					android:minWidth="100dp"
-					android:text="立即前往"
+					android:text="@string/click_to_view"
+					android:textAllCaps="false"
 					android:textColor="@color/white_text"
 					android:textSize="@dimen/text_subhead"/>
 
@@ -100,7 +101,8 @@
 					android:layout_height="wrap_content"
 					android:background="@drawable/button_logout"
 					android:minWidth="100dp"
-					android:text="登出"
+					android:text="@string/logout"
+					android:textAllCaps="false"
 					android:textColor="@color/white_text"
 					android:textSize="@dimen/text_subhead"/>
 			</LinearLayout>

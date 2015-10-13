@@ -50,13 +50,14 @@
 					android:id="@+id/imageView_blackCat"
 					android:layout_width="230dp"
 					android:layout_height="230dp"
-					android:background="@drawable/black_cat"/>
+					android:background="@drawable/black_cat"
+					android:contentDescription="@null"/>
 
 				<TextView
 					android:layout_width="wrap_content"
 					android:layout_height="wrap_content"
 					android:lineSpacingMultiplier="1.3"
-					android:text="成功登入高應大校務系統\n點擊左側選單，開始瀏覽"
+					android:text="@string/login_success"
 					android:textColor="@color/black_text"/>
 
 				<Button
@@ -66,7 +67,8 @@
 					android:layout_marginTop="@dimen/margin_medium"
 					android:background="@drawable/button_logout"
 					android:minWidth="100dp"
-					android:text="登出"
+					android:text="@string/logout"
+					android:textAllCaps="false"
 					android:textColor="@color/white_text"
 					android:textSize="@dimen/text_subhead"/>
 			</LinearLayout>
