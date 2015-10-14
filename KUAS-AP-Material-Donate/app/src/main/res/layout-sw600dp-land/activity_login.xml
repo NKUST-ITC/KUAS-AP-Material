@@ -187,6 +187,7 @@
 						android:layout_marginTop="@dimen/margin_small"
 						android:background="@drawable/button_login"
 						android:text="@string/login"
+						android:textAllCaps="false"
 						android:textColor="@color/white_text"
 						android:textSize="@dimen/text_subhead"/>
 

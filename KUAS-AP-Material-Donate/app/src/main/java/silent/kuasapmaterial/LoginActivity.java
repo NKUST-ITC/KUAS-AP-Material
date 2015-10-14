@@ -1,6 +1,7 @@
 package silent.kuasapmaterial;
 
 import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -207,7 +208,23 @@ public class LoginActivity extends SilentActivity
 	@Override
 	public void onClick(View v) {
 		if (v.getId() == R.id.button_login) {
-			login();
+			String id = mIdEditText.getText().toString();
+			if (id.length() != 0 && id.length() < 10) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("login").setAction("status")
+								.setLabel("teacher").build());
+				new AlertDialog.Builder(this).setTitle(R.string.teacher_confirm_title)
+						.setMessage(R.string.teacher_confirm_content)
+						.setPositiveButton(R.string.continue_to_use,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										login();
+									}
+								}).setNegativeButton(R.string.cancel, null).show();
+			} else {
+				login();
+			}
 		}
 	}
 
@@ -293,7 +310,23 @@ public class LoginActivity extends SilentActivity
 	@Override
 	public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
 		if (v.getId() == R.id.editText_password) {
-			login();
+			String id = mIdEditText.getText().toString();
+			if (id.length() != 0 && id.length() < 10) {
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("login").setAction("status")
+								.setLabel("teacher").build());
+				new AlertDialog.Builder(this).setTitle(R.string.teacher_confirm_title)
+						.setMessage(R.string.teacher_confirm_content)
+						.setPositiveButton(R.string.continue_to_use,
+								new DialogInterface.OnClickListener() {
+									@Override
+									public void onClick(DialogInterface dialog, int which) {
+										login();
+									}
+								}).setNegativeButton(R.string.cancel, null).show();
+			} else {
+				login();
+			}
 			return true;
 		}
 		return false;

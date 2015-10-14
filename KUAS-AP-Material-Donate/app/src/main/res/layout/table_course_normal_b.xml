@@ -28,7 +28,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_top_center"
 			android:gravity="center"
-			android:text=" 一 "
+			android:text="@string/mon"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -38,7 +38,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_top_center"
 			android:gravity="center"
-			android:text=" 二 "
+			android:text="@string/tue"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -48,7 +48,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_top_center"
 			android:gravity="center"
-			android:text=" 三 "
+			android:text="@string/wed"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -58,7 +58,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_top_center"
 			android:gravity="center"
-			android:text=" 四 "
+			android:text="@string/thu"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -68,7 +68,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_top_right"
 			android:gravity="center"
-			android:text=" 五 "
+			android:text="@string/fri"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 	</TableRow>
@@ -84,7 +84,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="M"
+			android:text="@string/course1"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -155,7 +155,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="第1節"
+			android:text="@string/course2"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -226,7 +226,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="第2節"
+			android:text="@string/course3"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -297,7 +297,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="第3節"
+			android:text="@string/course4"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -368,7 +368,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="第4節"
+			android:text="@string/course5"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -439,7 +439,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="A"
+			android:text="@string/course6"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -510,7 +510,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="第5節"
+			android:text="@string/course7"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -581,7 +581,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="第6節"
+			android:text="@string/course8"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -652,7 +652,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="第7節"
+			android:text="@string/course9"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -723,7 +723,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_normal_left"
 			android:gravity="center"
-			android:text="第8節"
+			android:text="@string/course10"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 
@@ -794,7 +794,7 @@
 			android:layout_weight="1"
 			android:background="@drawable/course_bottom_left"
 			android:gravity="center"
-			android:text="B"
+			android:text="@string/course11"
 			android:textColor="@color/accent"
 			android:textSize="@dimen/text_caption"/>
 

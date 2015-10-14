@@ -91,7 +91,8 @@ public class VibrateHelper {
 	public static void setCourseVibrate(Context context) {
 		List<CourseModel> courseModelList = Utils.loadCourseVibrate(context);
 		if (courseModelList != null) {
-			for (CourseModel courseModel : courseModelList) {
+			for (int i = 0; i < courseModelList.size(); i++) {
+				CourseModel courseModel = courseModelList.get(i);
 				if (!courseModel.start_time.contains(":") || !courseModel.end_time.contains(":")) {
 					List<String> sectionList = new ArrayList<>(Arrays.asList(
 							context.getResources().getStringArray(R.array.course_sections)));
@@ -102,10 +103,13 @@ public class VibrateHelper {
 							context.getResources().getStringArray(R.array.end_time)[sectionList
 									.indexOf(courseModel.section)];
 				}
-				setCourseAlarm(context, courseModel.start_time, courseModel.dayOfWeek,
-						courseModel.notifyKey * 1000, true);
-				setCourseAlarm(context, courseModel.end_time, courseModel.dayOfWeek,
-						courseModel.notifyKey * 10000, false);
+				if (i % 2 == 0) {
+					setCourseAlarm(context, courseModel.start_time, courseModel.dayOfWeek,
+							courseModel.notifyKey * 1000, true);
+				} else {
+					setCourseAlarm(context, courseModel.end_time, courseModel.dayOfWeek,
+							courseModel.notifyKey * 10000, false);
+				}
 			}
 		}
 	}

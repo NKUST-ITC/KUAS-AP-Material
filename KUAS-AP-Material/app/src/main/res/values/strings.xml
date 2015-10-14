@@ -2,8 +2,11 @@
 	<string name="app_name">KUAS AP</string>
 
 	<string name="update_note_title">Update Notes %s</string>
-	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n　上課震動功能\n\n修正：\n　外籍生無法登入之錯誤\n　部分用戶上課提醒崩潰\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
+	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n　上課震動功能\n　英文版本\n\n修正：\n　外籍生無法登入之錯誤\n　部分用戶上課提醒崩潰\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
 
+	<string name="teacher_confirm_title">Are you a teacher?</string>
+	<string name="teacher_confirm_content">This App only for students!</string>
+	<string name="continue_to_use">Continue</string>
 	<string name="logout">Logout</string>
 	<string name="click_to_view">View</string>
 	<string name="login_success">Login success,\nclick menu to view.</string>
@@ -73,7 +76,7 @@
 	<string name="easter_egg_juke">This is not an easter egg</string>
 	<string name="skip">Skip</string>
 	<string name="share_to">Share to…</string>
-	<string name="send_from">Sent from Kuas Campus App Android</string>
+	<string name="send_from">Sent from KUAS AP Android</string>
 	<string name="donate_title">Donate</string>
 	<string name="donate_content">Help and support the programmer\nto use new features!</string>
 	<string name="donate_error">Oops!Something went wrong :(\nGO to Google Play\n search for KUAS AP
@@ -106,12 +109,15 @@
 	<string name="app_version">App Version</string>
 
 	<string name="about_detail">The best KUAS Campus App\nKUAS AP\n\nAre you a
-		freshman?\nDon\'t know about school info, telephone numbers, or up coming events?\nBeen here a few years?\nHave checking class schedule, report card and reserving bus seats drove you crazy?\n\nNo more, no more worries, anymore!\n\nKuas Campus App lets no matter old or new fellow\nhave control over your life in Kuas!\n\nFrom checking class schedule, report card to your absence records!\nPlus reserving/canceling bus seats with newest school feeds!\n\n\n\nMuch Simple, Many Convenient, Very instinct, wow!\n\n☆FABULOUS☆</string>
+		freshman?\nDon\'t know about school info, telephone numbers, or up coming events?\nBeen
+		here a few years?\nHave checking class schedule, report card and reserving bus seats
+		drove you crazy?\n\nNo more, no more worries, anymore!\n\nKUAS AP lets no matter old or new
+		fellow\nhave control over your life in KUAS!\n\nFrom checking class schedule, report card to
+		your absence records!\nPlus reserving/canceling bus seats with newest school feeds!\n\n\n\nMuch Simple, Many Convenient, Very instinct, wow!\n\n☆FABULOUS☆</string>
 	<string name="about_author_title">Made by</string>
 	<string name="about_author_content">呂紹榕(Louie Lu), 姜尚德(JohnThunder), \nregisterAutumn, 詹濬鍵(Evans), \n陳建霖(HearSilent)</string>
-	<string name="about_us">You\'re the nobody,\nwhenever you ask why nobody did
-		this。\nNobody is
-		the one almighty\n\nWe did this cause no one did it.\nWe created KUAS Wifi Login, KUAS
+	<string name="about_us">“Ask not why nobody is doing this. You are \'nobody\'.”\n\nWe did this
+		cause no one did it.\nWe created KUAS Wifi Login, KUAS
 		AP and KUAS Gourmet, Course Selection Sim, etc&#8230;\nTo bring convenience to
 		everyone\'s on campus!</string>
 	<string name="about_recruit_title">We Need You !</string>

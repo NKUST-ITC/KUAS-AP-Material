@@ -91,6 +91,7 @@
 						android:background="@drawable/button_login"
 						android:minWidth="250dp"
 						android:text="@string/login"
+						android:textAllCaps="false"
 						android:textColor="@color/white_text"
 						android:textSize="@dimen/text_subhead"/>
 

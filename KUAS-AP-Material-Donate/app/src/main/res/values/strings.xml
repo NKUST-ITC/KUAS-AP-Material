@@ -1,119 +1,138 @@
 <resources>
-	<string name="app_name">高應校務通</string>
+	<string name="app_name">KUAS AP</string>
 
-	<string name="update_note_title">更新日誌 %s</string>
-	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n　上課震動功能\n\n修正：\n　外籍生無法登入之錯誤\n　部分用戶上課提醒崩潰\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
+	<string name="update_note_title">Update Notes %s</string>
+	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n　上課震動功能\n　英文版本\n\n修正：\n　外籍生無法登入之錯誤\n　部分用戶上課提醒崩潰\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
 
-	<string name="something_error">發生錯誤</string>
-	<string name="timeout_message">連線逾時，請稍候再試</string>
-	<string name="login_first">請先登入</string>
-	<string name="logout_check">是否要登出？</string>
-	<string name="login">登入系統</string>
-	<string name="dot_ap">校務</string>
-	<string name="dot_leave">缺曠</string>
-	<string name="dot_bus">校車</string>
-	<string name="schedule">行事曆</string>
+	<string name="teacher_confirm_title">Are you a teacher?</string>
+	<string name="teacher_confirm_content">This App only for students!</string>
+	<string name="continue_to_use">Continue</string>
+	<string name="logout">Logout</string>
+	<string name="click_to_view">View</string>
+	<string name="login_success">Login success,\nclick menu to view.</string>
+	<string name="something_error">Error Occurred.</string>
+	<string name="timeout_message">Try again later, Connection Timeout</string>
+	<string name="login_first">Please login</string>
+	<string name="logout_check">Are you sure you want to log out?</string>
+	<string name="login">Login</string>
+	<string name="dot_ap">AP</string>
+	<string name="dot_leave">Leave</string>
+	<string name="dot_bus">Bus</string>
+	<string name="schedule">Events</string>
 	<string name="loading">Loading&#8230;</string>
-	<string name="id_hint">學號</string>
-	<string name="password_hint">密碼</string>
-	<string name="remember_password">記住密碼</string>
+	<string name="id_hint">Student ID</string>
+	<string name="password_hint">Password</string>
+	<string name="remember_password">Remember</string>
 	<string name="version">v.%s</string>
-	<string name="login_ing">登入中&#8230;</string>
-	<string name="call_phone_title">撥出電話</string>
-	<string name="call_phone_content">確定要撥給「%s」？</string>
-	<string name="call_phone">撥出</string>
-	<string name="determine">確定</string>
-	<string name="cancel">取消</string>
-	<string name="add_cal_content">確定要將「%s」新增至行事曆？</string>
-	<string name="click_to_retry">發生錯誤，點擊重試</string>
-	<string name="bus_pick_date">選擇乘車時間：%s</string>
-	<string name="bus_not_pick_date">選擇乘車時間</string>
+	<string name="login_ing">Logging&#8230;</string>
+	<string name="call_phone_title">Call this number</string>
+	<string name="call_phone_content">Are you sure to call \"%s\"?</string>
+	<string name="call_phone">Call</string>
+	<string name="determine">Yes</string>
+	<string name="cancel">No</string>
+	<string name="add_cal_content">Are you sure to add \"%s\" to your calendar?</string>
+	<string name="click_to_retry">An error occurred, click to retry</string>
+	<string name="bus_pick_date">Chosen Date: %s</string>
+	<string name="bus_not_pick_date">Chosen Date</string>
 	<string name="bus_count" formatted="false">(%s / %s)</string>
-	<string name="bus_jiangong_reservations">到燕巢，發車日期：</string>
-	<string name="bus_yanchao_reservations">到建工，發車日期：</string>
-	<string name="bus_jiangong">到燕巢，發車：</string>
-	<string name="bus_yanchao">到建工，發車：</string>
-	<string name="bus_jiangong_reserved">√ 到燕巢，發車：</string>
-	<string name="bus_yanchao_reserved">√ 到建工，發車：</string>
-	<string name="back">返回</string>
-	<string name="bus_reserve">預定校車</string>
-	<string name="bus_cancel_reserve">取消預定校車</string>
-	<string name="bus_reserve_confirm_title">確定要<b>預定</b>本校車車次？</string>
-	<string name="bus_reserve_confirm_content" formatted="false">要預定從%s\n%s 的校車嗎？</string>
-	<string name="bus_cancel_reserve_confirm_title">確定要<b>取消</b>本校車車次？</string>
-	<string name="bus_cancel_reserve_confirm_content" formatted="false">要取消從%s\n%s 的校車嗎？</string>
-	<string name="bus_from_jiangong">建工到燕巢</string>
-	<string name="bus_from_yanchao">燕巢到建工</string>
-	<string name="bus_reserve_success">預約成功！</string>
-	<string name="bus_cancel_reserve_success">取消預約成功！</string>
-	<string name="bus_no_reservation">Oops！您還沒有預約任何校車喔～\n多多搭乘大眾運輸，節能減碳救地球 %s</string>
-	<string name="bus_no_bus">Oops！本日校車沒上班喔～\n請選擇其他日期 %s</string>
-	<string name="course_no_course">Oops！本學期沒有任何課哦～\n請選擇其他學期 %s</string>
-	<string name="ok">好</string>
-	<string name="course_dialog_messages" formatted="false">課程名稱：%s\n授課老師：%s\n教室位置：%s\n上課時間：%s</string>
-	<string name="course_dialog_title">課程資訊</string>
-	<string name="course_holiday">旋轉橫向即可查看周末課表 %s</string>
-	<string name="no_internet">沒有網路連線，請檢查你的網路</string>
-	<string name="setting_internet">設定網路</string>
-	<string name="score_no_score">Oops！本學期沒有任何成績資料哦～\n請選擇其他學期 %s</string>
-	<string name="leave_night">旋轉橫向即可查看夜間缺曠 %s</string>
-	<string name="leave_no_leave">Oops！本學期沒有任何缺曠課紀錄哦～\n請選擇其他學期 %s</string>
-	<string name="token_expired_title">重新登入</string>
-	<string name="token_expired_content">登入資訊過期，請重新登入！</string>
-	<string name="update_content">高應校務通 在 Google Play 有新版本喲！</string>
-	<string name="update_title">版本更新</string>
-	<string name="update">更新</string>
-	<string name="function_not_open">此功能尚未開放，敬啟期待～\n贊助我們可以提前使用此功能！</string>
-	<string name="beta_function">此功能為測試版本，如有問題請立即回報！</string>
-	<string name="bus_not_pick">您尚未選擇日期！\n請先選擇日期 %s</string>
-	<string name="easter_egg_juke">這不是彩蛋</string>
-	<string name="skip">稍後再說</string>
-	<string name="share_to">分享至…</string>
-	<string name="send_from">Send from 高應校務通 Android</string>
+	<string name="bus_jiangong_reservations">To YanChao, Scheduled date：</string>
+	<string name="bus_yanchao_reservations">To JianGong, Scheduled date：</string>
+	<string name="bus_jiangong">To YanChao, Departure time：</string>
+	<string name="bus_yanchao">To ChienKung, Departure time：</string>
+	<string name="bus_jiangong_reserved">√ To YanChao, Departure time：</string>
+	<string name="bus_yanchao_reserved">√ To JianGong, Departure time：</string>
+	<string name="back">Back</string>
+	<string name="bus_reserve">Bus Reservation</string>
+	<string name="bus_cancel_reserve">Cancel Bus Reservation</string>
+	<string name="bus_reserve_confirm_title"><b>Reserve</b> this bus?</string>
+	<string name="bus_reserve_confirm_content" formatted="false">Are you sure to reserve a seat from %s at %s ?</string>
+	<string name="bus_cancel_reserve_confirm_title"><b>Cancel</b> this reservation?</string>
+	<string name="bus_cancel_reserve_confirm_content" formatted="false">Are you sure to cancel a seat from %s at %s ?</string>
+	<string name="bus_from_jiangong">JianGong to YanChao</string>
+	<string name="bus_from_yanchao">YanChao to JianGong</string>
+	<string name="bus_reserve_success">Successfully Reserved!</string>
+	<string name="bus_cancel_reserve_success">Successfully Canceled!</string>
+	<string name="bus_no_reservation">Oops! You haven\'t reserved any bus~\n Ride public transport to save the Earth %s</string>
+	<string name="bus_no_bus">Oops! No bus today~\n Please choose another date %s</string>
+	<string name="course_no_course">Oops! No class for this semester~\n Please choose another semester %s</string>
+	<string name="ok">OK</string>
+	<string name="course_dialog_messages" formatted="false">Class：%s\nProfessor：%s\nLocation：%s\nTime：%s</string>
+	<string name="course_dialog_title">Class Info</string>
+	<string name="course_holiday">Rotate Screen to see weekend schedule %s</string>
+	<string name="no_internet">No internet connection</string>
+	<string name="setting_internet">Internet Settings</string>
+	<string name="score_no_score">Oops! No record for this semester~\nPlease choose another semester %s</string>
+	<string name="leave_night">Rotate screen to see night school absent record %s</string>
+	<string name="leave_no_leave">Oops! No absent record for this semester~\nPlease choose another semester %s</string>
+	<string name="token_expired_title">Re-login Required</string>
+	<string name="token_expired_content">Cookie has expired, please re-login!</string>
+	<string name="update_content">Update available for KUAS AP!</string>
+	<string name="update_title">Updated</string>
+	<string name="update">Update</string>
+	<string name="function_not_open">Coming Soon~\nDonate to use this feature now!</string>
+	<string name="beta_function">This is a beta version, please report a bug if an error
+		occurred!</string>
+	<string name="bus_not_pick">You have not chosen a date!\n Please choose a date first %s</string>
+	<string name="easter_egg_juke">This is not an easter egg</string>
+	<string name="skip">Skip</string>
+	<string name="share_to">Share to…</string>
+	<string name="send_from">Sent from KUAS AP Android</string>
 	<string name="donate_title">Donate</string>
-	<string name="donate_content">貢獻一點心力支持作者，\n可以提早使用未開放功能！</string>
-	<string name="donate_error">哎呀！發生了點錯誤 :(\n不過沒關係到 Google Play\n搜尋「高應校務通
-		Donate」\n一樣可以支持喔！</string>
-	<string name="bus_notify_hint">校車預約將於發車前三十分鐘提醒！\n若在網頁預約或取消校車請重登入此App。</string>
-	<string name="bus_notify_content" formatted="false">親，您有一班 %s 從%s出發的校車！</string>
-	<string name="bus_notify_jiangong">建工</string>
-	<string name="bus_notify_yanchao">燕巢</string>
-	<string name="course_vibrate_hint">將於上課時轉為震動，下課時恢復！</string>
-	<string name="course_notify_hint">將於上課前十分鐘提醒！</string>
-	<string name="course_notify_content" formatted="false">親，%s上課教室在 %s！</string>
-	<string name="course_notify_unknown">外太空</string>
+	<string name="donate_content">Help and support the programmer\nto use new features!</string>
+	<string name="donate_error">Oops!Something went wrong :(\nGO to Google Play\n search for KUAS AP
+		Donate \n to support the author!</string>
+	<string name="bus_notify_hint">Reminder will pop up 30 mins before reserved bus !\nIf you
+		reserved or canceled the seat via website, please restart the app.</string>
+	<string name="bus_notify_content" formatted="false">You\'ve got a bus departing at %s from %s!</string>
+	<string name="bus_notify_jiangong">JianGong</string>
+	<string name="bus_notify_yanchao">YanChao</string>
+	<string name="course_vibrate_hint">Will turn on silent mode during class, turn back to normal mode after class!</string>
+	<string name="course_notify_hint">Reminder will pop up 10mins before class starts!</string>
+	<string name="course_notify_content" formatted="false">Class %s will be at room %s!</string>
+	<string name="course_notify_unknown">Outerspace~</string>
 
-	<string name="education_system">學制</string>
-	<string name="department">科系</string>
-	<string name="student_class">班級</string>
-	<string name="student_id">學號</string>
-	<string name="student_name_cht">姓名</string>
+	<string name="education_system">Scheme</string>
+	<string name="department">Department</string>
+	<string name="student_class">Class</string>
+	<string name="student_id">Student ID</string>
+	<string name="student_name_cht">Name</string>
 
-	<string name="notification_item">通知項目</string>
-	<string name="other_info">其他資訊</string>
-	<string name="other_settings">其他設定</string>
-	<string name="head_photo_setting">顯示大頭貼</string>
-	<string name="course_notify">上課提醒</string>
-	<string name="course_vibrate">上課震動</string>
-	<string name="bus_notify">校車提醒</string>
-	<string name="feedback">回饋意見</string>
-	<string name="feedback_via_facebook">私訊給粉絲專頁</string>
-	<string name="app_version">App 版本</string>
+	<string name="notification_item">Notification</string>
+	<string name="other_info">Other</string>
+	<string name="other_settings">Settings</string>
+	<string name="head_photo_setting">Show Photo</string>
+	<string name="course_notify">Class Reminder</string>
+	<string name="course_vibrate">Silent Mode During Class</string>
+	<string name="bus_notify">Bus Reservation Reminder</string>
+	<string name="feedback">Suggestions</string>
+	<string name="feedback_via_facebook">Message to Facebook Page</string>
+	<string name="app_version">App Version</string>
 
-	<string name="about_detail">史上最強高應大校務系統APP\n「高 應 校 務
-		通」\n\n你是新生嗎？\n不知道學校的消息、電話、行事曆嗎？\n你是舊生嗎？\n每次開課表、查成績、定校車都一肚子氣？\n\n沒有問題，以後沒有這種問題了！\n\n高應校務通讓你不管是新手老手，\n從此一手掌握你的高應人生！\n\n從你的手機看課表，成績，缺曠課紀錄！\n加上預定/取消校車，校園消息！\n\n\n\n簡單、方便、直覺！\n\n尊爵、不凡、你，值得擁有。</string>
-	<string name="about_author_title">作者群</string>
+	<string name="about_detail">The best KUAS Campus App\nKUAS AP\n\nAre you a
+		freshman?\nDon\'t know about school info, telephone numbers, or up coming events?\nBeen
+		here a few years?\nHave checking class schedule, report card and reserving bus seats
+		drove you crazy?\n\nNo more, no more worries, anymore!\n\nKUAS AP lets no matter old or new
+		fellow\nhave control over your life in KUAS!\n\nFrom checking class schedule, report card to
+		your absence records!\nPlus reserving/canceling bus seats with newest school feeds!\n\n\n\nMuch Simple, Many Convenient, Very instinct, wow!\n\n☆FABULOUS☆</string>
+	<string name="about_author_title">Made by</string>
 	<string name="about_author_content">呂紹榕(Louie Lu), 姜尚德(JohnThunder), \nregisterAutumn, 詹濬鍵(Evans), \n陳建霖(HearSilent)</string>
-	<string name="about_us">「不要問為何沒有人做這個，\n先承認你就是『沒有人』」。\n因為，「沒有人」是萬能的。\n\n因為沒有人做這些，所以我們跳下來做。\n先後完成了高應無線通、高應校務通，到後來的高應美食通、模擬選課等等.......\n無非是希望帶給大家更便利的校園生活！</string>
+	<string name="about_us">“Ask not why nobody is doing this. You are \'nobody\'.”\n\nWe did this
+		cause no one did it.\nWe created KUAS Wifi Login, KUAS
+		AP and KUAS Gourmet, Course Selection Sim, etc&#8230;\nTo bring convenience to
+		everyone\'s on campus!</string>
 	<string name="about_recruit_title">We Need You !</string>
-	<string name="about_recruit_content">如果你是 Objective-C、Swift 高手，或是 Java 神手，又或是對 Coding
-		充滿著熱誠！\n\n歡迎私訊我們粉絲專頁！\n你的程式碼將有機會出現在周遭同學的手中～</string>
-	<string name="about_itc_content">在103學年度，\n我們也成立了高應大資訊研習社！\n\n如果你對資訊有熱誠或是對我們作品有興趣，歡迎來社課或是講座，也可以來找我們聊聊天。</string>
-	<string name="about_itc_title">高應資研社</string>
-	<string name="about_contact_us">聯繫我們</string>
-	<string name="about_open_source_title">開放原始碼授權</string>
-	<string name="about_open_source_content">https://github.com/hearsilent/KUAS-AP-Material\n\n本專案採
-		MIT 開放原始碼授權：\nThe MIT License (MIT)\n\nCopyright &#169; 2015 HearSilent\n\nPermission is
+	<string name="about_recruit_content">If your experienced in Objective-C, Swift, Java or
+		you\'re interested in Coding!
+		\n\nMessage us at our Facebook fanpage!\nYour code might one day be operating in
+		everyone\'s hands~</string>
+	<string name="about_itc_content">In year 2014,\nwe founded KUAS Information Technology
+		Club!\n\nIf you\'re enthusiastic or drawn to our projects, join our classes and talks or
+		come by to chat!</string>
+	<string name="about_itc_title">KUAS IT Club</string>
+	<string name="about_contact_us">Contact Us</string>
+	<string name="about_open_source_title">Open Source License</string>
+	<string
+		name="about_open_source_content">https://github.com/hearsilent/KUAS-AP-Material\n\nThis project is licensed under the terms of the MIT license:\nThe MIT License (MIT)\n\nCopyright &#169; 2015 HearSilent\n\nPermission is
 		hereby granted, free of charge, to any person obtaining a copy of this software and
 		associated documentation files (the "Software"), to deal in the Software without
 		restriction, including without limitation the rights to use, copy, modify, merge,
@@ -127,34 +146,34 @@
 		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 		IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</string>
 
-	<string name="open_drawer">打開功能表</string>
-	<string name="close_drawer">打開功能表</string>
+	<string name="open_drawer">Open Menu</string>
+	<string name="close_drawer">Close Menu</string>
 
-	<string name="news">最新消息</string>
-	<string name="offline_course">離線課表</string>
-	<string name="course">學期課表</string>
-	<string name="score">學期成績</string>
-	<string name="leave">缺曠系統</string>
-	<string name="bus">校車系統</string>
-	<string name="simcourse">模擬選課</string>
-	<string name="messages">校園資訊</string>
-	<string name="user">個人資訊</string>
-	<string name="about">關於我們</string>
-	<string name="settings">設定</string>
-	<string name="guest">訪客</string>
-	<string name="tap_here_to_login">點擊登入</string>
-	<string name="pick_semester">選擇學期</string>
+	<string name="news">News</string>
+	<string name="offline_course">Offline Class Schedule</string>
+	<string name="course">Class Schedule</string>
+	<string name="score">Report Card</string>
+	<string name="leave">Absent System</string>
+	<string name="bus">Bus Reservation</string>
+	<string name="simcourse">Course Selection Sim</string>
+	<string name="messages">School Info</string>
+	<string name="user">Personal Info</string>
+	<string name="about">About Us</string>
+	<string name="settings">Settings</string>
+	<string name="guest">Guest</string>
+	<string name="tap_here_to_login">Tap to Login</string>
+	<string name="pick_semester">Choose Semester</string>
 
-	<string name="enter_username_hint">請輸入帳號</string>
-	<string name="enter_password_hint">請輸入密碼</string>
-	<string name="check_login_hint">請檢查帳號密碼</string>
+	<string name="enter_username_hint">Please enter your ID</string>
+	<string name="enter_password_hint">Please enter your password</string>
+	<string name="check_login_hint">Check your username and password then retry</string>
 
-	<string name="bus_segment">從建工出發的車次|從燕巢出發的車次</string>
+	<string name="bus_segment">From JianGong|From YanChao</string>
 
 	<array name="messages">
-		<item>最新消息</item>
-		<item>常用電話</item>
-		<item>行事曆</item>
+		<item>News</item>
+		<item>Tel no.</item>
+		<item>Events</item>
 	</array>
 
 	<string name="lorem_title">Lorem ipsum</string>
@@ -166,6 +185,30 @@
 	<string name="lorem_bus_count">(1 / 999)</string>
 	<string name="lorem_phone">(01) 234&#8211;5678</string>
 	<string name="lorem_semester">104學年度第1學期</string>
+
+	<string name="mon">Mon.</string>
+	<string name="tue">Tue.</string>
+	<string name="wed">Wed.</string>
+	<string name="thu">Thu.</string>
+	<string name="fri">Fri.</string>
+	<string name="sat">Sat.</string>
+	<string name="sun">Sun.</string>
+
+	<string name="course1"> M </string>
+	<string name="course2"> 1 </string>
+	<string name="course3"> 2 </string>
+	<string name="course4"> 3 </string>
+	<string name="course5"> 4 </string>
+	<string name="course6"> A </string>
+	<string name="course7"> 5 </string>
+	<string name="course8"> 6 </string>
+	<string name="course9"> 7 </string>
+	<string name="course10"> 8 </string>
+	<string name="course11"> B </string>
+	<string name="course12"> 11 </string>
+	<string name="course13"> 12 </string>
+	<string name="course14"> 13 </string>
+	<string name="course15"> 14 </string>
 
 	<array name="course_sections">
 		<item>M</item>
@@ -260,7 +303,7 @@
 		<item>"14"</item>
 	</array>
 	<array name="leave_sections_fixed">
-		<item>日期</item>
+		<item>Date</item>
 		<item>M</item>
 		<item>"1"</item>
 		<item>"2"</item>
@@ -273,7 +316,7 @@
 		<item>"8"</item>
 	</array>
 	<array name="leave_night_sections_fixed">
-		<item>日期</item>
+		<item>Date</item>
 		<item>M</item>
 		<item>"1"</item>
 		<item>"2"</item>
@@ -292,25 +335,25 @@
 	</array>
 
 	<array name="easter_egg">
-		<item>你是 Objective-C 高手嗎？</item>
-		<item>莫非你是 Swift 高手？</item>
-		<item>難道是 Java 神手？</item>
-		<item>別再戳我啦，趕快來資研社社課吧！</item>
-		<item>還等什麼，快來參加資研社講座吧！</item>
-		<item>John黑黑der</item>
-		<item>你聽過Lu嗎？他是傳說中的高應戰神！</item>
+		<item>Are you a master of Obj-C ?</item>
+		<item>Or are you good at Swift ?</item>
+		<item>Maybe you\'re a skillful Java programmer?</item>
+		<item>Stop trying to penetrate me, come to KUAS IT Club!</item>
+		<item>What are you waiting for?</item>
+		<item>John is a white hac&#8230; uhm&#8230;</item>
+		<item>Heard of Lu\? He\'s Tyr of KUAS\!</item>
 	</array>
 
 	<array name="score_sections">
-		<item>科目</item>
-		<item>期中成績</item>
-		<item>學期成績</item>
+		<item>Subject</item>
+		<item>Midterm</item>
+		<item>Final</item>
 	</array>
 	<array name="score_detail_sections">
-		<item>操行成績：</item>
-		<item>總平均：</item>
-		<item>班名次/班人數：</item>
-		<item>班名次百分比：</item>
+		<item>Conduct Score：</item>
+		<item>Average：</item>
+		<item>You/Total Classmates：</item>
+		<item>Top % in Class：</item>
 	</array>
 
 	<!--Open Source Project-->
