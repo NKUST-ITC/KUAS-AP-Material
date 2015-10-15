@@ -38,7 +38,7 @@
 	<string name="bus_jiangong_reservations">To YanChao, Scheduled date：</string>
 	<string name="bus_yanchao_reservations">To JianGong, Scheduled date：</string>
 	<string name="bus_jiangong">To YanChao, Departure time：</string>
-	<string name="bus_yanchao">To ChienKung, Departure time：</string>
+	<string name="bus_yanchao">To JianGong, Departure time：</string>
 	<string name="bus_jiangong_reserved">√ To YanChao, Departure time：</string>
 	<string name="bus_yanchao_reserved">√ To JianGong, Departure time：</string>
 	<string name="back">Back</string>
@@ -121,7 +121,7 @@
 		AP and KUAS Gourmet, Course Selection Sim, etc&#8230;\nTo bring convenience to
 		everyone\'s on campus!</string>
 	<string name="about_recruit_title">We Need You !</string>
-	<string name="about_recruit_content">If your experienced in Objective-C, Swift, Java or
+	<string name="about_recruit_content">If you\'re experienced in Objective-C, Swift, Java or
 		you\'re interested in Coding!
 		\n\nMessage us at our Facebook fanpage!\nYour code might one day be operating in
 		everyone\'s hands~</string>
