@@ -143,7 +143,7 @@ public class SilentActivity extends AppCompatActivity
 				if (photo.length() > 0) {
 					ImageLoader.getInstance().displayImage(photo,
 							(ImageView) navigationView.findViewById(R.id.imageView_user),
-							Utils.getHeadDisplayImageOptions(
+							Utils.getHeadDisplayImageOptions(this,
 									getResources().getDimensionPixelSize(R.dimen.head_mycard) / 2));
 				} else {
 					Helper.getUserPicture(this, new GeneralCallback() {
@@ -154,8 +154,10 @@ public class SilentActivity extends AppCompatActivity
 							Memory.setString(SilentActivity.this, Constant.PREF_USER_PIC, data);
 							ImageLoader.getInstance().displayImage(data,
 									(ImageView) navigationView.findViewById(R.id.imageView_user),
-									Utils.getHeadDisplayImageOptions(getResources()
-											.getDimensionPixelSize(R.dimen.head_mycard) / 2));
+									Utils.getHeadDisplayImageOptions(SilentActivity.this,
+											getResources()
+													.getDimensionPixelSize(R.dimen.head_mycard) /
+													2));
 						}
 					});
 				}

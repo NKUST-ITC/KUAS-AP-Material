@@ -430,7 +430,7 @@ public class Helper {
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, String responseString) {
-				if (statusCode == 200) {
+				if (statusCode == 200 && responseString.endsWith(".jpg")) {
 					if (callback != null) {
 						callback.onSuccess(responseString);
 					}

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
@@ -220,7 +221,8 @@ public class Utils {
 		return getDefaultDisplayImageBuilder().build();
 	}
 
-	public static DisplayImageOptions getHeadDisplayImageOptions(final int cornerPixels) {
+	public static DisplayImageOptions getHeadDisplayImageOptions(final Context context,
+	                                                             final int cornerPixels) {
 		// rounded head
 		return new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
@@ -228,6 +230,11 @@ public class Utils {
 				.preProcessor(new BitmapProcessor() {
 
 					public Bitmap process(Bitmap src) {
+						if (src.getWidth() == 0 || src.getHeight() == 0) {
+							return BitmapFactory.decodeResource(context.getResources(),
+									R.drawable.ic_account_circle_white_48dp);
+						}
+
 						Bitmap result;
 						Matrix matrix = new Matrix();
 						if (src.getWidth() >= src.getHeight()) {
