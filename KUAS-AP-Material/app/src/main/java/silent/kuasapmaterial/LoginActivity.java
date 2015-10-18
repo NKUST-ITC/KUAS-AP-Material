@@ -20,7 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
+import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.android.gms.analytics.HitBuilders;
+import com.kuas.ap.BuildConfig;
 import com.kuas.ap.R;
 
 import java.io.UnsupportedEncodingException;
@@ -50,7 +52,8 @@ public class LoginActivity extends SilentActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Fabric.with(this, new Crashlytics());
+		Fabric.with(this, new Crashlytics.Builder()
+				.core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
 		setContentView(R.layout.activity_login);
 		clearUserData();
 		init(R.string.app_name, R.layout.activity_login);

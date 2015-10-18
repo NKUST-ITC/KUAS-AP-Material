@@ -56,6 +56,7 @@ public class SilentActivity extends AppCompatActivity
 	public Toolbar toolbar;
 	public DrawerLayout drawer;
 	public NavigationView navigationView;
+	public MenuItem selectedMenuItem;
 
 	public int mLayoutID;
 
@@ -244,7 +245,8 @@ public class SilentActivity extends AppCompatActivity
 		navigationView.setNavigationItemSelectedListener(this);
 
 		if (-1 < selectItem && selectItem < navigationView.getMenu().size()) {
-			navigationView.getMenu().getItem(selectItem).setChecked(true);
+			selectedMenuItem = navigationView.getMenu().getItem(selectItem);
+			selectedMenuItem.setChecked(true);
 		}
 	}
 
@@ -329,8 +331,8 @@ public class SilentActivity extends AppCompatActivity
 	@Override
 	public boolean onNavigationItemSelected(MenuItem menuItem) {
 		drawer.closeDrawers();
-		if (menuItem.isChecked()) {
-			return true;
+		if (menuItem == selectedMenuItem) {
+			return false;
 		}
 		boolean isLogin = Memory.getBoolean(this, Constant.PREF_IS_LOGIN, false);
 		if (isLogin) {

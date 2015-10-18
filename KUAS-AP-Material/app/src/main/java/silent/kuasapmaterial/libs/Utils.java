@@ -2,6 +2,7 @@ package silent.kuasapmaterial.libs;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -281,6 +282,13 @@ public class Utils {
 
 	public static int getDisplayWidth(Context context) {
 		return getDisplayDimen(context).x;
+	}
+
+	public static PendingIntent createSharePendingIntent(Context context, String content) {
+		Intent sendIntent = new Intent(Intent.ACTION_SEND);
+		sendIntent.putExtra(Intent.EXTRA_TEXT, content);
+		sendIntent.setType("text/plain");
+		return PendingIntent.getActivity(context, 0, sendIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
 	/**

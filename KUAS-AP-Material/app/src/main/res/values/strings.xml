@@ -4,6 +4,7 @@
 	<string name="update_note_title">Update Notes %s</string>
 	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n　上課震動功能\n　英文版本\n\n修正：\n　外籍生無法登入之錯誤\n　部分用戶上課提醒崩潰\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
 
+	<string name="share">Share</string>
 	<string name="teacher_confirm_title">Are you a teacher?</string>
 	<string name="teacher_confirm_content">This App only for students!</string>
 	<string name="continue_to_use">Continue</string>
