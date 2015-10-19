@@ -3,6 +3,7 @@ package silent.kuasapmaterial;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -28,8 +29,8 @@ import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.libs.AlarmHelper;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Memory;
-import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.CourseModel;
 import silent.kuasapmaterial.models.SemesterModel;
@@ -40,7 +41,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	ImageView mPickYmsImageView;
 	TextView mNoCourseTextView, mHolidayTextView, mPickYmsTextView;
 	LinearLayout mNoCourseLinearLayout;
-	ProgressWheel mProgressWheel;
+	MaterialProgressBar mMaterialProgressBar;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	ScrollView mScrollView;
 
@@ -176,7 +177,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		mPickYmsTextView = (TextView) findViewById(R.id.textView_pickYms);
 		mPickYmsView = findViewById(R.id.view_pickYms);
 		mPickYmsImageView = (ImageView) findViewById(R.id.imageView_pickYms);
-		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+		mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
 		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		mNoCourseLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_course);
 		mNoCourseTextView = (TextView) findViewById(R.id.textView_no_course);
@@ -189,7 +190,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
 				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
-		int color = getResources().getColor(R.color.accent);
+		int color = ContextCompat.getColor(this, R.color.accent);
 		mPickYmsImageView.setImageBitmap(Utils.changeImageColor(sourceBitmap, color));
 
 		mScrollView.scrollTo(0, mPos);
@@ -262,7 +263,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	}
 
 	private void getData(final boolean isSave) {
-		mProgressWheel.setVisibility(View.VISIBLE);
+		if (!mSwipeRefreshLayout.isRefreshing()) {
+			mMaterialProgressBar.setVisibility(View.VISIBLE);
+		}
 		mPickYmsView.setEnabled(false);
 		mScrollView.setVisibility(View.GONE);
 		mNoCourseLinearLayout.setVisibility(View.GONE);
@@ -321,7 +324,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			} else {
 				mNoCourseTextView.setText(getString(R.string.course_no_course, "\uD83D\uDE0B"));
 			}
-			mProgressWheel.setVisibility(View.GONE);
+			mMaterialProgressBar.setVisibility(View.GONE);
 			mSwipeRefreshLayout.setEnabled(true);
 			mSwipeRefreshLayout.setRefreshing(false);
 			mNoCourseLinearLayout.setVisibility(View.VISIBLE);
@@ -375,7 +378,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		}
 
 		mScrollView.addView(table);
-		mProgressWheel.setVisibility(View.GONE);
+		mMaterialProgressBar.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(true);
 		mSwipeRefreshLayout.setRefreshing(false);
 		mScrollView.setVisibility(View.VISIBLE);

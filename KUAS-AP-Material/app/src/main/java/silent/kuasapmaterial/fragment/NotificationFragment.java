@@ -303,7 +303,7 @@ public class NotificationFragment extends SilentFragment
 							(TextView) convertView.findViewById(R.id.textView_content);
 					convertView.setTag(holder);
 				} else if (item_type == TYPE_PROGRESS) {
-					convertView = inflater.inflate(R.layout.list_progresswheel, parent, false);
+					convertView = inflater.inflate(R.layout.list_material_progress_bar, parent, false);
 				} else {
 					retryHolder = new RetryViewHolder();
 					convertView = inflater.inflate(R.layout.list_text, parent, false);

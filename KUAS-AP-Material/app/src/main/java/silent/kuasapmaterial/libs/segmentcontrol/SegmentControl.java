@@ -8,6 +8,7 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.os.Build;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.MotionEvent;
@@ -66,6 +67,7 @@ public class SegmentControl extends View {
 
 	public interface OnSegmentControlClickListener {
 		void onSegmentControlClick(int index);
+
 		void onSegmentControlReselect();
 	}
 
@@ -447,7 +449,7 @@ public class SegmentControl extends View {
 					mSelectedDrawable.setBounds(mCacheBounds[i]);
 					mSelectedDrawable.draw(canvas);
 
-					mPaint.setColor(getResources().getColor(R.color.white_text));
+					mPaint.setColor(ContextCompat.getColor(getContext(), R.color.white_text));
 				} else {
 					mPaint.setColor(mColors.getDefaultColor());
 				}

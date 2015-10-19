@@ -136,17 +136,12 @@
 						tools:text="@string/score_no_score"/>
 				</LinearLayout>
 
-				<silent.kuasapmaterial.libs.ProgressWheel
-					android:id="@+id/progress_wheel"
-					android:layout_width="42sp"
-					android:layout_height="42sp"
+				<silent.kuasapmaterial.libs.MaterialProgressBar
+					android:id="@+id/materialProgressBar"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
 					android:layout_centerInParent="true"
-					wheel:matProg_barColor="@color/progress_red"
-					wheel:matProg_circleBackground="false"
-					wheel:matProg_fillRadius="true"
-					wheel:matProg_material="true"
-					wheel:matProg_progressIndeterminate="true"
-					wheel:matProg_shadowSize="3"/>
+					app:enable_circle_background="false"/>
 			</RelativeLayout>
 		</LinearLayout>
 	</LinearLayout>

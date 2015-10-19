@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.content.ContextCompat;
 
 import com.kuas.ap.R;
 
@@ -28,7 +29,7 @@ public class NotificationHelper {
 		final NotificationCompat.Builder builder =
 				new NotificationCompat.Builder(context).setContentTitle(title)
 						.setStyle(new NotificationCompat.BigTextStyle().bigText(content))
-						.setColor(context.getResources().getColor(R.color.main_theme))
+						.setColor(ContextCompat.getColor(context, R.color.main_theme))
 						.setContentText(content).setAutoCancel(true)
 						.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0))
 						.setSmallIcon(R.mipmap.ic_launcher);

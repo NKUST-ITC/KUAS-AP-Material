@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
@@ -241,12 +242,12 @@ public class LoginActivity extends SilentActivity
 		final String id = mIdEditText.getText().toString();
 		final String pwd = mPasswordEditText.getText().toString();
 
-		if (id.length() == 0) {
+		if (TextUtils.isEmpty(id)) {
 			mIdTextInputLayout.setError(getString(R.string.enter_username_hint));
 			mIdTextInputLayout.setErrorEnabled(true);
 			return;
 		}
-		if (pwd.length() == 0) {
+		if (TextUtils.isEmpty(pwd)) {
 			mPasswordTextInputLayout.setError(getString(R.string.enter_password_hint));
 			mPasswordTextInputLayout.setErrorEnabled(true);
 			return;

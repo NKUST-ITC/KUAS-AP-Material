@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -57,7 +58,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 
 	private void setUpViews() {
 		mCollapsingToolbar.setTitle(getString(R.string.about));
-		mCollapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.transparent));
+		mCollapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this, R.color.transparent));
 
 		view_fb.setOnClickListener(this);
 		view_github.setOnClickListener(this);
@@ -114,7 +115,8 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 								public void onClick(View v) {
 
 								}
-							}).setActionTextColor(getResources().getColor(R.color.accent)).show();
+							}).setActionTextColor(ContextCompat.getColor(this, R.color.accent))
+							.show();
 				}
 			} else {
 				easterEggCount = 1;

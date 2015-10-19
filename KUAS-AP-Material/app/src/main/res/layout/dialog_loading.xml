@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:wheel="http://schemas.android.com/apk/res-auto"
-              android:layout_width="match_parent"
-              android:layout_height="wrap_content"
-              android:gravity="center_vertical"
-              android:paddingBottom="@dimen/margin_medium"
-              android:paddingLeft="@dimen/margin_large"
-              android:paddingRight="@dimen/margin_large"
-              android:paddingTop="@dimen/margin_medium">
+<LinearLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:wheel="http://schemas.android.com/apk/res-auto"
+	android:layout_width="match_parent"
+	android:layout_height="wrap_content"
+	android:gravity="center_vertical"
+	android:paddingBottom="@dimen/margin_medium"
+	android:paddingLeft="@dimen/margin_large"
+	android:paddingRight="@dimen/margin_large"
+	android:paddingTop="@dimen/margin_medium">
 
 	<silent.kuasapmaterial.libs.ProgressWheel
 		android:id="@+id/progress_wheel"
@@ -15,6 +16,7 @@
 		android:layout_height="50sp"
 		android:layout_marginRight="@dimen/margin_medium"
 		wheel:matProg_barColor="@color/progress_red"
+		wheel:matProg_barWidth="3dp"
 		wheel:matProg_circleBackground="true"
 		wheel:matProg_fillRadius="true"
 		wheel:matProg_material="true"

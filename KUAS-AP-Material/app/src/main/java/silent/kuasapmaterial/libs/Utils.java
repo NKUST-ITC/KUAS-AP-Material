@@ -7,7 +7,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -22,6 +21,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -168,9 +168,10 @@ public class Utils {
 	}
 
 	public static int[] getSwipeRefreshColors(Context context) {
-		Resources res = context.getResources();
-		return new int[]{res.getColor(R.color.progress_red), res.getColor(R.color.progress_blue),
-				res.getColor(R.color.progress_yellow), res.getColor(R.color.progress_green)};
+		return new int[]{ContextCompat.getColor(context, R.color.progress_red),
+				ContextCompat.getColor(context, R.color.progress_blue),
+				ContextCompat.getColor(context, R.color.progress_yellow),
+				ContextCompat.getColor(context, R.color.progress_green)};
 	}
 
 	/**

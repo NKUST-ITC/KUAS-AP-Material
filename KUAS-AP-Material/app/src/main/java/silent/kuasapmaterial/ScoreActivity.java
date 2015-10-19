@@ -3,6 +3,7 @@ package silent.kuasapmaterial;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -26,7 +27,7 @@ import silent.kuasapmaterial.callback.ScoreCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
-import silent.kuasapmaterial.libs.ProgressWheel;
+import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.ScoreDetailModel;
 import silent.kuasapmaterial.models.ScoreModel;
@@ -38,7 +39,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 	ImageView mPickYmsImageView;
 	TextView mNoScoreTextView, mPickYmsTextView;
 	LinearLayout mNoScoreLinearLayout;
-	ProgressWheel mProgressWheel;
+	MaterialProgressBar mMaterialProgressBar;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	ScrollView mScrollView;
 	TableLayout mScoreTableLayout, mDetailTableLayout;
@@ -174,7 +175,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		mPickYmsTextView = (TextView) findViewById(R.id.textView_pickYms);
 		mPickYmsView = findViewById(R.id.view_pickYms);
 		mPickYmsImageView = (ImageView) findViewById(R.id.imageView_pickYms);
-		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+		mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
 		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		mNoScoreLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_course);
 		mNoScoreTextView = (TextView) findViewById(R.id.textView_no_course);
@@ -187,7 +188,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
 				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
-		int color = getResources().getColor(R.color.accent);
+		int color = ContextCompat.getColor(this, R.color.accent);
 		mPickYmsImageView.setImageBitmap(Utils.changeImageColor(sourceBitmap, color));
 
 		mScrollView.scrollTo(0, mPos);
@@ -260,7 +261,9 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 	}
 
 	private void getData() {
-		mProgressWheel.setVisibility(View.VISIBLE);
+		if (!mSwipeRefreshLayout.isRefreshing()) {
+			mMaterialProgressBar.setVisibility(View.VISIBLE);
+		}
 		mPickYmsView.setEnabled(false);
 		mScrollView.setVisibility(View.GONE);
 		mNoScoreLinearLayout.setVisibility(View.GONE);
@@ -307,7 +310,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			} else {
 				mNoScoreTextView.setText(getString(R.string.score_no_score, "\uD83D\uDE0B"));
 			}
-			mProgressWheel.setVisibility(View.GONE);
+			mMaterialProgressBar.setVisibility(View.GONE);
 			mSwipeRefreshLayout.setEnabled(true);
 			mSwipeRefreshLayout.setRefreshing(false);
 			mScrollView.setVisibility(View.VISIBLE);
@@ -321,7 +324,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 		for (int i = 0; i < sections.length; i++) {
 			TextView sectionTextView = new TextView(this);
 			sectionTextView.setText(sections[i]);
-			sectionTextView.setTextColor(getResources().getColor(R.color.accent));
+			sectionTextView.setTextColor(ContextCompat.getColor(this, R.color.accent));
 			sectionTextView.setTextSize(15);
 			sectionTextView.setGravity(Gravity.CENTER);
 
@@ -339,7 +342,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			for (int j = 0; j < sections.length; j++) {
 				TextView scoreTextView = new TextView(this);
 				scoreTextView.setTextSize(14);
-				scoreTextView.setTextColor(getResources().getColor(R.color.black_text));
+				scoreTextView.setTextColor(ContextCompat.getColor(this, R.color.black_text));
 				scoreTextView.setText(j == 0 ? mList.get(i).title :
 						(j == 1 ? mList.get(i).middle_score : mList.get(i).final_score));
 				scoreTextView.setGravity(Gravity.CENTER);
@@ -368,7 +371,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			TableRow detailTableRow = new TableRow(this);
 			TextView detailTextView = new TextView(this);
 			detailTextView.setTextSize(14);
-			detailTextView.setTextColor(getResources().getColor(R.color.black_text));
+			detailTextView.setTextColor(ContextCompat.getColor(this, R.color.black_text));
 			detailTextView.setGravity(Gravity.CENTER);
 			boolean isDetailHaveContent =
 					!(detailList.get(i).equals("0.0") || detailList.get(i).length() == 0);
@@ -386,7 +389,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			mDetailTableLayout.addView(detailTableRow);
 		}
 
-		mProgressWheel.setVisibility(View.GONE);
+		mMaterialProgressBar.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(true);
 		mSwipeRefreshLayout.setRefreshing(false);
 		mScrollView.setVisibility(View.VISIBLE);

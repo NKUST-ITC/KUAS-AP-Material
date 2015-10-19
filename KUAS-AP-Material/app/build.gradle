@@ -23,8 +23,8 @@ android {
         applicationId "com.kuas.ap"
         minSdkVersion 15
         targetSdkVersion 23
-        versionCode 20108
-        versionName "2.1.8"
+        versionCode 20109
+        versionName "2.1.9"
     }
 
     packagingOptions {

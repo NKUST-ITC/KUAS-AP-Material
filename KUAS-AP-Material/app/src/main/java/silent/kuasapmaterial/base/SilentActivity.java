@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -204,7 +205,7 @@ public class SilentActivity extends AppCompatActivity
 		}
 
 		drawer.setDrawerShadow(R.drawable.shadow_right, GravityCompat.START);
-		drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.main_theme_dark));
+		drawer.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.main_theme_dark));
 
 		mDrawerToggle = new AnimationActionBarDrawerToggle(this, drawer, R.string.open_drawer,
 				R.string.close_drawer) {
@@ -324,7 +325,7 @@ public class SilentActivity extends AppCompatActivity
 						public void onClick(View v) {
 							startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 						}
-					}).setActionTextColor(getResources().getColor(R.color.accent)).show();
+					}).setActionTextColor(ContextCompat.getColor(this, R.color.accent)).show();
 		}
 	}
 
