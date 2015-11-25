@@ -4,6 +4,9 @@
 	<string name="update_note_title">更新日誌 %s</string>
 	<string name="update_note_content">優化：\n　細節\n　部分特效\n\n新增：\n　缺曠課之星期幾</string>
 
+	<string name="ga_trackingId">UA-46334408-2</string>
+	<string name="google_app_id">1:937044701794:android:05ebdd62590fb72e</string>
+
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">分享</string>
 	<string name="teacher_confirm_title">您是老師嗎？</string>
