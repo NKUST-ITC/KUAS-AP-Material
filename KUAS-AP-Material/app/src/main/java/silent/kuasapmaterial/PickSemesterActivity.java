@@ -186,7 +186,7 @@ public class PickSemesterActivity extends SilentActivity
 
 			if (mSemesterList.get(position).text.equals(mSelectedModel.text)) {
 				Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
-						getResources().getDrawable(R.drawable.ic_done_white_24dp));
+						ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_done_white_24dp));
 				int color = ContextCompat.getColor(PickSemesterActivity.this, R.color.accent);
 				holder.imageView.setImageBitmap(Utils.changeImageColor(sourceBitmap, color));
 				holder.imageView.setVisibility(View.VISIBLE);

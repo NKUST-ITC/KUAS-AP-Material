@@ -189,7 +189,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		mHolidayTextView.setText(getString(R.string.course_holiday, "\uD83D\uDE06"));
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
-				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
+				ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
 		int color = ContextCompat.getColor(this, R.color.accent);
 		mPickYmsImageView.setImageBitmap(Utils.changeImageColor(sourceBitmap, color));
 
