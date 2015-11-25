@@ -58,11 +58,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 	}
 
 	private void restoreArgs(Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			isBusSaved = savedInstanceState.getBoolean("isBusSaved");
-		} else {
-			isBusSaved = false;
-		}
+		isBusSaved = savedInstanceState != null && savedInstanceState.getBoolean("isBusSaved");
 	}
 
 	@Override

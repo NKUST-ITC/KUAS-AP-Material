@@ -22,7 +22,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 	View view_fb, view_github, view_email, view_itc, view_easter_egg;
 	FloatingActionButton mFab;
 
-	private long lastDebugPressTime = 0l;
+	private long lastDebugPressTime = 0L;
 	private int easterEggCount = 0;
 
 	@Override
@@ -103,7 +103,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 				if (easterEggCount == 3) {
 					mTracker.send(new HitBuilders.EventBuilder().setCategory("easter egg")
 							.setAction("click").setLabel("success").build());
-					lastDebugPressTime = 0l;
+					lastDebugPressTime = 0L;
 					easterEggCount = 0;
 					String[] easterEggList = getResources().getStringArray(R.array.easter_egg);
 					Random random = new Random();

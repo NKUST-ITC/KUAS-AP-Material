@@ -42,7 +42,6 @@ import silent.kuasapmaterial.LoginActivity;
 import silent.kuasapmaterial.MessagesActivity;
 import silent.kuasapmaterial.ScoreActivity;
 import silent.kuasapmaterial.SettingsActivity;
-import silent.kuasapmaterial.SubmitNewsActivity;
 import silent.kuasapmaterial.UserInfoActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.UserInfoCallback;
@@ -308,9 +307,6 @@ public class SilentActivity extends AppCompatActivity
 				} else if (!drawer.isDrawerOpen(navigationView)) {
 					drawer.openDrawer(navigationView);
 				}
-				return true;
-			case R.id.action_submit:
-				startActivity(new Intent(this, SubmitNewsActivity.class));
 				return true;
 		}
 		return false;

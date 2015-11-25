@@ -22,6 +22,7 @@ import com.kuas.ap.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
@@ -334,7 +335,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		}
 
 		boolean isNight = checkLeaveTableNightType();
-		if (!(Utils.isLand(this) || Utils.isWide(this)) && isNight) {
+		if (!(Utils.isLand(this) || Utils.isWide(this))) {
 			mLeaveNightTextView.setVisibility(View.VISIBLE);
 		} else {
 			mLeaveNightTextView.setVisibility(View.GONE);
@@ -352,8 +353,8 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			sectionTextView.setGravity(Gravity.CENTER);
 
 			int drawable = getResources().getIdentifier("table_top_" +
-							(i == 0 ? "left" : (i == sections.length - 1 ? "right" : "center")),
-					"drawable", getPackageName());
+							(i == 0 ? "left" : (i == sections.length - 1 ? "right" : "center")), "drawable",
+					getPackageName());
 			sectionTextView.setBackgroundResource(drawable);
 
 			sectionTableRow.addView(sectionTextView);
@@ -377,7 +378,19 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 				scoreTextView.setTextColor(ContextCompat.getColor(this, R.color.black_text));
 
 				if (j == 0) {
-					scoreTextView.setText(mList.get(i).date.split("/", 2)[1]);
+					if (Utils.isLand(this)) {
+						Calendar calendar = Calendar.getInstance();
+						calendar.set(Integer.parseInt(mList.get(i).date.split("/")[0]) + 1911,
+								Integer.parseInt(mList.get(i).date.split("/")[1]) - 1,
+								Integer.parseInt(mList.get(i).date.split("/")[2]));
+						int weekday = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+						scoreTextView.setText(
+								String.format("%s %s%s%s", mList.get(i).date.split("/", 2)[1], "(",
+										getResources().getStringArray(R.array.weekdays)[weekday],
+										")"));
+					} else {
+						scoreTextView.setText(mList.get(i).date.split("/", 2)[1]);
+					}
 				} else if (index > -1) {
 					scoreTextView.setText(mList.get(i).leave_sections.get(index).reason);
 				}
@@ -385,9 +398,8 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 
 				int drawable = getResources()
 						.getIdentifier("table_" + (i == mList.size() - 1 ? "bottom_" : "normal_") +
-										(j == sections.length - 1 ? "right" :
-												(j == 0 ? "left" : "center")), "drawable",
-								getPackageName());
+										(j == sections.length - 1 ? "right" : (j == 0 ? "left" : "center")),
+								"drawable", getPackageName());
 				scoreTextView.setBackgroundResource(drawable);
 
 				scoreTableRow.addView(scoreTextView,

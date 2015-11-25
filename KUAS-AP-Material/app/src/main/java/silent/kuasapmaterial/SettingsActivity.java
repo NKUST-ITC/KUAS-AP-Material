@@ -31,7 +31,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 			mVibrateCourseSwitch;
 	private TextView mAppVersionTextView;
 
-	private long lastDebugPressTime = 0l;
+	private long lastDebugPressTime = 0L;
 	private int easterEggCount = 0;
 
 	@Override
@@ -131,7 +131,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				if (easterEggCount == 3) {
 					mTracker.send(new HitBuilders.EventBuilder().setCategory("easter egg")
 							.setAction("click").setLabel("success").build());
-					lastDebugPressTime = 0l;
+					lastDebugPressTime = 0L;
 					easterEggCount = 0;
 					Snackbar.make(findViewById(android.R.id.content), R.string.easter_egg_juke,
 							Snackbar.LENGTH_SHORT)

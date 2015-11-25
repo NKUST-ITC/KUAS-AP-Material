@@ -69,6 +69,8 @@
 				android:id="@+id/textView_holiday"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:paddingLeft="@dimen/margin_medium"
+				android:paddingRight="@dimen/margin_medium"
 				android:text="@string/course_holiday"
 				android:textColor="@color/black_text_secondary"
 				android:textSize="@dimen/text_action"

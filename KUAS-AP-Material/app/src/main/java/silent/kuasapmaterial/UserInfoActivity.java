@@ -27,6 +27,7 @@ import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.OverScrollView;
 import silent.kuasapmaterial.libs.Utils;
+import silent.kuasapmaterial.libs.ViewResizeAnimation;
 import silent.kuasapmaterial.models.UserInfoModel;
 
 public class UserInfoActivity extends SilentActivity {
@@ -116,9 +117,9 @@ public class UserInfoActivity extends SilentActivity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					ViewGroup.LayoutParams params = mPhotoImageView.getLayoutParams();
-					params.height = (int) (Utils.getDisplayHeight(UserInfoActivity.this) * 0.5);
-					mPhotoImageView.setLayoutParams(params);
+					mPhotoImageView.startAnimation(
+							new ViewResizeAnimation(mPhotoImageView, mPhotoImageView.getHeight(),
+									(int) (Utils.getDisplayHeight(UserInfoActivity.this) * 0.5)));
 				}
 				return false;
 			}

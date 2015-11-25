@@ -2,8 +2,9 @@
 	<string name="app_name">KUAS AP</string>
 
 	<string name="update_note_title">Update Notes %s</string>
-	<string name="update_note_content">優化：\n　開啟網頁速度\n　Loading效果\n\n修正：\n　行事曆崩潰之錯誤\n　部分用戶最新消息崩潰\n　部分翻譯錯誤</string>
+	<string name="update_note_content">優化：\n　細節\n　部分特效\n\n新增：\n　缺曠課之星期幾</string>
 
+	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">Share</string>
 	<string name="teacher_confirm_title">Are you a teacher?</string>
 	<string name="teacher_confirm_content">This App only for students!</string>
@@ -63,7 +64,7 @@
 	<string name="no_internet">No internet connection</string>
 	<string name="setting_internet">Internet Settings</string>
 	<string name="score_no_score">Oops! No record for this semester~\nPlease choose another semester %s</string>
-	<string name="leave_night">Rotate screen to see night school absent record %s</string>
+	<string name="leave_night">Rotate screen to see night school absent record and day of week %s</string>
 	<string name="leave_no_leave">Oops! No absent record for this semester~\nPlease choose another semester %s</string>
 	<string name="token_expired_title">Re-login Required</string>
 	<string name="token_expired_content">Cookie has expired, please re-login!</string>
@@ -210,6 +211,16 @@
 	<string name="course13"> 12 </string>
 	<string name="course14"> 13 </string>
 	<string name="course15"> 14 </string>
+
+	<array name="weekdays">
+		<item>@string/sun</item>
+		<item>@string/mon</item>
+		<item>@string/tue</item>
+		<item>@string/wed</item>
+		<item>@string/thu</item>
+		<item>@string/fri</item>
+		<item>@string/sat</item>
+	</array>
 
 	<array name="course_sections">
 		<item>M</item>
