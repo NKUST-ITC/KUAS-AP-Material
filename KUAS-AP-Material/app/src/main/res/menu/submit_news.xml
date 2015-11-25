@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+      xmlns:app="http://schemas.android.com/apk/res-auto">
+
+	<item
+		android:id="@+id/action_submit"
+		android:icon="@drawable/ic_send_white_24dp"
+		android:orderInCategory="100"
+		android:title="@string/submit"
+		app:showAsAction="always"/>
+
+	<item
+		android:id="@+id/action_preview"
+		android:icon="@drawable/ic_visibility_white_24dp"
+		android:orderInCategory="99"
+		android:title="@string/preview"
+		app:showAsAction="ifRoom"/>
+
+</menu>

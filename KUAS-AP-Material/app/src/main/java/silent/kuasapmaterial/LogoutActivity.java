@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
+import android.view.Menu;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -57,12 +58,16 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 		setUpViews();
 	}
 
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+		menu.clear();
+		getMenuInflater().inflate(R.menu.logout, menu);
+
+		return true;
+	}
+
 	private void restoreArgs(Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			isBusSaved = savedInstanceState.getBoolean("isBusSaved");
-		} else {
-			isBusSaved = false;
-		}
+		isBusSaved = savedInstanceState != null && savedInstanceState.getBoolean("isBusSaved");
 	}
 
 	@Override

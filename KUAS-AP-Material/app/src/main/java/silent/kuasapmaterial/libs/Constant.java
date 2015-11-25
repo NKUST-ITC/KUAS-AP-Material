@@ -4,6 +4,8 @@ public class Constant {
 
 	public static final String TAG = "HearSilent";
 
+	public static final String IMGUR_CLIENT_ID = "3317030313fd754";
+
 	public static final String GA_ID = "UA-46334408-2";
 
 	public final static String IvAES = "auc9OV5r0nLwjCAH";

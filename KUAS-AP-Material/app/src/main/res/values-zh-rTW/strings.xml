@@ -4,6 +4,16 @@
 	<string name="update_note_title">更新日誌 %s</string>
 	<string name="update_note_content">優化：\n　開啟網頁速度\n　Loading效果\n\n修正：\n　行事曆崩潰之錯誤\n　部分用戶最新消息崩潰\n　部分翻譯錯誤</string>
 
+	<string name="submit_news">宣傳活動</string>
+	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
+	<string name="set_start_time">設定活動起始時間</string>
+	<string name="set_end_time">設定活動結束時間</string>
+	<string name="upload_news_pic">上傳活動照片</string>
+	<string name="news_url">活動網址</string>
+	<string name="news_title">活動標題</string>
+	<string name="preview">預覽</string>
+	<string name="edit">編輯</string>
+	<string name="submit">送出</string>
 	<string name="share">分享</string>
 	<string name="teacher_confirm_title">您是老師嗎？</string>
 	<string name="teacher_confirm_content">本 App 僅有學生功能！</string>

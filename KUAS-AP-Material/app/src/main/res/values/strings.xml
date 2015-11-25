@@ -4,6 +4,15 @@
 	<string name="update_note_title">Update Notes %s</string>
 	<string name="update_note_content">優化：\n　開啟網頁速度\n　Loading效果\n\n修正：\n　行事曆崩潰之錯誤\n　部分用戶最新消息崩潰\n　部分翻譯錯誤</string>
 
+	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
+	<string name="set_start_time">Event Starts At</string>
+	<string name="set_end_time">Event Ends At</string>
+	<string name="upload_news_pic">Upload Event Poster</string>
+	<string name="news_url">Event Url</string>
+	<string name="news_title">Event Title</string>
+	<string name="preview">Preview</string>
+	<string name="edit">Edit</string>
+	<string name="submit">Submit</string>
 	<string name="share">Share</string>
 	<string name="teacher_confirm_title">Are you a teacher?</string>
 	<string name="teacher_confirm_content">This App only for students!</string>
