@@ -31,9 +31,9 @@ public class NotificationHelper {
 						.setColor(ContextCompat.getColor(context, R.color.main_theme))
 						.extend(new NotificationCompat.WearableExtender()
 								.setHintShowBackgroundOnly(true)).setContentText(content)
-						.setAutoCancel(true)
+						.setAutoCancel(true).setVisibility(NotificationCompat.VISIBILITY_PUBLIC)
 						.setContentIntent(PendingIntent.getActivity(context, 0, new Intent(), 0))
-						.setSmallIcon(R.mipmap.ic_launcher);
+						.setSmallIcon(R.drawable.ic_stat_kuas_ap);
 
 		builder.setVibrate(vibrationPattern);
 		builder.setLights(Color.GREEN, 800, 800);
