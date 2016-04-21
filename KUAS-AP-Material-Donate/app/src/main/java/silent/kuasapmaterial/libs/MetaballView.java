@@ -6,6 +6,7 @@ import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.View;
@@ -61,7 +62,7 @@ public class MetaballView extends View {
 	}
 
 	private void init() {
-		paint.setColor(getResources().getColor(R.color.accent));
+		paint.setColor(ContextCompat.getColor(getContext(), R.color.accent));
 		paint.setStyle(Paint.Style.FILL);
 		paint.setAntiAlias(true);
 		Circle circlePath = new Circle();

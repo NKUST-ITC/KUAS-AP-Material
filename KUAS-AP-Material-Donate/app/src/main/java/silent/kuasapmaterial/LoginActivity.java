@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
@@ -19,13 +20,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.donate.R;
 
 import java.io.UnsupportedEncodingException;
 
-import io.fabric.sdk.android.Fabric;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
@@ -50,7 +49,6 @@ public class LoginActivity extends SilentActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Fabric.with(this, new Crashlytics());
 		setContentView(R.layout.activity_login);
 		clearUserData();
 		init(R.string.app_name, R.layout.activity_login);
@@ -238,12 +236,12 @@ public class LoginActivity extends SilentActivity
 		final String id = mIdEditText.getText().toString();
 		final String pwd = mPasswordEditText.getText().toString();
 
-		if (id.length() == 0) {
+		if (TextUtils.isEmpty(id)) {
 			mIdTextInputLayout.setError(getString(R.string.enter_username_hint));
 			mIdTextInputLayout.setErrorEnabled(true);
 			return;
 		}
-		if (pwd.length() == 0) {
+		if (TextUtils.isEmpty(pwd)) {
 			mPasswordTextInputLayout.setError(getString(R.string.enter_password_hint));
 			mPasswordTextInputLayout.setErrorEnabled(true);
 			return;

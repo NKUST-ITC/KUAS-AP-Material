@@ -82,10 +82,10 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 
 		try {
 			PackageInfo pkgInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
-			mAppVersionTextView.setText(pkgInfo.versionName);
+			mAppVersionTextView.setText(getString(R.string.version, pkgInfo.versionName));
 		} catch (PackageManager.NameNotFoundException e) {
 			e.printStackTrace();
-			mAppVersionTextView.setText("1.0.0");
+			mAppVersionTextView.setText(getString(R.string.version, "1.0.0"));
 		}
 	}
 

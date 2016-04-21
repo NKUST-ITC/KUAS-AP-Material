@@ -53,8 +53,6 @@ public class LoginActivity extends SilentActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Fabric.with(this, new Crashlytics.Builder()
-				.core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
 		setContentView(R.layout.activity_login);
 		clearUserData();
 		init(R.string.app_name, R.layout.activity_login);
@@ -88,7 +86,7 @@ public class LoginActivity extends SilentActivity
 			version = "1.0.0";
 			mVersionTextView.setText(getString(R.string.version, "1.0.0"));
 		}
-		checkUpdateNote(version);
+		checkUpdateNote(getString(R.string.version, version));
 
 		Helper.getAppVersion(this, new GeneralCallback() {
 			@Override

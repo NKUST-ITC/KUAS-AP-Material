@@ -20,6 +20,9 @@
 		android:theme="@style/DrawerToolbarAppTheme">
 
 		<activity
+			android:name="silent.kuasapmaterial.SplashActivity"
+			android:theme="@style/DrawerToolbarAppTheme"/>
+		<activity
 			android:name="silent.kuasapmaterial.LoginActivity"
 			android:theme="@style/DrawerToolbarAppTheme"
 			android:windowSoftInputMode="stateHidden">
@@ -67,6 +70,9 @@
 			android:theme="@style/DrawerToolbarAppTheme"/>
 		<activity
 			android:name="silent.kuasapmaterial.SettingsActivity"
+			android:theme="@style/DrawerToolbarAppTheme"/>
+		<activity
+			android:name="silent.kuasapmaterial.SubmitNewsActivity"
 			android:theme="@style/DrawerToolbarAppTheme"/>
 
 		<receiver android:name="silent.kuasapmaterial.BootCompletedReceiver">

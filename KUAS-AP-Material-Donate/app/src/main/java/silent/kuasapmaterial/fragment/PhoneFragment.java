@@ -99,22 +99,20 @@ public class PhoneFragment extends SilentFragment implements AdapterView.OnItemC
 		mListView.setAdapter(adapter);
 		mListView.setOnItemClickListener(this);
 
-		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
+		((ListView) mListView).setSelectionFromTop(mInitListPos, mInitListOffset);
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-		mTracker.send(
-				new HitBuilders.EventBuilder().setCategory("call phone").setAction
-						("create")
-						.build());
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("call phone").setAction("create")
+				.build());
 		new AlertDialog.Builder(activity).setTitle(R.string.call_phone_title)
 				.setMessage(getString(R.string.call_phone_content, mList.get(position).name))
 				.setPositiveButton(R.string.call_phone, new DialogInterface.OnClickListener() {
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("call phone")
-										.setAction("click").build());
+								.setAction("click").build());
 						Intent myIntentDial = new Intent(Intent.ACTION_DIAL,
 								Uri.parse("tel:" + mList.get(position).phone.replace("#", ",")));
 						startActivity(myIntentDial);

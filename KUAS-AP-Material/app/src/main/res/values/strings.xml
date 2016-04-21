@@ -2,7 +2,7 @@
 	<string name="app_name">KUAS AP</string>
 
 	<string name="update_note_title">Update Notes %s</string>
-	<string name="update_note_content">更新：\n　行事曆</string>
+	<string name="update_note_content">更新：\n　通知圖示</string>
 
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">Share</string>

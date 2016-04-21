@@ -4,7 +4,6 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:app="http://schemas.android.com/apk/res-auto"
 	xmlns:tools="http://schemas.android.com/tools"
-	xmlns:wheel="http://schemas.android.com/apk/res-auto"
 	android:layout_width="match_parent"
 	android:layout_height="match_parent"
 	android:background="@color/app_bg"
@@ -70,6 +69,8 @@
 				android:id="@+id/textView_holiday"
 				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
+				android:paddingLeft="@dimen/margin_medium"
+				android:paddingRight="@dimen/margin_medium"
 				android:text="@string/course_holiday"
 				android:textColor="@color/black_text_secondary"
 				android:textSize="@dimen/text_action"
@@ -123,17 +124,12 @@
 						tools:text="@string/course_no_course"/>
 				</LinearLayout>
 
-				<silent.kuasapmaterial.libs.ProgressWheel
-					android:id="@+id/progress_wheel"
-					android:layout_width="42sp"
-					android:layout_height="42sp"
+				<silent.kuasapmaterial.libs.MaterialProgressBar
+					android:id="@+id/materialProgressBar"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
 					android:layout_centerInParent="true"
-					wheel:matProg_barColor="@color/progress_red"
-					wheel:matProg_circleBackground="false"
-					wheel:matProg_fillRadius="true"
-					wheel:matProg_material="true"
-					wheel:matProg_progressIndeterminate="true"
-					wheel:matProg_shadowSize="3"/>
+					app:enable_circle_background="false"/>
 			</RelativeLayout>
 		</LinearLayout>
 	</LinearLayout>

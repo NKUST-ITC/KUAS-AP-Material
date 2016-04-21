@@ -2,8 +2,10 @@
 	<string name="app_name">高應校務通</string>
 
 	<string name="update_note_title">更新日誌 %s</string>
-	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n　上課震動功能\n　英文版本\n\n修正：\n　外籍生無法登入之錯誤\n　部分用戶上課提醒崩潰\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
+	<string name="update_note_content">更新：\n　104 學年度下學期行事曆\n　通知圖示\n\n優化：\n　開啟網頁速度\n　Loading效果\n　細節\n　部分特效\n\n修正：\n　行事曆崩潰之錯誤\n　部分用戶最新消息崩潰\n　部分翻譯錯誤\n\n新增\n　缺曠課之星期幾</string>
 
+	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
+	<string name="share">分享</string>
 	<string name="teacher_confirm_title">您是老師嗎？</string>
 	<string name="teacher_confirm_content">本 App 僅有學生功能！</string>
 	<string name="continue_to_use">繼續使用</string>
@@ -62,7 +64,7 @@
 	<string name="no_internet">沒有網路連線，請檢查你的網路</string>
 	<string name="setting_internet">設定網路</string>
 	<string name="score_no_score">Oops！本學期沒有任何成績資料哦～\n請選擇其他學期 %s</string>
-	<string name="leave_night">旋轉橫向即可查看夜間缺曠 %s</string>
+	<string name="leave_night">旋轉橫向即可查看夜間缺曠以及星期幾 %s</string>
 	<string name="leave_no_leave">Oops！本學期沒有任何缺曠課紀錄哦～\n請選擇其他學期 %s</string>
 	<string name="token_expired_title">重新登入</string>
 	<string name="token_expired_content">登入資訊過期，請重新登入！</string>
@@ -196,6 +198,16 @@
 	<string name="course13">第12節</string>
 	<string name="course14">第13節</string>
 	<string name="course15">第14節</string>
+
+	<array name="weekdays">
+		<item>@string/sun</item>
+		<item>@string/mon</item>
+		<item>@string/tue</item>
+		<item>@string/wed</item>
+		<item>@string/thu</item>
+		<item>@string/fri</item>
+		<item>@string/sat</item>
+	</array>
 
 	<array name="course_sections">
 		<item>M</item>

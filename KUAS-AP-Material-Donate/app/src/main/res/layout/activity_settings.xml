@@ -41,8 +41,8 @@
 				android:layout_height="wrap_content"
 				android:divider="?android:attr/listDivider"
 				android:orientation="vertical"
-				android:paddingLeft="@dimen/margin_responsive"
-				android:paddingRight="@dimen/margin_responsive"
+				android:paddingLeft="@dimen/margin_page_responsive"
+				android:paddingRight="@dimen/margin_page_responsive"
 				android:showDividers="middle">
 
 				<LinearLayout

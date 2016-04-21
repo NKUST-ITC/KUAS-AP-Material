@@ -2,10 +2,7 @@
 	<string name="app_name">高應校務通</string>
 
 	<string name="update_note_title">更新日誌 %s</string>
-	<string name="update_note_content">更新：\n　行事曆</string>
-
-	<string name="ga_trackingId">UA-46334408-2</string>
-	<string name="google_app_id">1:937044701794:android:05ebdd62590fb72e</string>
+	<string name="update_note_content">更新：\n　通知圖示</string>
 
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">分享</string>

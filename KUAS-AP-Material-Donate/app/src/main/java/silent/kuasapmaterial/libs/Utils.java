@@ -2,12 +2,13 @@ package silent.kuasapmaterial.libs;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.ColorFilter;
 import android.graphics.LightingColorFilter;
@@ -20,6 +21,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -166,9 +168,10 @@ public class Utils {
 	}
 
 	public static int[] getSwipeRefreshColors(Context context) {
-		Resources res = context.getResources();
-		return new int[]{res.getColor(R.color.progress_red), res.getColor(R.color.progress_blue),
-				res.getColor(R.color.progress_yellow), res.getColor(R.color.progress_green)};
+		return new int[]{ContextCompat.getColor(context, R.color.progress_red),
+				ContextCompat.getColor(context, R.color.progress_blue),
+				ContextCompat.getColor(context, R.color.progress_yellow),
+				ContextCompat.getColor(context, R.color.progress_green)};
 	}
 
 	/**
@@ -220,7 +223,8 @@ public class Utils {
 		return getDefaultDisplayImageBuilder().build();
 	}
 
-	public static DisplayImageOptions getHeadDisplayImageOptions(final int cornerPixels) {
+	public static DisplayImageOptions getHeadDisplayImageOptions(final Context context,
+	                                                             final int cornerPixels) {
 		// rounded head
 		return new DisplayImageOptions.Builder().cacheInMemory(true).cacheOnDisk(true)
 				.bitmapConfig(Bitmap.Config.RGB_565).imageScaleType(ImageScaleType.IN_SAMPLE_INT)
@@ -228,6 +232,11 @@ public class Utils {
 				.preProcessor(new BitmapProcessor() {
 
 					public Bitmap process(Bitmap src) {
+						if (src.getWidth() == 0 || src.getHeight() == 0) {
+							return BitmapFactory.decodeResource(context.getResources(),
+									R.drawable.ic_account_circle_white_48dp);
+						}
+
 						Bitmap result;
 						Matrix matrix = new Matrix();
 						if (src.getWidth() >= src.getHeight()) {
@@ -274,6 +283,13 @@ public class Utils {
 
 	public static int getDisplayWidth(Context context) {
 		return getDisplayDimen(context).x;
+	}
+
+	public static PendingIntent createSharePendingIntent(Context context, String content) {
+		Intent sendIntent = new Intent(Intent.ACTION_SEND);
+		sendIntent.putExtra(Intent.EXTRA_TEXT, content);
+		sendIntent.setType("text/plain");
+		return PendingIntent.getActivity(context, 0, sendIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 	}
 
 	/**
