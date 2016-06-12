@@ -89,11 +89,11 @@
 					android:layout_marginRight="@dimen/margin_medium"
 					android:layout_marginTop="@dimen/margin_small">
 
-					<ScrollView
-						android:id="@+id/scrollView"
+					<android.support.v7.widget.RecyclerView
+						android:id="@+id/recyclerView"
+						tools:listitem="@layout/grid_course"
 						android:layout_width="match_parent"
-						android:layout_height="match_parent"
-						android:fillViewport="true"/>
+						android:layout_height="match_parent"/>
 				</android.support.v4.widget.SwipeRefreshLayout>
 
 				<LinearLayout

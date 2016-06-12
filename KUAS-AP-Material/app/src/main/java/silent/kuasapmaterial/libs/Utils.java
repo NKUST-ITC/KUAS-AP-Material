@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -15,11 +16,15 @@ import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
@@ -396,4 +401,47 @@ public class Utils {
 				.getObject(context, Constant.PREF_COURSE_VIBRATE_DATA, CourseModel[].class);
 		return courseModels == null ? null : new ArrayList<>(Arrays.asList(courseModels));
 	}
+
+
+	public static Drawable getSelectableItemBackgroundDrawable(Context context) {
+		return ContextCompat.getDrawable(context, getSelectableItemBackgroundResource(context));
+	}
+
+	public static int getSelectableItemBackgroundResource(Context context) {
+		int[] attrs = new int[]{R.attr.selectableItemBackground};
+		TypedArray typedArray = context.obtainStyledAttributes(attrs);
+		int resourceId = typedArray.getResourceId(0, 0);
+		typedArray.recycle();
+		return resourceId;
+	}
+
+	public static LayerDrawable getSelectableDrawable(Context context,
+	                                                  @DrawableRes int drawableResId) {
+		return new LayerDrawable(new Drawable[]{ContextCompat.getDrawable(context, drawableResId),
+				getSelectableItemBackgroundDrawable(context)});
+	}
+
+	/**
+	 * Sets the background for a view while preserving its current padding. If the background drawable
+	 * has its own padding, that padding will be added to the current padding.
+	 *
+	 * @param view               View to receive the new background.
+	 * @param backgroundDrawable Drawable to set as new background.
+	 */
+	public static void setBackgroundAndKeepPadding(View view, Drawable backgroundDrawable) {
+		Rect drawablePadding = new Rect();
+		backgroundDrawable.getPadding(drawablePadding);
+		int top = view.getPaddingTop() + drawablePadding.top;
+		int left = view.getPaddingLeft() + drawablePadding.left;
+		int right = view.getPaddingRight() + drawablePadding.right;
+		int bottom = view.getPaddingBottom() + drawablePadding.bottom;
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+			//noinspection deprecation
+			view.setBackgroundDrawable(backgroundDrawable);
+		} else {
+			view.setBackground(backgroundDrawable);
+		}
+		view.setPadding(left, top, right, bottom);
+	}
+
 }
