@@ -66,6 +66,7 @@ public class SegmentControl extends View {
 	private int mCornerRadius;
 
 	public interface OnSegmentControlClickListener {
+
 		void onSegmentControlClick(int index);
 
 		void onSegmentControlReselect();

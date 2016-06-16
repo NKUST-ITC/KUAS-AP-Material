@@ -49,6 +49,7 @@ import java.util.ArrayList;
  * @hide
  */
 public class MaterialProgressDrawable extends Drawable implements Animatable {
+
 	// Maps to ProgressBar.XLarge style
 	public static final int XLARGE = 2;
 	// Maps to ProgressBar.Large style
@@ -101,6 +102,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 	 */
 	private final Ring mRing;
 	private final Callback mCallback = new Callback() {
+
 		@Override
 		public void invalidateDrawable(Drawable d) {
 			invalidateSelf();
@@ -339,6 +341,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 	private void setupAnimators() {
 		final Ring ring = mRing;
 		final Animation animation = new Animation() {
+
 			@Override
 			public void applyTransformation(float interpolatedTime, Transformation t) {
 				if (mFinishing) {
@@ -416,9 +419,11 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 
 	@Retention(RetentionPolicy.CLASS) @IntDef({XLARGE, LARGE, DEFAULT})
 	public @interface ProgressDrawableSize {
+
 	}
 
 	private static class Ring {
+
 		private final RectF mTempBounds = new RectF();
 		private final Paint mPaint = new Paint();
 		private final Paint mArrowPaint = new Paint();
@@ -716,6 +721,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 	 * Squishes the interpolation curve into the second half of the animation.
 	 */
 	private static class EndCurveInterpolator extends AccelerateDecelerateInterpolator {
+
 		@Override
 		public float getInterpolation(float input) {
 			return super.getInterpolation(Math.max(0, (input - 0.5f) * 2.0f));
@@ -726,6 +732,7 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 	 * Squishes the interpolation curve into the first half of the animation.
 	 */
 	private static class StartCurveInterpolator extends AccelerateDecelerateInterpolator {
+
 		@Override
 		public float getInterpolation(float input) {
 			return super.getInterpolation(Math.min(1, input * 2.0f));

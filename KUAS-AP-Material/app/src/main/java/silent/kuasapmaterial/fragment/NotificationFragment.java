@@ -78,6 +78,7 @@ public class NotificationFragment extends SilentFragment
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
 						new TypeToken<List<NotificationModel>>() {
+
 						}.getType());
 			}
 		}
@@ -142,6 +143,7 @@ public class NotificationFragment extends SilentFragment
 			}
 		});
 		mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
 			                               long id) {
@@ -331,12 +333,14 @@ public class NotificationFragment extends SilentFragment
 		}
 
 		class ViewHolder {
+
 			TextView textView_author;
 			TextView textView_date;
 			TextView textView_content;
 		}
 
 		class RetryViewHolder {
+
 			TextView textView;
 		}
 	}

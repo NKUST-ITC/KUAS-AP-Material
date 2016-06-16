@@ -1,6 +1,7 @@
 package silent.kuasapmaterial.models;
 
 public class ScoreModel {
+
 	public String middle_score;
 	public String final_score;
 	public String units;

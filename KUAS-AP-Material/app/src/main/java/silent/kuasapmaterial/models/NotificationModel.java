@@ -1,6 +1,7 @@
 package silent.kuasapmaterial.models;
 
 public class NotificationModel {
+
 	public String link;
 	public String date;
 	public String content;

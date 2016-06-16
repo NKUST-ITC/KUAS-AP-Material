@@ -12,6 +12,7 @@ import android.support.v4.content.ContextCompat;
 import com.kuas.ap.R;
 
 public class NotificationHelper {
+
 	private static long[] vibrationPattern = {300, 200, 300, 200};
 
 	/**

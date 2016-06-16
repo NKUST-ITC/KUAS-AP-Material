@@ -182,6 +182,7 @@ public class ScheduleFragment extends SilentFragment implements AdapterView.OnIt
 		new AlertDialog.Builder(activity).setTitle(R.string.schedule).setMessage(
 				getString(R.string.add_cal_content, mList.get(position).split("\\) ")[1]))
 				.setPositiveButton(R.string.determine, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("add schedule")
@@ -228,6 +229,7 @@ public class ScheduleFragment extends SilentFragment implements AdapterView.OnIt
 
 	public class ScheduleAdapter extends BaseAdapter
 			implements PinnedSectionListView.PinnedSectionListAdapter {
+
 		private LayoutInflater inflater;
 
 		private static final int TYPE_WEEK = 0, TYPE_SCHEDULE = 1;
@@ -306,6 +308,7 @@ public class ScheduleFragment extends SilentFragment implements AdapterView.OnIt
 		}
 
 		class ViewHolder {
+
 			TextView textView;
 		}
 	}

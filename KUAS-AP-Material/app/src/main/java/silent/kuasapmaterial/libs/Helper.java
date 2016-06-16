@@ -420,6 +420,7 @@ public class Helper {
 
 	public static void getUserPicture(final Context context, final GeneralCallback callback) {
 		mClient.get(USER_PIC_URL, new TextHttpResponseHandler() {
+
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString,
 			                      Throwable throwable) {

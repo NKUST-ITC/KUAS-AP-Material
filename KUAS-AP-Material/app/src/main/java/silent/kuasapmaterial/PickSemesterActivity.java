@@ -80,9 +80,11 @@ public class PickSemesterActivity extends SilentActivity
 		if (mBundle != null) {
 			mSelectedModel = new Gson()
 					.fromJson(mBundle.getString("mSelectedModel"), new TypeToken<SemesterModel>() {
+
 					}.getType());
 			mSemesterList = new Gson().fromJson(mBundle.getString("mSemesterList"),
 					new TypeToken<List<SemesterModel>>() {
+
 					}.getType());
 		} else {
 			Toast.makeText(this, R.string.something_error, Toast.LENGTH_SHORT).show();
@@ -97,11 +99,13 @@ public class PickSemesterActivity extends SilentActivity
 			if (savedInstanceState.containsKey("mSelectedModel")) {
 				mSelectedModel = new Gson().fromJson(savedInstanceState.getString("mSelectedModel"),
 						new TypeToken<SemesterModel>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSemesterList")) {
 				mSemesterList = new Gson().fromJson(savedInstanceState.getString("mSemesterList"),
 						new TypeToken<List<SemesterModel>>() {
+
 						}.getType());
 			}
 		}
@@ -204,6 +208,7 @@ public class PickSemesterActivity extends SilentActivity
 		}
 
 		class ViewHolder {
+
 			TextView textView;
 			ImageView imageView;
 		}

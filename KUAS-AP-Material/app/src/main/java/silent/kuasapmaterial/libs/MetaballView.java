@@ -53,6 +53,7 @@ public class MetaballView extends View {
 	}
 
 	private class Circle {
+
 		float[] center;
 		float radius;
 	}

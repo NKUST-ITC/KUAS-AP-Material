@@ -5,6 +5,7 @@ import android.support.annotation.NonNull;
 import java.util.List;
 
 public class CourseModel implements Comparable<CourseModel> {
+
 	public List<String> instructors;
 	public String title;
 	public String building;

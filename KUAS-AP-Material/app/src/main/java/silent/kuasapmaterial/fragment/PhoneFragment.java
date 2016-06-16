@@ -109,6 +109,7 @@ public class PhoneFragment extends SilentFragment implements AdapterView.OnItemC
 		new AlertDialog.Builder(activity).setTitle(R.string.call_phone_title)
 				.setMessage(getString(R.string.call_phone_content, mList.get(position).name))
 				.setPositiveButton(R.string.call_phone, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("call phone")
@@ -126,6 +127,7 @@ public class PhoneFragment extends SilentFragment implements AdapterView.OnItemC
 
 	public class PhoneAdapter extends BaseAdapter
 			implements PinnedSectionListView.PinnedSectionListAdapter {
+
 		private LayoutInflater inflater;
 
 		public PhoneAdapter(Context context) {
@@ -182,6 +184,7 @@ public class PhoneFragment extends SilentFragment implements AdapterView.OnItemC
 		}
 
 		class ViewHolder {
+
 			TextView textView_name;
 			TextView textView_phone;
 		}

@@ -1,6 +1,7 @@
 package silent.kuasapmaterial.models;
 
 public class PhoneModel {
+
 	public String name;
 	public String phone;
 

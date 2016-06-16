@@ -351,6 +351,7 @@ public class MaterialProgressBar extends ImageView {
 	}
 
 	private class OvalShadow extends OvalShape {
+
 		private RadialGradient mRadialGradient;
 		private int mShadowRadius;
 		private Paint mShadowPaint;

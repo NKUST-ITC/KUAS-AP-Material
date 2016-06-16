@@ -24,11 +24,12 @@ import com.kuas.ap.R;
  * Todd Davies' Progress Wheel https://github.com/Todd-Davies/ProgressWheel
  *
  * @author Nico Hormazábal
- *         <p/>
+ *         <p>
  *         Licensed under the Apache License 2.0 license see:
  *         http://www.apache.org/licenses/LICENSE-2.0
  */
 public class ProgressWheel extends View {
+
 	private static final String TAG = ProgressWheel.class.getSimpleName();
 
 	/**
@@ -878,6 +879,7 @@ public class ProgressWheel extends View {
 	}
 
 	static class WheelSavedState extends BaseSavedState {
+
 		float mProgress;
 		float mTargetProgress;
 		boolean isSpinning;
@@ -928,6 +930,7 @@ public class ProgressWheel extends View {
 		//required field that makes Parcelables from a Parcel
 		public static final Parcelable.Creator<WheelSavedState> CREATOR =
 				new Parcelable.Creator<WheelSavedState>() {
+
 					public WheelSavedState createFromParcel(Parcel in) {
 						return new WheelSavedState(in);
 					}
@@ -939,11 +942,12 @@ public class ProgressWheel extends View {
 	}
 
 	public interface ProgressCallback {
+
 		/**
 		 * Method to call when the progress reaches a value
 		 * in order to avoid float precision issues, the progress
 		 * is rounded to a float with two decimals.
-		 * <p/>
+		 * <p>
 		 * In indeterminate mode, the callback is called each time
 		 * the wheel completes an animation cycle, with, the progress value is -1.0f
 		 *

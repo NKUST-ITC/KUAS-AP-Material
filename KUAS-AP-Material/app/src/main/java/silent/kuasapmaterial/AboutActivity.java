@@ -111,6 +111,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 							easterEggList[random.nextInt(easterEggList.length)],
 							Snackbar.LENGTH_SHORT)
 							.setAction(R.string.ok, new View.OnClickListener() {
+
 								@Override
 								public void onClick(View v) {
 

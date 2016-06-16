@@ -75,6 +75,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
 		progressDialog.show();
 		Utils.setUpBusNotify(this, new GeneralCallback() {
+
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();

@@ -3,6 +3,7 @@ package silent.kuasapmaterial.models;
 import android.support.annotation.NonNull;
 
 public class BusModel implements Comparable<BusModel> {
+
 	public boolean isReserve;
 	public String EndEnrollDateTime;
 	public String runDateTime;

@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import com.google.gson.Gson;
 
 public class Memory {
+
 	private static SharedPreferences appSharedPrefs;
 	private static Editor prefsEditor;
 
