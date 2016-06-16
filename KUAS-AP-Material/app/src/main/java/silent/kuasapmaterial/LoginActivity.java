@@ -1,6 +1,5 @@
 package silent.kuasapmaterial;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
@@ -20,15 +19,11 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.android.gms.analytics.HitBuilders;
-import com.kuas.ap.BuildConfig;
 import com.kuas.ap.R;
 
 import java.io.UnsupportedEncodingException;
 
-import io.fabric.sdk.android.Fabric;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
@@ -49,6 +44,8 @@ public class LoginActivity extends SilentActivity
 	Button mLoginButton;
 
 	String version;
+
+	AlertDialog mProgressDialog;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +86,7 @@ public class LoginActivity extends SilentActivity
 		checkUpdateNote(getString(R.string.version, version));
 
 		Helper.getAppVersion(this, new GeneralCallback() {
+
 			@Override
 			public void onSuccess(String data) {
 				super.onSuccess(data);
@@ -123,6 +121,7 @@ public class LoginActivity extends SilentActivity
 
 	private void checkServerStatus() {
 		Helper.getServerStatus(this, new ServerStatusCallback() {
+
 			@Override
 			public void onSuccess(ServerStatusModel model) {
 				super.onSuccess(model);
@@ -198,6 +197,7 @@ public class LoginActivity extends SilentActivity
 		mRememberCheckBox
 				.setChecked(Memory.getBoolean(this, Constant.PREF_REMEMBER_PASSWORD, true));
 		mRememberCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (!mRememberCheckBox.isChecked()) {
@@ -219,6 +219,7 @@ public class LoginActivity extends SilentActivity
 						.setMessage(R.string.teacher_confirm_content)
 						.setPositiveButton(R.string.continue_to_use,
 								new DialogInterface.OnClickListener() {
+
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
 										login();
@@ -252,9 +253,10 @@ public class LoginActivity extends SilentActivity
 		}
 
 		Memory.setBoolean(this, Constant.PREF_REMEMBER_PASSWORD, mRememberCheckBox.isChecked());
-		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.login_ing);
-		progressDialog.show();
+		mProgressDialog = Utils.createLoadingDialog(this, R.string.login_ing);
+		mProgressDialog.show();
 		Helper.login(this, id, pwd, new GeneralCallback() {
+
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
@@ -262,7 +264,7 @@ public class LoginActivity extends SilentActivity
 				if (isFinishing()) {
 					return;
 				}
-				progressDialog.dismiss();
+				Utils.dismissDialog(mProgressDialog);
 				Toast.makeText(LoginActivity.this, R.string.timeout_message, Toast.LENGTH_SHORT)
 						.show();
 			}
@@ -274,7 +276,7 @@ public class LoginActivity extends SilentActivity
 				if (isFinishing()) {
 					return;
 				}
-				progressDialog.dismiss();
+				Utils.dismissDialog(mProgressDialog);
 				mIdTextInputLayout.setError(getString(R.string.check_login_hint));
 				mIdTextInputLayout.setErrorEnabled(true);
 				mPasswordTextInputLayout.setError(getString(R.string.check_login_hint));
@@ -288,7 +290,7 @@ public class LoginActivity extends SilentActivity
 				if (isFinishing()) {
 					return;
 				}
-				progressDialog.dismiss();
+				Utils.dismissDialog(mProgressDialog);
 				try {
 					Memory.setString(LoginActivity.this, Constant.PREF_USERNAME, id);
 					byte[] TextByte = Utils.EncryptAES(Constant.IvAES.getBytes("UTF-8"),
@@ -321,6 +323,7 @@ public class LoginActivity extends SilentActivity
 						.setMessage(R.string.teacher_confirm_content)
 						.setPositiveButton(R.string.continue_to_use,
 								new DialogInterface.OnClickListener() {
+
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
 										login();

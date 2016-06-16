@@ -97,6 +97,7 @@ public class BusReservationsActivity extends SilentActivity
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
 						new TypeToken<List<BusModel>>() {
+
 						}.getType());
 			}
 		}
@@ -136,6 +137,7 @@ public class BusReservationsActivity extends SilentActivity
 
 		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
 		mNoReservationLinearLayout.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (isRetry) {
@@ -227,7 +229,7 @@ public class BusReservationsActivity extends SilentActivity
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
-				Utils.createTokenExpired(BusReservationsActivity.this).show();
+				Utils.showTokenExpired(BusReservationsActivity.this);
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
 								.build());
@@ -246,6 +248,7 @@ public class BusReservationsActivity extends SilentActivity
 						mList.get(position).runDateTime))
 				.setPositiveButton(R.string.bus_cancel_reserve,
 						new DialogInterface.OnClickListener() {
+
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								mTracker.send(
@@ -293,7 +296,7 @@ public class BusReservationsActivity extends SilentActivity
 					@Override
 					public void onTokenExpired() {
 						super.onTokenExpired();
-						Utils.createTokenExpired(BusReservationsActivity.this).show();
+						Utils.showTokenExpired(BusReservationsActivity.this);
 					}
 				});
 	}
@@ -359,6 +362,7 @@ public class BusReservationsActivity extends SilentActivity
 		}
 
 		class ViewHolder {
+
 			TextView textView_location;
 			TextView textView_time;
 			TextView textView_date;

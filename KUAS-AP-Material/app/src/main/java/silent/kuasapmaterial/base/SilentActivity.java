@@ -16,6 +16,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -144,7 +145,7 @@ public class SilentActivity extends AppCompatActivity
 		try {
 			if (isSetUpHeadPhoto) {
 				String photo = Memory.getString(this, Constant.PREF_USER_PIC, "");
-				if (photo.length() > 0) {
+				if (!TextUtils.isEmpty(photo)) {
 					ImageLoader.getInstance().displayImage(photo,
 							(ImageView) headerView.findViewById(R.id.imageView_user),
 							Utils.getHeadDisplayImageOptions(this,
@@ -186,6 +187,7 @@ public class SilentActivity extends AppCompatActivity
 			final boolean isLogin = Memory.getBoolean(this, Constant.PREF_IS_LOGIN, false);
 			headerView.findViewById(R.id.layout_user)
 					.setOnClickListener(new View.OnClickListener() {
+
 						@Override
 						public void onClick(View v) {
 							drawer.closeDrawers();
@@ -330,6 +332,7 @@ public class SilentActivity extends AppCompatActivity
 			Snackbar.make(findViewById(android.R.id.content), R.string.no_internet,
 					Snackbar.LENGTH_INDEFINITE)
 					.setAction(R.string.setting_internet, new View.OnClickListener() {
+
 						@Override
 						public void onClick(View v) {
 							startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
@@ -396,6 +399,7 @@ public class SilentActivity extends AppCompatActivity
 				new AlertDialog.Builder(this).setTitle(R.string.app_name)
 						.setMessage(R.string.logout_check).setPositiveButton(R.string.determine,
 						new DialogInterface.OnClickListener() {
+
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								if (mTracker != null) {

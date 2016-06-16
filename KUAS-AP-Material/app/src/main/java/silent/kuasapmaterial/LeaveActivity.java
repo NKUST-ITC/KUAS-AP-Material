@@ -84,16 +84,19 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
 						new TypeToken<List<LeaveModel>>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSelectedModel")) {
 				mSelectedModel = new Gson().fromJson(savedInstanceState.getString("mSelectedModel"),
 						new TypeToken<SemesterModel>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSemesterList")) {
 				mSemesterList = new Gson().fromJson(savedInstanceState.getString("mSemesterList"),
 						new TypeToken<List<SemesterModel>>() {
+
 						}.getType());
 			}
 		}
@@ -132,6 +135,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 					if (data.hasExtra("mSelectedModel")) {
 						mSelectedModel = new Gson().fromJson(data.getStringExtra("mSelectedModel"),
 								new TypeToken<SemesterModel>() {
+
 								}.getType());
 						mYms = mSelectedModel.value;
 						mPickYmsTextView.setText(mSelectedModel.text);
@@ -182,6 +186,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		setUpPullRefresh();
 		mLeaveNightTextView.setText(getString(R.string.leave_night, "\uD83D\uDE06"));
 		mScrollView.setOnScrollListener(new ObservableScrollView.OnScrollListener() {
+
 			@Override
 			public void onScrollDown() {
 				mFab.hide();
@@ -193,6 +198,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			}
 		});
 		mFab.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				Toast.makeText(LeaveActivity.this, R.string.function_not_open, Toast.LENGTH_SHORT)
@@ -207,6 +213,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 
 		mScrollView.scrollTo(0, mPos);
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (mSelectedModel == null) {
@@ -222,6 +229,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			}
 		});
 		mNoLeaveLinearLayout.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (isRetry) {
@@ -305,7 +313,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
-				Utils.createTokenExpired(LeaveActivity.this).show();
+				Utils.showTokenExpired(LeaveActivity.this);
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
 								.build());

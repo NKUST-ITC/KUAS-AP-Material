@@ -313,7 +313,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 					@Override
 					public void onTokenExpired() {
 						super.onTokenExpired();
-						Utils.createTokenExpired(CourseActivity.this).show();
+						Utils.showTokenExpired(CourseActivity.this);
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("token")
 								.setAction("expired").build());
 					}

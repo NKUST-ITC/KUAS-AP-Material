@@ -81,22 +81,26 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
 						new TypeToken<List<ScoreModel>>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSelectedModel")) {
 				mSelectedModel = new Gson().fromJson(savedInstanceState.getString("mSelectedModel"),
 						new TypeToken<SemesterModel>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSemesterList")) {
 				mSemesterList = new Gson().fromJson(savedInstanceState.getString("mSemesterList"),
 						new TypeToken<List<SemesterModel>>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mScoreDetailModel")) {
 				mScoreDetailModel = new Gson()
 						.fromJson(savedInstanceState.getString("mScoreDetailModel"),
 								new TypeToken<ScoreDetailModel>() {
+
 								}.getType());
 			}
 		}
@@ -138,6 +142,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 					if (data.hasExtra("mSelectedModel")) {
 						mSelectedModel = new Gson().fromJson(data.getStringExtra("mSelectedModel"),
 								new TypeToken<SemesterModel>() {
+
 								}.getType());
 						mYms = mSelectedModel.value;
 						mPickYmsTextView.setText(mSelectedModel.text);
@@ -193,6 +198,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 
 		mScrollView.scrollTo(0, mPos);
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (mSelectedModel == null) {
@@ -208,6 +214,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			}
 		});
 		mNoScoreLinearLayout.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (isRetry) {
@@ -291,7 +298,7 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
-				Utils.createTokenExpired(ScoreActivity.this).show();
+				Utils.showTokenExpired(ScoreActivity.this);
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
 								.build());
@@ -349,8 +356,8 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 
 				int drawable = getResources()
 						.getIdentifier("table_" + (i == mList.size() - 1 ? "bottom_" : "normal_") +
-										(j == 0 ? "left" : (j == 1 ? "center" : "right")),
-								"drawable", getPackageName());
+										(j == 0 ? "left" : (j == 1 ? "center" : "right")), "drawable",
+								getPackageName());
 				scoreTextView.setBackgroundResource(drawable);
 
 				scoreTableRow.addView(scoreTextView,

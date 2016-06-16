@@ -2,6 +2,7 @@ package silent.kuasapmaterial.libs;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -128,6 +129,7 @@ public class Utils {
 		return new AlertDialog.Builder(activity).setTitle(R.string.token_expired_title)
 				.setMessage(R.string.token_expired_content)
 				.setPositiveButton(R.string.determine, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (activity.isFinishing()) {
@@ -140,10 +142,22 @@ public class Utils {
 	}
 
 	@SuppressLint("InflateParams")
+	public static void showTokenExpired(Activity activity) {
+		try {
+			if (!activity.isFinishing()) {
+				createTokenExpired(activity).show();
+			}
+		} catch (Exception e) {
+			// ignore
+		}
+	}
+
+	@SuppressLint("InflateParams")
 	public static AlertDialog createForceUpdateDialog(final Activity activity) {
 		return new AlertDialog.Builder(activity).setTitle(R.string.update_title)
 				.setMessage(R.string.update_content)
 				.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (activity.isFinishing()) {
@@ -161,6 +175,7 @@ public class Utils {
 		return new AlertDialog.Builder(activity).setTitle(R.string.update_title)
 				.setMessage(R.string.update_content)
 				.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (activity.isFinishing()) {
@@ -245,14 +260,14 @@ public class Utils {
 						Bitmap result;
 						Matrix matrix = new Matrix();
 						if (src.getWidth() >= src.getHeight()) {
-							float scale = src.getHeight() / cornerPixels * 2f;
+							float scale = src.getHeight() / (float) cornerPixels * 2f;
 							matrix.setScale(scale, scale);
 							result = Bitmap.createBitmap(src,
 									src.getWidth() / 2 - src.getHeight() / 2, 0, src.getHeight(),
 									src.getHeight(), matrix, false);
 
 						} else {
-							float scale = src.getWidth() / cornerPixels * 2f;
+							float scale = src.getWidth() / (float) cornerPixels * 2f;
 							matrix.setScale(scale, scale);
 							result = Bitmap.createBitmap(src, 0,
 									src.getHeight() / 2 - src.getWidth() / 2, src.getWidth(),
@@ -328,11 +343,13 @@ public class Utils {
 	 */
 	public static void setUpCourseNotify(final Context context, final GeneralCallback callback) {
 		Helper.getSemester(context, new SemesterCallback() {
+
 			@Override
 			public void onSuccess(List<SemesterModel> modelList, SemesterModel selectedModel) {
 				super.onSuccess(modelList, selectedModel);
 				Helper.getCourseTimeTable(context, selectedModel.value.split(",")[0],
 						selectedModel.value.split(",")[1], new CourseCallback() {
+
 							@Override
 							public void onSuccess(List<List<CourseModel>> modelList) {
 								super.onSuccess(modelList);
@@ -365,6 +382,7 @@ public class Utils {
 
 	public static void setUpBusNotify(final Context context, final GeneralCallback callback) {
 		Helper.getBusReservations(context, new BusReservationsCallback() {
+
 			@Override
 			public void onSuccess(List<BusModel> modelList) {
 				super.onSuccess(modelList);
@@ -401,7 +419,6 @@ public class Utils {
 				.getObject(context, Constant.PREF_COURSE_VIBRATE_DATA, CourseModel[].class);
 		return courseModels == null ? null : new ArrayList<>(Arrays.asList(courseModels));
 	}
-
 
 	public static Drawable getSelectableItemBackgroundDrawable(Context context) {
 		return ContextCompat.getDrawable(context, getSelectableItemBackgroundResource(context));
@@ -442,6 +459,16 @@ public class Utils {
 			view.setBackground(backgroundDrawable);
 		}
 		view.setPadding(left, top, right, bottom);
+	}
+
+	public static void dismissDialog(Dialog dialog) {
+		try {
+			if (dialog != null && dialog.isShowing()) {
+				dialog.dismiss();
+			}
+		} catch (IllegalArgumentException e) {
+			// ignore
+		}
 	}
 
 }

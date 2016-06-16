@@ -68,6 +68,7 @@ public class UserInfoActivity extends SilentActivity {
 			if (savedInstanceState.containsKey("mUserInfoModel")) {
 				mUserInfoModel = new Gson().fromJson(savedInstanceState.getString("mUserInfoModel"),
 						new TypeToken<UserInfoModel>() {
+
 						}.getType());
 			}
 		}
@@ -114,6 +115,7 @@ public class UserInfoActivity extends SilentActivity {
 			}
 		});
 		mScrollView.setOnTouchListener(new View.OnTouchListener() {
+
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
@@ -125,6 +127,7 @@ public class UserInfoActivity extends SilentActivity {
 			}
 		});
 		mRetryView.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
@@ -147,6 +150,7 @@ public class UserInfoActivity extends SilentActivity {
 		mMaterialProgressBar.setVisibility(View.VISIBLE);
 
 		Helper.getUserInfo(this, new UserInfoCallback() {
+
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
@@ -159,7 +163,7 @@ public class UserInfoActivity extends SilentActivity {
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
-				Utils.createTokenExpired(UserInfoActivity.this).show();
+				Utils.showTokenExpired(UserInfoActivity.this);
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
 								.build());
@@ -206,7 +210,7 @@ public class UserInfoActivity extends SilentActivity {
 				@Override
 				public void onTokenExpired() {
 					super.onTokenExpired();
-					Utils.createTokenExpired(UserInfoActivity.this).show();
+					Utils.showTokenExpired(UserInfoActivity.this);
 					mTracker.send(
 							new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
 									.build());
@@ -219,6 +223,7 @@ public class UserInfoActivity extends SilentActivity {
 		ImageLoader.getInstance()
 				.displayImage(photo, mPhotoImageView, Utils.getDefaultDisplayImageOptions(),
 						new ImageLoadingListener() {
+
 							@Override
 							public void onLoadingStarted(String imageUri, View view) {
 

@@ -173,6 +173,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
 		progressDialog.show();
 		Utils.setUpCourseNotify(this, new GeneralCallback() {
+
 			@Override
 			public void onSuccess() {
 				super.onSuccess();
@@ -206,7 +207,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
 								.setLabel("token expired").build());
 				progressDialog.dismiss();
-				Utils.createTokenExpired(SettingsActivity.this).show();
+				Utils.showTokenExpired(SettingsActivity.this);
 			}
 		});
 	}
@@ -226,6 +227,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
 		progressDialog.show();
 		Utils.setUpCourseNotify(this, new GeneralCallback() {
+
 			@Override
 			public void onSuccess() {
 				super.onSuccess();
@@ -256,7 +258,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("notify course")
 						.setAction("status").setLabel("token expired").build());
 				progressDialog.dismiss();
-				Utils.createTokenExpired(SettingsActivity.this).show();
+				Utils.showTokenExpired(SettingsActivity.this);
 			}
 		});
 	}
@@ -277,13 +279,14 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
 		progressDialog.show();
 		Utils.setUpCourseNotify(this, new GeneralCallback() {
+
 			@Override
 			public void onSuccess() {
 				super.onSuccess();
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("vibrate course")
 						.setAction("status").setLabel("success").build());
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_VIBRATE, true);
-				progressDialog.dismiss();
+				Utils.dismissDialog(progressDialog);
 				Toast.makeText(SettingsActivity.this, R.string.course_vibrate_hint,
 						Toast.LENGTH_LONG).show();
 				Toast.makeText(SettingsActivity.this, R.string.beta_function, Toast.LENGTH_SHORT)
@@ -295,7 +298,7 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				super.onFail(errorMessage);
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("vibrate course")
 						.setAction("status").setLabel("fail " + errorMessage).build());
-				progressDialog.dismiss();
+				Utils.dismissDialog(progressDialog);
 				mVibrateCourseSwitch.setChecked(false);
 				Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_VIBRATE, false);
 				Toast.makeText(SettingsActivity.this, errorMessage, Toast.LENGTH_SHORT).show();
@@ -306,8 +309,8 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				super.onTokenExpired();
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("vibrate course")
 						.setAction("status").setLabel("token expired").build());
-				progressDialog.dismiss();
-				Utils.createTokenExpired(SettingsActivity.this).show();
+				Utils.dismissDialog(progressDialog);
+				Utils.showTokenExpired(SettingsActivity.this);
 			}
 		});
 	}

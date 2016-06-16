@@ -94,11 +94,13 @@ public class BusActivity extends SilentActivity
 			if (savedInstanceState.containsKey("mJianGongList")) {
 				mJianGongList = new Gson().fromJson(savedInstanceState.getString("mJianGongList"),
 						new TypeToken<List<BusModel>>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mYanChaoList")) {
 				mYanChaoList = new Gson().fromJson(savedInstanceState.getString("mYanChaoList"),
 						new TypeToken<List<BusModel>>() {
+
 						}.getType());
 			}
 		} else {
@@ -179,6 +181,7 @@ public class BusActivity extends SilentActivity
 		mListScrollDistanceCalculator.setScrollDistanceListener(this);
 		mListView.setOnScrollListener(mListScrollDistanceCalculator);
 		mFab.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("bus reservations")
@@ -194,6 +197,7 @@ public class BusActivity extends SilentActivity
 
 		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
 		mTextView.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				mTracker.send(
@@ -203,6 +207,7 @@ public class BusActivity extends SilentActivity
 			}
 		});
 		mNoBusLinearLayout.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (isRetry) {
@@ -302,7 +307,7 @@ public class BusActivity extends SilentActivity
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
-				Utils.createTokenExpired(BusActivity.this).show();
+				Utils.showTokenExpired(BusActivity.this);
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
 								.build());
@@ -384,11 +389,11 @@ public class BusActivity extends SilentActivity
 							.build());
 			new AlertDialog.Builder(this).setTitle(R.string.bus_cancel_reserve_confirm_title)
 					.setMessage(getString(R.string.bus_cancel_reserve_confirm_content, getString(
-									mIndex == 0 ? R.string.bus_from_jiangong :
-											R.string.bus_from_yanchao),
+							mIndex == 0 ? R.string.bus_from_jiangong : R.string.bus_from_yanchao),
 							modelList.get(position).Time))
 					.setPositiveButton(R.string.bus_cancel_reserve,
 							new DialogInterface.OnClickListener() {
+
 								@Override
 								public void onClick(DialogInterface dialog, int which) {
 									mTracker.send(
@@ -402,10 +407,10 @@ public class BusActivity extends SilentActivity
 					.build());
 			new AlertDialog.Builder(this).setTitle(R.string.bus_reserve_confirm_title).setMessage(
 					getString(R.string.bus_reserve_confirm_content, getString(
-									mIndex == 0 ? R.string.bus_from_jiangong :
-											R.string.bus_from_yanchao),
+							mIndex == 0 ? R.string.bus_from_jiangong : R.string.bus_from_yanchao),
 							modelList.get(position).Time))
 					.setPositiveButton(R.string.bus_reserve, new DialogInterface.OnClickListener() {
+
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							mTracker.send(new HitBuilders.EventBuilder().setCategory("book bus")
@@ -448,7 +453,7 @@ public class BusActivity extends SilentActivity
 					@Override
 					public void onTokenExpired() {
 						super.onTokenExpired();
-						Utils.createTokenExpired(BusActivity.this).show();
+						Utils.showTokenExpired(BusActivity.this);
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("token")
 								.setAction("expired").build());
 					}
@@ -472,6 +477,7 @@ public class BusActivity extends SilentActivity
 					mSwipeRefreshLayout.setEnabled(false);
 					mFab.hide();
 					Utils.setUpBusNotify(BusActivity.this, new GeneralCallback() {
+
 						@Override
 						public void onSuccess() {
 							super.onSuccess();
@@ -491,7 +497,7 @@ public class BusActivity extends SilentActivity
 						@Override
 						public void onTokenExpired() {
 							super.onTokenExpired();
-							Utils.createTokenExpired(BusActivity.this).show();
+							Utils.showTokenExpired(BusActivity.this);
 						}
 					});
 				} else {
@@ -513,7 +519,7 @@ public class BusActivity extends SilentActivity
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
-				Utils.createTokenExpired(BusActivity.this).show();
+				Utils.showTokenExpired(BusActivity.this);
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
 								.build());
@@ -617,6 +623,7 @@ public class BusActivity extends SilentActivity
 		}
 
 		class ViewHolder {
+
 			TextView textView_location;
 			TextView textView_time;
 			TextView textView_count;
