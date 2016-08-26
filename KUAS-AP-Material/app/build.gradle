@@ -16,15 +16,15 @@ repositories {
 
 
 android {
-    compileSdkVersion 23
-    buildToolsVersion "23.0.3"
+    compileSdkVersion 24
+    buildToolsVersion "24.0.2"
 
     defaultConfig {
         applicationId "com.kuas.ap"
         minSdkVersion 15
-        targetSdkVersion 23
-        versionCode 20203
-        versionName "2.2.3"
+        targetSdkVersion 24
+        versionCode 20204
+        versionName "2.2.4"
     }
 
     packagingOptions {
@@ -35,7 +35,7 @@ android {
 
     buildTypes {
         debug {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'),
                     'proguard-rules.pro',
                     'proguard-appcompat-v7.pro',
@@ -43,7 +43,8 @@ android {
                     'proguard-gson.pro',
                     'proguard-android-async-http.pro',
                     'proguard-support-design.pro',
-                    'proguard-support-v7-cardview.pro'
+                    'proguard-support-v7-cardview.pro',
+                    'proguard-crashlytics.pro'
         }
         release {
             minifyEnabled true
@@ -54,24 +55,25 @@ android {
                     'proguard-gson.pro',
                     'proguard-android-async-http.pro',
                     'proguard-support-design.pro',
-                    'proguard-support-v7-cardview.pro'
+                    'proguard-support-v7-cardview.pro',
+                    'proguard-crashlytics.pro'
         }
     }
 }
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
-    compile 'com.android.support:appcompat-v7:23.4.0'
-    compile 'com.android.support:design:23.4.0'
-    compile 'com.android.support:customtabs:23.4.0'
-    compile 'com.android.support:cardview-v7:23.4.0'
-    compile 'com.android.support:recyclerview-v7:23.4.0'
-    compile 'com.google.android.gms:play-services-analytics:8.4.0'
+    compile 'com.android.support:appcompat-v7:24.1.1'
+    compile 'com.android.support:design:24.1.1'
+    compile 'com.android.support:customtabs:24.1.1'
+    compile 'com.android.support:cardview-v7:24.1.1'
+    compile 'com.android.support:recyclerview-v7:24.1.1'
+    compile 'com.google.android.gms:play-services-analytics:9.4.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
-    compile 'com.google.code.gson:gson:2.4'
-    compile 'com.wdullaer:materialdatetimepicker:2.1.1'
+    compile 'com.google.code.gson:gson:2.7'
+    compile 'com.wdullaer:materialdatetimepicker:2.5.0'
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.4'
-    compile('com.crashlytics.sdk.android:crashlytics:2.5.2@aar') {
+    compile('com.crashlytics.sdk.android:crashlytics:2.6.1@aar') {
         transitive = true;
     }
 }

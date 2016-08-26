@@ -2,7 +2,7 @@
 	<string name="app_name">高應校務通</string>
 
 	<string name="update_note_title">更新日誌 %s</string>
-	<string name="update_note_content">修正：\n　部分用戶登入後崩潰\n\n優化：\n　重新設計課表呈現引擎</string>
+	<string name="update_note_content">更新：\n　105 學年度第 1 學期課表</string>
 
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">分享</string>

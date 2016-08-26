@@ -19,6 +19,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
@@ -159,9 +160,9 @@ public class LoginActivity extends SilentActivity
 
 	private void findViews() {
 		mIdEditText = (EditText) findViewById(R.id.editText_id);
-		mIdTextInputLayout = (TextInputLayout) mIdEditText.getParent();
+		mIdTextInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout_id);
 		mPasswordEditText = (EditText) findViewById(R.id.editText_password);
-		mPasswordTextInputLayout = (TextInputLayout) mPasswordEditText.getParent();
+		mPasswordTextInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout_password);
 
 		dot_ap = (ImageView) findViewById(R.id.dot_ap);
 		dot_leave = (ImageView) findViewById(R.id.dot_leave);
@@ -306,6 +307,7 @@ public class LoginActivity extends SilentActivity
 					e.printStackTrace();
 				}
 				Memory.setBoolean(LoginActivity.this, Constant.PREF_IS_LOGIN, true);
+				Crashlytics.setUserName(id);
 				startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
 			}
 		});

@@ -148,6 +148,7 @@
 					android:orientation="vertical">
 
 					<android.support.design.widget.TextInputLayout
+						android:id="@+id/textInputLayout_id"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_marginLeft="@dimen/margin_xlarge"
@@ -164,6 +165,7 @@
 					</android.support.design.widget.TextInputLayout>
 
 					<android.support.design.widget.TextInputLayout
+						android:id="@+id/textInputLayout_password"
 						android:layout_width="match_parent"
 						android:layout_height="wrap_content"
 						android:layout_marginLeft="@dimen/margin_xlarge"
