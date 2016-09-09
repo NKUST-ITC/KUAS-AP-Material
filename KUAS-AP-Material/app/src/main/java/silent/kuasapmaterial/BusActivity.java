@@ -31,6 +31,7 @@ import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.BusCallback;
+import silent.kuasapmaterial.callback.BusBookCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.AlarmHelper;
 import silent.kuasapmaterial.libs.Constant;
@@ -461,7 +462,7 @@ public class BusActivity extends SilentActivity
 	}
 
 	private void bookBus(List<BusModel> modelList, final int position) {
-		Helper.bookingBus(BusActivity.this, modelList.get(position).busId, new GeneralCallback() {
+		Helper.bookingBus(BusActivity.this, modelList.get(position).busId, new BusBookCallback() {
 
 			@Override
 			public void onSuccess() {
@@ -514,6 +515,20 @@ public class BusActivity extends SilentActivity
 						new HitBuilders.EventBuilder().setCategory("book bus").setAction("status")
 								.setLabel("fail " + mIndex).build());
 				Toast.makeText(BusActivity.this, errorMessage, Toast.LENGTH_LONG).show();
+			}
+
+			@Override
+			public void onReserveFail() {
+				super.onReserveFail();
+				mTracker.send(
+						new HitBuilders.EventBuilder().setCategory("book bus").setAction("status")
+								.setLabel("system ban").build());
+				if (isFinishing()) {
+					return;
+				}
+				new AlertDialog.Builder(BusActivity.this).setTitle(R.string.bus_reserve_fail_title)
+						.setMessage(R.string.bus_reserve_fail_content)
+						.setPositiveButton(R.string.ok, null).setCancelable(false).show();
 			}
 
 			@Override

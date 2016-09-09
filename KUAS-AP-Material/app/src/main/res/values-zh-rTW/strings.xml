@@ -57,6 +57,10 @@
 	<string name="bus_no_reservation">Oops！您還沒有預約任何校車喔～\n多多搭乘大眾運輸，節能減碳救地球 %s</string>
 	<string name="bus_no_bus">Oops！本日校車沒上班喔～\n請選擇其他日期 %s</string>
 	<string name="course_no_course">Oops！本學期沒有任何課哦～\n請選擇其他學期 %s</string>
+	<string name="bus_reserve_fail_title">Oops 預約失敗</string>
+	<string name="bus_reserve_fail_content">1. 使用者已被鎖定（欠費未繳）。\n2.
+		請自行列印違規明細後至自動繳費機或總務處出納組繳費，繳費後憑收據至總務處事務組銷帳（當天開列之收據須於當天銷帳）。\n3.
+		銷帳完後隔天凌晨 4 點後才可預約當天 9 點後的校車。</string>
 	<string name="ok">好</string>
 	<string name="course_dialog_messages" formatted="false">課程名稱：%s\n授課老師：%s\n教室位置：%s\n上課時間：%s</string>
 	<string name="course_dialog_title">課程資訊</string>
