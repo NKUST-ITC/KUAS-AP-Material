@@ -2,7 +2,7 @@
 	<string name="app_name">KUAS AP</string>
 
 	<string name="update_note_title">Update Notes %s</string>
-	<string name="update_note_content">更新：\n　105 學年度第 1 學期行事曆</string>
+	<string name="update_note_content">更新：\n　105 學年度第 1 學期行事曆\n修正：\n　希望不會在崩潰 QAQQQ</string>
 
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">Share</string>
@@ -57,10 +57,7 @@
 	<string name="bus_no_reservation">Oops! You haven\'t reserved any bus~\n Ride public transport to save the Earth %s</string>
 	<string name="bus_no_bus">Oops! No bus today~\n Please choose another date %s</string>
 	<string name="course_no_course">Oops! No class for this semester~\n Please choose another semester %s</string>
-	<string name="bus_reserve_fail_title">Oops 預約失敗</string>
-	<string name="bus_reserve_fail_content">1. 使用者已被鎖定（欠費未繳）。\n2.
-		請自行列印違規明細後至自動繳費機或總務處出納組繳費，繳費後憑收據至總務處事務組銷帳（當天開列之收據須於當天銷帳）。\n3.
-		銷帳完後隔天凌晨 4 點後才可預約當天 9 點後的校車。</string>
+	<string name="bus_reserve_fail_title">Oops Book Fail</string>
 	<string name="ok">OK</string>
 	<string name="course_dialog_messages" formatted="false">Class：%s\nProfessor：%s\nLocation：%s\nTime：%s</string>
 	<string name="course_dialog_title">Class Info</string>

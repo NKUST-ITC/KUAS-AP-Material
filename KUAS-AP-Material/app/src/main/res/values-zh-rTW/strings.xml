@@ -2,7 +2,7 @@
 	<string name="app_name">高應校務通</string>
 
 	<string name="update_note_title">更新日誌 %s</string>
-	<string name="update_note_content">更新：\n　105 學年度第 1 學期行事曆</string>
+	<string name="update_note_content">更新：\n　105 學年度第 1 學期行事曆\n修正：\n　希望不會在崩潰 QAQQQ</string>
 
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">分享</string>
@@ -58,9 +58,6 @@
 	<string name="bus_no_bus">Oops！本日校車沒上班喔～\n請選擇其他日期 %s</string>
 	<string name="course_no_course">Oops！本學期沒有任何課哦～\n請選擇其他學期 %s</string>
 	<string name="bus_reserve_fail_title">Oops 預約失敗</string>
-	<string name="bus_reserve_fail_content">1. 使用者已被鎖定（欠費未繳）。\n2.
-		請自行列印違規明細後至自動繳費機或總務處出納組繳費，繳費後憑收據至總務處事務組銷帳（當天開列之收據須於當天銷帳）。\n3.
-		銷帳完後隔天凌晨 4 點後才可預約當天 9 點後的校車。</string>
 	<string name="ok">好</string>
 	<string name="course_dialog_messages" formatted="false">課程名稱：%s\n授課老師：%s\n教室位置：%s\n上課時間：%s</string>
 	<string name="course_dialog_title">課程資訊</string>
