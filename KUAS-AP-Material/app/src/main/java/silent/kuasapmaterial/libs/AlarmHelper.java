@@ -38,10 +38,9 @@ public class AlarmHelper {
 						cancelBusAlarm(context, model.endStation, model.runDateTime,
 								Integer.parseInt(model.cancelKey));
 					}
-
 				} catch (Exception e) {
 					Answers.getInstance().logCustom(
-							new CustomEvent("Gson").putCustomAttribute("Type", "Bus")
+							new CustomEvent("Gson").putCustomAttribute("Type", "Bus Cancel")
 									.putCustomAttribute("Exception", e.getMessage()));
 				}
 			}
@@ -54,7 +53,7 @@ public class AlarmHelper {
 						Integer.parseInt(model.cancelKey));
 			} catch (Exception e) {
 				Answers.getInstance().logCustom(
-						new CustomEvent("Gson").putCustomAttribute("Type", "Bus")
+						new CustomEvent("Gson").putCustomAttribute("Type", "Bus Set")
 								.putCustomAttribute("Exception", e.getMessage()));
 			}
 		}
@@ -65,9 +64,15 @@ public class AlarmHelper {
 		List<BusModel> busModelList = Utils.loadBusNotify(context);
 		if (busModelList != null) {
 			for (BusModel model : busModelList) {
-				setBusAlarm(context, model.endStation,
-						model.runDateTime == null ? model.Time : model.runDateTime,
-						Integer.parseInt(model.cancelKey));
+				try {
+					setBusAlarm(context, model.endStation,
+							model.runDateTime == null ? model.Time : model.runDateTime,
+							Integer.parseInt(model.cancelKey));
+				} catch (Exception e) {
+					Answers.getInstance().logCustom(
+							new CustomEvent("Gson").putCustomAttribute("Type", "Bus Boot")
+									.putCustomAttribute("Exception", e.getMessage()));
+				}
 			}
 		}
 	}
@@ -108,16 +113,28 @@ public class AlarmHelper {
 		if (savedCourseModelList != null) {
 			for (CourseModel courseModel : savedCourseModelList) {
 				if (!saveModelList.contains(courseModel)) {
-					cancelCourseAlarm(context, courseModel.room.trim(), courseModel.title,
-							courseModel.start_time, courseModel.notifyKey);
+					try {
+						cancelCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+								courseModel.start_time, courseModel.notifyKey);
+					} catch (Exception e) {
+						Answers.getInstance().logCustom(
+								new CustomEvent("Gson").putCustomAttribute("Type", "Course Cancel")
+										.putCustomAttribute("Exception", e.getMessage()));
+					}
 				}
 			}
 		}
 
 		// Must set alarm after cancel
 		for (CourseModel courseModel : saveModelList) {
-			setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
-					courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
+			try {
+				setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+						courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
+			} catch (Exception e) {
+				Answers.getInstance().logCustom(
+						new CustomEvent("Gson").putCustomAttribute("Type", "Course Set")
+								.putCustomAttribute("Exception", e.getMessage()));
+			}
 		}
 
 		Utils.saveCourseNotify(context, saveModelList);
@@ -139,7 +156,7 @@ public class AlarmHelper {
 							courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
 				} catch (Exception e) {
 					Answers.getInstance().logCustom(
-							new CustomEvent("Gson").putCustomAttribute("Type", "Course")
+							new CustomEvent("Gson").putCustomAttribute("Type", "Course Boot")
 									.putCustomAttribute("Exception", e.getMessage()));
 				}
 			}
