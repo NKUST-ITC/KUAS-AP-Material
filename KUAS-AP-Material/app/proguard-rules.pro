@@ -16,6 +16,10 @@
 	public *;
 }
 
+# Application classes that will be serialized/deserialized over Gson
+-keep class silent.kuasapmaterial.models.BusModel { *; }
+-keep class silent.kuasapmaterial.models.CourseModel { *; }
+
 # Rename packages
 -optimizationpasses 30
 -mergeinterfacesaggressively

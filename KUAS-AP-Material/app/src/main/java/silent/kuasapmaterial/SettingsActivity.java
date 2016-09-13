@@ -184,8 +184,6 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				progressDialog.dismiss();
 				Toast.makeText(SettingsActivity.this, R.string.bus_notify_hint, Toast.LENGTH_LONG)
 						.show();
-				Toast.makeText(SettingsActivity.this, R.string.beta_function, Toast.LENGTH_SHORT)
-						.show();
 			}
 
 			@Override
@@ -237,8 +235,6 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 				progressDialog.dismiss();
 				Toast.makeText(SettingsActivity.this, R.string.course_notify_hint,
 						Toast.LENGTH_LONG).show();
-				Toast.makeText(SettingsActivity.this, R.string.beta_function, Toast.LENGTH_SHORT)
-						.show();
 			}
 
 			@Override

@@ -723,6 +723,20 @@ public class Helper {
 					onHelperFail(context, callback, e);
 				}
 			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+			                      JSONArray errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				onHelperFail(context, callback, statusCode, headers, throwable);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString,
+			                      Throwable throwable) {
+				super.onFailure(statusCode, headers, responseString, throwable);
+				onHelperFail(context, callback, statusCode, headers, throwable, responseString);
+			}
 		});
 	}
 

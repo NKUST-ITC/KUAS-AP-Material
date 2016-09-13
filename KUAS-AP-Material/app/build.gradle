@@ -23,8 +23,8 @@ android {
         applicationId "com.kuas.ap"
         minSdkVersion 15
         targetSdkVersion 24
-        versionCode 20206
-        versionName "2.2.6"
+        versionCode 20207
+        versionName "2.2.7"
     }
 
     packagingOptions {
@@ -69,6 +69,7 @@ dependencies {
     compile 'com.android.support:cardview-v7:24.1.1'
     compile 'com.android.support:recyclerview-v7:24.1.1'
     compile 'com.google.android.gms:play-services-analytics:9.4.0'
+    compile 'com.google.firebase:firebase-config:9.4.0'
     compile 'com.loopj.android:android-async-http:1.4.9'
     compile 'com.google.code.gson:gson:2.7'
     compile 'com.wdullaer:materialdatetimepicker:2.5.0'

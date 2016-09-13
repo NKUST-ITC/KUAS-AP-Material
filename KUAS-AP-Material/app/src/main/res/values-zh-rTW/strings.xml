@@ -2,7 +2,7 @@
 	<string name="app_name">高應校務通</string>
 
 	<string name="update_note_title">更新日誌 %s</string>
-	<string name="update_note_content">更新：\n　105 學年度第 1 學期行事曆\n修正：\n　希望不會在崩潰 QAQQQ</string>
+	<string name="update_note_content">更新：\n　105 學年度第 1 學期行事曆\n修正：\n　不會崩潰了不會崩潰了工程師很忙 der</string>
 
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">分享</string>
@@ -89,8 +89,9 @@
 	<string name="bus_notify_yanchao">燕巢</string>
 	<string name="course_vibrate_hint">將於上課時轉為震動，下課時恢復！</string>
 	<string name="course_notify_hint">將於上課前十分鐘提醒！</string>
-	<string name="course_notify_content" formatted="false">親，%s上課教室在 %s！</string>
+	<string name="course_notify_content" formatted="false">親，%s 上課教室在 %s！</string>
 	<string name="course_notify_unknown">外太空</string>
+	<string name="calender_app_not_found">找不到支援的行事曆 Apps</string>
 
 	<string name="education_system">學制</string>
 	<string name="department">科系</string>

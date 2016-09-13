@@ -1,6 +1,7 @@
 package silent.kuasapmaterial.fragment;
 
 import android.app.Activity;
+import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -15,6 +16,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
@@ -176,7 +178,12 @@ public class ScheduleFragment extends SilentFragment implements AdapterView.OnIt
 		calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
 		calendarIntent.putExtra(CalendarContract.Events.TITLE, _msg);
 		calendarIntent.putExtra(CalendarContract.Events.EVENT_LOCATION, "國立高雄應用科技大學");
-		startActivity(calendarIntent);
+		try {
+			startActivity(calendarIntent);
+		} catch (ActivityNotFoundException e) {
+			Toast.makeText(getContext(), R.string.calender_app_not_found, Toast.LENGTH_SHORT)
+					.show();
+		}
 	}
 
 	public ListView getListView() {

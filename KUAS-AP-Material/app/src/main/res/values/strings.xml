@@ -2,7 +2,7 @@
 	<string name="app_name">KUAS AP</string>
 
 	<string name="update_note_title">Update Notes %s</string>
-	<string name="update_note_content">更新：\n　105 學年度第 1 學期行事曆\n修正：\n　希望不會在崩潰 QAQQQ</string>
+	<string name="update_note_content">更新：\n　105 學年度第 1 學期行事曆\n修正：\n　不會崩潰了不會崩潰了工程師很忙 der</string>
 
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">Share</string>
@@ -93,6 +93,7 @@
 	<string name="course_notify_hint">Reminder will pop up 10mins before class starts!</string>
 	<string name="course_notify_content" formatted="false">Class %s will be at room %s!</string>
 	<string name="course_notify_unknown">Outerspace~</string>
+	<string name="calender_app_not_found">Can\'t found any calender apps.</string>
 
 	<string name="education_system">Scheme</string>
 	<string name="department">Department</string>

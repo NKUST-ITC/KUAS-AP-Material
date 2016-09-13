@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -417,13 +418,14 @@ public class BusActivity extends SilentActivity
 						public void onClick(DialogInterface dialog, int which) {
 							mTracker.send(new HitBuilders.EventBuilder().setCategory("book bus")
 									.setAction("click").build());
-							bookBus(modelList, position);
+							bookBus(modelList.get(position).busId);
 						}
 					}).setNegativeButton(R.string.cancel, null).show();
 		}
 	}
 
 	private void cancelBookBus(final List<BusModel> modelList, final int position) {
+		Log.d(Constant.TAG, modelList.get(position).cancelKey);
 		Helper.cancelBookingBus(BusActivity.this, modelList.get(position).cancelKey,
 				new GeneralCallback() {
 
@@ -462,8 +464,8 @@ public class BusActivity extends SilentActivity
 				});
 	}
 
-	private void bookBus(final List<BusModel> modelList, final int position) {
-		Helper.bookingBus(BusActivity.this, modelList.get(position).busId, new BusBookCallback() {
+	private void bookBus(final String busId) {
+		Helper.bookingBus(BusActivity.this, busId, new BusBookCallback() {
 
 			@Override
 			public void onSuccess() {
@@ -514,7 +516,7 @@ public class BusActivity extends SilentActivity
 				super.onFail(errorMessage);
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("book bus").setAction("status")
-								.setLabel("fail " + modelList.get(position).busId).build());
+								.setLabel("fail " + busId).build());
 				Toast.makeText(BusActivity.this, HtmlCompat.fromHtml(errorMessage),
 						Toast.LENGTH_LONG).show();
 			}

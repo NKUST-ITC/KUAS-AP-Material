@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
@@ -21,6 +22,11 @@ import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
+import com.kuas.ap.BuildConfig;
 import com.kuas.ap.R;
 
 import java.io.UnsupportedEncodingException;
@@ -47,6 +53,8 @@ public class LoginActivity extends SilentActivity
 	String version;
 
 	AlertDialog mProgressDialog;
+
+	private FirebaseRemoteConfig mFirebaseRemoteConfig;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -86,34 +94,36 @@ public class LoginActivity extends SilentActivity
 		}
 		checkUpdateNote(getString(R.string.version, version));
 
-		Helper.getAppVersion(this, new GeneralCallback() {
+		mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+		FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+				.setDeveloperModeEnabled(BuildConfig.DEBUG).build();
+		mFirebaseRemoteConfig.setConfigSettings(configSettings);
+
+		mFirebaseRemoteConfig.fetch(60).addOnCompleteListener(new OnCompleteListener<Void>() {
 
 			@Override
-			public void onSuccess(String data) {
-				super.onSuccess(data);
+			public void onComplete(@NonNull Task<Void> task) {
+				if (task.isSuccessful() && !isFinishing()) {
+					mFirebaseRemoteConfig.activateFetched();
+					try {
+						PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 
-				if (isFinishing()) {
-					return;
-				}
+						boolean hasNewVersion = Integer.parseInt(
+								mFirebaseRemoteConfig.getString("android_app_version")) >
+								pInfo.versionCode;
 
-				String[] serverVersions = data.split("\\.");
-				String[] currentVersions = version.split("\\.");
-
-				if (Integer.valueOf(serverVersions[0]) > Integer.valueOf(currentVersions[0])) {
-					Utils.createForceUpdateDialog(LoginActivity.this).show();
-				} else if (serverVersions[0].equals(currentVersions[0])) {
-					if (Integer.valueOf(serverVersions[1]) > Integer.valueOf(currentVersions[1])) {
-						Utils.createForceUpdateDialog(LoginActivity.this).show();
-					} else if (serverVersions[1].equals(currentVersions[1])) {
-						if (Integer.valueOf(serverVersions[2]) >
-								Integer.valueOf(currentVersions[2])) {
-							if (Integer.valueOf(serverVersions[2]) -
-									Integer.valueOf(currentVersions[2]) >= 5) {
+						if (hasNewVersion) {
+							int diff = Integer.parseInt(
+									mFirebaseRemoteConfig.getString("android_app_version")) -
+									pInfo.versionCode;
+							if (diff >= 5) {
 								Utils.createForceUpdateDialog(LoginActivity.this).show();
 							} else {
 								Utils.createUpdateDialog(LoginActivity.this).show();
 							}
 						}
+					} catch (Exception e) {
+						// ignore
 					}
 				}
 			}
