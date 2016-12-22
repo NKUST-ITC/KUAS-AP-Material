@@ -50,6 +50,7 @@ public class PinnedSectionListView extends ListView {
 	 * List adapter to be implemented for being used with PinnedSectionListView adapter.
 	 */
 	public interface PinnedSectionListAdapter extends ListAdapter {
+
 		/**
 		 * This method shall return 'true' if views of given type has to be pinned.
 		 */
@@ -60,6 +61,7 @@ public class PinnedSectionListView extends ListView {
 	 * Wrapper class for pinned section view and its position in the list.
 	 */
 	static class PinnedSection {
+
 		public View view;
 		public int position;
 		public long id;
@@ -410,6 +412,7 @@ public class PinnedSectionListView extends ListView {
 		super.onRestoreInstanceState(state);
 		// restore pinned view after configuration change
 		post(new Runnable() {
+
 			@Override
 			public void run() {
 				recreatePinnedShadow();
@@ -612,6 +615,7 @@ public class PinnedSectionListView extends ListView {
 	}
 
 	public interface OnBottomReachedListener {
+
 		void onBottomReached();
 	}
 }

@@ -16,7 +16,8 @@
 
 	<!-- Responsive Margins -->
 	<dimen name="margin_page">16dp</dimen>
-	<dimen name="margin_responsive">0dp</dimen>
+	<dimen name="margin_page_small">8dp</dimen>
+	<dimen name="margin_page_responsive">0dp</dimen>
 	<dimen name="margin_page_card">8dp</dimen>
 	<dimen name="margin_page_half">8dp</dimen>
 	<dimen name="drawer_width">320dp</dimen>

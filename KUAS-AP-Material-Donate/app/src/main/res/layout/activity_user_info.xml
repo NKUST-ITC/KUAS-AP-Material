@@ -61,18 +61,12 @@
 						android:focusable="true"
 						android:orientation="vertical">
 
-						<silent.kuasapmaterial.libs.ProgressWheel
-							android:id="@+id/progress_wheel"
-							android:layout_width="48sp"
-							android:layout_height="48sp"
+						<silent.kuasapmaterial.libs.MaterialProgressBar
+							android:id="@+id/materialProgressBar"
+							android:layout_width="wrap_content"
+							android:layout_height="wrap_content"
 							android:layout_centerInParent="true"
-							android:layout_gravity="center"
-							wheel:matProg_barColor="@color/progress_red"
-							wheel:matProg_circleBackground="false"
-							wheel:matProg_fillRadius="true"
-							wheel:matProg_material="true"
-							wheel:matProg_progressIndeterminate="true"
-							wheel:matProg_shadowSize="3"/>
+							app:enable_circle_background="false"/>
 
 						<ImageView
 							android:id="@+id/imageView_photo"

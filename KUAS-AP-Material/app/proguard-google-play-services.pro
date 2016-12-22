@@ -1,4 +1,5 @@
-## Google Play Services Analytics 8.1.0 specific rules ##
+## Google Play Services 8.4.0 specific rules ##
+## https://developers.google.com/android/guides/setup#Proguard ##
 ## https://github.com/dandar3/android-google-play-services-analytics/blob/master/proguard.txt ##
 
 -keep class * extends java.util.ListResourceBundle {
@@ -12,6 +13,7 @@
 }
 
 # Keep the names of classes/members we need for client functionality.
+-keep @interface com.google.android.gms.common.annotation.KeepName
 -keepnames @com.google.android.gms.common.annotation.KeepName class *
 -keepclassmembernames class * {
     @com.google.android.gms.common.annotation.KeepName *;
@@ -22,7 +24,16 @@
     public static final ** CREATOR;
 }
 
-# Needed when building against the Marshmallow SDK
--dontwarn org.apache.http.**
+# Needed when building against pre-Marshmallow SDK.
+-dontwarn android.security.NetworkSecurityPolicy
 
--dontwarn com.google.android.gms.internal.**
+# Keep metadata about included modules.
+-keep public class com.google.android.gms.dynamite.descriptors.** {
+  public <fields>;
+}
+
+# Keep the implementation of the flags api for google-play-services-flags
+
+-keep public class com.google.android.gms.flags.impl.FlagProviderImpl {
+  public <fields>; public <methods>;
+}

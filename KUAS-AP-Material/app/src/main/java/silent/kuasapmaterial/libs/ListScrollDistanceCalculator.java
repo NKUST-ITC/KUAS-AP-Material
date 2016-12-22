@@ -75,6 +75,7 @@ public class ListScrollDistanceCalculator implements AbsListView.OnScrollListene
 	}
 
 	public interface ScrollDistanceListener {
+
 		void onScrollDistanceChanged(int delta, int total);
 	}
 }

@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -19,10 +20,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.kuas.ap.donate.R;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kuas.ap.donate.R;
 import com.wdullaer.materialdatetimepicker.date.DatePickerDialog;
 
 import java.util.ArrayList;
@@ -36,8 +36,8 @@ import silent.kuasapmaterial.libs.AlarmHelper;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.ListScrollDistanceCalculator;
+import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Memory;
-import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.libs.segmentcontrol.SegmentControl;
 import silent.kuasapmaterial.models.BusModel;
@@ -52,7 +52,7 @@ public class BusActivity extends SilentActivity
 	TextView mTextView;
 	TextView mNoBusTextView;
 	LinearLayout mNoBusLinearLayout;
-	ProgressWheel mProgressWheel;
+	MaterialProgressBar mMaterialProgressBar;
 	FloatingActionButton mFab;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 
@@ -162,7 +162,7 @@ public class BusActivity extends SilentActivity
 		mSegmentControl = (SegmentControl) findViewById(R.id.segment_control);
 		mListView = (ListView) findViewById(R.id.listView);
 		mTextView = (TextView) findViewById(R.id.textView_pickDate);
-		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+		mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
 		mFab = (FloatingActionButton) findViewById(R.id.fab);
 		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		mNoBusLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_bus);
@@ -257,7 +257,9 @@ public class BusActivity extends SilentActivity
 	}
 
 	private void getData() {
-		mProgressWheel.setVisibility(View.VISIBLE);
+		if (!mSwipeRefreshLayout.isRefreshing()) {
+			mMaterialProgressBar.setVisibility(View.VISIBLE);
+		}
 		mListView.setVisibility(View.GONE);
 		mNoBusLinearLayout.setVisibility(View.GONE);
 		mFab.setEnabled(false);
@@ -336,11 +338,11 @@ public class BusActivity extends SilentActivity
 
 	private void setUpSegmentColor() {
 		if (mIndex == 0) {
-			mSegmentControl
-					.setColors(ColorStateList.valueOf(getResources().getColor(R.color.blue_600)));
+			mSegmentControl.setColors(
+					ColorStateList.valueOf(ContextCompat.getColor(this, R.color.blue_600)));
 		} else {
-			mSegmentControl
-					.setColors(ColorStateList.valueOf(getResources().getColor(R.color.green_600)));
+			mSegmentControl.setColors(
+					ColorStateList.valueOf(ContextCompat.getColor(this, R.color.green_600)));
 		}
 		setUpFabColor();
 	}
@@ -348,15 +350,15 @@ public class BusActivity extends SilentActivity
 	private void setUpFabColor() {
 		if (mIndex == 0) {
 			mFab.setBackgroundTintList(
-					ColorStateList.valueOf(getResources().getColor(R.color.green_600)));
+					ColorStateList.valueOf(ContextCompat.getColor(this, R.color.green_600)));
 		} else {
 			mFab.setBackgroundTintList(
-					ColorStateList.valueOf(getResources().getColor(R.color.blue_600)));
+					ColorStateList.valueOf(ContextCompat.getColor(this, R.color.blue_600)));
 		}
 	}
 
 	private void setUpListView() {
-		mProgressWheel.setVisibility(View.GONE);
+		mMaterialProgressBar.setVisibility(View.GONE);
 		mListView.setVisibility(View.VISIBLE);
 		int count = mIndex == 0 ? mJianGongList.size() : mYanChaoList.size();
 		if (count == 0) {
@@ -463,7 +465,7 @@ public class BusActivity extends SilentActivity
 						new HitBuilders.EventBuilder().setCategory("book bus").setAction("status")
 								.setLabel("success " + mIndex).build());
 				if (Memory.getBoolean(BusActivity.this, Constant.PREF_BUS_NOTIFY, false)) {
-					mProgressWheel.setVisibility(View.VISIBLE);
+					mMaterialProgressBar.setVisibility(View.VISIBLE);
 					mListView.setVisibility(View.GONE);
 					mNoBusLinearLayout.setVisibility(View.GONE);
 					mFab.setEnabled(false);
@@ -584,12 +586,12 @@ public class BusActivity extends SilentActivity
 
 			if (mIndex == 0) {
 				if (mJianGongList.get(position).isReserve) {
-					holder.linearLayout
-							.setBackgroundColor(getResources().getColor(R.color.red_600));
+					holder.linearLayout.setBackgroundColor(
+							ContextCompat.getColor(BusActivity.this, R.color.red_600));
 					holder.textView_location.setText(getString(R.string.bus_jiangong_reserved));
 				} else {
-					holder.linearLayout
-							.setBackgroundColor(getResources().getColor(R.color.blue_600));
+					holder.linearLayout.setBackgroundColor(
+							ContextCompat.getColor(BusActivity.this, R.color.blue_600));
 					holder.textView_location.setText(getString(R.string.bus_jiangong));
 				}
 				holder.textView_count.setText(
@@ -598,12 +600,12 @@ public class BusActivity extends SilentActivity
 				holder.textView_time.setText(mJianGongList.get(position).Time);
 			} else {
 				if (mYanChaoList.get(position).isReserve) {
-					holder.linearLayout
-							.setBackgroundColor(getResources().getColor(R.color.red_600));
+					holder.linearLayout.setBackgroundColor(
+							ContextCompat.getColor(BusActivity.this, R.color.red_600));
 					holder.textView_location.setText(getString(R.string.bus_yanchao_reserved));
 				} else {
-					holder.linearLayout
-							.setBackgroundColor(getResources().getColor(R.color.green_600));
+					holder.linearLayout.setBackgroundColor(
+							ContextCompat.getColor(BusActivity.this, R.color.green_600));
 					holder.textView_location.setText(getString(R.string.bus_yanchao));
 				}
 				holder.textView_count.setText(

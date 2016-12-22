@@ -6,7 +6,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -100,22 +99,21 @@ public class PhoneFragment extends SilentFragment implements AdapterView.OnItemC
 		mListView.setAdapter(adapter);
 		mListView.setOnItemClickListener(this);
 
-		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
+		((ListView) mListView).setSelectionFromTop(mInitListPos, mInitListOffset);
 	}
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, final int position, long id) {
-		mTracker.send(
-				new HitBuilders.EventBuilder().setCategory("call phone").setAction
-						("create")
-						.build());
+		mTracker.send(new HitBuilders.EventBuilder().setCategory("call phone").setAction("create")
+				.build());
 		new AlertDialog.Builder(activity).setTitle(R.string.call_phone_title)
 				.setMessage(getString(R.string.call_phone_content, mList.get(position).name))
 				.setPositiveButton(R.string.call_phone, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("call phone")
-										.setAction("click").build());
+								.setAction("click").build());
 						Intent myIntentDial = new Intent(Intent.ACTION_DIAL,
 								Uri.parse("tel:" + mList.get(position).phone.replace("#", ",")));
 						startActivity(myIntentDial);
@@ -129,6 +127,7 @@ public class PhoneFragment extends SilentFragment implements AdapterView.OnItemC
 
 	public class PhoneAdapter extends BaseAdapter
 			implements PinnedSectionListView.PinnedSectionListAdapter {
+
 		private LayoutInflater inflater;
 
 		public PhoneAdapter(Context context) {
@@ -185,6 +184,7 @@ public class PhoneFragment extends SilentFragment implements AdapterView.OnItemC
 		}
 
 		class ViewHolder {
+
 			TextView textView_name;
 			TextView textView_phone;
 		}

@@ -2,12 +2,13 @@ package silent.kuasapmaterial.libs;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
@@ -16,12 +17,17 @@ import android.graphics.LightingColorFilter;
 import android.graphics.Matrix;
 import android.graphics.Paint;
 import android.graphics.Point;
+import android.graphics.Rect;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.graphics.drawable.LayerDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
+import android.support.annotation.DrawableRes;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -123,6 +129,7 @@ public class Utils {
 		return new AlertDialog.Builder(activity).setTitle(R.string.token_expired_title)
 				.setMessage(R.string.token_expired_content)
 				.setPositiveButton(R.string.determine, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (activity.isFinishing()) {
@@ -135,10 +142,22 @@ public class Utils {
 	}
 
 	@SuppressLint("InflateParams")
+	public static void showTokenExpired(Activity activity) {
+		try {
+			if (!activity.isFinishing()) {
+				createTokenExpired(activity).show();
+			}
+		} catch (Exception e) {
+			// ignore
+		}
+	}
+
+	@SuppressLint("InflateParams")
 	public static AlertDialog createForceUpdateDialog(final Activity activity) {
 		return new AlertDialog.Builder(activity).setTitle(R.string.update_title)
 				.setMessage(R.string.update_content)
 				.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (activity.isFinishing()) {
@@ -156,6 +175,7 @@ public class Utils {
 		return new AlertDialog.Builder(activity).setTitle(R.string.update_title)
 				.setMessage(R.string.update_content)
 				.setPositiveButton(R.string.update, new DialogInterface.OnClickListener() {
+
 					@Override
 					public void onClick(DialogInterface dialog, int which) {
 						if (activity.isFinishing()) {
@@ -168,9 +188,10 @@ public class Utils {
 	}
 
 	public static int[] getSwipeRefreshColors(Context context) {
-		Resources res = context.getResources();
-		return new int[]{res.getColor(R.color.progress_red), res.getColor(R.color.progress_blue),
-				res.getColor(R.color.progress_yellow), res.getColor(R.color.progress_green)};
+		return new int[]{ContextCompat.getColor(context, R.color.progress_red),
+				ContextCompat.getColor(context, R.color.progress_blue),
+				ContextCompat.getColor(context, R.color.progress_yellow),
+				ContextCompat.getColor(context, R.color.progress_green)};
 	}
 
 	/**
@@ -239,14 +260,14 @@ public class Utils {
 						Bitmap result;
 						Matrix matrix = new Matrix();
 						if (src.getWidth() >= src.getHeight()) {
-							float scale = src.getHeight() / cornerPixels * 2f;
+							float scale = src.getHeight() / (float) cornerPixels * 2f;
 							matrix.setScale(scale, scale);
 							result = Bitmap.createBitmap(src,
 									src.getWidth() / 2 - src.getHeight() / 2, 0, src.getHeight(),
 									src.getHeight(), matrix, false);
 
 						} else {
-							float scale = src.getWidth() / cornerPixels * 2f;
+							float scale = src.getWidth() / (float) cornerPixels * 2f;
 							matrix.setScale(scale, scale);
 							result = Bitmap.createBitmap(src, 0,
 									src.getHeight() / 2 - src.getWidth() / 2, src.getWidth(),
@@ -322,11 +343,13 @@ public class Utils {
 	 */
 	public static void setUpCourseNotify(final Context context, final GeneralCallback callback) {
 		Helper.getSemester(context, new SemesterCallback() {
+
 			@Override
 			public void onSuccess(List<SemesterModel> modelList, SemesterModel selectedModel) {
 				super.onSuccess(modelList, selectedModel);
 				Helper.getCourseTimeTable(context, selectedModel.value.split(",")[0],
 						selectedModel.value.split(",")[1], new CourseCallback() {
+
 							@Override
 							public void onSuccess(List<List<CourseModel>> modelList) {
 								super.onSuccess(modelList);
@@ -359,6 +382,7 @@ public class Utils {
 
 	public static void setUpBusNotify(final Context context, final GeneralCallback callback) {
 		Helper.getBusReservations(context, new BusReservationsCallback() {
+
 			@Override
 			public void onSuccess(List<BusModel> modelList) {
 				super.onSuccess(modelList);
@@ -395,4 +419,56 @@ public class Utils {
 				.getObject(context, Constant.PREF_COURSE_VIBRATE_DATA, CourseModel[].class);
 		return courseModels == null ? null : new ArrayList<>(Arrays.asList(courseModels));
 	}
+
+	public static Drawable getSelectableItemBackgroundDrawable(Context context) {
+		return ContextCompat.getDrawable(context, getSelectableItemBackgroundResource(context));
+	}
+
+	public static int getSelectableItemBackgroundResource(Context context) {
+		int[] attrs = new int[]{R.attr.selectableItemBackground};
+		TypedArray typedArray = context.obtainStyledAttributes(attrs);
+		int resourceId = typedArray.getResourceId(0, 0);
+		typedArray.recycle();
+		return resourceId;
+	}
+
+	public static LayerDrawable getSelectableDrawable(Context context,
+	                                                  @DrawableRes int drawableResId) {
+		return new LayerDrawable(new Drawable[]{ContextCompat.getDrawable(context, drawableResId),
+				getSelectableItemBackgroundDrawable(context)});
+	}
+
+	/**
+	 * Sets the background for a view while preserving its current padding. If the background drawable
+	 * has its own padding, that padding will be added to the current padding.
+	 *
+	 * @param view               View to receive the new background.
+	 * @param backgroundDrawable Drawable to set as new background.
+	 */
+	public static void setBackgroundAndKeepPadding(View view, Drawable backgroundDrawable) {
+		Rect drawablePadding = new Rect();
+		backgroundDrawable.getPadding(drawablePadding);
+		int top = view.getPaddingTop() + drawablePadding.top;
+		int left = view.getPaddingLeft() + drawablePadding.left;
+		int right = view.getPaddingRight() + drawablePadding.right;
+		int bottom = view.getPaddingBottom() + drawablePadding.bottom;
+		if (Build.VERSION.SDK_INT < Build.VERSION_CODES.JELLY_BEAN) {
+			//noinspection deprecation
+			view.setBackgroundDrawable(backgroundDrawable);
+		} else {
+			view.setBackground(backgroundDrawable);
+		}
+		view.setPadding(left, top, right, bottom);
+	}
+
+	public static void dismissDialog(Dialog dialog) {
+		try {
+			if (dialog != null && dialog.isShowing()) {
+				dialog.dismiss();
+			}
+		} catch (IllegalArgumentException e) {
+			// ignore
+		}
+	}
+
 }

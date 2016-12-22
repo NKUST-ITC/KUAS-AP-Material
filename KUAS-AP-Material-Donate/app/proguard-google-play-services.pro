@@ -1,4 +1,5 @@
-## Google Play Services Analytics 8.1.0 specific rules ##
+## Google Play Services 8.3.0 specific rules ##
+## https://developers.google.com/android/guides/setup#Proguard ##
 ## https://github.com/dandar3/android-google-play-services-analytics/blob/master/proguard.txt ##
 
 -keep class * extends java.util.ListResourceBundle {
@@ -25,4 +26,5 @@
 # Needed when building against the Marshmallow SDK
 -dontwarn org.apache.http.**
 
--dontwarn com.google.android.gms.internal.**
+# Needed when building against pre-Marshmallow SDK.
+-dontwarn android.security.NetworkSecurityPolicy

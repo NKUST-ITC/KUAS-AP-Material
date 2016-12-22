@@ -8,10 +8,6 @@ import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.RequestParams;
 import com.loopj.android.http.TextHttpResponseHandler;
 
-import org.apache.http.Header;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.params.ClientPNames;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -20,6 +16,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import cz.msebera.android.httpclient.Header;
+import cz.msebera.android.httpclient.auth.AuthScope;
+import cz.msebera.android.httpclient.auth.UsernamePasswordCredentials;
 import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.CourseCallback;
@@ -54,8 +53,7 @@ public class Helper {
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.addHeader("Connection", "Keep-Alive");
 		client.setTimeout(7 * 1000);
-		client.getHttpClient().getParams()
-				.setParameter(ClientPNames.ALLOW_CIRCULAR_REDIRECTS, true);
+		client.setEnableRedirects(true, true, true);
 		return client;
 	}
 
@@ -64,7 +62,7 @@ public class Helper {
 	public static final String BASE_URL = "https://" + SERVER_HOST + ":" + SERVER_PORT;
 
 	public static final String SERVER_STATUS_URL = BASE_URL + "/latest/servers/status";
-	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android_donate";
+	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android";
 	public static final String LOGIN_URL = BASE_URL + "/latest/token";
 	public static final String SEMESTER_URL = BASE_URL + "/latest/ap/semester";
 	public static final String COURSE_TIMETABLE_URL =
@@ -430,7 +428,7 @@ public class Helper {
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, String responseString) {
-				if (statusCode == 200) {
+				if (statusCode == 200 && responseString.endsWith(".jpg")) {
 					if (callback != null) {
 						callback.onSuccess(responseString);
 					}

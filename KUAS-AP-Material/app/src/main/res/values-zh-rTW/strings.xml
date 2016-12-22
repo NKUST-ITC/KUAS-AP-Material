@@ -2,8 +2,9 @@
 	<string name="app_name">高應校務通</string>
 
 	<string name="update_note_title">更新日誌 %s</string>
-	<string name="update_note_content">新增：\n　上課提醒功能\n　校車提醒功能\n　錯誤重整功能\n　最新消息分享功能\n　上課震動功能\n　英文版本\n\n修正：\n　外籍生無法登入之錯誤\n　部分用戶上課提醒崩潰\n\n優化：\n　登入失敗判斷\n　版本更新判斷</string>
+	<string name="update_note_content">更新：\n　105 學年度第 1 學期行事曆\n修正：\n　不會崩潰了不會崩潰了工程師很忙 der</string>
 
+	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">分享</string>
 	<string name="teacher_confirm_title">您是老師嗎？</string>
 	<string name="teacher_confirm_content">本 App 僅有學生功能！</string>
@@ -56,6 +57,7 @@
 	<string name="bus_no_reservation">Oops！您還沒有預約任何校車喔～\n多多搭乘大眾運輸，節能減碳救地球 %s</string>
 	<string name="bus_no_bus">Oops！本日校車沒上班喔～\n請選擇其他日期 %s</string>
 	<string name="course_no_course">Oops！本學期沒有任何課哦～\n請選擇其他學期 %s</string>
+	<string name="bus_reserve_fail_title">Oops 預約失敗</string>
 	<string name="ok">好</string>
 	<string name="course_dialog_messages" formatted="false">課程名稱：%s\n授課老師：%s\n教室位置：%s\n上課時間：%s</string>
 	<string name="course_dialog_title">課程資訊</string>
@@ -63,7 +65,7 @@
 	<string name="no_internet">沒有網路連線，請檢查你的網路</string>
 	<string name="setting_internet">設定網路</string>
 	<string name="score_no_score">Oops！本學期沒有任何成績資料哦～\n請選擇其他學期 %s</string>
-	<string name="leave_night">旋轉橫向即可查看夜間缺曠 %s</string>
+	<string name="leave_night">旋轉橫向即可查看夜間缺曠以及星期幾 %s</string>
 	<string name="leave_no_leave">Oops！本學期沒有任何缺曠課紀錄哦～\n請選擇其他學期 %s</string>
 	<string name="token_expired_title">重新登入</string>
 	<string name="token_expired_content">登入資訊過期，請重新登入！</string>
@@ -87,8 +89,9 @@
 	<string name="bus_notify_yanchao">燕巢</string>
 	<string name="course_vibrate_hint">將於上課時轉為震動，下課時恢復！</string>
 	<string name="course_notify_hint">將於上課前十分鐘提醒！</string>
-	<string name="course_notify_content" formatted="false">親，%s上課教室在 %s！</string>
+	<string name="course_notify_content" formatted="false">親，%s 上課教室在 %s！</string>
 	<string name="course_notify_unknown">外太空</string>
+	<string name="calender_app_not_found">找不到支援的行事曆 Apps</string>
 
 	<string name="education_system">學制</string>
 	<string name="department">科系</string>
@@ -197,6 +200,16 @@
 	<string name="course13">第12節</string>
 	<string name="course14">第13節</string>
 	<string name="course15">第14節</string>
+
+	<array name="weekdays">
+		<item>@string/sun</item>
+		<item>@string/mon</item>
+		<item>@string/tue</item>
+		<item>@string/wed</item>
+		<item>@string/thu</item>
+		<item>@string/fri</item>
+		<item>@string/sat</item>
+	</array>
 
 	<array name="course_sections">
 		<item>M</item>

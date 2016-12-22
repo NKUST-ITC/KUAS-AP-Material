@@ -2,8 +2,12 @@ package silent.kuasapmaterial;
 
 import android.app.Dialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
@@ -16,19 +20,19 @@ import com.kuas.ap.donate.R;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.Constant;
+import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Memory;
-import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 
 public class LogoutActivity extends SilentActivity implements View.OnClickListener {
 
 	TextView mTitleTextView;
 	WebView mWebView;
-	ProgressWheel mProgressWheel;
+	MaterialProgressBar mMaterialProgressBar;
 	Button mLogoutButton, mOpenUrlButton;
 
 	String mTitle, mContent, mURL;
-	Boolean hasNews;
+	Boolean hasNews, isBusSaved;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -47,13 +51,25 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 		init(R.string.news, R.layout.activity_logout);
 
 		initGA("Logout Screen");
+		restoreArgs(savedInstanceState);
 		setUpBusNotify();
 		findViews();
 		setUpViews();
 	}
 
+	private void restoreArgs(Bundle savedInstanceState) {
+		isBusSaved = savedInstanceState != null && savedInstanceState.getBoolean("isBusSaved");
+	}
+
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+
+		outState.putBoolean("isBusSaved", isBusSaved);
+	}
+
 	private void setUpBusNotify() {
-		if (!Memory.getBoolean(this, Constant.PREF_BUS_NOTIFY, false)) {
+		if (!Memory.getBoolean(this, Constant.PREF_BUS_NOTIFY, false) || isBusSaved) {
 			return;
 		}
 		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
@@ -62,12 +78,18 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
+				if (isFinishing()) {
+					return;
+				}
 				progressDialog.dismiss();
 			}
 
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
+				if (isFinishing()) {
+					return;
+				}
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
 								.setLabel("fail " + errorMessage).build());
@@ -77,6 +99,10 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 			@Override
 			public void onSuccess() {
 				super.onSuccess();
+				isBusSaved = true;
+				if (isFinishing()) {
+					return;
+				}
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
 								.setLabel("success").build());
@@ -89,7 +115,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 		if (hasNews) {
 			mTitleTextView = (TextView) findViewById(R.id.textView_title);
 			mWebView = (WebView) findViewById(R.id.webView);
-			mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+			mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
 			mOpenUrlButton = (Button) findViewById(R.id.button_openUrl);
 		}
 		mLogoutButton = (Button) findViewById(R.id.button_logout);
@@ -98,7 +124,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 	private void setUpViews() {
 		if (hasNews) {
 			mWebView.setVisibility(View.GONE);
-			mProgressWheel.setVisibility(View.VISIBLE);
+			mMaterialProgressBar.setVisibility(View.VISIBLE);
 
 			mTitleTextView.setText(mTitle);
 			mWebView.setBackgroundColor(0);
@@ -108,9 +134,11 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 				@Override
 				public void onPageFinished(WebView view, String url) {
 					super.onPageFinished(view, url);
+					if (isFinishing()) {
+						return;
+					}
 					mWebView.setVisibility(View.VISIBLE);
-					mProgressWheel.setVisibility(View.GONE);
-					mProgressWheel.stopSpinning();
+					mMaterialProgressBar.setVisibility(View.GONE);
 				}
 			});
 
@@ -129,8 +157,16 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 		if (v.getId() == R.id.button_openUrl) {
 			mTracker.send(new HitBuilders.EventBuilder().setCategory("open url").setAction("click")
 					.build());
-			Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(mURL));
-			startActivity(browserIntent);
+			String shareData = mTitle + "\n" + mURL +
+					"\n\n" + getString(R.string.send_from);
+			CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+			Bitmap icon =
+					BitmapFactory.decodeResource(getResources(), R.drawable.ic_share_white_24dp);
+			builder.setActionButton(icon, getString(R.string.share),
+					Utils.createSharePendingIntent(this, shareData));
+			builder.setToolbarColor(ContextCompat.getColor(this, R.color.main_theme));
+			CustomTabsIntent customTabsIntent = builder.build();
+			customTabsIntent.launchUrl(this, Uri.parse(mURL));
 		} else if (v.getId() == R.id.button_logout) {
 			mTracker.send(new HitBuilders.EventBuilder().setCategory("logout").setAction("click")
 					.build());

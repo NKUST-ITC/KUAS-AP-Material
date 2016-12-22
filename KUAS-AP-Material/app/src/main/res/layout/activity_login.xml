@@ -57,6 +57,7 @@
 						android:src="@drawable/kuasap_text"/>
 
 					<android.support.design.widget.TextInputLayout
+						android:id="@+id/textInputLayout_id"
 						android:layout_width="250dp"
 						android:layout_height="wrap_content">
 
@@ -71,6 +72,7 @@
 					</android.support.design.widget.TextInputLayout>
 
 					<android.support.design.widget.TextInputLayout
+						android:id="@+id/textInputLayout_password"
 						android:layout_width="250dp"
 						android:layout_height="wrap_content">
 

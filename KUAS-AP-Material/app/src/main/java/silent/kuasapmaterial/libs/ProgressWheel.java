@@ -11,6 +11,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.os.SystemClock;
 import android.support.annotation.NonNull;
+import android.support.v4.content.ContextCompat;
 import android.util.AttributeSet;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -23,11 +24,12 @@ import com.kuas.ap.R;
  * Todd Davies' Progress Wheel https://github.com/Todd-Davies/ProgressWheel
  *
  * @author Nico Hormazábal
- *         <p/>
+ *         <p>
  *         Licensed under the Apache License 2.0 license see:
  *         http://www.apache.org/licenses/LICENSE-2.0
  */
 public class ProgressWheel extends View {
+
 	private static final String TAG = ProgressWheel.class.getSimpleName();
 
 	/**
@@ -37,7 +39,7 @@ public class ProgressWheel extends View {
 	 */
 	//Sizes (with defaults in DP)
 	private int circleRadius = 28;
-	private int barWidth = 4;
+	private float barWidth = 4;
 	private int rimWidth = 4;
 
 	private final int barLength = 16;
@@ -215,15 +217,15 @@ public class ProgressWheel extends View {
 
 		if (!fillRadius) {
 			// Width should equal to Height, find the min value to setup the circle
-			int minValue = Math.min(layout_width - paddingLeft - paddingRight,
+			float minValue = Math.min(layout_width - paddingLeft - paddingRight,
 					layout_height - paddingBottom - paddingTop);
 
-			int circleDiameter = Math.min(minValue, circleRadius * 2 - barWidth * 2);
+			float circleDiameter = Math.min(minValue, circleRadius * 2 - barWidth * 2);
 
 			// Calc the Offset if needed for centering the wheel in the available space
-			int xOffset =
+			float xOffset =
 					(layout_width - paddingLeft - paddingRight - circleDiameter) / 2 + paddingLeft;
-			int yOffset =
+			float yOffset =
 					(layout_height - paddingTop - paddingBottom - circleDiameter) / 2 + paddingTop;
 
 			circleBounds = new RectF(xOffset + barWidth + circleDiameter / 5,
@@ -519,7 +521,7 @@ public class ProgressWheel extends View {
 
 	private void runCallback(float value) {
 		if (isMaterial) {
-			setBarColor(getResources().getColor(MaterialColors[MaterialCnt % 4]));
+			setBarColor(ContextCompat.getColor(getContext(), MaterialColors[MaterialCnt % 4]));
 			if (MaterialCnt == 3) {
 				MaterialCnt = 0;
 			} else {
@@ -545,7 +547,7 @@ public class ProgressWheel extends View {
 	 */
 	public void setMaterial(boolean _bool) {
 		MaterialCnt = 1;
-		setBarColor(getResources().getColor(MaterialColors[0]));
+		setBarColor(ContextCompat.getColor(getContext(), MaterialColors[0]));
 		isMaterial = _bool;
 	}
 
@@ -741,7 +743,7 @@ public class ProgressWheel extends View {
 	/**
 	 * @return the width of the spinning bar
 	 */
-	public int getBarWidth() {
+	public float getBarWidth() {
 		return barWidth;
 	}
 
@@ -750,7 +752,7 @@ public class ProgressWheel extends View {
 	 *
 	 * @param barWidth the spinning bar width in pixels
 	 */
-	public void setBarWidth(int barWidth) {
+	public void setBarWidth(float barWidth) {
 		this.barWidth = barWidth;
 		if (!isSpinning) {
 			invalidate();
@@ -877,11 +879,12 @@ public class ProgressWheel extends View {
 	}
 
 	static class WheelSavedState extends BaseSavedState {
+
 		float mProgress;
 		float mTargetProgress;
 		boolean isSpinning;
 		float spinSpeed;
-		int barWidth;
+		float barWidth;
 		int barColor;
 		int rimWidth;
 		int rimColor;
@@ -899,7 +902,7 @@ public class ProgressWheel extends View {
 			this.mTargetProgress = in.readFloat();
 			this.isSpinning = in.readByte() != 0;
 			this.spinSpeed = in.readFloat();
-			this.barWidth = in.readInt();
+			this.barWidth = in.readFloat();
 			this.barColor = in.readInt();
 			this.rimWidth = in.readInt();
 			this.rimColor = in.readInt();
@@ -915,7 +918,7 @@ public class ProgressWheel extends View {
 			out.writeFloat(this.mTargetProgress);
 			out.writeByte((byte) (isSpinning ? 1 : 0));
 			out.writeFloat(this.spinSpeed);
-			out.writeInt(this.barWidth);
+			out.writeFloat(this.barWidth);
 			out.writeInt(this.barColor);
 			out.writeInt(this.rimWidth);
 			out.writeInt(this.rimColor);
@@ -927,6 +930,7 @@ public class ProgressWheel extends View {
 		//required field that makes Parcelables from a Parcel
 		public static final Parcelable.Creator<WheelSavedState> CREATOR =
 				new Parcelable.Creator<WheelSavedState>() {
+
 					public WheelSavedState createFromParcel(Parcel in) {
 						return new WheelSavedState(in);
 					}
@@ -938,11 +942,12 @@ public class ProgressWheel extends View {
 	}
 
 	public interface ProgressCallback {
+
 		/**
 		 * Method to call when the progress reaches a value
 		 * in order to avoid float precision issues, the progress
 		 * is rounded to a float with two decimals.
-		 * <p/>
+		 * <p>
 		 * In indeterminate mode, the callback is called each time
 		 * the wheel completes an animation cycle, with, the progress value is -1.0f
 		 *

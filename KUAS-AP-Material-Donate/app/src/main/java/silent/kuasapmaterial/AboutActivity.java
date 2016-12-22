@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.view.View;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -21,7 +22,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 	View view_fb, view_github, view_email, view_itc, view_easter_egg;
 	FloatingActionButton mFab;
 
-	private long lastDebugPressTime = 0l;
+	private long lastDebugPressTime = 0L;
 	private int easterEggCount = 0;
 
 	@Override
@@ -57,7 +58,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 
 	private void setUpViews() {
 		mCollapsingToolbar.setTitle(getString(R.string.about));
-		mCollapsingToolbar.setExpandedTitleColor(getResources().getColor(R.color.transparent));
+		mCollapsingToolbar.setExpandedTitleColor(ContextCompat.getColor(this, R.color.transparent));
 
 		view_fb.setOnClickListener(this);
 		view_github.setOnClickListener(this);
@@ -102,7 +103,7 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 				if (easterEggCount == 3) {
 					mTracker.send(new HitBuilders.EventBuilder().setCategory("easter egg")
 							.setAction("click").setLabel("success").build());
-					lastDebugPressTime = 0l;
+					lastDebugPressTime = 0L;
 					easterEggCount = 0;
 					String[] easterEggList = getResources().getStringArray(R.array.easter_egg);
 					Random random = new Random();
@@ -114,7 +115,8 @@ public class AboutActivity extends SilentActivity implements View.OnClickListene
 								public void onClick(View v) {
 
 								}
-							}).setActionTextColor(getResources().getColor(R.color.accent)).show();
+							}).setActionTextColor(ContextCompat.getColor(this, R.color.accent))
+							.show();
 				}
 			} else {
 				easterEggCount = 1;

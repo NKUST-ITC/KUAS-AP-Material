@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.Gravity;
 import android.view.View;
@@ -15,13 +16,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.kuas.ap.R;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kuas.ap.R;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Calendar;
 import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
@@ -29,8 +30,8 @@ import silent.kuasapmaterial.callback.LeaveCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.ObservableScrollView;
-import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.LeaveModel;
 import silent.kuasapmaterial.models.SemesterModel;
@@ -41,7 +42,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 	ImageView mPickYmsImageView;
 	TextView mNoLeaveTextView, mPickYmsTextView, mLeaveNightTextView;
 	LinearLayout mNoLeaveLinearLayout;
-	ProgressWheel mProgressWheel;
+	MaterialProgressBar mMaterialProgressBar;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 	ObservableScrollView mScrollView;
 	TableLayout mLeaveTableLayout;
@@ -83,16 +84,19 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
 						new TypeToken<List<LeaveModel>>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSelectedModel")) {
 				mSelectedModel = new Gson().fromJson(savedInstanceState.getString("mSelectedModel"),
 						new TypeToken<SemesterModel>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSemesterList")) {
 				mSemesterList = new Gson().fromJson(savedInstanceState.getString("mSemesterList"),
 						new TypeToken<List<SemesterModel>>() {
+
 						}.getType());
 			}
 		}
@@ -131,6 +135,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 					if (data.hasExtra("mSelectedModel")) {
 						mSelectedModel = new Gson().fromJson(data.getStringExtra("mSelectedModel"),
 								new TypeToken<SemesterModel>() {
+
 								}.getType());
 						mYms = mSelectedModel.value;
 						mPickYmsTextView.setText(mSelectedModel.text);
@@ -168,7 +173,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		mPickYmsTextView = (TextView) findViewById(R.id.textView_pickYms);
 		mPickYmsView = findViewById(R.id.view_pickYms);
 		mPickYmsImageView = (ImageView) findViewById(R.id.imageView_pickYms);
-		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+		mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
 		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		mNoLeaveLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_leave);
 		mNoLeaveTextView = (TextView) findViewById(R.id.textView_no_leave);
@@ -181,6 +186,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		setUpPullRefresh();
 		mLeaveNightTextView.setText(getString(R.string.leave_night, "\uD83D\uDE06"));
 		mScrollView.setOnScrollListener(new ObservableScrollView.OnScrollListener() {
+
 			@Override
 			public void onScrollDown() {
 				mFab.hide();
@@ -192,6 +198,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			}
 		});
 		mFab.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				Toast.makeText(LeaveActivity.this, R.string.function_not_open, Toast.LENGTH_SHORT)
@@ -200,12 +207,13 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		});
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
-				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
-		int color = getResources().getColor(R.color.accent);
+				ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
+		int color = ContextCompat.getColor(this, R.color.accent);
 		mPickYmsImageView.setImageBitmap(Utils.changeImageColor(sourceBitmap, color));
 
 		mScrollView.scrollTo(0, mPos);
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (mSelectedModel == null) {
@@ -221,6 +229,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			}
 		});
 		mNoLeaveLinearLayout.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (isRetry) {
@@ -274,7 +283,9 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 	}
 
 	private void getData() {
-		mProgressWheel.setVisibility(View.VISIBLE);
+		if (!mSwipeRefreshLayout.isRefreshing()) {
+			mMaterialProgressBar.setVisibility(View.VISIBLE);
+		}
 		mPickYmsView.setEnabled(false);
 		mScrollView.setVisibility(View.GONE);
 		mNoLeaveLinearLayout.setVisibility(View.GONE);
@@ -302,7 +313,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
-				Utils.createTokenExpired(LeaveActivity.this).show();
+				Utils.showTokenExpired(LeaveActivity.this);
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
 								.build());
@@ -321,7 +332,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 				mNoLeaveTextView.setText(getString(R.string.leave_no_leave, "\uD83D\uDE0B"));
 			}
 			mLeaveNightTextView.setVisibility(View.GONE);
-			mProgressWheel.setVisibility(View.GONE);
+			mMaterialProgressBar.setVisibility(View.GONE);
 			mSwipeRefreshLayout.setEnabled(true);
 			mSwipeRefreshLayout.setRefreshing(false);
 			mScrollView.setVisibility(View.VISIBLE);
@@ -332,7 +343,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		}
 
 		boolean isNight = checkLeaveTableNightType();
-		if (!(Utils.isLand(this) || Utils.isWide(this)) && isNight) {
+		if (!(Utils.isLand(this) || Utils.isWide(this))) {
 			mLeaveNightTextView.setVisibility(View.VISIBLE);
 		} else {
 			mLeaveNightTextView.setVisibility(View.GONE);
@@ -345,13 +356,13 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 		for (int i = 0; i < sections.length; i++) {
 			TextView sectionTextView = new TextView(this);
 			sectionTextView.setText(sections[i]);
-			sectionTextView.setTextColor(getResources().getColor(R.color.accent));
+			sectionTextView.setTextColor(ContextCompat.getColor(this, R.color.accent));
 			sectionTextView.setTextSize(14);
 			sectionTextView.setGravity(Gravity.CENTER);
 
 			int drawable = getResources().getIdentifier("table_top_" +
-							(i == 0 ? "left" : (i == sections.length - 1 ? "right" : "center")),
-					"drawable", getPackageName());
+							(i == 0 ? "left" : (i == sections.length - 1 ? "right" : "center")), "drawable",
+					getPackageName());
 			sectionTextView.setBackgroundResource(drawable);
 
 			sectionTableRow.addView(sectionTextView);
@@ -372,10 +383,22 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 					}
 				}
 				scoreTextView.setTextSize(14);
-				scoreTextView.setTextColor(getResources().getColor(R.color.black_text));
+				scoreTextView.setTextColor(ContextCompat.getColor(this, R.color.black_text));
 
 				if (j == 0) {
-					scoreTextView.setText(mList.get(i).date.split("/", 2)[1]);
+					if (Utils.isLand(this)) {
+						Calendar calendar = Calendar.getInstance();
+						calendar.set(Integer.parseInt(mList.get(i).date.split("/")[0]) + 1911,
+								Integer.parseInt(mList.get(i).date.split("/")[1]) - 1,
+								Integer.parseInt(mList.get(i).date.split("/")[2]));
+						int weekday = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+						scoreTextView.setText(
+								String.format("%s %s%s%s", mList.get(i).date.split("/", 2)[1], "(",
+										getResources().getStringArray(R.array.weekdays)[weekday],
+										")"));
+					} else {
+						scoreTextView.setText(mList.get(i).date.split("/", 2)[1]);
+					}
 				} else if (index > -1) {
 					scoreTextView.setText(mList.get(i).leave_sections.get(index).reason);
 				}
@@ -383,9 +406,8 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 
 				int drawable = getResources()
 						.getIdentifier("table_" + (i == mList.size() - 1 ? "bottom_" : "normal_") +
-										(j == sections.length - 1 ? "right" :
-												(j == 0 ? "left" : "center")), "drawable",
-								getPackageName());
+										(j == sections.length - 1 ? "right" : (j == 0 ? "left" : "center")),
+								"drawable", getPackageName());
 				scoreTextView.setBackgroundResource(drawable);
 
 				scoreTableRow.addView(scoreTextView,
@@ -395,7 +417,7 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 			mLeaveTableLayout.addView(scoreTableRow);
 		}
 
-		mProgressWheel.setVisibility(View.GONE);
+		mMaterialProgressBar.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(true);
 		mSwipeRefreshLayout.setRefreshing(false);
 		mScrollView.setVisibility(View.VISIBLE);

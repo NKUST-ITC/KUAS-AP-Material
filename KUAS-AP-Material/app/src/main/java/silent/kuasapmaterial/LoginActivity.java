@@ -1,13 +1,14 @@
 package silent.kuasapmaterial;
 
-import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
+import android.text.TextUtils;
 import android.util.Base64;
 import android.view.KeyEvent;
 import android.view.View;
@@ -20,14 +21,16 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.crashlytics.android.Crashlytics;
-import com.crashlytics.android.core.CrashlyticsCore;
 import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfig;
+import com.google.firebase.remoteconfig.FirebaseRemoteConfigSettings;
 import com.kuas.ap.BuildConfig;
 import com.kuas.ap.R;
 
 import java.io.UnsupportedEncodingException;
 
-import io.fabric.sdk.android.Fabric;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.ServerStatusCallback;
@@ -49,11 +52,13 @@ public class LoginActivity extends SilentActivity
 
 	String version;
 
+	AlertDialog mProgressDialog;
+
+	private FirebaseRemoteConfig mFirebaseRemoteConfig;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		Fabric.with(this, new Crashlytics.Builder()
-				.core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
 		setContentView(R.layout.activity_login);
 		clearUserData();
 		init(R.string.app_name, R.layout.activity_login);
@@ -87,35 +92,38 @@ public class LoginActivity extends SilentActivity
 			version = "1.0.0";
 			mVersionTextView.setText(getString(R.string.version, "1.0.0"));
 		}
-		checkUpdateNote(version);
+		checkUpdateNote(getString(R.string.version, version));
 
-		Helper.getAppVersion(this, new GeneralCallback() {
+		mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+		FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+				.setDeveloperModeEnabled(BuildConfig.DEBUG).build();
+		mFirebaseRemoteConfig.setConfigSettings(configSettings);
+
+		mFirebaseRemoteConfig.fetch(60).addOnCompleteListener(new OnCompleteListener<Void>() {
+
 			@Override
-			public void onSuccess(String data) {
-				super.onSuccess(data);
+			public void onComplete(@NonNull Task<Void> task) {
+				if (task.isSuccessful() && !isFinishing()) {
+					mFirebaseRemoteConfig.activateFetched();
+					try {
+						PackageInfo pInfo = getPackageManager().getPackageInfo(getPackageName(), 0);
 
-				if (isFinishing()) {
-					return;
-				}
+						boolean hasNewVersion = Integer.parseInt(
+								mFirebaseRemoteConfig.getString("android_app_version")) >
+								pInfo.versionCode;
 
-				String[] serverVersions = data.split("\\.");
-				String[] currentVersions = version.split("\\.");
-
-				if (Integer.valueOf(serverVersions[0]) > Integer.valueOf(currentVersions[0])) {
-					Utils.createForceUpdateDialog(LoginActivity.this).show();
-				} else if (serverVersions[0].equals(currentVersions[0])) {
-					if (Integer.valueOf(serverVersions[1]) > Integer.valueOf(currentVersions[1])) {
-						Utils.createForceUpdateDialog(LoginActivity.this).show();
-					} else if (serverVersions[1].equals(currentVersions[1])) {
-						if (Integer.valueOf(serverVersions[2]) >
-								Integer.valueOf(currentVersions[2])) {
-							if (Integer.valueOf(serverVersions[2]) -
-									Integer.valueOf(currentVersions[2]) >= 5) {
+						if (hasNewVersion) {
+							int diff = Integer.parseInt(
+									mFirebaseRemoteConfig.getString("android_app_version")) -
+									pInfo.versionCode;
+							if (diff >= 5) {
 								Utils.createForceUpdateDialog(LoginActivity.this).show();
 							} else {
 								Utils.createUpdateDialog(LoginActivity.this).show();
 							}
 						}
+					} catch (Exception e) {
+						// ignore
 					}
 				}
 			}
@@ -124,6 +132,7 @@ public class LoginActivity extends SilentActivity
 
 	private void checkServerStatus() {
 		Helper.getServerStatus(this, new ServerStatusCallback() {
+
 			@Override
 			public void onSuccess(ServerStatusModel model) {
 				super.onSuccess(model);
@@ -161,9 +170,9 @@ public class LoginActivity extends SilentActivity
 
 	private void findViews() {
 		mIdEditText = (EditText) findViewById(R.id.editText_id);
-		mIdTextInputLayout = (TextInputLayout) mIdEditText.getParent();
+		mIdTextInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout_id);
 		mPasswordEditText = (EditText) findViewById(R.id.editText_password);
-		mPasswordTextInputLayout = (TextInputLayout) mPasswordEditText.getParent();
+		mPasswordTextInputLayout = (TextInputLayout) findViewById(R.id.textInputLayout_password);
 
 		dot_ap = (ImageView) findViewById(R.id.dot_ap);
 		dot_leave = (ImageView) findViewById(R.id.dot_leave);
@@ -199,6 +208,7 @@ public class LoginActivity extends SilentActivity
 		mRememberCheckBox
 				.setChecked(Memory.getBoolean(this, Constant.PREF_REMEMBER_PASSWORD, true));
 		mRememberCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (!mRememberCheckBox.isChecked()) {
@@ -220,6 +230,7 @@ public class LoginActivity extends SilentActivity
 						.setMessage(R.string.teacher_confirm_content)
 						.setPositiveButton(R.string.continue_to_use,
 								new DialogInterface.OnClickListener() {
+
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
 										login();
@@ -241,21 +252,22 @@ public class LoginActivity extends SilentActivity
 		final String id = mIdEditText.getText().toString();
 		final String pwd = mPasswordEditText.getText().toString();
 
-		if (id.length() == 0) {
+		if (TextUtils.isEmpty(id)) {
 			mIdTextInputLayout.setError(getString(R.string.enter_username_hint));
 			mIdTextInputLayout.setErrorEnabled(true);
 			return;
 		}
-		if (pwd.length() == 0) {
+		if (TextUtils.isEmpty(pwd)) {
 			mPasswordTextInputLayout.setError(getString(R.string.enter_password_hint));
 			mPasswordTextInputLayout.setErrorEnabled(true);
 			return;
 		}
 
 		Memory.setBoolean(this, Constant.PREF_REMEMBER_PASSWORD, mRememberCheckBox.isChecked());
-		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.login_ing);
-		progressDialog.show();
+		mProgressDialog = Utils.createLoadingDialog(this, R.string.login_ing);
+		mProgressDialog.show();
 		Helper.login(this, id, pwd, new GeneralCallback() {
+
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
@@ -263,7 +275,7 @@ public class LoginActivity extends SilentActivity
 				if (isFinishing()) {
 					return;
 				}
-				progressDialog.dismiss();
+				Utils.dismissDialog(mProgressDialog);
 				Toast.makeText(LoginActivity.this, R.string.timeout_message, Toast.LENGTH_SHORT)
 						.show();
 			}
@@ -275,7 +287,7 @@ public class LoginActivity extends SilentActivity
 				if (isFinishing()) {
 					return;
 				}
-				progressDialog.dismiss();
+				Utils.dismissDialog(mProgressDialog);
 				mIdTextInputLayout.setError(getString(R.string.check_login_hint));
 				mIdTextInputLayout.setErrorEnabled(true);
 				mPasswordTextInputLayout.setError(getString(R.string.check_login_hint));
@@ -289,7 +301,7 @@ public class LoginActivity extends SilentActivity
 				if (isFinishing()) {
 					return;
 				}
-				progressDialog.dismiss();
+				Utils.dismissDialog(mProgressDialog);
 				try {
 					Memory.setString(LoginActivity.this, Constant.PREF_USERNAME, id);
 					byte[] TextByte = Utils.EncryptAES(Constant.IvAES.getBytes("UTF-8"),
@@ -305,6 +317,7 @@ public class LoginActivity extends SilentActivity
 					e.printStackTrace();
 				}
 				Memory.setBoolean(LoginActivity.this, Constant.PREF_IS_LOGIN, true);
+				Crashlytics.setUserName(id);
 				startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
 			}
 		});
@@ -322,6 +335,7 @@ public class LoginActivity extends SilentActivity
 						.setMessage(R.string.teacher_confirm_content)
 						.setPositiveButton(R.string.continue_to_use,
 								new DialogInterface.OnClickListener() {
+
 									@Override
 									public void onClick(DialogInterface dialog, int which) {
 										login();

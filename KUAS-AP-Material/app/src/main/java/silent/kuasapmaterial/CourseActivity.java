@@ -3,14 +3,18 @@ package silent.kuasapmaterial;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.ScrollView;
-import android.widget.TableLayout;
 import android.widget.TextView;
 
 import com.google.android.gms.analytics.HitBuilders;
@@ -19,7 +23,6 @@ import com.google.gson.reflect.TypeToken;
 import com.kuas.ap.R;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
@@ -28,8 +31,8 @@ import silent.kuasapmaterial.callback.SemesterCallback;
 import silent.kuasapmaterial.libs.AlarmHelper;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Memory;
-import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.CourseModel;
 import silent.kuasapmaterial.models.SemesterModel;
@@ -40,9 +43,11 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	ImageView mPickYmsImageView;
 	TextView mNoCourseTextView, mHolidayTextView, mPickYmsTextView;
 	LinearLayout mNoCourseLinearLayout;
-	ProgressWheel mProgressWheel;
+	MaterialProgressBar mMaterialProgressBar;
 	SwipeRefreshLayout mSwipeRefreshLayout;
-	ScrollView mScrollView;
+	RecyclerView mRecyclerView;
+
+	CourseGridAdapter mAdapter;
 
 	String mYms;
 	List<List<CourseModel>> mList;
@@ -86,16 +91,19 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
 						new TypeToken<List<List<CourseModel>>>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSelectedModel")) {
 				mSelectedModel = new Gson().fromJson(savedInstanceState.getString("mSelectedModel"),
 						new TypeToken<SemesterModel>() {
+
 						}.getType());
 			}
 			if (savedInstanceState.containsKey("mSemesterList")) {
 				mSemesterList = new Gson().fromJson(savedInstanceState.getString("mSemesterList"),
 						new TypeToken<List<SemesterModel>>() {
+
 						}.getType());
 			}
 		}
@@ -116,8 +124,8 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		outState.putBoolean("isB", isB);
 		outState.putBoolean("isHolidayB", isHolidayB);
 		outState.putBoolean("isRetry", isRetry);
-		if (mScrollView != null) {
-			outState.putInt("mPos", mScrollView.getVerticalScrollbarPosition());
+		if (mRecyclerView != null) {
+			outState.putInt("mPos", mRecyclerView.getVerticalScrollbarPosition());
 		}
 		if (mList != null) {
 			outState.putString("mList", new Gson().toJson(mList));
@@ -139,6 +147,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 					if (data.hasExtra("mSelectedModel")) {
 						mSelectedModel = new Gson().fromJson(data.getStringExtra("mSelectedModel"),
 								new TypeToken<SemesterModel>() {
+
 								}.getType());
 						mYms = mSelectedModel.value;
 						mPickYmsTextView.setText(mSelectedModel.text);
@@ -172,11 +181,11 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	}
 
 	private void findViews() {
-		mScrollView = (ScrollView) findViewById(R.id.scrollView);
+		mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
 		mPickYmsTextView = (TextView) findViewById(R.id.textView_pickYms);
 		mPickYmsView = findViewById(R.id.view_pickYms);
 		mPickYmsImageView = (ImageView) findViewById(R.id.imageView_pickYms);
-		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+		mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
 		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 		mNoCourseLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_course);
 		mNoCourseTextView = (TextView) findViewById(R.id.textView_no_course);
@@ -188,12 +197,13 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		mHolidayTextView.setText(getString(R.string.course_holiday, "\uD83D\uDE06"));
 
 		Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
-				getResources().getDrawable(R.drawable.ic_keyboard_arrow_down_white_24dp));
-		int color = getResources().getColor(R.color.accent);
+				ContextCompat.getDrawable(this, R.drawable.ic_keyboard_arrow_down_white_24dp));
+		int color = ContextCompat.getColor(this, R.color.accent);
 		mPickYmsImageView.setImageBitmap(Utils.changeImageColor(sourceBitmap, color));
 
-		mScrollView.scrollTo(0, mPos);
+		mRecyclerView.scrollTo(0, mPos);
 		mPickYmsView.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (mSelectedModel == null) {
@@ -209,6 +219,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			}
 		});
 		mNoCourseLinearLayout.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (isRetry) {
@@ -262,9 +273,11 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	}
 
 	private void getData(final boolean isSave) {
-		mProgressWheel.setVisibility(View.VISIBLE);
+		if (!mSwipeRefreshLayout.isRefreshing()) {
+			mMaterialProgressBar.setVisibility(View.VISIBLE);
+		}
 		mPickYmsView.setEnabled(false);
-		mScrollView.setVisibility(View.GONE);
+		mRecyclerView.setVisibility(View.GONE);
 		mNoCourseLinearLayout.setVisibility(View.GONE);
 		mHolidayTextView.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(false);
@@ -300,7 +313,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 					@Override
 					public void onTokenExpired() {
 						super.onTokenExpired();
-						Utils.createTokenExpired(CourseActivity.this).show();
+						Utils.showTokenExpired(CourseActivity.this);
 						mTracker.send(new HitBuilders.EventBuilder().setCategory("token")
 								.setAction("expired").build());
 					}
@@ -308,77 +321,38 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	}
 
 	private void setUpCourseTable() {
-		isHoliday = false;
-		isNight = false;
-		isHolidayNight = false;
-		isB = false;
-		isHolidayB = false;
-
-		mScrollView.removeAllViews();
 		if (mList.size() == 0) {
 			if (isRetry) {
 				mNoCourseTextView.setText(R.string.click_to_retry);
 			} else {
 				mNoCourseTextView.setText(getString(R.string.course_no_course, "\uD83D\uDE0B"));
 			}
-			mProgressWheel.setVisibility(View.GONE);
+			mMaterialProgressBar.setVisibility(View.GONE);
 			mSwipeRefreshLayout.setEnabled(true);
 			mSwipeRefreshLayout.setRefreshing(false);
 			mNoCourseLinearLayout.setVisibility(View.VISIBLE);
-			mScrollView.setVisibility(View.VISIBLE);
+			mRecyclerView.setVisibility(View.INVISIBLE);
 			mHolidayTextView.setVisibility(View.GONE);
 			return;
 		} else {
 			mNoCourseLinearLayout.setVisibility(View.GONE);
 		}
 		checkCourseTableType();
-		TableLayout table = selectCourseTable();
 
-		for (int i = 0; i < mList.size(); i++) {
-			if (mList.get(i) != null) {
-				for (int j = 0; j < mList.get(i).size(); j++) {
-					int id = getResources()
-							.getIdentifier("textView" + j + "_" + (i + 1), "id", getPackageName());
-					final TextView courseTextView = (TextView) table.findViewById(id);
-					if (mList.get(i).get(j) != null) {
-						if (courseTextView == null) {
-							continue;
-						}
-						courseTextView.setText(mList.get(i).get(j).title.substring(0, 2));
-
-						final int weekday = i;
-						final int section = j;
-						courseTextView.setOnClickListener(new View.OnClickListener() {
-							@Override
-							public void onClick(View v) {
-								showCourseDialog(weekday, section);
-							}
-						});
-					} else {
-						if (courseTextView != null) {
-							courseTextView.setText("　　");
-						}
-					}
-				}
-			} else {
-				List<String> sections = new ArrayList<>(
-						Arrays.asList(getResources().getStringArray(R.array.course_sections)));
-				for (int j = 0; j < sections.size(); j++) {
-					int id = getResources()
-							.getIdentifier("textView" + j + "_" + (i + 1), "id", getPackageName());
-					final TextView courseTextView = (TextView) table.findViewById(id);
-					if (courseTextView != null) {
-						courseTextView.setText("　　");
-					}
-				}
-			}
-		}
-
-		mScrollView.addView(table);
-		mProgressWheel.setVisibility(View.GONE);
+		mMaterialProgressBar.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(true);
 		mSwipeRefreshLayout.setRefreshing(false);
-		mScrollView.setVisibility(View.VISIBLE);
+
+		mRecyclerView.setLayoutManager(new GridLayoutManager(mRecyclerView.getContext(), getWidth(),
+				LinearLayoutManager.VERTICAL, false));
+		mRecyclerView.setHasFixedSize(true);
+		if (mAdapter == null) {
+			mAdapter = new CourseGridAdapter();
+			mRecyclerView.setAdapter(new CourseGridAdapter());
+		} else {
+			mAdapter.notifyDataSetChanged();
+		}
+		mRecyclerView.setVisibility(View.VISIBLE);
 	}
 
 	private void showCourseDialog(final int weekday, final int section) {
@@ -406,6 +380,12 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	}
 
 	private void checkCourseTableType() {
+		isHoliday = false;
+		isNight = false;
+		isHolidayNight = false;
+		isB = false;
+		isHolidayB = false;
+
 		for (int i = 0; i < mList.size() && !(isHolidayNight && isHoliday &&
 				isNight && isHolidayB && isB); i++) {
 			if (mList.get(i) != null) {
@@ -432,36 +412,140 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 				}
 			}
 		}
-	}
 
-	private TableLayout selectCourseTable() {
-		if ((Utils.isWide(this) || Utils.isLand(this)) && isHoliday) {
-			if (isHolidayNight || isNight) {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_holiday_night, null);
-			} else if (isHolidayB || isB) {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_holiday_b, null);
-			} else {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_holiday, null);
-			}
-		} else {
+		if (!((Utils.isWide(this) || Utils.isLand(this)) && isHoliday)) {
 			if (isHoliday) {
 				mHolidayTextView.setVisibility(View.VISIBLE);
 			} else {
 				mHolidayTextView.setVisibility(View.GONE);
 			}
-			if (isNight) {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_normal_night, null);
-			} else if (isB) {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_normal_b, null);
-			} else {
-				return (TableLayout) LayoutInflater.from(this)
-						.inflate(R.layout.table_course_normal, null);
+		}
+	}
+
+	private int getWidth() {
+		return (Utils.isWide(this) || Utils.isLand(this)) && isHoliday ? 8 : 6;
+	}
+
+	private int getHeight() {
+		return (isNight || ((Utils.isWide(this) || Utils.isLand(this)) && isHolidayNight)) ? 16 :
+				(isB || ((Utils.isWide(this) || Utils.isLand(this)) && isHolidayB)) ? 12 : 11;
+	}
+
+	public class CourseGridAdapter extends RecyclerView.Adapter<CourseGridAdapter.CourseViewHolder>
+			implements View.OnClickListener {
+
+		public class CourseViewHolder extends RecyclerView.ViewHolder {
+
+			public final TextView textView;
+
+			public CourseViewHolder(View view) {
+				super(view);
+				textView = (TextView) view.findViewById(R.id.textView);
 			}
+		}
+
+		@Override
+		public void onClick(View v) {
+			int position = (int) v.getTag();
+			showCourseDialog(position % getWidth() - 1, position / getWidth() - 1);
+		}
+
+		@Override
+		public CourseGridAdapter.CourseViewHolder onCreateViewHolder(ViewGroup parent,
+		                                                             int viewType) {
+			View view = LayoutInflater.from(parent.getContext())
+					.inflate(R.layout.grid_course, parent, false);
+			return new CourseViewHolder(view);
+		}
+
+		@Override
+		public void onBindViewHolder(CourseGridAdapter.CourseViewHolder holder, int position) {
+			if (position < getWidth() || position % getWidth() == 0) {
+				holder.textView
+						.setTextColor(ContextCompat.getColor(CourseActivity.this, R.color.accent));
+				holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 13);
+
+				if (position % getWidth() == 0) {
+					if (position / getWidth() > 0) {
+						holder.textView.setText(
+								getResources().getStringArray(R.array.course_sections)[
+										position / getWidth() - 1]);
+					} else {
+						holder.textView.setText("");
+					}
+				} else {
+					holder.textView
+							.setText(getResources().getStringArray(R.array.weekdays)[position % 7]);
+				}
+
+				if (position < getWidth()) {
+					if (position == 0) {
+						holder.textView.setBackgroundResource(R.drawable.course_top_left_normal);
+					} else if (position == getWidth() - 1) {
+						holder.textView.setBackgroundResource(R.drawable.course_top_right_normal);
+					} else {
+						holder.textView.setBackgroundResource(R.drawable.course_top_center_normal);
+					}
+				} else {
+					if (position / getWidth() == getHeight() - 1) {
+						holder.textView.setBackgroundResource(R.drawable.course_bottom_left_normal);
+					} else {
+						holder.textView.setBackgroundResource(R.drawable.course_normal_left_normal);
+					}
+				}
+			} else {
+				holder.textView.setTextColor(
+						ContextCompat.getColor(CourseActivity.this, R.color.black_text));
+				holder.textView.setTextSize(TypedValue.COMPLEX_UNIT_SP, 15);
+
+				List<CourseModel> modelList = position % getWidth() - 1 < mList.size() ?
+						mList.get(position % getWidth() - 1) : null;
+				if (modelList != null) {
+					CourseModel model = position / getWidth() - 1 < modelList.size() ?
+							modelList.get(position / getWidth() - 1) : null;
+					if (model != null) {
+						holder.textView.setText(model.title.substring(0, 2));
+						holder.itemView.setTag(position);
+						holder.itemView.setOnClickListener(this);
+					} else {
+						holder.textView.setText("");
+					}
+				} else {
+					holder.textView.setText("");
+				}
+
+				if (position / getWidth() == getHeight() - 1) {
+					if (position == getItemCount() - 1) {
+						holder.textView
+								.setBackgroundResource(R.drawable.course_bottom_right_normal);
+					} else {
+						holder.textView
+								.setBackgroundResource(R.drawable.course_bottom_center_normal);
+					}
+				} else {
+					if (position % getWidth() == getWidth() - 1) {
+						holder.textView
+								.setBackgroundResource(R.drawable.course_normal_right_normal);
+					} else {
+						holder.textView
+								.setBackgroundResource(R.drawable.course_normal_center_normal);
+					}
+				}
+			}
+		}
+
+		@Override
+		public void onViewDetachedFromWindow(CourseGridAdapter.CourseViewHolder holder) {
+			super.onViewDetachedFromWindow(holder);
+			// StackOverflow : http://goo.gl/hWm6CI
+			// The problem is that there are animations running when RecyclerView
+			// is trying to reuse the view.
+			holder.itemView.clearAnimation();
+		}
+
+		@Override
+		public int getItemCount() {
+			return getWidth() * getHeight();
 		}
 	}
 }

@@ -23,15 +23,16 @@ import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.UserInfoCallback;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.OverScrollView;
-import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
+import silent.kuasapmaterial.libs.ViewResizeAnimation;
 import silent.kuasapmaterial.models.UserInfoModel;
 
 public class UserInfoActivity extends SilentActivity {
 
-	ProgressWheel mProgressWheel;
+	MaterialProgressBar mMaterialProgressBar;
 	View mDetailView, mRetryView;
 	TextView mUserTextView, mEducationSystemTextView, mDepartmentTextView, mClassTextView,
 			mStuIdTextView;
@@ -82,7 +83,7 @@ public class UserInfoActivity extends SilentActivity {
 	}
 
 	private void findViews() {
-		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+		mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
 		mDetailView = findViewById(R.id.layout_detail);
 		mPhotoImageView = (ImageView) findViewById(R.id.imageView_photo);
 		mScrollView = (OverScrollView) findViewById(R.id.scrollView);
@@ -116,9 +117,9 @@ public class UserInfoActivity extends SilentActivity {
 			@Override
 			public boolean onTouch(View v, MotionEvent event) {
 				if (event.getAction() == MotionEvent.ACTION_UP) {
-					ViewGroup.LayoutParams params = mPhotoImageView.getLayoutParams();
-					params.height = (int) (Utils.getDisplayHeight(UserInfoActivity.this) * 0.5);
-					mPhotoImageView.setLayoutParams(params);
+					mPhotoImageView.startAnimation(
+							new ViewResizeAnimation(mPhotoImageView, mPhotoImageView.getHeight(),
+									(int) (Utils.getDisplayHeight(UserInfoActivity.this) * 0.5)));
 				}
 				return false;
 			}
@@ -128,7 +129,7 @@ public class UserInfoActivity extends SilentActivity {
 			public void onClick(View v) {
 				mTracker.send(new HitBuilders.EventBuilder().setCategory("retry").setAction("click")
 						.build());
-				mProgressWheel.setVisibility(View.VISIBLE);
+				mMaterialProgressBar.setVisibility(View.VISIBLE);
 				mPhotoImageView.setVisibility(View.GONE);
 				mDetailView.setVisibility(View.GONE);
 				mRetryView.setVisibility(View.GONE);
@@ -143,13 +144,13 @@ public class UserInfoActivity extends SilentActivity {
 	}
 
 	private void getData() {
-		mProgressWheel.setVisibility(View.VISIBLE);
+		mMaterialProgressBar.setVisibility(View.VISIBLE);
 
 		Helper.getUserInfo(this, new UserInfoCallback() {
 			@Override
 			public void onFail(String errorMessage) {
 				super.onFail(errorMessage);
-				mProgressWheel.setVisibility(View.GONE);
+				mMaterialProgressBar.setVisibility(View.GONE);
 				mPhotoImageView.setVisibility(View.GONE);
 				mDetailView.setVisibility(View.GONE);
 				mRetryView.setVisibility(View.VISIBLE);
@@ -196,7 +197,7 @@ public class UserInfoActivity extends SilentActivity {
 				@Override
 				public void onFail(String errorMessage) {
 					super.onFail(errorMessage);
-					mProgressWheel.setVisibility(View.GONE);
+					mMaterialProgressBar.setVisibility(View.GONE);
 					mPhotoImageView.setVisibility(View.GONE);
 					mDetailView.setVisibility(View.GONE);
 					mRetryView.setVisibility(View.VISIBLE);
@@ -232,7 +233,7 @@ public class UserInfoActivity extends SilentActivity {
 							@Override
 							public void onLoadingComplete(String imageUri, View view,
 							                              Bitmap loadedImage) {
-								mProgressWheel.setVisibility(View.GONE);
+								mMaterialProgressBar.setVisibility(View.GONE);
 								mPhotoImageView.setVisibility(View.VISIBLE);
 								mDetailView.setVisibility(View.VISIBLE);
 							}

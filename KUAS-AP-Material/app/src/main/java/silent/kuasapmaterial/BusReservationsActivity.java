@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
@@ -18,10 +19,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
-import com.kuas.ap.R;
-
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
+import com.kuas.ap.R;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,8 +32,8 @@ import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.AlarmHelper;
 import silent.kuasapmaterial.libs.Constant;
 import silent.kuasapmaterial.libs.Helper;
+import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Memory;
-import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 import silent.kuasapmaterial.models.BusModel;
 
@@ -43,7 +43,7 @@ public class BusReservationsActivity extends SilentActivity
 	ListView mListView;
 	TextView mNoReservationTextView;
 	LinearLayout mNoReservationLinearLayout;
-	ProgressWheel mProgressWheel;
+	MaterialProgressBar mMaterialProgressBar;
 	SwipeRefreshLayout mSwipeRefreshLayout;
 
 	List<BusModel> mList;
@@ -97,6 +97,7 @@ public class BusReservationsActivity extends SilentActivity
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
 						new TypeToken<List<BusModel>>() {
+
 						}.getType());
 			}
 		}
@@ -124,7 +125,7 @@ public class BusReservationsActivity extends SilentActivity
 		mListView = (ListView) findViewById(R.id.listView);
 		mNoReservationTextView = (TextView) findViewById(R.id.textView_no_reservation);
 		mNoReservationLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_reservation);
-		mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+		mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
 		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
 	}
 
@@ -136,6 +137,7 @@ public class BusReservationsActivity extends SilentActivity
 
 		mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
 		mNoReservationLinearLayout.setOnClickListener(new View.OnClickListener() {
+
 			@Override
 			public void onClick(View v) {
 				if (isRetry) {
@@ -150,7 +152,7 @@ public class BusReservationsActivity extends SilentActivity
 		setUpPullRefresh();
 
 		if (mList.size() > 0) {
-			mProgressWheel.setVisibility(View.GONE);
+			mMaterialProgressBar.setVisibility(View.GONE);
 			mNoReservationLinearLayout.setVisibility(View.GONE);
 		} else {
 			getData();
@@ -172,7 +174,9 @@ public class BusReservationsActivity extends SilentActivity
 	}
 
 	private void getData() {
-		mProgressWheel.setVisibility(View.VISIBLE);
+		if (!mSwipeRefreshLayout.isRefreshing()) {
+			mMaterialProgressBar.setVisibility(View.VISIBLE);
+		}
 		mListView.setVisibility(View.GONE);
 		mNoReservationLinearLayout.setVisibility(View.GONE);
 		mSwipeRefreshLayout.setEnabled(false);
@@ -190,7 +194,7 @@ public class BusReservationsActivity extends SilentActivity
 
 				mList = modelList;
 				mListView.setVisibility(View.VISIBLE);
-				mProgressWheel.setVisibility(View.GONE);
+				mMaterialProgressBar.setVisibility(View.GONE);
 				mAdapter.notifyDataSetChanged();
 
 				if (modelList.size() == 0) {
@@ -212,7 +216,7 @@ public class BusReservationsActivity extends SilentActivity
 				isRetry = true;
 
 				mListView.setVisibility(View.VISIBLE);
-				mProgressWheel.setVisibility(View.GONE);
+				mMaterialProgressBar.setVisibility(View.GONE);
 				mNoReservationTextView.setText(R.string.click_to_retry);
 				mNoReservationLinearLayout.setVisibility(View.VISIBLE);
 				mList.clear();
@@ -225,7 +229,7 @@ public class BusReservationsActivity extends SilentActivity
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
-				Utils.createTokenExpired(BusReservationsActivity.this).show();
+				Utils.showTokenExpired(BusReservationsActivity.this);
 				mTracker.send(
 						new HitBuilders.EventBuilder().setCategory("token").setAction("expired")
 								.build());
@@ -244,6 +248,7 @@ public class BusReservationsActivity extends SilentActivity
 						mList.get(position).runDateTime))
 				.setPositiveButton(R.string.bus_cancel_reserve,
 						new DialogInterface.OnClickListener() {
+
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								mTracker.send(
@@ -291,7 +296,7 @@ public class BusReservationsActivity extends SilentActivity
 					@Override
 					public void onTokenExpired() {
 						super.onTokenExpired();
-						Utils.createTokenExpired(BusReservationsActivity.this).show();
+						Utils.showTokenExpired(BusReservationsActivity.this);
 					}
 				});
 	}
@@ -342,11 +347,13 @@ public class BusReservationsActivity extends SilentActivity
 			}
 
 			if (mList.get(position).endStation.equals("燕巢")) {
-				holder.linearLayout.setBackgroundColor(getResources().getColor(R.color.blue_600));
+				holder.linearLayout.setBackgroundColor(
+						ContextCompat.getColor(BusReservationsActivity.this, R.color.blue_600));
 				holder.textView_location.setText(getString(R.string.bus_jiangong_reservations));
 
 			} else {
-				holder.linearLayout.setBackgroundColor(getResources().getColor(R.color.green_600));
+				holder.linearLayout.setBackgroundColor(
+						ContextCompat.getColor(BusReservationsActivity.this, R.color.green_600));
 				holder.textView_location.setText(getString(R.string.bus_yanchao_reservations));
 			}
 			holder.textView_date.setText(mList.get(position).runDateTime.split(" ")[0]);
@@ -355,6 +362,7 @@ public class BusReservationsActivity extends SilentActivity
 		}
 
 		class ViewHolder {
+
 			TextView textView_location;
 			TextView textView_time;
 			TextView textView_date;

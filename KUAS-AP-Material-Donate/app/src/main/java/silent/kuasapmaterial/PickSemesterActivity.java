@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -185,15 +186,17 @@ public class PickSemesterActivity extends SilentActivity
 
 			if (mSemesterList.get(position).text.equals(mSelectedModel.text)) {
 				Bitmap sourceBitmap = Utils.convertDrawableToBitmap(
-						getResources().getDrawable(R.drawable.ic_done_white_24dp));
-				int color = getResources().getColor(R.color.accent);
+						ContextCompat.getDrawable(getBaseContext(), R.drawable.ic_done_white_24dp));
+				int color = ContextCompat.getColor(PickSemesterActivity.this, R.color.accent);
 				holder.imageView.setImageBitmap(Utils.changeImageColor(sourceBitmap, color));
 				holder.imageView.setVisibility(View.VISIBLE);
-				holder.textView.setTextColor(getResources().getColor(R.color.accent));
+				holder.textView.setTextColor(
+						ContextCompat.getColor(PickSemesterActivity.this, R.color.accent));
 				holder.textView.setText(mSemesterList.get(position).text);
 			} else {
 				holder.imageView.setVisibility(View.GONE);
-				holder.textView.setTextColor(getResources().getColor(R.color.black_text));
+				holder.textView.setTextColor(
+						ContextCompat.getColor(PickSemesterActivity.this, R.color.black_text));
 				holder.textView.setText(mSemesterList.get(position).text);
 			}
 

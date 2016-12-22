@@ -38,7 +38,9 @@ public class ObservableScrollView extends ScrollView {
 	}
 
 	public interface OnScrollListener {
+
 		void onScrollDown();
+
 		void onScrollUp();
 	}
 }

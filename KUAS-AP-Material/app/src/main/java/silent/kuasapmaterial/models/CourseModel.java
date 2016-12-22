@@ -2,9 +2,13 @@ package silent.kuasapmaterial.models;
 
 import android.support.annotation.NonNull;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
+
 import java.util.List;
 
 public class CourseModel implements Comparable<CourseModel> {
+
 	public List<String> instructors;
 	public String title;
 	public String building;
@@ -18,11 +22,18 @@ public class CourseModel implements Comparable<CourseModel> {
 
 	@Override
 	public boolean equals(Object o) {
-		return o instanceof CourseModel && title.equals(((CourseModel) o).title) &&
-				room.equals(((CourseModel) o).room) &&
-				start_time.equals(((CourseModel) o).start_time) &&
-				weekday.equals(((CourseModel) o).weekday) &&
-				section.equals(((CourseModel) o).section);
+		try {
+			return o instanceof CourseModel && title.equals(((CourseModel) o).title) &&
+					room.equals(((CourseModel) o).room) &&
+					start_time.equals(((CourseModel) o).start_time) &&
+					weekday.equals(((CourseModel) o).weekday) &&
+					section.equals(((CourseModel) o).section);
+		} catch (Exception e) {
+			Answers.getInstance().logCustom(
+					new CustomEvent("Gson").putCustomAttribute("Type", "Course Equals")
+							.putCustomAttribute("Exception", e.getMessage()));
+			return false;
+		}
 	}
 
 	@Override

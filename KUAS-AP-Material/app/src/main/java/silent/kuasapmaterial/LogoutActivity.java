@@ -20,15 +20,15 @@ import com.kuas.ap.R;
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.libs.Constant;
+import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Memory;
-import silent.kuasapmaterial.libs.ProgressWheel;
 import silent.kuasapmaterial.libs.Utils;
 
 public class LogoutActivity extends SilentActivity implements View.OnClickListener {
 
 	TextView mTitleTextView;
 	WebView mWebView;
-	ProgressWheel mProgressWheel;
+	MaterialProgressBar mMaterialProgressBar;
 	Button mLogoutButton, mOpenUrlButton;
 
 	String mTitle, mContent, mURL;
@@ -58,11 +58,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 	}
 
 	private void restoreArgs(Bundle savedInstanceState) {
-		if (savedInstanceState != null) {
-			isBusSaved = savedInstanceState.getBoolean("isBusSaved");
-		} else {
-			isBusSaved = false;
-		}
+		isBusSaved = savedInstanceState != null && savedInstanceState.getBoolean("isBusSaved");
 	}
 
 	@Override
@@ -79,6 +75,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
 		progressDialog.show();
 		Utils.setUpBusNotify(this, new GeneralCallback() {
+
 			@Override
 			public void onTokenExpired() {
 				super.onTokenExpired();
@@ -119,7 +116,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 		if (hasNews) {
 			mTitleTextView = (TextView) findViewById(R.id.textView_title);
 			mWebView = (WebView) findViewById(R.id.webView);
-			mProgressWheel = (ProgressWheel) findViewById(R.id.progress_wheel);
+			mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
 			mOpenUrlButton = (Button) findViewById(R.id.button_openUrl);
 		}
 		mLogoutButton = (Button) findViewById(R.id.button_logout);
@@ -128,7 +125,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 	private void setUpViews() {
 		if (hasNews) {
 			mWebView.setVisibility(View.GONE);
-			mProgressWheel.setVisibility(View.VISIBLE);
+			mMaterialProgressBar.setVisibility(View.VISIBLE);
 
 			mTitleTextView.setText(mTitle);
 			mWebView.setBackgroundColor(0);
@@ -142,8 +139,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 						return;
 					}
 					mWebView.setVisibility(View.VISIBLE);
-					mProgressWheel.setVisibility(View.GONE);
-					mProgressWheel.stopSpinning();
+					mMaterialProgressBar.setVisibility(View.GONE);
 				}
 			});
 

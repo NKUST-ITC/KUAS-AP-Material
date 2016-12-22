@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.kuas.ap.R;
 
 import java.util.ArrayList;
@@ -31,27 +33,46 @@ public class AlarmHelper {
 		List<BusModel> savedBusModelList = Utils.loadBusNotify(context);
 		if (savedBusModelList != null && savedBusModelList.size() != 0) {
 			for (BusModel model : savedBusModelList) {
-				if (!busModelList.contains(model)) {
-					cancelBusAlarm(context, model.endStation, model.runDateTime,
-							Integer.parseInt(model.cancelKey));
+				try {
+					if (!busModelList.contains(model)) {
+						cancelBusAlarm(context, model.endStation, model.runDateTime,
+								Integer.parseInt(model.cancelKey));
+					}
+				} catch (Exception e) {
+					Answers.getInstance().logCustom(
+							new CustomEvent("Gson").putCustomAttribute("Type", "Bus Cancel")
+									.putCustomAttribute("Exception", e.getMessage()));
 				}
 			}
 		}
 
 		Utils.saveBusNotify(context, busModelList);
 		for (BusModel model : busModelList) {
-			setBusAlarm(context, model.endStation, model.runDateTime,
-					Integer.parseInt(model.cancelKey));
+			try {
+				setBusAlarm(context, model.endStation, model.runDateTime,
+						Integer.parseInt(model.cancelKey));
+			} catch (Exception e) {
+				Answers.getInstance().logCustom(
+						new CustomEvent("Gson").putCustomAttribute("Type", "Bus Set")
+								.putCustomAttribute("Exception", e.getMessage()));
+			}
 		}
+
 	}
 
 	public static void setBusNotification(Context context) {
 		List<BusModel> busModelList = Utils.loadBusNotify(context);
 		if (busModelList != null) {
 			for (BusModel model : busModelList) {
-				setBusAlarm(context, model.endStation,
-						model.runDateTime == null ? model.Time : model.runDateTime,
-						Integer.parseInt(model.cancelKey));
+				try {
+					setBusAlarm(context, model.endStation,
+							model.runDateTime == null ? model.Time : model.runDateTime,
+							Integer.parseInt(model.cancelKey));
+				} catch (Exception e) {
+					Answers.getInstance().logCustom(
+							new CustomEvent("Gson").putCustomAttribute("Type", "Bus Boot")
+									.putCustomAttribute("Exception", e.getMessage()));
+				}
 			}
 		}
 	}
@@ -92,16 +113,28 @@ public class AlarmHelper {
 		if (savedCourseModelList != null) {
 			for (CourseModel courseModel : savedCourseModelList) {
 				if (!saveModelList.contains(courseModel)) {
-					cancelCourseAlarm(context, courseModel.room.trim(), courseModel.title,
-							courseModel.start_time, courseModel.notifyKey);
+					try {
+						cancelCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+								courseModel.start_time, courseModel.notifyKey);
+					} catch (Exception e) {
+						Answers.getInstance().logCustom(
+								new CustomEvent("Gson").putCustomAttribute("Type", "Course Cancel")
+										.putCustomAttribute("Exception", e.getMessage()));
+					}
 				}
 			}
 		}
 
 		// Must set alarm after cancel
 		for (CourseModel courseModel : saveModelList) {
-			setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
-					courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
+			try {
+				setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+						courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
+			} catch (Exception e) {
+				Answers.getInstance().logCustom(
+						new CustomEvent("Gson").putCustomAttribute("Type", "Course Set")
+								.putCustomAttribute("Exception", e.getMessage()));
+			}
 		}
 
 		Utils.saveCourseNotify(context, saveModelList);
@@ -111,15 +144,21 @@ public class AlarmHelper {
 		List<CourseModel> courseModelList = Utils.loadCourseNotify(context);
 		if (courseModelList != null) {
 			for (CourseModel courseModel : courseModelList) {
-				if (!courseModel.start_time.trim().contains(":")) {
-					List<String> sectionList = new ArrayList<>(Arrays.asList(
-							context.getResources().getStringArray(R.array.course_sections)));
-					courseModel.start_time =
-							context.getResources().getStringArray(R.array.start_time)[sectionList
-									.indexOf(courseModel.section)];
+				try {
+					if (!courseModel.start_time.trim().contains(":")) {
+						List<String> sectionList = new ArrayList<>(Arrays.asList(
+								context.getResources().getStringArray(R.array.course_sections)));
+						courseModel.start_time = context.getResources()
+								.getStringArray(R.array.start_time)[sectionList
+								.indexOf(courseModel.section)];
+					}
+					setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
+							courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
+				} catch (Exception e) {
+					Answers.getInstance().logCustom(
+							new CustomEvent("Gson").putCustomAttribute("Type", "Course Boot")
+									.putCustomAttribute("Exception", e.getMessage()));
 				}
-				setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
-						courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
 			}
 		}
 	}

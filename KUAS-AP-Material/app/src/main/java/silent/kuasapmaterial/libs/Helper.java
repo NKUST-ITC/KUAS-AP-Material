@@ -1,6 +1,7 @@
 package silent.kuasapmaterial.libs;
 
 import android.content.Context;
+import android.text.TextUtils;
 
 import com.kuas.ap.R;
 import com.loopj.android.http.AsyncHttpClient;
@@ -19,6 +20,7 @@ import java.util.List;
 import cz.msebera.android.httpclient.Header;
 import cz.msebera.android.httpclient.auth.AuthScope;
 import cz.msebera.android.httpclient.auth.UsernamePasswordCredentials;
+import silent.kuasapmaterial.callback.BusBookCallback;
 import silent.kuasapmaterial.callback.BusCallback;
 import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.CourseCallback;
@@ -52,7 +54,7 @@ public class Helper {
 	private static AsyncHttpClient init() {
 		AsyncHttpClient client = new AsyncHttpClient();
 		client.addHeader("Connection", "Keep-Alive");
-		client.setTimeout(7 * 1000);
+		client.setTimeout(10 * 1000);
 		client.setEnableRedirects(true, true, true);
 		return client;
 	}
@@ -420,6 +422,7 @@ public class Helper {
 
 	public static void getUserPicture(final Context context, final GeneralCallback callback) {
 		mClient.get(USER_PIC_URL, new TextHttpResponseHandler() {
+
 			@Override
 			public void onFailure(int statusCode, Header[] headers, String responseString,
 			                      Throwable throwable) {
@@ -596,9 +599,23 @@ public class Helper {
 	}
 
 	public static void bookingBus(final Context context, String busId,
-	                              final GeneralCallback callback) {
+	                              final BusBookCallback callback) {
 		String url = String.format(BUS_BOOKING_URL, busId);
 		mClient.put(url, new JsonHttpResponseHandler() {
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+			                      JSONArray errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				onHelperFail(context, callback, statusCode, headers, throwable);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString,
+			                      Throwable throwable) {
+				super.onFailure(statusCode, headers, responseString, throwable);
+				onHelperFail(context, callback, statusCode, headers, throwable, responseString);
+			}
 
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
@@ -608,13 +625,24 @@ public class Helper {
 					return;
 				}
 				try {
-					if (!response.getBoolean("success")) {
-						if (callback != null) {
-							callback.onFail(response.getString("message"));
-						}
-					} else if (response.has("success") && response.getBoolean("success")) {
-						if (callback != null) {
-							callback.onSuccess();
+					if (response.has("success")) {
+						if (response.getBoolean("success")) {
+							if (callback != null) {
+								callback.onSuccess();
+							}
+						} else {
+							if (!response.has("message")) {
+								onHelperFail(context, callback, statusCode, headers);
+								return;
+							}
+							if (callback != null) {
+								String msg = response.getString("message");
+								if (!TextUtils.isEmpty(msg) && msg.contains("鎖定")) {
+									callback.onReserveFail(msg);
+								} else {
+									callback.onFail(msg);
+								}
+							}
 						}
 					} else {
 						onHelperFail(context, callback, statusCode, headers, null, response);
@@ -631,7 +659,12 @@ public class Helper {
 				try {
 					if (errorResponse != null && errorResponse.has("message")) {
 						if (callback != null) {
-							callback.onFail(errorResponse.getString("message"));
+							String msg = errorResponse.getString("message");
+							if (!TextUtils.isEmpty(msg) && msg.contains("鎖定")) {
+								callback.onReserveFail(msg);
+							} else {
+								callback.onFail(msg);
+							}
 						}
 					} else {
 						onHelperFail(context, callback, statusCode, headers, throwable,
@@ -689,6 +722,20 @@ public class Helper {
 				} catch (JSONException e) {
 					onHelperFail(context, callback, e);
 				}
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, Throwable throwable,
+			                      JSONArray errorResponse) {
+				super.onFailure(statusCode, headers, throwable, errorResponse);
+				onHelperFail(context, callback, statusCode, headers, throwable);
+			}
+
+			@Override
+			public void onFailure(int statusCode, Header[] headers, String responseString,
+			                      Throwable throwable) {
+				super.onFailure(statusCode, headers, responseString, throwable);
+				onHelperFail(context, callback, statusCode, headers, throwable, responseString);
 			}
 		});
 	}

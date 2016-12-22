@@ -1,6 +1,7 @@
 package silent.kuasapmaterial.models;
 
 public class UserInfoModel {
+
 	public String student_id;
 	public String department;
 	public String student_name_eng;

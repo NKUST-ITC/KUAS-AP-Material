@@ -4,6 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class GeneralCallback {
+
 	public void onSuccess() {
 	}
 

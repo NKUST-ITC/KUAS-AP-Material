@@ -9,12 +9,14 @@ import android.os.Bundle;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.TextUtils;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
@@ -56,9 +58,11 @@ public class SilentActivity extends AppCompatActivity
 	public Toolbar toolbar;
 	public DrawerLayout drawer;
 	public NavigationView navigationView;
+	public View headerView;
 	public MenuItem selectedMenuItem;
 
 	public int mLayoutID;
+	public int mSelectedItem;
 
 	public AnimationActionBarDrawerToggle mDrawerToggle;
 
@@ -111,8 +115,8 @@ public class SilentActivity extends AppCompatActivity
 		String userName = Memory.getString(this, Constant.PREF_USER_NAME, "");
 		String userID = Memory.getString(this, Constant.PREF_USER_ID, "");
 		if (userName.length() > 0 && userID.length() > 0) {
-			((TextView) navigationView.findViewById(R.id.textView_name)).setText(userName);
-			((TextView) navigationView.findViewById(R.id.textView_schoolID)).setText(userID);
+			((TextView) headerView.findViewById(R.id.textView_name)).setText(userName);
+			((TextView) headerView.findViewById(R.id.textView_schoolID)).setText(userID);
 		} else {
 			Helper.getUserInfo(this, new UserInfoCallback() {
 
@@ -124,9 +128,9 @@ public class SilentActivity extends AppCompatActivity
 							userInfoModel.student_name_cht);
 					Memory.setString(SilentActivity.this, Constant.PREF_USER_ID,
 							userInfoModel.student_id);
-					((TextView) navigationView.findViewById(R.id.textView_name))
+					((TextView) headerView.findViewById(R.id.textView_name))
 							.setText(userInfoModel.student_name_cht);
-					((TextView) navigationView.findViewById(R.id.textView_schoolID))
+					((TextView) headerView.findViewById(R.id.textView_schoolID))
 							.setText(userInfoModel.student_id);
 				}
 			});
@@ -141,9 +145,9 @@ public class SilentActivity extends AppCompatActivity
 		try {
 			if (isSetUpHeadPhoto) {
 				String photo = Memory.getString(this, Constant.PREF_USER_PIC, "");
-				if (photo.length() > 0) {
+				if (!TextUtils.isEmpty(photo)) {
 					ImageLoader.getInstance().displayImage(photo,
-							(ImageView) navigationView.findViewById(R.id.imageView_user),
+							(ImageView) headerView.findViewById(R.id.imageView_user),
 							Utils.getHeadDisplayImageOptions(this,
 									getResources().getDimensionPixelSize(R.dimen.head_mycard) / 2));
 				} else {
@@ -154,7 +158,7 @@ public class SilentActivity extends AppCompatActivity
 							super.onSuccess(data);
 							Memory.setString(SilentActivity.this, Constant.PREF_USER_PIC, data);
 							ImageLoader.getInstance().displayImage(data,
-									(ImageView) navigationView.findViewById(R.id.imageView_user),
+									(ImageView) headerView.findViewById(R.id.imageView_user),
 									Utils.getHeadDisplayImageOptions(SilentActivity.this,
 											getResources()
 													.getDimensionPixelSize(R.dimen.head_mycard) /
@@ -163,7 +167,7 @@ public class SilentActivity extends AppCompatActivity
 					});
 				}
 			} else {
-				((ImageView) navigationView.findViewById(R.id.imageView_user))
+				((ImageView) headerView.findViewById(R.id.imageView_user))
 						.setImageResource(R.drawable.ic_account_circle_white_48dp);
 			}
 		} catch (IllegalArgumentException e) {
@@ -178,10 +182,12 @@ public class SilentActivity extends AppCompatActivity
 	public void setUpMenuDrawer(int selectItem) {
 		drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
 		navigationView = (NavigationView) findViewById(R.id.nav_view);
-		if (navigationView.findViewById(R.id.layout_user) != null) {
+		headerView = navigationView.getHeaderView(0);
+		if (headerView.findViewById(R.id.layout_user) != null) {
 			final boolean isLogin = Memory.getBoolean(this, Constant.PREF_IS_LOGIN, false);
-			navigationView.findViewById(R.id.layout_user)
+			headerView.findViewById(R.id.layout_user)
 					.setOnClickListener(new View.OnClickListener() {
+
 						@Override
 						public void onClick(View v) {
 							drawer.closeDrawers();
@@ -204,7 +210,7 @@ public class SilentActivity extends AppCompatActivity
 		}
 
 		drawer.setDrawerShadow(R.drawable.shadow_right, GravityCompat.START);
-		drawer.setStatusBarBackgroundColor(getResources().getColor(R.color.main_theme_dark));
+		drawer.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.main_theme_dark));
 
 		mDrawerToggle = new AnimationActionBarDrawerToggle(this, drawer, R.string.open_drawer,
 				R.string.close_drawer) {
@@ -244,9 +250,11 @@ public class SilentActivity extends AppCompatActivity
 		drawer.setDrawerListener(mDrawerToggle);
 		navigationView.setNavigationItemSelectedListener(this);
 
+		mSelectedItem = -1;
 		if (-1 < selectItem && selectItem < navigationView.getMenu().size()) {
 			selectedMenuItem = navigationView.getMenu().getItem(selectItem);
 			selectedMenuItem.setChecked(true);
+			mSelectedItem = selectItem;
 		}
 	}
 
@@ -298,12 +306,10 @@ public class SilentActivity extends AppCompatActivity
 			case android.R.id.home:
 				if (drawer.isDrawerOpen(navigationView)) {
 					drawer.closeDrawer(navigationView);
-					return true;
 				} else if (!drawer.isDrawerOpen(navigationView)) {
 					drawer.openDrawer(navigationView);
-					return true;
 				}
-				break;
+				return true;
 		}
 		return false;
 	}
@@ -311,6 +317,12 @@ public class SilentActivity extends AppCompatActivity
 	@Override
 	protected void onResume() {
 		super.onResume();
+		if (navigationView == null) {
+			return;
+		}
+		for (int i = 0; i < navigationView.getMenu().size() && mSelectedItem == -1; i++) {
+			navigationView.getMenu().getItem(i).setChecked(false);
+		}
 		setUpUserPhoto();
 		checkNetwork();
 	}
@@ -320,11 +332,12 @@ public class SilentActivity extends AppCompatActivity
 			Snackbar.make(findViewById(android.R.id.content), R.string.no_internet,
 					Snackbar.LENGTH_INDEFINITE)
 					.setAction(R.string.setting_internet, new View.OnClickListener() {
+
 						@Override
 						public void onClick(View v) {
 							startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
 						}
-					}).setActionTextColor(getResources().getColor(R.color.accent)).show();
+					}).setActionTextColor(ContextCompat.getColor(this, R.color.accent)).show();
 		}
 	}
 
@@ -367,6 +380,7 @@ public class SilentActivity extends AppCompatActivity
 				}
 			} else {
 				Toast.makeText(this, R.string.login_first, Toast.LENGTH_SHORT).show();
+				return false;
 			}
 		}
 		return true;
@@ -385,6 +399,7 @@ public class SilentActivity extends AppCompatActivity
 				new AlertDialog.Builder(this).setTitle(R.string.app_name)
 						.setMessage(R.string.logout_check).setPositiveButton(R.string.determine,
 						new DialogInterface.OnClickListener() {
+
 							@Override
 							public void onClick(DialogInterface dialog, int which) {
 								if (mTracker != null) {

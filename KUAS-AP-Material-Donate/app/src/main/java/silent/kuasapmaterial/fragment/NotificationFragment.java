@@ -3,8 +3,12 @@ package silent.kuasapmaterial.fragment;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -102,7 +106,7 @@ public class NotificationFragment extends SilentFragment
 	private void setUpViews() {
 		mAdapter = new Adapter(activity);
 		if (mList != null && mList.size() > 0) {
-			mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
+			((ListView) mListView).setSelectionFromTop(mInitListPos, mInitListOffset);
 			mAdapter.notifyDataSetChanged();
 		} else {
 			mList = new ArrayList<>();
@@ -118,9 +122,18 @@ public class NotificationFragment extends SilentFragment
 						.setAction("click").build());
 				if (position < mList.size()) {
 					if (mList.get(position).link.startsWith("http")) {
-						Intent browserIntent =
-								new Intent(Intent.ACTION_VIEW, Uri.parse(mList.get(position).link));
-						startActivity(browserIntent);
+						String shareData =
+								mList.get(position).content + "\n" + mList.get(position).link +
+										"\n\n" + getString(R.string.send_from);
+						CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+						Bitmap icon = BitmapFactory
+								.decodeResource(getResources(), R.drawable.ic_share_white_24dp);
+						builder.setActionButton(icon, getString(R.string.share),
+								Utils.createSharePendingIntent(activity, shareData));
+						builder.setToolbarColor(
+								ContextCompat.getColor(activity, R.color.main_theme));
+						CustomTabsIntent customTabsIntent = builder.build();
+						customTabsIntent.launchUrl(activity, Uri.parse(mList.get(position).link));
 					}
 				} else {
 					isRetry = false;
@@ -290,7 +303,8 @@ public class NotificationFragment extends SilentFragment
 							(TextView) convertView.findViewById(R.id.textView_content);
 					convertView.setTag(holder);
 				} else if (item_type == TYPE_PROGRESS) {
-					convertView = inflater.inflate(R.layout.list_progresswheel, parent, false);
+					convertView =
+							inflater.inflate(R.layout.list_material_progress_bar, parent, false);
 				} else {
 					retryHolder = new RetryViewHolder();
 					convertView = inflater.inflate(R.layout.list_text, parent, false);

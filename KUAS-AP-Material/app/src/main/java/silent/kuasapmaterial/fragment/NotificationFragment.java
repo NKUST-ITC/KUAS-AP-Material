@@ -78,6 +78,7 @@ public class NotificationFragment extends SilentFragment
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
 						new TypeToken<List<NotificationModel>>() {
+
 						}.getType());
 			}
 		}
@@ -106,7 +107,7 @@ public class NotificationFragment extends SilentFragment
 	private void setUpViews() {
 		mAdapter = new Adapter(activity);
 		if (mList != null && mList.size() > 0) {
-			mListView.setSelectionFromTop(mInitListPos, mInitListOffset);
+			((ListView) mListView).setSelectionFromTop(mInitListPos, mInitListOffset);
 			mAdapter.notifyDataSetChanged();
 		} else {
 			mList = new ArrayList<>();
@@ -142,6 +143,7 @@ public class NotificationFragment extends SilentFragment
 			}
 		});
 		mListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+
 			@Override
 			public boolean onItemLongClick(AdapterView<?> parent, View view, int position,
 			                               long id) {
@@ -303,7 +305,8 @@ public class NotificationFragment extends SilentFragment
 							(TextView) convertView.findViewById(R.id.textView_content);
 					convertView.setTag(holder);
 				} else if (item_type == TYPE_PROGRESS) {
-					convertView = inflater.inflate(R.layout.list_progresswheel, parent, false);
+					convertView =
+							inflater.inflate(R.layout.list_material_progress_bar, parent, false);
 				} else {
 					retryHolder = new RetryViewHolder();
 					convertView = inflater.inflate(R.layout.list_text, parent, false);
@@ -330,12 +333,14 @@ public class NotificationFragment extends SilentFragment
 		}
 
 		class ViewHolder {
+
 			TextView textView_author;
 			TextView textView_date;
 			TextView textView_content;
 		}
 
 		class RetryViewHolder {
+
 			TextView textView;
 		}
 	}
