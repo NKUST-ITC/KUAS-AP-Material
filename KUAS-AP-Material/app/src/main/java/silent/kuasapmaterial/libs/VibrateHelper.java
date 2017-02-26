@@ -7,6 +7,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 
+import com.crashlytics.android.answers.Answers;
+import com.crashlytics.android.answers.CustomEvent;
 import com.kuas.ap.R;
 
 import java.util.ArrayList;
@@ -21,7 +23,7 @@ import silent.kuasapmaterial.models.CourseModel;
 
 public class VibrateHelper {
 
-	public static void setCourseVibrate(Context context, List<List<CourseModel>> courseModelList) {
+	static void setCourseVibrate(Context context, List<List<CourseModel>> courseModelList) {
 		if (courseModelList == null) {
 			return;
 		}
@@ -92,23 +94,30 @@ public class VibrateHelper {
 		List<CourseModel> courseModelList = Utils.loadCourseVibrate(context);
 		if (courseModelList != null) {
 			for (int i = 0; i < courseModelList.size(); i++) {
-				CourseModel courseModel = courseModelList.get(i);
-				if (!courseModel.start_time.contains(":") || !courseModel.end_time.contains(":")) {
-					List<String> sectionList = new ArrayList<>(Arrays.asList(
-							context.getResources().getStringArray(R.array.course_sections)));
-					courseModel.start_time =
-							context.getResources().getStringArray(R.array.start_time)[sectionList
-									.indexOf(courseModel.section)];
-					courseModel.end_time =
-							context.getResources().getStringArray(R.array.end_time)[sectionList
-									.indexOf(courseModel.section)];
-				}
-				if (i % 2 == 0) {
-					setCourseAlarm(context, courseModel.start_time, courseModel.dayOfWeek,
-							courseModel.notifyKey * 1000, true);
-				} else {
-					setCourseAlarm(context, courseModel.end_time, courseModel.dayOfWeek,
-							courseModel.notifyKey * 10000, false);
+				try {
+					CourseModel courseModel = courseModelList.get(i);
+					if (!courseModel.start_time.contains(":") ||
+							!courseModel.end_time.contains(":")) {
+						List<String> sectionList = new ArrayList<>(Arrays.asList(
+								context.getResources().getStringArray(R.array.course_sections)));
+						courseModel.start_time = context.getResources()
+								.getStringArray(R.array.start_time)[sectionList
+								.indexOf(courseModel.section)];
+						courseModel.end_time =
+								context.getResources().getStringArray(R.array.end_time)[sectionList
+										.indexOf(courseModel.section)];
+					}
+					if (i % 2 == 0) {
+						setCourseAlarm(context, courseModel.start_time, courseModel.dayOfWeek,
+								courseModel.notifyKey * 1000, true);
+					} else {
+						setCourseAlarm(context, courseModel.end_time, courseModel.dayOfWeek,
+								courseModel.notifyKey * 10000, false);
+					}
+				} catch (Exception e) {
+					Answers.getInstance().logCustom(
+							new CustomEvent("Gson").putCustomAttribute("Type", "Course Vibrate Set")
+									.putCustomAttribute("Exception", e.getMessage()));
 				}
 			}
 		}

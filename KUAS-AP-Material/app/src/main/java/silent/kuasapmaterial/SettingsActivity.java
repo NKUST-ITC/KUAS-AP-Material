@@ -1,14 +1,20 @@
 package silent.kuasapmaterial;
 
+import android.annotation.TargetApi;
 import android.app.Dialog;
+import android.app.NotificationManager;
 import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SwitchCompat;
 import android.view.View;
 import android.widget.TextView;
@@ -24,6 +30,8 @@ import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.Utils;
 
 public class SettingsActivity extends SilentActivity implements View.OnClickListener {
+
+	private static final int PERMISSION_REQUEST_NOTIFICATION_POLICY_ACCESS_SETTING = 200;
 
 	private View mNotifyCourseView, mNotifyBusView, mHeadPhotoView, mAppVersionView, mFeedbackView,
 			mDonateView, mVibrateCourseView;
@@ -93,6 +101,12 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		mHeadPhotoSwitch.setChecked(Memory.getBoolean(this, Constant.PREF_HEAD_PHOTO, true));
 		mNotifyCourseSwitch.setChecked(Memory.getBoolean(this, Constant.PREF_COURSE_NOTIFY, false));
 		mNotifyBusSwitch.setChecked(Memory.getBoolean(this, Constant.PREF_BUS_NOTIFY, false));
+		NotificationManager notificationManager =
+				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+				!notificationManager.isNotificationPolicyAccessGranted()) {
+			Memory.setBoolean(this, Constant.PREF_COURSE_VIBRATE, false);
+		}
 		mVibrateCourseSwitch
 				.setChecked(Memory.getBoolean(this, Constant.PREF_COURSE_VIBRATE, false));
 	}
@@ -259,6 +273,19 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 		});
 	}
 
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		super.onActivityResult(requestCode, resultCode, data);
+		if (requestCode == PERMISSION_REQUEST_NOTIFICATION_POLICY_ACCESS_SETTING) {
+			NotificationManager notificationManager =
+					(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+			if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+					notificationManager.isNotificationPolicyAccessGranted()) {
+				setUpCourseVibrate();
+			}
+		}
+	}
+
 	private void setUpCourseVibrate() {
 		mTracker.send(
 				new HitBuilders.EventBuilder().setCategory("vibrate course").setAction("create")
@@ -269,6 +296,28 @@ public class SettingsActivity extends SilentActivity implements View.OnClickList
 						.setLabel(mVibrateCourseSwitch.isChecked() + "").build());
 		if (!mVibrateCourseSwitch.isChecked()) {
 			Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_VIBRATE, false);
+			return;
+		}
+
+		NotificationManager notificationManager =
+				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+				!notificationManager.isNotificationPolicyAccessGranted()) {
+			mVibrateCourseSwitch.setChecked(false);
+			Memory.setBoolean(SettingsActivity.this, Constant.PREF_COURSE_VIBRATE, false);
+			new AlertDialog.Builder(this).setMessage(R.string.course_vibrate_permission)
+					.setPositiveButton(R.string.go_to_settings,
+							new DialogInterface.OnClickListener() {
+
+								@TargetApi(Build.VERSION_CODES.N)
+								@Override
+								public void onClick(DialogInterface dialogInterface, int i) {
+									Intent intent = new Intent(
+											android.provider.Settings.ACTION_NOTIFICATION_POLICY_ACCESS_SETTINGS);
+									startActivityForResult(intent,
+											PERMISSION_REQUEST_NOTIFICATION_POLICY_ACCESS_SETTING);
+								}
+							}).setNegativeButton(R.string.skip, null).show();
 			return;
 		}
 
