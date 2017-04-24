@@ -1,8 +1,11 @@
 package silent.kuasapmaterial;
 
+import android.app.NotificationManager;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.media.AudioManager;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.IBinder;
 import android.os.PowerManager;
@@ -47,6 +50,13 @@ public class CourseVibrateAlarmService extends Service {
 		Boolean isVibrate = bundle.getBoolean("mode", false);
 
 		AudioManager audioManager = (AudioManager) getSystemService(AUDIO_SERVICE);
+		NotificationManager notificationManager =
+				(NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N &&
+				!notificationManager.isNotificationPolicyAccessGranted()) {
+			stopService();
+			return START_STICKY;
+		}
 		if (isVibrate) {
 			Memory.setInt(this, Constant.PREF_COURSE_VIBRATE_USER_SETTING,
 					audioManager.getRingerMode());
