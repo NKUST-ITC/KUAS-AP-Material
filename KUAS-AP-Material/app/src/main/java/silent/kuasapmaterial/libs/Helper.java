@@ -26,6 +26,7 @@ import silent.kuasapmaterial.callback.BusReservationsCallback;
 import silent.kuasapmaterial.callback.CourseCallback;
 import silent.kuasapmaterial.callback.GeneralCallback;
 import silent.kuasapmaterial.callback.LeaveCallback;
+import silent.kuasapmaterial.callback.NewsCallback;
 import silent.kuasapmaterial.callback.NotificationCallback;
 import silent.kuasapmaterial.callback.ScoreCallback;
 import silent.kuasapmaterial.callback.SemesterCallback;
@@ -35,6 +36,7 @@ import silent.kuasapmaterial.models.BusModel;
 import silent.kuasapmaterial.models.CourseModel;
 import silent.kuasapmaterial.models.LeaveModel;
 import silent.kuasapmaterial.models.LeaveSectionsModel;
+import silent.kuasapmaterial.models.NewsModel;
 import silent.kuasapmaterial.models.NotificationModel;
 import silent.kuasapmaterial.models.ScoreDetailModel;
 import silent.kuasapmaterial.models.ScoreModel;
@@ -79,6 +81,7 @@ public class Helper {
 	public static final String BUS_BOOKING_URL = BASE_URL + "/latest/bus/reservations/%s";
 	public static final String NOTIFICATION_URL = BASE_URL + "/latest/notifications/%s";
 	public static final String NEWS_URL = BASE_URL + "/news";
+	public static final String NEWS_ALL_URL = BASE_URL + "/latest/news/all";
 
 	private static void onHelperTimeOut(GeneralCallback callback) {
 		if (callback != null) {
@@ -791,13 +794,39 @@ public class Helper {
 			@Override
 			public void onSuccess(int statusCode, Header[] headers, JSONArray response) {
 				super.onSuccess(statusCode, headers, response);
-				// TODO wait for API update
 				try {
 					Memory.setString(context, Constant.PREF_NEWS_TITLE, response.getString(2));
 					Memory.setString(context, Constant.PREF_NEWS_CONTENT, response.getString(3));
 					Memory.setString(context, Constant.PREF_NEWS_URL, response.getString(4));
 				} catch (JSONException e) {
 					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	public static void getNews(final Context context, final NewsCallback callback) {
+		mClient.get(NEWS_ALL_URL, new JsonHttpResponseHandler() {
+
+			@Override
+			public void onSuccess(int statusCode, Header[] headers, JSONArray jsonArray) {
+				super.onSuccess(statusCode, headers, jsonArray);
+				try {
+					List<NewsModel> modelList = new ArrayList<>();
+					for (int i = 0; i < jsonArray.length(); i++) {
+						NewsModel model = new NewsModel();
+						model.title = jsonArray.getJSONObject(i).getString("news_title");
+						model.image = jsonArray.getJSONObject(i).getString("news_image");
+						model.weight = jsonArray.getJSONObject(i).getString("news_weight");
+						model.url = jsonArray.getJSONObject(i).getString("news_url");
+						model.content = jsonArray.getJSONObject(i).getString("news_content");
+						modelList.add(model);
+					}
+					if (callback != null) {
+						callback.onSuccess(modelList);
+					}
+				} catch (JSONException e) {
+					onHelperFail(context, callback, e);
 				}
 			}
 		});

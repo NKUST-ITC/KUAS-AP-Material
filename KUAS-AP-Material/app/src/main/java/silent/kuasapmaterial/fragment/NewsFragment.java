@@ -8,28 +8,29 @@ import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
+import android.widget.ImageView;
 
 import com.kuas.ap.R;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
 
 import silent.kuasapmaterial.base.SilentFragment;
 import silent.kuasapmaterial.libs.MaterialProgressBar;
 import silent.kuasapmaterial.libs.Utils;
+import silent.kuasapmaterial.models.NewsModel;
 
-public class NewsFragment extends SilentFragment implements View.OnTouchListener {
+public class NewsFragment extends SilentFragment implements View.OnClickListener {
 
     private View view;
 
     Activity activity;
 
-    WebView mWebView;
+    ImageView imageView;
     MaterialProgressBar mMaterialProgressBar;
 
-    String mTitle, mContent, mURL;
+    NewsModel newsModel;
 
     public NewsFragment() {
         // Required empty public constructor
@@ -61,41 +62,35 @@ public class NewsFragment extends SilentFragment implements View.OnTouchListener
     }
 
     private void findView() {
-        mWebView = view.findViewById(R.id.webView);
+        imageView = view.findViewById(R.id.imageView);
         mMaterialProgressBar = view.findViewById(R.id.materialProgressBar);
     }
 
     private void setUpViews() {
-        mWebView.setVisibility(View.GONE);
         mMaterialProgressBar.setVisibility(View.VISIBLE);
 
-        mWebView.setBackgroundColor(0);
-        mWebView.loadDataWithBaseURL("", mContent, "text/html", "UTF-8", "");
-        mWebView.setWebViewClient(new WebViewClient() {
+        imageView.setBackgroundColor(0);
+        ImageLoader.getInstance().displayImage(newsModel.image, imageView,new SimpleImageLoadingListener(){
 
             @Override
-            public void onPageFinished(WebView view, String url) {
-                super.onPageFinished(view, url);
-                if (getActivity().isFinishing()) {
-                    return;
-                }
-                mWebView.setVisibility(View.VISIBLE);
+            public void onLoadingComplete(String imageUri, View view,
+                                          Bitmap loadedImage) {
+                super.onLoadingComplete(imageUri, view, loadedImage);
+                imageView.setImageBitmap(loadedImage);
                 mMaterialProgressBar.setVisibility(View.GONE);
             }
         });
-        //mWebView.setOnTouchListener(this);
+        imageView.setOnClickListener(this);
     }
 
-    public void setData(String mTitle, String mContent, String mURL) {
-        this.mTitle = mTitle;
-        this.mContent = mContent;
-        this.mURL = mURL;
+    public void setData(NewsModel newsModel) {
+        this.newsModel = newsModel;
     }
 
     @Override
-    public boolean onTouch(View view, MotionEvent motionEvent) {
-        if (view.getId() == R.id.webView && motionEvent.getAction() == MotionEvent.ACTION_DOWN){
-            String shareData = mTitle + "\n" + mURL +
+    public void onClick(View view) {
+        if (view.getId() == R.id.imageView) {
+            String shareData = newsModel.title + "\n" + newsModel.url +
                     "\n\n" + getString(R.string.send_from);
             CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
             Bitmap icon =
@@ -104,8 +99,7 @@ public class NewsFragment extends SilentFragment implements View.OnTouchListener
                     Utils.createSharePendingIntent(activity, shareData));
             builder.setToolbarColor(ContextCompat.getColor(activity, R.color.main_theme));
             CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(activity, Uri.parse(mURL));
+            customTabsIntent.launchUrl(activity, Uri.parse(newsModel.url));
         }
-        return false;
     }
 }

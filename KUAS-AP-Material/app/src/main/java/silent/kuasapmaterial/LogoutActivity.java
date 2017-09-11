@@ -21,11 +21,16 @@ import java.util.List;
 
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.callback.NewsCallback;
 import silent.kuasapmaterial.fragment.NewsFragment;
 import silent.kuasapmaterial.libs.Constant;
+import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.Memory;
 import silent.kuasapmaterial.libs.NewsPagerTransformer;
 import silent.kuasapmaterial.libs.Utils;
+import silent.kuasapmaterial.models.NewsModel;
+
+import static com.kuas.ap.R.string.news;
 
 public class LogoutActivity extends SilentActivity {
 
@@ -35,6 +40,8 @@ public class LogoutActivity extends SilentActivity {
     List<NewsFragment> fragments = new ArrayList<>();
 
     BottomNavigationView navigation;
+
+    List<NewsModel> newsList = new ArrayList<>();
 
     String mTitle, mContent, mURL;
     Boolean hasNews, isBusSaved;
@@ -53,13 +60,13 @@ public class LogoutActivity extends SilentActivity {
         } else {
             setContentView(R.layout.activity_logout_news);
         }
-        init(R.string.news, R.layout.activity_logout);
+        init(news, R.layout.activity_logout);
 
         initGA("Logout Screen");
         restoreArgs(savedInstanceState);
         setUpBusNotify();
         findViews();
-        setUpViews();
+        getNews();
     }
 
     private void restoreArgs(Bundle savedInstanceState) {
@@ -130,7 +137,7 @@ public class LogoutActivity extends SilentActivity {
     private void setUpViews() {
         viewPager.setPageTransformer(false, new NewsPagerTransformer(this));
 
-        for (int i = 0; i < 10; i++) {
+        for (int i = 0; i < newsList.size(); i++) {
             // 预先准备10个fragment
             fragments.add(new NewsFragment());
         }
@@ -138,13 +145,13 @@ public class LogoutActivity extends SilentActivity {
             @Override
             public Fragment getItem(int position) {
                 NewsFragment fragment = fragments.get(position);
-                fragment.setData(mTitle, mContent, mURL);
+                fragment.setData(newsList.get(position));
                 return fragment;
             }
 
             @Override
             public int getCount() {
-                return fragments.size();
+                return newsList.size();
             }
         });
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
@@ -189,8 +196,20 @@ public class LogoutActivity extends SilentActivity {
 
     @SuppressLint("DefaultLocale")
     private void updateView() {
-        mTitleTextView.setText(mTitle);
-        mPositionTextView.setText(String.format("%02d", viewPager.getCurrentItem() + 1));
+        String format = viewPager.getAdapter().getCount() >= 10 ? "%02d" : "%d";
+        mTitleTextView.setText(newsList.get(viewPager.getCurrentItem()).title);
+        mPositionTextView.setText(String.format(format, viewPager.getCurrentItem() + 1));
         mTotalTextView.setText(String.format(" / %d", viewPager.getAdapter().getCount()));
+    }
+
+    public void getNews() {
+        Helper.getNews(this, new NewsCallback() {
+            @Override
+            public void onSuccess(List<NewsModel> modelList) {
+                super.onSuccess(modelList);
+                newsList = modelList;
+                setUpViews();
+            }
+        });
     }
 }
