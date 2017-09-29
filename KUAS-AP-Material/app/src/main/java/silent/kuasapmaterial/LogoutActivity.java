@@ -39,6 +39,8 @@ public class LogoutActivity extends SilentActivity {
     ViewPager viewPager;
     List<NewsFragment> fragments = new ArrayList<>();
 
+    NewsPagerTransformer transformer;
+
     BottomNavigationView navigation;
 
     List<NewsModel> newsList = new ArrayList<>();
@@ -135,10 +137,9 @@ public class LogoutActivity extends SilentActivity {
     }
 
     private void setUpViews() {
-        viewPager.setPageTransformer(false, new NewsPagerTransformer(this));
-
+        transformer = new NewsPagerTransformer(this);
+        viewPager.setPageTransformer(false, transformer);
         for (int i = 0; i < newsList.size(); i++) {
-            // 预先准备10个fragment
             fragments.add(new NewsFragment());
         }
         viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {

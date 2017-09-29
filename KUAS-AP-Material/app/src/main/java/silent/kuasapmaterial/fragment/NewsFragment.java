@@ -14,7 +14,8 @@ import android.widget.ImageView;
 
 import com.kuas.ap.R;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.listener.SimpleImageLoadingListener;
+import com.nostra13.universalimageloader.core.assist.FailReason;
+import com.nostra13.universalimageloader.core.listener.ImageLoadingListener;
 
 import silent.kuasapmaterial.base.SilentFragment;
 import silent.kuasapmaterial.libs.MaterialProgressBar;
@@ -70,16 +71,32 @@ public class NewsFragment extends SilentFragment implements View.OnClickListener
         mMaterialProgressBar.setVisibility(View.VISIBLE);
 
         imageView.setBackgroundColor(0);
-        ImageLoader.getInstance().displayImage(newsModel.image, imageView,new SimpleImageLoadingListener(){
+        if (imageView == null) return;
+        ImageLoader.getInstance().displayImage(newsModel.image, imageView, Utils.getDefaultDisplayImageOptions(),
+                new ImageLoadingListener() {
 
-            @Override
-            public void onLoadingComplete(String imageUri, View view,
-                                          Bitmap loadedImage) {
-                super.onLoadingComplete(imageUri, view, loadedImage);
-                imageView.setImageBitmap(loadedImage);
-                mMaterialProgressBar.setVisibility(View.GONE);
-            }
-        });
+                    @Override
+                    public void onLoadingStarted(String imageUri, View view) {
+
+                    }
+
+                    @Override
+                    public void onLoadingFailed(String imageUri, View view,
+                                                FailReason failReason) {
+                        //mDetailView.setVisibility(View.VISIBLE);
+                    }
+
+                    @Override
+                    public void onLoadingComplete(String imageUri, View view,
+                                                  Bitmap loadedImage) {
+                        mMaterialProgressBar.setVisibility(View.GONE);
+                    }
+
+                    @Override
+                    public void onLoadingCancelled(String imageUri, View view) {
+
+                    }
+                });
         imageView.setOnClickListener(this);
     }
 
