@@ -54,7 +54,26 @@ public class NewsFragment extends SilentFragment implements View.OnClickListener
     }
 
     private void restoreArgs(Bundle savedInstanceState) {
+        if (savedInstanceState != null) {
+            newsModel = new NewsModel();
+            newsModel.image = savedInstanceState.getString("newsImage");
+            newsModel.url = savedInstanceState.getString("newsUrl");
+            newsModel.title = savedInstanceState.getString("newsTitle");
+            newsModel.content = savedInstanceState.getString("newsContent");
+            newsModel.weight = savedInstanceState.getInt("newsWeight");
+        }
+    }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        if (newsModel != null) {
+            outState.putString("newsImage", newsModel.image);
+            outState.putString("newsUrl", newsModel.url);
+            outState.putString("newsTitle", newsModel.title);
+            outState.putString("newsContent", newsModel.content);
+            outState.putInt("newsWeight", newsModel.weight);
+        }
     }
 
     @Override

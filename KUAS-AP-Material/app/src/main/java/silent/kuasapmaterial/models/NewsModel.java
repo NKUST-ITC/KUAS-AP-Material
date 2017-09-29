@@ -8,7 +8,7 @@ public class NewsModel {
 
     public String title;
     public String image;
-    public String weight;
+    public int weight;
     public String url;
     public String content;
 }

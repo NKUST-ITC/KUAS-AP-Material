@@ -817,7 +817,7 @@ public class Helper {
 						NewsModel model = new NewsModel();
 						model.title = jsonArray.getJSONObject(i).getString("news_title");
 						model.image = jsonArray.getJSONObject(i).getString("news_image");
-						model.weight = jsonArray.getJSONObject(i).getString("news_weight");
+						model.weight = jsonArray.getJSONObject(i).getInt("news_weight");
 						model.url = jsonArray.getJSONObject(i).getString("news_url");
 						model.content = jsonArray.getJSONObject(i).getString("news_content");
 						modelList.add(model);
