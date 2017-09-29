@@ -28,6 +28,11 @@
 	<color name="mdtp_accent_color">@color/accent</color>
 	<color name="mdtp_accent_color_dark">@color/main_theme</color>
 
+	<color name="blue">#2574ff</color>
+	<color name="grey">#7c7c7c</color>
+	<color name="yellow">#ffba00</color>
+	<color name="red">#ff4a5a</color>
+
 	<!-- google's material design colours from
 	http://www.google.com/design/spec/style/color.html#color-ui-color-palette -->
 
