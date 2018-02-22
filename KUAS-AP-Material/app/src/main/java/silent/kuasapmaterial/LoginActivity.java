@@ -46,7 +46,7 @@ public class LoginActivity extends SilentActivity
 	TextInputLayout mIdTextInputLayout, mPasswordTextInputLayout;
 	EditText mIdEditText, mPasswordEditText;
 	ImageView dot_ap, dot_leave, dot_bus;
-	CheckBox mRememberCheckBox;
+	CheckBox mRememberCheckBox,mKeepLoginCheckBox;
 	TextView mVersionTextView;
 	Button mLoginButton;
 
@@ -180,6 +180,7 @@ public class LoginActivity extends SilentActivity
 
 		mVersionTextView = (TextView) findViewById(R.id.textView_version);
 		mRememberCheckBox = (CheckBox) findViewById(R.id.checkbox_remember);
+		mKeepLoginCheckBox = (CheckBox) findViewById(R.id.checkbox_keep_login);
 
 		mLoginButton = (Button) findViewById(R.id.button_login);
 	}
@@ -204,9 +205,13 @@ public class LoginActivity extends SilentActivity
 				e.printStackTrace();
 			}
 		}
-
+		if( Memory.getBoolean(this, Constant.PREF_KEEP_LOGIN, false)){
+			login();
+		}
 		mRememberCheckBox
 				.setChecked(Memory.getBoolean(this, Constant.PREF_REMEMBER_PASSWORD, true));
+		mKeepLoginCheckBox
+				.setChecked(Memory.getBoolean(this, Constant.PREF_KEEP_LOGIN, false));
 		mRememberCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
 
 			@Override
@@ -317,6 +322,7 @@ public class LoginActivity extends SilentActivity
 					e.printStackTrace();
 				}
 				Memory.setBoolean(LoginActivity.this, Constant.PREF_IS_LOGIN, true);
+				Memory.setBoolean(LoginActivity.this, Constant.PREF_KEEP_LOGIN, mKeepLoginCheckBox.isChecked());
 				Crashlytics.setUserName(id);
 				startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
 			}

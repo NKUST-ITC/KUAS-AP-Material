@@ -25,6 +25,7 @@
 	<string name="id_hint">Student ID</string>
 	<string name="password_hint">Password</string>
 	<string name="remember_password">Remember</string>
+	<string name="keep_login">Keep login</string>
 	<string name="version">v.%s</string>
 	<string name="login_ing">Logging&#8230;</string>
 	<string name="call_phone_title">Call this number</string>

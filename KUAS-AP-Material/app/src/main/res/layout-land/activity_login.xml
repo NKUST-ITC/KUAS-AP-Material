@@ -185,18 +185,27 @@
 						android:textColor="@color/white_text"
 						android:textSize="@dimen/text_subhead"/>
 
+					<CheckBox
+						android:id="@+id/checkbox_remember"
+						android:layout_width="wrap_content"
+						android:layout_height="wrap_content"
+						android:minWidth="250dp"
+						android:checked="true"
+						android:text="@string/remember_password"
+						android:textColor="@color/black_text"/>
+
 					<LinearLayout
 						android:layout_width="wrap_content"
 						android:layout_height="wrap_content"
 						android:minWidth="250dp">
 
 						<CheckBox
-							android:id="@+id/checkbox_remember"
+							android:id="@+id/checkbox_keep_login"
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:layout_weight="1"
 							android:checked="true"
-							android:text="@string/remember_password"
+							android:text="@string/keep_login"
 							android:textColor="@color/black_text"/>
 
 						<TextView

@@ -169,6 +169,7 @@ public class LogoutActivity extends SilentActivity implements View.OnClickListen
 			CustomTabsIntent customTabsIntent = builder.build();
 			customTabsIntent.launchUrl(this, Uri.parse(mURL));
 		} else if (v.getId() == R.id.button_logout) {
+			Memory.setBoolean(this, Constant.PREF_KEEP_LOGIN, false);
 			mTracker.send(new HitBuilders.EventBuilder().setCategory("logout").setAction("click")
 					.build());
 			clearUserData();
