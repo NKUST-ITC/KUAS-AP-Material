@@ -1,180 +1,216 @@
 package silent.kuasapmaterial;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
-import android.view.View;
-import android.webkit.WebView;
-import android.webkit.WebViewClient;
-import android.widget.Button;
+import android.support.annotation.NonNull;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
+import silent.kuasapmaterial.callback.NewsCallback;
+import silent.kuasapmaterial.fragment.NewsFragment;
 import silent.kuasapmaterial.libs.Constant;
-import silent.kuasapmaterial.libs.MaterialProgressBar;
+import silent.kuasapmaterial.libs.Helper;
 import silent.kuasapmaterial.libs.Memory;
+import silent.kuasapmaterial.libs.NewsPagerTransformer;
 import silent.kuasapmaterial.libs.Utils;
+import silent.kuasapmaterial.models.NewsModel;
 
-public class LogoutActivity extends SilentActivity implements View.OnClickListener {
+import static com.kuas.ap.R.string.news;
 
-	TextView mTitleTextView;
-	WebView mWebView;
-	MaterialProgressBar mMaterialProgressBar;
-	Button mLogoutButton, mOpenUrlButton;
+public class LogoutActivity extends SilentActivity {
 
-	String mTitle, mContent, mURL;
-	Boolean hasNews, isBusSaved;
+    TextView mTitleTextView, mPositionTextView, mTotalTextView;
 
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+    ViewPager viewPager;
+    List<NewsFragment> fragments = new ArrayList<>();
 
-		mTitle = Memory.getString(this, Constant.PREF_NEWS_TITLE, "");
-		mContent = Memory.getString(this, Constant.PREF_NEWS_CONTENT, "");
-		mURL = Memory.getString(this, Constant.PREF_NEWS_URL, "");
-		hasNews = mContent.length() > 0;
+    NewsPagerTransformer transformer;
 
-		if (mContent.length() == 0) {
-			setContentView(R.layout.activity_logout);
-		} else {
-			setContentView(R.layout.activity_logout_news);
-		}
-		init(R.string.news, R.layout.activity_logout);
+    BottomNavigationView navigation;
 
-		initGA("Logout Screen");
-		restoreArgs(savedInstanceState);
-		setUpBusNotify();
-		findViews();
-		setUpViews();
-	}
+    List<NewsModel> newsList = new ArrayList<>();
 
-	private void restoreArgs(Bundle savedInstanceState) {
-		isBusSaved = savedInstanceState != null && savedInstanceState.getBoolean("isBusSaved");
-	}
+    String mTitle, mContent, mURL;
+    Boolean hasNews, isBusSaved;
 
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-		outState.putBoolean("isBusSaved", isBusSaved);
-	}
+        mTitle = Memory.getString(this, Constant.PREF_NEWS_TITLE, "");
+        mContent = Memory.getString(this, Constant.PREF_NEWS_CONTENT, "");
+        mURL = Memory.getString(this, Constant.PREF_NEWS_URL, "");
+        hasNews = mContent.length() > 0;
 
-	private void setUpBusNotify() {
-		if (!Memory.getBoolean(this, Constant.PREF_BUS_NOTIFY, false) || isBusSaved) {
-			return;
-		}
-		final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
-		progressDialog.show();
-		Utils.setUpBusNotify(this, new GeneralCallback() {
+        if (mContent.length() == 0) {
+            setContentView(R.layout.activity_logout);
+        } else {
+            setContentView(R.layout.activity_logout_news);
+        }
+        init(news, R.layout.activity_logout);
 
-			@Override
-			public void onTokenExpired() {
-				super.onTokenExpired();
-				if (isFinishing()) {
-					return;
-				}
-				progressDialog.dismiss();
-			}
+        initGA("Logout Screen");
+        restoreArgs(savedInstanceState);
+        setUpBusNotify();
+        findViews();
+        getNews();
+    }
 
-			@Override
-			public void onFail(String errorMessage) {
-				super.onFail(errorMessage);
-				if (isFinishing()) {
-					return;
-				}
-				mTracker.send(
-						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
-								.setLabel("fail " + errorMessage).build());
-				progressDialog.dismiss();
-			}
+    private void restoreArgs(Bundle savedInstanceState) {
+        isBusSaved = savedInstanceState != null && savedInstanceState.getBoolean("isBusSaved");
+    }
 
-			@Override
-			public void onSuccess() {
-				super.onSuccess();
-				isBusSaved = true;
-				if (isFinishing()) {
-					return;
-				}
-				mTracker.send(
-						new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
-								.setLabel("success").build());
-				progressDialog.dismiss();
-			}
-		});
-	}
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
 
-	private void findViews() {
-		if (hasNews) {
-			mTitleTextView = (TextView) findViewById(R.id.textView_title);
-			mWebView = (WebView) findViewById(R.id.webView);
-			mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
-			mOpenUrlButton = (Button) findViewById(R.id.button_openUrl);
-		}
-		mLogoutButton = (Button) findViewById(R.id.button_logout);
-	}
+        outState.putBoolean("isBusSaved", isBusSaved);
+    }
 
-	private void setUpViews() {
-		if (hasNews) {
-			mWebView.setVisibility(View.GONE);
-			mMaterialProgressBar.setVisibility(View.VISIBLE);
+    private void setUpBusNotify() {
+        if (!Memory.getBoolean(this, Constant.PREF_BUS_NOTIFY, false) || isBusSaved) {
+            return;
+        }
+        final Dialog progressDialog = Utils.createLoadingDialog(this, R.string.loading);
+        progressDialog.show();
+        Utils.setUpBusNotify(this, new GeneralCallback() {
 
-			mTitleTextView.setText(mTitle);
-			mWebView.setBackgroundColor(0);
-			mWebView.loadDataWithBaseURL("", mContent, "text/html", "UTF-8", "");
-			mWebView.setWebViewClient(new WebViewClient() {
+            @Override
+            public void onTokenExpired() {
+                super.onTokenExpired();
+                if (isFinishing()) {
+                    return;
+                }
+                progressDialog.dismiss();
+            }
 
-				@Override
-				public void onPageFinished(WebView view, String url) {
-					super.onPageFinished(view, url);
-					if (isFinishing()) {
-						return;
-					}
-					mWebView.setVisibility(View.VISIBLE);
-					mMaterialProgressBar.setVisibility(View.GONE);
-				}
-			});
+            @Override
+            public void onFail(String errorMessage) {
+                super.onFail(errorMessage);
+                if (isFinishing()) {
+                    return;
+                }
+                mTracker.send(
+                        new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
+                                .setLabel("fail " + errorMessage).build());
+                progressDialog.dismiss();
+            }
 
-			if (mURL.length() > 0 && mURL.startsWith("http")) {
-				mOpenUrlButton.setOnClickListener(this);
-				mOpenUrlButton.setVisibility(View.VISIBLE);
-			} else {
-				mOpenUrlButton.setVisibility(View.GONE);
-			}
-		}
-		mLogoutButton.setOnClickListener(this);
-	}
+            @Override
+            public void onSuccess() {
+                super.onSuccess();
+                isBusSaved = true;
+                if (isFinishing()) {
+                    return;
+                }
+                mTracker.send(
+                        new HitBuilders.EventBuilder().setCategory("notify bus").setAction("status")
+                                .setLabel("success").build());
+                progressDialog.dismiss();
+            }
+        });
+    }
 
-	@Override
-	public void onClick(View v) {
-		if (v.getId() == R.id.button_openUrl) {
-			mTracker.send(new HitBuilders.EventBuilder().setCategory("open url").setAction("click")
-					.build());
-			String shareData = mTitle + "\n" + mURL +
-					"\n\n" + getString(R.string.send_from);
-			CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-			Bitmap icon =
-					BitmapFactory.decodeResource(getResources(), R.drawable.ic_share_white_24dp);
-			builder.setActionButton(icon, getString(R.string.share),
-					Utils.createSharePendingIntent(this, shareData));
-			builder.setToolbarColor(ContextCompat.getColor(this, R.color.main_theme));
-			CustomTabsIntent customTabsIntent = builder.build();
-			customTabsIntent.launchUrl(this, Uri.parse(mURL));
-		} else if (v.getId() == R.id.button_logout) {
-			Memory.setBoolean(this, Constant.PREF_KEEP_LOGIN, false);
-			mTracker.send(new HitBuilders.EventBuilder().setCategory("logout").setAction("click")
-					.build());
-			clearUserData();
-			startActivity(new Intent(this, LoginActivity.class));
-			finish();
-		}
-	}
+    private void findViews() {
+        if (hasNews) {
+            viewPager = (ViewPager) findViewById(R.id.viewPager_news);
+            mTitleTextView = (TextView) findViewById(R.id.textView_title);
+            mPositionTextView = (TextView) findViewById(R.id.textView_position);
+            mTotalTextView = (TextView) findViewById(R.id.textView_total);
+        }
+        navigation = (BottomNavigationView) findViewById(R.id.navigation);
+    }
+
+    private void setUpViews() {
+        transformer = new NewsPagerTransformer(this);
+        viewPager.setPageTransformer(false, transformer);
+        for (int i = 0; i < newsList.size(); i++) {
+            fragments.add(new NewsFragment());
+        }
+        viewPager.setAdapter(new FragmentStatePagerAdapter(getSupportFragmentManager()) {
+            @Override
+            public Fragment getItem(int position) {
+                NewsFragment fragment = fragments.get(position);
+                fragment.setData(newsList.get(position));
+                return fragment;
+            }
+
+            @Override
+            public int getCount() {
+                return newsList.size();
+            }
+        });
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                updateView();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        updateView();
+        navigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                boolean isLogin = Memory.getBoolean(LogoutActivity.this, Constant.PREF_IS_LOGIN, false);
+                if (isLogin) {
+                    if (menuItem.getItemId() == R.id.nav_bus) {
+                        startActivity(new Intent(LogoutActivity.this, BusActivity.class));
+                    } else if (menuItem.getItemId() == R.id.nav_course) {
+                        startActivity(new Intent(LogoutActivity.this, CourseActivity.class));
+                    } else if (menuItem.getItemId() == R.id.nav_score) {
+                        startActivity(new Intent(LogoutActivity.this, ScoreActivity.class));
+                    }
+                    if (mLayoutID != R.layout.activity_logout && mLayoutID != R.layout.activity_login) {
+                        finish();
+                    }
+                } else {
+                    Toast.makeText(LogoutActivity.this, R.string.login_first, Toast.LENGTH_SHORT).show();
+                    return false;
+                }
+                return false;
+            }
+        });
+    }
+
+    @SuppressLint("DefaultLocale")
+    private void updateView() {
+        String format = viewPager.getAdapter().getCount() >= 10 ? "%02d" : "%d";
+        mTitleTextView.setText(newsList.get(viewPager.getCurrentItem()).title);
+        mPositionTextView.setText(String.format(format, viewPager.getCurrentItem() + 1));
+        mTotalTextView.setText(String.format(" / %d", viewPager.getAdapter().getCount()));
+    }
+
+    public void getNews() {
+        Helper.getNews(this, new NewsCallback() {
+            @Override
+            public void onSuccess(List<NewsModel> modelList) {
+                super.onSuccess(modelList);
+                newsList = modelList;
+                setUpViews();
+            }
+        });
+    }
 }

@@ -1,145 +1,144 @@
 <resources>
-	<string name="app_name">KUAS AP</string>
+    <string name="app_name">KUAS AP</string>
 
-	<string name="update_note_title">Update Notes %s</string>
-	<string name="update_note_content">更新：\n　105 學年度第 2 學期行事曆</string>
+    <string name="update_note_title">Update Notes %s</string>
+    <string name="update_note_content">Update：\n　 - New Schedule provide by Firebase\n　 - Redesign News page, Add recommended shortcuts</string>
 
-	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
-	<string name="share">Share</string>
-	<string name="teacher_confirm_title">Are you a teacher?</string>
-	<string name="teacher_confirm_content">This App only for students!</string>
-	<string name="continue_to_use">Continue</string>
-	<string name="logout">Logout</string>
-	<string name="click_to_view">View</string>
-	<string name="login_success">Login success,\nclick menu to view.</string>
-	<string name="something_error">Error Occurred.</string>
-	<string name="timeout_message">Try again later, Connection Timeout</string>
-	<string name="login_first">Please login</string>
-	<string name="logout_check">Are you sure you want to log out?</string>
-	<string name="login">Login</string>
-	<string name="dot_ap">AP</string>
-	<string name="dot_leave">Leave</string>
-	<string name="dot_bus">Bus</string>
-	<string name="schedule">Events</string>
-	<string name="loading">Loading&#8230;</string>
-	<string name="id_hint">Student ID</string>
-	<string name="password_hint">Password</string>
-	<string name="remember_password">Remember</string>
-	<string name="keep_login">Keep login</string>
-	<string name="version">v.%s</string>
-	<string name="login_ing">Logging&#8230;</string>
-	<string name="call_phone_title">Call this number</string>
-	<string name="call_phone_content">Are you sure to call \"%s\"?</string>
-	<string name="call_phone">Call</string>
-	<string name="determine">Yes</string>
-	<string name="cancel">No</string>
-	<string name="add_cal_content">Are you sure to add \"%s\" to your calendar?</string>
-	<string name="click_to_retry">An error occurred, click to retry</string>
-	<string name="bus_pick_date">Chosen Date: %s</string>
-	<string name="bus_not_pick_date">Chosen Date</string>
-	<string name="bus_count" formatted="false">(%s / %s)</string>
-	<string name="bus_jiangong_reservations">To YanChao, Scheduled date：</string>
-	<string name="bus_yanchao_reservations">To JianGong, Scheduled date：</string>
-	<string name="bus_jiangong">To YanChao, Departure time：</string>
-	<string name="bus_yanchao">To JianGong, Departure time：</string>
-	<string name="bus_jiangong_reserved">√ To YanChao, Departure time：</string>
-	<string name="bus_yanchao_reserved">√ To JianGong, Departure time：</string>
-	<string name="back">Back</string>
-	<string name="bus_reserve">Bus Reservation</string>
-	<string name="bus_cancel_reserve">Cancel Bus Reservation</string>
-	<string name="bus_reserve_confirm_title"><b>Reserve</b> this bus?</string>
-	<string name="bus_reserve_confirm_content" formatted="false">Are you sure to reserve a seat from %s at %s ?</string>
-	<string name="bus_cancel_reserve_confirm_title"><b>Cancel</b> this reservation?</string>
-	<string name="bus_cancel_reserve_confirm_content" formatted="false">Are you sure to cancel a seat from %s at %s ?</string>
-	<string name="bus_from_jiangong">JianGong to YanChao</string>
-	<string name="bus_from_yanchao">YanChao to JianGong</string>
-	<string name="bus_reserve_success">Successfully Reserved!</string>
-	<string name="bus_cancel_reserve_success">Successfully Canceled!</string>
-	<string name="bus_no_reservation">Oops! You haven\'t reserved any bus~\n Ride public transport to save the Earth %s</string>
-	<string name="bus_no_bus">Oops! No bus today~\n Please choose another date %s</string>
-	<string name="course_no_course">Oops! No class for this semester~\n Please choose another semester %s</string>
-	<string name="bus_reserve_fail_title">Oops Book Fail</string>
-	<string name="ok">OK</string>
-	<string name="course_dialog_messages" formatted="false">Class：%s\nProfessor：%s\nLocation：%s\nTime：%s</string>
-	<string name="course_dialog_title">Class Info</string>
-	<string name="course_holiday">Rotate Screen to see weekend schedule %s</string>
-	<string name="no_internet">No internet connection</string>
-	<string name="setting_internet">Internet Settings</string>
-	<string name="score_no_score">Oops! No record for this semester~\nPlease choose another semester %s</string>
-	<string name="leave_night">Rotate screen to see night school absent record and day of week %s</string>
-	<string name="leave_no_leave">Oops! No absent record for this semester~\nPlease choose another semester %s</string>
-	<string name="token_expired_title">Re-login Required</string>
-	<string name="token_expired_content">Cookie has expired, please re-login!</string>
-	<string name="update_content">Update available for KUAS AP!</string>
-	<string name="update_title">Updated</string>
-	<string name="update">Update</string>
-	<string name="function_not_open">Coming Soon~\nDonate to use this feature now!</string>
-	<string name="beta_function">This is a beta version, please report a bug if an error
+    <string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
+    <string name="share">Share</string>
+    <string name="teacher_confirm_title">Are you a teacher?</string>
+    <string name="teacher_confirm_content">This App only for students!</string>
+    <string name="continue_to_use">Continue</string>
+    <string name="logout">Logout</string>
+    <string name="click_to_view">View</string>
+    <string name="login_success">Login success,\nclick menu to view.</string>
+    <string name="something_error">Error Occurred.</string>
+    <string name="timeout_message">Try again later, Connection Timeout</string>
+    <string name="login_first">Please login</string>
+    <string name="logout_check">Are you sure you want to log out?</string>
+    <string name="login">Login</string>
+    <string name="dot_ap">AP</string>
+    <string name="dot_leave">Leave</string>
+    <string name="dot_bus">Bus</string>
+    <string name="schedule">Events</string>
+    <string name="loading">Loading&#8230;</string>
+    <string name="id_hint">Student ID</string>
+    <string name="password_hint">Password</string>
+    <string name="remember_password">Remember</string>
+	  <string name="keep_login">Keep login</string>
+    <string name="version">v.%s</string>
+    <string name="login_ing">Logging&#8230;</string>
+    <string name="call_phone_title">Call this number</string>
+    <string name="call_phone_content">Are you sure to call \"%s\"?</string>
+    <string name="call_phone">Call</string>
+    <string name="determine">Yes</string>
+    <string name="cancel">No</string>
+    <string name="add_cal_content">Are you sure to add \"%s\" to your calendar?</string>
+    <string name="click_to_retry">An error occurred, click to retry</string>
+    <string name="bus_pick_date">Chosen Date: %s</string>
+    <string name="bus_not_pick_date">Chosen Date</string>
+    <string name="bus_count" formatted="false">(%s / %s)</string>
+    <string name="bus_jiangong_reservations">To YanChao, Scheduled date：</string>
+    <string name="bus_yanchao_reservations">To JianGong, Scheduled date：</string>
+    <string name="bus_jiangong">To YanChao, Departure time：</string>
+    <string name="bus_yanchao">To JianGong, Departure time：</string>
+    <string name="bus_jiangong_reserved">√ To YanChao, Departure time：</string>
+    <string name="bus_yanchao_reserved">√ To JianGong, Departure time：</string>
+    <string name="back">Back</string>
+    <string name="bus_reserve">Bus Reservation</string>
+    <string name="bus_cancel_reserve">Cancel Bus Reservation</string>
+    <string name="bus_reserve_confirm_title"><b>Reserve</b> this bus?</string>
+    <string name="bus_reserve_confirm_content" formatted="false">Are you sure to reserve a seat from %s at %s ?</string>
+    <string name="bus_cancel_reserve_confirm_title"><b>Cancel</b> this reservation?</string>
+    <string name="bus_cancel_reserve_confirm_content" formatted="false">Are you sure to cancel a seat from %s at %s ?</string>
+    <string name="bus_from_jiangong">JianGong to YanChao</string>
+    <string name="bus_from_yanchao">YanChao to JianGong</string>
+    <string name="bus_reserve_success">Successfully Reserved!</string>
+    <string name="bus_cancel_reserve_success">Successfully Canceled!</string>
+    <string name="bus_no_reservation">Oops! You haven\'t reserved any bus~\n Ride public transport to save the Earth %s</string>
+    <string name="bus_no_bus">Oops! No bus today~\n Please choose another date %s</string>
+    <string name="course_no_course">Oops! No class for this semester~\n Please choose another semester %s</string>
+    <string name="bus_reserve_fail_title">Oops Book Fail</string>
+    <string name="ok">OK</string>
+    <string name="course_dialog_messages" formatted="false">Class：%s\nProfessor：%s\nLocation：%s\nTime：%s</string>
+    <string name="course_dialog_title">Class Info</string>
+    <string name="course_holiday">Rotate Screen to see weekend schedule %s</string>
+    <string name="no_internet">No internet connection</string>
+    <string name="setting_internet">Internet Settings</string>
+    <string name="score_no_score">Oops! No record for this semester~\nPlease choose another semester %s</string>
+    <string name="leave_night">Rotate screen to see night school absent record and day of week %s</string>
+    <string name="leave_no_leave">Oops! No absent record for this semester~\nPlease choose another semester %s</string>
+    <string name="token_expired_title">Re-login Required</string>
+    <string name="token_expired_content">Cookie has expired, please re-login!</string>
+    <string name="update_content">Update available for KUAS AP!</string>
+    <string name="update_title">Updated</string>
+    <string name="update">Update</string>
+    <string name="function_not_open">Coming Soon~\nDonate to use this feature now!</string>
+    <string name="beta_function">This is a beta version, please report a bug if an error
 		occurred!</string>
-	<string name="bus_not_pick">You have not chosen a date!\n Please choose a date first %s</string>
-	<string name="easter_egg_juke">This is not an easter egg</string>
-	<string name="skip">Skip</string>
-	<string name="share_to">Share to…</string>
-	<string name="send_from">Sent from KUAS AP Android</string>
-	<string name="donate_title">Donate</string>
-	<string name="donate_content">Help and support the programmer\nto use new features!</string>
-	<string name="donate_error">Oops!Something went wrong :(\nGO to Google Play\n search for KUAS AP
+    <string name="bus_not_pick">You have not chosen a date!\n Please choose a date first %s</string>
+    <string name="easter_egg_juke">This is not an easter egg</string>
+    <string name="skip">Skip</string>
+    <string name="share_to">Share to…</string>
+    <string name="send_from">Sent from KUAS AP Android</string>
+    <string name="donate_title">Donate</string>
+    <string name="donate_content">Help and support the programmer\nto use new features!</string>
+    <string name="donate_error">Oops!Something went wrong :(\nGO to Google Play\n search for KUAS AP
 		Donate \n to support the author!</string>
-	<string name="bus_notify_hint">Reminder will pop up 30 mins before reserved bus !\nIf you
+    <string name="bus_notify_hint">Reminder will pop up 30 mins before reserved bus !\nIf you
 		reserved or canceled the seat via website, please restart the app.</string>
-	<string name="bus_notify_content" formatted="false">You\'ve got a bus departing at %s from %s!</string>
-	<string name="bus_notify_jiangong">JianGong</string>
-	<string name="bus_notify_yanchao">YanChao</string>
-	<string name="course_vibrate_hint">Will turn on silent mode during class, turn back to normal mode after class!</string>
-	<string name="course_vibrate_permission">Need "Do Not Disturb access" to auto mute.</string>
-	<string name="course_notify_hint">Reminder will pop up 10mins before class starts!</string>
-	<string name="course_notify_content" formatted="false">Class %s will be at room %s!</string>
-	<string name="course_notify_unknown">Outerspace~</string>
-	<string name="calender_app_not_found">Can\'t found any calender apps.</string>
-	<string name="go_to_settings">Settings</string>
+    <string name="bus_notify_content" formatted="false">You\'ve got a bus departing at %s from %s!</string>
+    <string name="bus_notify_jiangong">JianGong</string>
+    <string name="bus_notify_yanchao">YanChao</string>
+    <string name="course_vibrate_hint">Will turn on silent mode during class, turn back to normal mode after class!</string>
+    <string name="course_vibrate_permission">Need "Do Not Disturb access" to auto mute.</string>
+    <string name="course_notify_hint">Reminder will pop up 10mins before class starts!</string>
+    <string name="course_notify_content" formatted="false">Class %s will be at room %s!</string>
+    <string name="course_notify_unknown">Outerspace~</string>
+    <string name="calender_app_not_found">Can\'t found any calender apps.</string>
+    <string name="go_to_settings">Settings</string>
 
-	<string name="education_system">Scheme</string>
-	<string name="department">Department</string>
-	<string name="student_class">Class</string>
-	<string name="student_id">Student ID</string>
-	<string name="student_name_cht">Name</string>
+    <string name="education_system">Scheme</string>
+    <string name="department">Department</string>
+    <string name="student_class">Class</string>
+    <string name="student_id">Student ID</string>
+    <string name="student_name_cht">Name</string>
 
-	<string name="notification_item">Notification</string>
-	<string name="other_info">Other</string>
-	<string name="other_settings">Settings</string>
-	<string name="head_photo_setting">Show Photo</string>
-	<string name="course_notify">Class Reminder</string>
-	<string name="course_vibrate">Silent Mode During Class</string>
-	<string name="bus_notify">Bus Reservation Reminder</string>
-	<string name="feedback">Suggestions</string>
-	<string name="feedback_via_facebook">Message to Facebook Page</string>
-	<string name="app_version">App Version</string>
+    <string name="notification_item">Notification</string>
+    <string name="other_info">Other</string>
+    <string name="other_settings">Settings</string>
+    <string name="head_photo_setting">Show Photo</string>
+    <string name="course_notify">Class Reminder</string>
+    <string name="course_vibrate">Silent Mode During Class</string>
+    <string name="bus_notify">Bus Reservation Reminder</string>
+    <string name="feedback">Suggestions</string>
+    <string name="feedback_via_facebook">Message to Facebook Page</string>
+    <string name="app_version">App Version</string>
 
-	<string name="about_detail">The best KUAS Campus App\nKUAS AP\n\nAre you a
+    <string name="about_detail">The best KUAS Campus App\nKUAS AP\n\nAre you a
 		freshman?\nDon\'t know about school info, telephone numbers, or up coming events?\nBeen
 		here a few years?\nHave checking class schedule, report card and reserving bus seats
 		drove you crazy?\n\nNo more, no more worries, anymore!\n\nKUAS AP lets no matter old or new
 		fellow\nhave control over your life in KUAS!\n\nFrom checking class schedule, report card to
 		your absence records!\nPlus reserving/canceling bus seats with newest school feeds!\n\n\n\nMuch Simple, Many Convenient, Very instinct, wow!\n\n☆FABULOUS☆</string>
-	<string name="about_author_title">Made by</string>
-	<string name="about_author_content">呂紹榕(Louie Lu), 姜尚德(JohnThunder), \nregisterAutumn, 詹濬鍵(Evans), \n陳建霖(HearSilent)</string>
-	<string name="about_us">“Ask not why nobody is doing this. You are \'nobody\'.”\n\nWe did this
+    <string name="about_author_title">Made by</string>
+    <string name="about_author_content">呂紹榕(Louie Lu), 姜尚德(JohnThunder), \nregisterAutumn, 詹濬鍵(Evans), \n陳建霖(HearSilent)</string>
+    <string name="about_us">“Ask not why nobody is doing this. You are \'nobody\'.”\n\nWe did this
 		cause no one did it.\nWe created KUAS Wifi Login, KUAS
 		AP and KUAS Gourmet, Course Selection Sim, etc&#8230;\nTo bring convenience to
 		everyone\'s on campus!</string>
-	<string name="about_recruit_title">We Need You !</string>
-	<string name="about_recruit_content">If you\'re experienced in Objective-C, Swift, Java or
+    <string name="about_recruit_title">We Need You !</string>
+    <string name="about_recruit_content">If you\'re experienced in Objective-C, Swift, Java or
 		you\'re interested in Coding!
 		\n\nMessage us at our Facebook fanpage!\nYour code might one day be operating in
 		everyone\'s hands~</string>
-	<string name="about_itc_content">In year 2014,\nwe founded KUAS Information Technology
+    <string name="about_itc_content">In year 2014,\nwe founded KUAS Information Technology
 		Club!\n\nIf you\'re enthusiastic or drawn to our projects, join our classes and talks or
 		come by to chat!</string>
-	<string name="about_itc_title">KUAS IT Club</string>
-	<string name="about_contact_us">Contact Us</string>
-	<string name="about_open_source_title">Open Source License</string>
-	<string
-		name="about_open_source_content">https://github.com/hearsilent/KUAS-AP-Material\n\nThis project is licensed under the terms of the MIT license:\nThe MIT License (MIT)\n\nCopyright &#169; 2015 HearSilent\n\nPermission is
+    <string name="about_itc_title">KUAS IT Club</string>
+    <string name="about_contact_us">Contact Us</string>
+    <string name="about_open_source_title">Open Source License</string>
+    <string name="about_open_source_content">https://github.com/hearsilent/KUAS-AP-Material\n\nThis project is licensed under the terms of the MIT license:\nThe MIT License (MIT)\n\nCopyright &#169; 2015 HearSilent\n\nPermission is
 		hereby granted, free of charge, to any person obtaining a copy of this software and
 		associated documentation files (the "Software"), to deal in the Software without
 		restriction, including without limitation the rights to use, copy, modify, merge,
@@ -153,236 +152,235 @@
 		LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR
 		IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</string>
 
-	<string name="open_drawer">Open Menu</string>
-	<string name="close_drawer">Close Menu</string>
+    <string name="open_drawer">Open Menu</string>
+    <string name="close_drawer">Close Menu</string>
 
-	<string name="news">News</string>
-	<string name="offline_course">Offline Class Schedule</string>
-	<string name="course">Class Schedule</string>
-	<string name="score">Report Card</string>
-	<string name="leave">Absent System</string>
-	<string name="bus">Bus Reservation</string>
-	<string name="simcourse">Course Selection Sim</string>
-	<string name="messages">School Info</string>
-	<string name="user">Personal Info</string>
-	<string name="about">About Us</string>
-	<string name="settings">Settings</string>
-	<string name="guest">Guest</string>
-	<string name="tap_here_to_login">Tap to Login</string>
-	<string name="pick_semester">Choose Semester</string>
+    <string name="news">News</string>
+    <string name="offline_course">Offline Class Schedule</string>
+    <string name="course">Class Schedule</string>
+    <string name="score">Report Card</string>
+    <string name="leave">Absent System</string>
+    <string name="bus">Bus Reservation</string>
+    <string name="simcourse">Course Selection Sim</string>
+    <string name="messages">School Info</string>
+    <string name="user">Personal Info</string>
+    <string name="about">About Us</string>
+    <string name="settings">Settings</string>
+    <string name="guest">Guest</string>
+    <string name="tap_here_to_login">Tap to Login</string>
+    <string name="pick_semester">Choose Semester</string>
 
-	<string name="enter_username_hint">Please enter your ID</string>
-	<string name="enter_password_hint">Please enter your password</string>
-	<string name="check_login_hint">Check your username and password then retry</string>
+    <string name="enter_username_hint">Please enter your ID</string>
+    <string name="enter_password_hint">Please enter your password</string>
+    <string name="check_login_hint">Check your username and password then retry</string>
 
-	<string name="bus_segment">From JianGong|From YanChao</string>
+    <string name="bus_segment">From JianGong|From YanChao</string>
 
-	<array name="messages">
-		<item>News</item>
-		<item>Tel no.</item>
-		<item>Events</item>
-	</array>
+    <array name="messages">
+        <item>News</item>
+        <item>Tel no.</item>
+        <item>Events</item>
+    </array>
 
-	<string name="lorem_title">Lorem ipsum</string>
-	<string name="lorem_sentence">Lorem ipsum dolor sit amet.</string>
-	<string name="lorem_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
-	<string name="lorem_number">123</string>
-	<string name="lorem_date">2015&#8211;09&#8211;06</string>
-	<string name="lorem_time">09:20</string>
-	<string name="lorem_bus_count">(1 / 999)</string>
-	<string name="lorem_phone">(01) 234&#8211;5678</string>
-	<string name="lorem_semester">104學年度第1學期</string>
+    <string name="lorem_title">Lorem ipsum</string>
+    <string name="lorem_sentence">Lorem ipsum dolor sit amet.</string>
+    <string name="lorem_paragraph">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</string>
+    <string name="lorem_number">123</string>
+    <string name="lorem_date">2015&#8211;09&#8211;06</string>
+    <string name="lorem_time">09:20</string>
+    <string name="lorem_bus_count">(1 / 999)</string>
+    <string name="lorem_phone">(01) 234&#8211;5678</string>
+    <string name="lorem_semester">104學年度第1學期</string>
 
-	<string name="mon">Mon.</string>
-	<string name="tue">Tue.</string>
-	<string name="wed">Wed.</string>
-	<string name="thu">Thu.</string>
-	<string name="fri">Fri.</string>
-	<string name="sat">Sat.</string>
-	<string name="sun">Sun.</string>
+    <string name="mon">Mon.</string>
+    <string name="tue">Tue.</string>
+    <string name="wed">Wed.</string>
+    <string name="thu">Thu.</string>
+    <string name="fri">Fri.</string>
+    <string name="sat">Sat.</string>
+    <string name="sun">Sun.</string>
 
-	<string name="course1"> M </string>
-	<string name="course2"> 1 </string>
-	<string name="course3"> 2 </string>
-	<string name="course4"> 3 </string>
-	<string name="course5"> 4 </string>
-	<string name="course6"> A </string>
-	<string name="course7"> 5 </string>
-	<string name="course8"> 6 </string>
-	<string name="course9"> 7 </string>
-	<string name="course10"> 8 </string>
-	<string name="course11"> B </string>
-	<string name="course12"> 11 </string>
-	<string name="course13"> 12 </string>
-	<string name="course14"> 13 </string>
-	<string name="course15"> 14 </string>
+    <string name="course1"> M </string>
+    <string name="course2"> 1 </string>
+    <string name="course3"> 2 </string>
+    <string name="course4"> 3 </string>
+    <string name="course5"> 4 </string>
+    <string name="course6"> A </string>
+    <string name="course7"> 5 </string>
+    <string name="course8"> 6 </string>
+    <string name="course9"> 7 </string>
+    <string name="course10"> 8 </string>
+    <string name="course11"> B </string>
+    <string name="course12"> 11 </string>
+    <string name="course13"> 12 </string>
+    <string name="course14"> 13 </string>
+    <string name="course15"> 14 </string>
 
-	<array name="weekdays">
-		<item>@string/sun</item>
-		<item>@string/mon</item>
-		<item>@string/tue</item>
-		<item>@string/wed</item>
-		<item>@string/thu</item>
-		<item>@string/fri</item>
-		<item>@string/sat</item>
-	</array>
+    <array name="weekdays">
+        <item>@string/sun</item>
+        <item>@string/mon</item>
+        <item>@string/tue</item>
+        <item>@string/wed</item>
+        <item>@string/thu</item>
+        <item>@string/fri</item>
+        <item>@string/sat</item>
+    </array>
 
-	<array name="course_sections">
-		<item>M</item>
-		<item>第 1 節</item>
-		<item>第 2 節</item>
-		<item>第 3 節</item>
-		<item>第 4 節</item>
-		<item>A</item>
-		<item>第 5 節</item>
-		<item>第 6 節</item>
-		<item>第 7 節</item>
-		<item>第 8 節</item>
-		<item>B</item>
-		<item>第 11 節</item>
-		<item>第 12 節</item>
-		<item>第 13 節</item>
-		<item>第 14 節</item>
-	</array>
-	<array name="course_weekdays">
-		<item>Monday</item>
-		<item>Tuesday</item>
-		<item>Wednesday</item>
-		<item>Thursday</item>
-		<item>Friday</item>
-		<item>Saturday</item>
-		<item>Sunday</item>
-	</array>
+    <array name="course_sections">
+        <item>M</item>
+        <item>第 1 節</item>
+        <item>第 2 節</item>
+        <item>第 3 節</item>
+        <item>第 4 節</item>
+        <item>A</item>
+        <item>第 5 節</item>
+        <item>第 6 節</item>
+        <item>第 7 節</item>
+        <item>第 8 節</item>
+        <item>B</item>
+        <item>第 11 節</item>
+        <item>第 12 節</item>
+        <item>第 13 節</item>
+        <item>第 14 節</item>
+    </array>
+    <array name="course_weekdays">
+        <item>Monday</item>
+        <item>Tuesday</item>
+        <item>Wednesday</item>
+        <item>Thursday</item>
+        <item>Friday</item>
+        <item>Saturday</item>
+        <item>Sunday</item>
+    </array>
 
-	<array name="start_time">
-		<item>07:30</item>
-		<item>08:10</item>
-		<item>09:10</item>
-		<item>10:10</item>
-		<item>11:10</item>
-		<item>12:10</item>
-		<item>13:30</item>
-		<item>14:30</item>
-		<item>15:30</item>
-		<item>16:30</item>
-		<item>17:30</item>
-		<item>18:30</item>
-		<item>19:25</item>
-		<item>20:20</item>
-		<item>21:15</item>
-	</array>
+    <array name="start_time">
+        <item>07:30</item>
+        <item>08:10</item>
+        <item>09:10</item>
+        <item>10:10</item>
+        <item>11:10</item>
+        <item>12:10</item>
+        <item>13:30</item>
+        <item>14:30</item>
+        <item>15:30</item>
+        <item>16:30</item>
+        <item>17:30</item>
+        <item>18:30</item>
+        <item>19:25</item>
+        <item>20:20</item>
+        <item>21:15</item>
+    </array>
 
-	<array name="end_time">
-		<item>08:00</item>
-		<item>09:00</item>
-		<item>10:00</item>
-		<item>11:00</item>
-		<item>12:00</item>
-		<item>13:00</item>
-		<item>14:20</item>
-		<item>15:20</item>
-		<item>16:20</item>
-		<item>17:20</item>
-		<item>18:20</item>
-		<item>19:20</item>
-		<item>20:15</item>
-		<item>21:10</item>
-		<item>22:05</item>
-	</array>
+    <array name="end_time">
+        <item>08:00</item>
+        <item>09:00</item>
+        <item>10:00</item>
+        <item>11:00</item>
+        <item>12:00</item>
+        <item>13:00</item>
+        <item>14:20</item>
+        <item>15:20</item>
+        <item>16:20</item>
+        <item>17:20</item>
+        <item>18:20</item>
+        <item>19:20</item>
+        <item>20:15</item>
+        <item>21:10</item>
+        <item>22:05</item>
+    </array>
 
-	<array name="leave_sections">
-		<item>A</item>
-		<item>"1"</item>
-		<item>"2"</item>
-		<item>"3"</item>
-		<item>"4"</item>
-		<item>B</item>
-		<item>"5"</item>
-		<item>"6"</item>
-		<item>"7"</item>
-		<item>"8"</item>
-	</array>
-	<array name="leave_night_sections">
-		<item>A</item>
-		<item>"1"</item>
-		<item>"2"</item>
-		<item>"3"</item>
-		<item>"4"</item>
-		<item>B</item>
-		<item>"5"</item>
-		<item>"6"</item>
-		<item>"7"</item>
-		<item>"8"</item>
-		<item>C</item>
-		<item>"11"</item>
-		<item>"12"</item>
-		<item>"13"</item>
-		<item>"14"</item>
-	</array>
-	<array name="leave_sections_fixed">
-		<item>Date</item>
-		<item>M</item>
-		<item>"1"</item>
-		<item>"2"</item>
-		<item>"3"</item>
-		<item>"4"</item>
-		<item>A</item>
-		<item>"5"</item>
-		<item>"6"</item>
-		<item>"7"</item>
-		<item>"8"</item>
-	</array>
-	<array name="leave_night_sections_fixed">
-		<item>Date</item>
-		<item>M</item>
-		<item>"1"</item>
-		<item>"2"</item>
-		<item>"3"</item>
-		<item>"4"</item>
-		<item>A</item>
-		<item>"5"</item>
-		<item>"6"</item>
-		<item>"7"</item>
-		<item>"8"</item>
-		<item>B</item>
-		<item>"11"</item>
-		<item>"12"</item>
-		<item>"13"</item>
-		<item>"14"</item>
-	</array>
+    <array name="leave_sections">
+        <item>A</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>B</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+        <item>"8"</item>
+    </array>
+    <array name="leave_night_sections">
+        <item>A</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>B</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+        <item>"8"</item>
+        <item>C</item>
+        <item>"11"</item>
+        <item>"12"</item>
+        <item>"13"</item>
+        <item>"14"</item>
+    </array>
+    <array name="leave_sections_fixed">
+        <item>Date</item>
+        <item>M</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>A</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+        <item>"8"</item>
+    </array>
+    <array name="leave_night_sections_fixed">
+        <item>Date</item>
+        <item>M</item>
+        <item>"1"</item>
+        <item>"2"</item>
+        <item>"3"</item>
+        <item>"4"</item>
+        <item>A</item>
+        <item>"5"</item>
+        <item>"6"</item>
+        <item>"7"</item>
+        <item>"8"</item>
+        <item>B</item>
+        <item>"11"</item>
+        <item>"12"</item>
+        <item>"13"</item>
+        <item>"14"</item>
+    </array>
 
-	<array name="easter_egg">
-		<item>Are you a master of Obj-C ?</item>
-		<item>Or are you good at Swift ?</item>
-		<item>Maybe you\'re a skillful Java programmer?</item>
-		<item>Stop trying to penetrate me, come to KUAS IT Club!</item>
-		<item>What are you waiting for?</item>
-		<item>John is a white hac&#8230; uhm&#8230;</item>
-		<item>Heard of Lu\? He\'s Tyr of KUAS\!</item>
-	</array>
+    <array name="easter_egg">
+        <item>Are you a master of Obj-C ?</item>
+        <item>Or are you good at Swift ?</item>
+        <item>Maybe you\'re a skillful Java programmer?</item>
+        <item>Stop trying to penetrate me, come to KUAS IT Club!</item>
+        <item>What are you waiting for?</item>
+        <item>John is a white hac&#8230; uhm&#8230;</item>
+        <item>Heard of Lu\? He\'s Tyr of KUAS\!</item>
+    </array>
 
-	<array name="score_sections">
-		<item>Subject</item>
-		<item>Midterm</item>
-		<item>Final</item>
-	</array>
-	<array name="score_detail_sections">
-		<item>Conduct Score：</item>
-		<item>Average：</item>
-		<item>You/Total Classmates：</item>
-		<item>Top % in Class：</item>
-	</array>
+    <array name="score_sections">
+        <item>Subject</item>
+        <item>Midterm</item>
+        <item>Final</item>
+    </array>
+    <array name="score_detail_sections">
+        <item>Conduct Score：</item>
+        <item>Average：</item>
+        <item>You/Total Classmates：</item>
+        <item>Top % in Class：</item>
+    </array>
 
-	<!--Open Source Project-->
-	<string name="open_source_android">Android</string>
-	<string name="open_source_android_content">https://source.android.com/\n\nCopyright &#169; 
+    <!--Open Source Project-->
+    <string name="open_source_android">Android</string>
+    <string name="open_source_android_content">https://source.android.com/\n\nCopyright &#169;
 		2006-2011 Android Open Source
 		Project.\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not
 		use this file except in compliance with the License. You may obtain a copy of the License
 		at:\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
-	<string name="open_source_android_async_http">Asynchronous Http Client for Android</string>
-	<string
-		name="open_source_android_async_http_content">https://github.com/loopj/android-async-http\n\nCopyright &#169; 2011 James Smith
+    <string name="open_source_android_async_http">Asynchronous Http Client for Android</string>
+    <string name="open_source_android_async_http_content">https://github.com/loopj/android-async-http\n\nCopyright &#169; 2011 James Smith
 		(james@loopj.com)\nhttps://loopj.com\n\nLicensed under the Apache License, Version 2.0
 		(the "License"); you may not use this file except in compliance with the License. You may
 		obtain a copy of the License at\n\nhttps://www.apache.org/licenses/LICENSE-2.0\n\nUnless
@@ -390,8 +388,8 @@
 		License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND,
 		either express or implied. See the License for the specific language governing
 		permissions and limitations under the License.</string>
-	<string name="open_source_gson">Gson</string>
-	<string name="open_source_gson_content">https://github.com/google/gson\n\nCopyright 2008 Google
+    <string name="open_source_gson">Gson</string>
+    <string name="open_source_gson_content">https://github.com/google/gson\n\nCopyright 2008 Google
 		Inc.\n\nLicensed under the Apache
 		License, Version 2.0 (the "License"); you may not use this file except in compliance with
 		the License. You may obtain a copy of the License
@@ -400,12 +398,12 @@
 		BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
 		License for the specific language governing permissions and limitations under the
 		License.</string>
-	<string name="open_source_materialdatetimepicker">Material DateTime Picker</string>
-	<string name="open_source_materialdatetimepicker_content">https://github.com/wdullaer/MaterialDateTimePicker\n\nCopyright &#169; 2015 Wouter Dullaert\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
-	<string name="open_source_pinned_section_listview">Pinned Section ListView</string>
-	<string name="open_source_pinned_section_listview_content">https://github.com/beworker/pinned&#8211;section&#8211;listview\n\nCopyright 2013&#8211;2014 Sergej Shafarenka, halfbit.de\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
-	<string name="open_source_progresswheel">Progress Wheel</string>
-	<string name="open_source_progresswheel_content">https://github.com/Todd-Davies/ProgressWheel
+    <string name="open_source_materialdatetimepicker">Material DateTime Picker</string>
+    <string name="open_source_materialdatetimepicker_content">https://github.com/wdullaer/MaterialDateTimePicker\n\nCopyright &#169; 2015 Wouter Dullaert\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+    <string name="open_source_pinned_section_listview">Pinned Section ListView</string>
+    <string name="open_source_pinned_section_listview_content">https://github.com/beworker/pinned&#8211;section&#8211;listview\n\nCopyright 2013&#8211;2014 Sergej Shafarenka, halfbit.de\n\nLicensed under the Apache License, Version 2.0 (the "License"); you may not use this file except in compliance with the License. You may obtain a copy of the License at\n\nhttp://www.apache.org/licenses/LICENSE-2.0\n\nUnless required by applicable law or agreed to in writing, software distributed under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the License for the specific language governing permissions and limitations under the License.</string>
+    <string name="open_source_progresswheel">Progress Wheel</string>
+    <string name="open_source_progresswheel_content">https://github.com/Todd-Davies/ProgressWheel
 		\n\nThe MIT License (MIT)\n\nCopyright &#169; 2015 Todd Davies\n\nPermission is hereby
 		granted, free of charge, to any person obtaining a copy of this software and associated
 		documentation files (the "Software"), to deal in the Software without restriction,
@@ -419,4 +417,7 @@
 		COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN
 		ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 		SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

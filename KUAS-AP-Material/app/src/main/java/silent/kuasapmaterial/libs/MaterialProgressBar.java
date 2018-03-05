@@ -29,6 +29,7 @@ import android.graphics.drawable.ShapeDrawable;
 import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Build;
+import android.support.annotation.ColorInt;
 import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
@@ -275,10 +276,9 @@ public class MaterialProgressBar extends ImageView {
 		}
 	}
 
-	public void setBackgroundColor(@ColorRes int colorRes) {
+	public void setBackgroundColor(@ColorInt int color) {
 		if (getBackground() instanceof ShapeDrawable) {
-			((ShapeDrawable) getBackground()).getPaint()
-					.setColor(ContextCompat.getColor(getContext(), colorRes));
+			((ShapeDrawable) getBackground()).getPaint().setColor(color);
 		}
 	}
 
