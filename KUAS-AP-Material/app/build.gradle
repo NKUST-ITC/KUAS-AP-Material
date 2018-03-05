@@ -34,6 +34,12 @@ android {
         return void
     }
 
+    lintOptions {
+        checkReleaseBuilds false
+        abortOnError false
+        return void
+    }
+
     buildTypes {
         debug {
             minifyEnabled true
