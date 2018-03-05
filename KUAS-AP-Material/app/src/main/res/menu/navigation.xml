@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/nav_bus"
+        android:icon="@drawable/ic_directions_bus_white_24dp"
+        android:title="@string/bus"/>
+    <item
+        android:id="@+id/nav_course"
+        android:icon="@drawable/ic_class_white_24dp"
+        android:title="@string/course"/>
+    <item
+        android:id="@+id/nav_score"
+        android:icon="@drawable/ic_assignment_white_24dp"
+        android:title="@string/score"/>
+</menu>
