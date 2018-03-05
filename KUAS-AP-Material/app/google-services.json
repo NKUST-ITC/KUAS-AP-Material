@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "937044701794",
-    "project_id": "kuas-ap"
+    "firebase_url": "https://kuas-ap.firebaseio.com",
+    "project_id": "kuas-ap",
+    "storage_bucket": "kuas-ap.appspot.com"
   },
   "client": [
     {
@@ -11,8 +13,17 @@
           "package_name": "com.kuas.ap"
         }
       },
-      "oauth_client": [],
-      "api_key": [{ "current_key": "" }],
+      "oauth_client": [
+        {
+          "client_id": "937044701794-a94qhn682skfmhq9pea56v6slr9jf3at.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC8DVPhbGNbfI9fBtSvrMlI3nwysJfH5Is"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 2,
@@ -25,7 +36,7 @@
           "other_platform_oauth_client": []
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }
