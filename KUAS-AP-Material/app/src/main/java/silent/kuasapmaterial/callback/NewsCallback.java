@@ -10,6 +10,6 @@ import silent.kuasapmaterial.models.NewsModel;
 
 public class NewsCallback extends GeneralCallback {
 
-    public void onSuccess(List<NewsModel> modelList) {
-    }
+	public void onSuccess(List<NewsModel> modelList) {
+	}
 }

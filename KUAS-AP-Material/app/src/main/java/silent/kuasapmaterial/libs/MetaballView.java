@@ -24,17 +24,17 @@ import java.util.Arrays;
  */
 public class MetaballView extends View {
 
-	private Paint paint = new Paint();
-	float handle_len_rate = 2f;
-	private float radius = 30;
+	final float SCALE_RATE = 0.3f;
 	private final int ITEM_COUNT = 5;
 	private final int ITEM_DIVIDER = 60;
-	final float SCALE_RATE = 0.3f;
+	float handle_len_rate = 2f;
+	MoveAnimation wa;
+	Circle circle;
+	private Paint paint = new Paint();
+	private float radius = 30;
 	private float maxLength;
 	private ArrayList<Circle> circlePaths = new ArrayList<>();
 	private float mInterpolatedTime;
-	MoveAnimation wa;
-	Circle circle;
 
 	public MetaballView(Context context) {
 		super(context);
@@ -50,12 +50,6 @@ public class MetaballView extends View {
 		super(context, attrs, defStyleAttr);
 		init();
 
-	}
-
-	private class Circle {
-
-		float[] center;
-		float radius;
 	}
 
 	public void setPaintMode(int mode) {
@@ -84,16 +78,6 @@ public class MetaballView extends View {
 		float x = (float) (Math.cos(radians) * length);
 		float y = (float) (Math.sin(radians) * length);
 		return new float[]{x, y};
-	}
-
-	private class MoveAnimation extends Animation {
-
-		@Override
-		protected void applyTransformation(float interpolatedTime, Transformation t) {
-			super.applyTransformation(interpolatedTime, t);
-			mInterpolatedTime = interpolatedTime;
-			invalidate();
-		}
 	}
 
 	/**
@@ -282,6 +266,22 @@ public class MetaballView extends View {
 	protected void onDetachedFromWindow() {
 		stopAnimation();
 		super.onDetachedFromWindow();
+	}
+
+	private class Circle {
+
+		float[] center;
+		float radius;
+	}
+
+	private class MoveAnimation extends Animation {
+
+		@Override
+		protected void applyTransformation(float interpolatedTime, Transformation t) {
+			super.applyTransformation(interpolatedTime, t);
+			mInterpolatedTime = interpolatedTime;
+			invalidate();
+		}
 	}
 
 }

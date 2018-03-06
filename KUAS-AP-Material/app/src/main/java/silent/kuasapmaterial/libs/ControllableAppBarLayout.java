@@ -142,10 +142,6 @@ public class ControllableAppBarLayout extends AppBarLayout {
 	}
 
 	private enum ToolbarChange {
-		COLLAPSE,
-		COLLAPSE_WITH_ANIMATION,
-		EXPAND,
-		EXPAND_WITH_ANIMATION,
-		NONE
+		COLLAPSE, COLLAPSE_WITH_ANIMATION, EXPAND, EXPAND_WITH_ANIMATION, NONE
 	}
 }

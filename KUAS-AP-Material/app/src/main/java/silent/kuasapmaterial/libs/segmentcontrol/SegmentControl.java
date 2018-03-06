@@ -48,30 +48,10 @@ public class SegmentControl extends View {
 	private int mSingleChildHeight;
 
 	private Paint mPaint;
-
-	public enum Direction {
-		HORIZON(0), VERTICAL(1);
-
-		int mV;
-
-		Direction(int v) {
-			mV = v;
-		}
-	}
-
 	private Direction mDirection;
-
 	private int mTextSize;
 	private ColorStateList mColors;
 	private int mCornerRadius;
-
-	public interface OnSegmentControlClickListener {
-
-		void onSegmentControlClick(int index);
-
-		void onSegmentControlReselect();
-	}
-
 	private OnSegmentControlClickListener mOnSegmentControlClickListener;
 
 	public SegmentControl(Context context) {
@@ -463,5 +443,22 @@ public class SegmentControl extends View {
 			}
 		}
 
+	}
+
+	public enum Direction {
+		HORIZON(0), VERTICAL(1);
+
+		int mV;
+
+		Direction(int v) {
+			mV = v;
+		}
+	}
+
+	public interface OnSegmentControlClickListener {
+
+		void onSegmentControlClick(int index);
+
+		void onSegmentControlReselect();
 	}
 }

@@ -30,7 +30,6 @@ import android.graphics.drawable.shapes.OvalShape;
 import android.net.Uri;
 import android.os.Build;
 import android.support.annotation.ColorInt;
-import android.support.annotation.ColorRes;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewCompat;
 import android.util.AttributeSet;
@@ -41,6 +40,7 @@ import com.kuas.ap.R;
 
 public class MaterialProgressBar extends ImageView {
 
+	public static final int DEFAULT_TEXT_SIZE = 9;
 	private static final int KEY_SHADOW_COLOR = 0x1E000000;
 	private static final int FILL_SHADOW_COLOR = 0x3D000000;
 	// PX
@@ -48,12 +48,9 @@ public class MaterialProgressBar extends ImageView {
 	private static final float Y_OFFSET = 1.75f;
 	private static final float SHADOW_RADIUS = 3.5f;
 	private static final int SHADOW_ELEVATION = 4;
-
 	private static final int DEFAULT_CIRCLE_BG_LIGHT = 0xFFFAFAFA;
 	private static final int DEFAULT_CIRCLE_DIAMETER = 56;
 	private static final int STROKE_WIDTH_LARGE = 3;
-	public static final int DEFAULT_TEXT_SIZE = 9;
-
 	private Animation.AnimationListener mListener;
 	private int mShadowRadius;
 	private int mBackGroundColor;

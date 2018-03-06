@@ -37,16 +37,14 @@ public class NotificationFragment extends SilentFragment
 		implements PinnedSectionListView.OnBottomReachedListener,
 		SwipeRefreshLayout.OnRefreshListener {
 
+	List<NotificationModel> mList;
+	Activity activity;
+	Adapter mAdapter;
 	private View view;
 	private PinnedSectionListView mListView;
 	private SwipeRefreshLayout mSwipeRefreshLayout;
-
-	List<NotificationModel> mList;
-	Activity activity;
-
 	private int mPage, mInitListPos = 0, mInitListOffset = 0;
 	private boolean isLoadingPosts = false, isRetry = false;
-	Adapter mAdapter;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -240,8 +238,8 @@ public class NotificationFragment extends SilentFragment
 	public class Adapter extends BaseAdapter
 			implements PinnedSectionListView.PinnedSectionListAdapter {
 
-		private LayoutInflater inflater;
 		private final int TYPE_NOTIFICATION = 0, TYPE_PROGRESS = 1, TYPE_RETRY = 2;
+		private LayoutInflater inflater;
 
 		public Adapter(Context context) {
 			this.inflater =

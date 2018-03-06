@@ -24,118 +24,118 @@ import silent.kuasapmaterial.models.NewsModel;
 
 public class NewsFragment extends SilentFragment implements View.OnClickListener {
 
-    private View view;
+	Activity activity;
+	ImageView imageView;
+	MaterialProgressBar mMaterialProgressBar;
+	NewsModel newsModel;
+	private View view;
 
-    Activity activity;
+	public NewsFragment() {
+		// Required empty public constructor
+	}
 
-    ImageView imageView;
-    MaterialProgressBar mMaterialProgressBar;
+	@Override
+	public View onCreateView(LayoutInflater inflater, ViewGroup container,
+	                         Bundle savedInstanceState) {
+		view = inflater.inflate(R.layout.fragment_news, container, false);
+		restoreArgs(savedInstanceState);
+		findView();
+		setUpViews();
+		return view;
+	}
 
-    NewsModel newsModel;
+	@Override
+	public void onAttach(Activity activity) {
+		super.onAttach(activity);
+		this.activity = activity;
+	}
 
-    public NewsFragment() {
-        // Required empty public constructor
-    }
+	private void restoreArgs(Bundle savedInstanceState) {
+		if (savedInstanceState != null) {
+			newsModel = new NewsModel();
+			newsModel.image = savedInstanceState.getString("newsImage");
+			newsModel.url = savedInstanceState.getString("newsUrl");
+			newsModel.title = savedInstanceState.getString("newsTitle");
+			newsModel.content = savedInstanceState.getString("newsContent");
+			newsModel.weight = savedInstanceState.getInt("newsWeight");
+		}
+	}
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_news, container, false);
-        restoreArgs(savedInstanceState);
-        findView();
-        setUpViews();
-        return view;
-    }
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		if (newsModel != null) {
+			outState.putString("newsImage", newsModel.image);
+			outState.putString("newsUrl", newsModel.url);
+			outState.putString("newsTitle", newsModel.title);
+			outState.putString("newsContent", newsModel.content);
+			outState.putInt("newsWeight", newsModel.weight);
+		}
+	}
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        this.activity = activity;
-    }
+	@Override
+	public void onDetach() {
+		super.onDetach();
+	}
 
-    private void restoreArgs(Bundle savedInstanceState) {
-        if (savedInstanceState != null) {
-            newsModel = new NewsModel();
-            newsModel.image = savedInstanceState.getString("newsImage");
-            newsModel.url = savedInstanceState.getString("newsUrl");
-            newsModel.title = savedInstanceState.getString("newsTitle");
-            newsModel.content = savedInstanceState.getString("newsContent");
-            newsModel.weight = savedInstanceState.getInt("newsWeight");
-        }
-    }
+	private void findView() {
+		imageView = view.findViewById(R.id.imageView);
+		mMaterialProgressBar = view.findViewById(R.id.materialProgressBar);
+	}
 
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        if (newsModel != null) {
-            outState.putString("newsImage", newsModel.image);
-            outState.putString("newsUrl", newsModel.url);
-            outState.putString("newsTitle", newsModel.title);
-            outState.putString("newsContent", newsModel.content);
-            outState.putInt("newsWeight", newsModel.weight);
-        }
-    }
+	private void setUpViews() {
+		mMaterialProgressBar.setVisibility(View.VISIBLE);
 
-    @Override
-    public void onDetach() {
-        super.onDetach();
-    }
+		imageView.setBackgroundColor(0);
+		if (imageView == null) {
+			return;
+		}
+		ImageLoader.getInstance()
+				.displayImage(newsModel.image, imageView, Utils.getDefaultDisplayImageOptions(),
+						new ImageLoadingListener() {
 
-    private void findView() {
-        imageView = view.findViewById(R.id.imageView);
-        mMaterialProgressBar = view.findViewById(R.id.materialProgressBar);
-    }
+							@Override
+							public void onLoadingStarted(String imageUri, View view) {
 
-    private void setUpViews() {
-        mMaterialProgressBar.setVisibility(View.VISIBLE);
+							}
 
-        imageView.setBackgroundColor(0);
-        if (imageView == null) return;
-        ImageLoader.getInstance().displayImage(newsModel.image, imageView, Utils.getDefaultDisplayImageOptions(),
-                new ImageLoadingListener() {
+							@Override
+							public void onLoadingFailed(String imageUri, View view,
+							                            FailReason failReason) {
+								//mDetailView.setVisibility(View.VISIBLE);
+							}
 
-                    @Override
-                    public void onLoadingStarted(String imageUri, View view) {
+							@Override
+							public void onLoadingComplete(String imageUri, View view,
+							                              Bitmap loadedImage) {
+								mMaterialProgressBar.setVisibility(View.GONE);
+							}
 
-                    }
+							@Override
+							public void onLoadingCancelled(String imageUri, View view) {
 
-                    @Override
-                    public void onLoadingFailed(String imageUri, View view,
-                                                FailReason failReason) {
-                        //mDetailView.setVisibility(View.VISIBLE);
-                    }
+							}
+						});
+		imageView.setOnClickListener(this);
+	}
 
-                    @Override
-                    public void onLoadingComplete(String imageUri, View view,
-                                                  Bitmap loadedImage) {
-                        mMaterialProgressBar.setVisibility(View.GONE);
-                    }
+	public void setData(NewsModel newsModel) {
+		this.newsModel = newsModel;
+	}
 
-                    @Override
-                    public void onLoadingCancelled(String imageUri, View view) {
-
-                    }
-                });
-        imageView.setOnClickListener(this);
-    }
-
-    public void setData(NewsModel newsModel) {
-        this.newsModel = newsModel;
-    }
-
-    @Override
-    public void onClick(View view) {
-        if (view.getId() == R.id.imageView) {
-            String shareData = newsModel.title + "\n" + newsModel.url +
-                    "\n\n" + getString(R.string.send_from);
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            Bitmap icon =
-                    BitmapFactory.decodeResource(getResources(), R.drawable.ic_share_white_24dp);
-            builder.setActionButton(icon, getString(R.string.share),
-                    Utils.createSharePendingIntent(activity, shareData));
-            builder.setToolbarColor(ContextCompat.getColor(activity, R.color.main_theme));
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(activity, Uri.parse(newsModel.url));
-        }
-    }
+	@Override
+	public void onClick(View view) {
+		if (view.getId() == R.id.imageView) {
+			String shareData =
+					newsModel.title + "\n" + newsModel.url + "\n\n" + getString(R.string.send_from);
+			CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+			Bitmap icon =
+					BitmapFactory.decodeResource(getResources(), R.drawable.ic_share_white_24dp);
+			builder.setActionButton(icon, getString(R.string.share),
+					Utils.createSharePendingIntent(activity, shareData));
+			builder.setToolbarColor(ContextCompat.getColor(activity, R.color.main_theme));
+			CustomTabsIntent customTabsIntent = builder.build();
+			customTabsIntent.launchUrl(activity, Uri.parse(newsModel.url));
+		}
+	}
 }

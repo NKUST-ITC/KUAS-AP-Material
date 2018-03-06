@@ -42,66 +42,37 @@ import android.widget.SectionIndexer;
  */
 public class PinnedSectionListView extends ListView {
 
-	OnBottomReachedListener mBottomReachedListener;
+	static boolean mIsShadow = false;
 
 	//-- inner classes
-
-	/**
-	 * List adapter to be implemented for being used with PinnedSectionListView adapter.
-	 */
-	public interface PinnedSectionListAdapter extends ListAdapter {
-
-		/**
-		 * This method shall return 'true' if views of given type has to be pinned.
-		 */
-		boolean isItemViewTypePinned(int viewType);
-	}
-
-	/**
-	 * Wrapper class for pinned section view and its position in the list.
-	 */
-	static class PinnedSection {
-
-		public View view;
-		public int position;
-		public long id;
-	}
-
-	//-- class fields
-
 	// fields used for handling touch events
 	private final Rect mTouchRect = new Rect();
 	private final PointF mTouchPoint = new PointF();
-	private int mTouchSlop;
-	private View mTouchTarget;
-	private MotionEvent mDownEvent;
 
-	// fields used for drawing shadow under a pinned section
-	private GradientDrawable mShadowDrawable;
-	private int mSectionsDistanceY;
-	private int mShadowHeight;
-	static boolean mIsShadow = false;
-
+	//-- class fields
+	OnBottomReachedListener mBottomReachedListener;
 	/**
 	 * Delegating listener, can be null.
 	 */
 	OnScrollListener mDelegateOnScrollListener;
-
 	/**
 	 * Shadow for being recycled, can be null.
 	 */
 	PinnedSection mRecycleSection;
-
 	/**
 	 * shadow instance with a pinned view, can be null.
 	 */
 	PinnedSection mPinnedSection;
-
 	/**
 	 * Pinned view Y-translation. We use it to stick pinned view to the next section.
 	 */
 	int mTranslateY;
-
+	private int mTouchSlop;
+	private View mTouchTarget;
+	private MotionEvent mDownEvent;
+	// fields used for drawing shadow under a pinned section
+	private GradientDrawable mShadowDrawable;
+	private int mSectionsDistanceY;
 	/**
 	 * Scroll listener which does the magic
 	 */
@@ -155,7 +126,6 @@ public class PinnedSectionListView extends ListView {
 		;
 
 	};
-
 	/**
 	 * Default change observer.
 	 */
@@ -171,8 +141,7 @@ public class PinnedSectionListView extends ListView {
 			recreatePinnedShadow();
 		}
 	};
-
-	//-- constructors
+	private int mShadowHeight;
 
 	public PinnedSectionListView(Context context, AttributeSet attrs) {
 		super(context, attrs);
@@ -184,14 +153,21 @@ public class PinnedSectionListView extends ListView {
 		initView();
 	}
 
+	//-- constructors
+
+	public static boolean isItemViewTypePinned(ListAdapter adapter, int viewType) {
+		if (adapter instanceof HeaderViewListAdapter) {
+			adapter = ((HeaderViewListAdapter) adapter).getWrappedAdapter();
+		}
+		return ((PinnedSectionListAdapter) adapter).isItemViewTypePinned(viewType);
+	}
+
 	private void initView() {
 		setOnScrollListener(mOnScrollListener);
 		setOnBottomReachedListener(mBottomReachedListener);
 		mTouchSlop = ViewConfiguration.get(getContext()).getScaledTouchSlop();
 		initShadow(mIsShadow);
 	}
-
-	//-- public API methods
 
 	public void setShadowVisible(boolean visible) {
 		initShadow(visible);
@@ -201,7 +177,7 @@ public class PinnedSectionListView extends ListView {
 		}
 	}
 
-	//-- pinned section drawing methods
+	//-- public API methods
 
 	public void initShadow(boolean visible) {
 		if (visible) {
@@ -218,6 +194,8 @@ public class PinnedSectionListView extends ListView {
 			}
 		}
 	}
+
+	//-- pinned section drawing methods
 
 	/**
 	 * Create shadow wrapper with a pinned view for a view at given position
@@ -484,8 +462,6 @@ public class PinnedSectionListView extends ListView {
 		}
 	}
 
-	//-- touch handling methods
-
 	@Override
 	public boolean dispatchTouchEvent(@NonNull MotionEvent ev) {
 
@@ -545,6 +521,8 @@ public class PinnedSectionListView extends ListView {
 		return super.dispatchTouchEvent(ev);
 	}
 
+	//-- touch handling methods
+
 	private boolean isPinnedViewTouched(View view, float x, float y) {
 		view.getHitRect(mTouchRect);
 
@@ -584,13 +562,6 @@ public class PinnedSectionListView extends ListView {
 		return false;
 	}
 
-	public static boolean isItemViewTypePinned(ListAdapter adapter, int viewType) {
-		if (adapter instanceof HeaderViewListAdapter) {
-			adapter = ((HeaderViewListAdapter) adapter).getWrappedAdapter();
-		}
-		return ((PinnedSectionListAdapter) adapter).isItemViewTypePinned(viewType);
-	}
-
 	@Override
 	protected void onScrollChanged(int l, int t, int oldl, int oldt) {
 		View view = getChildAt(getChildCount() - 1);
@@ -614,8 +585,29 @@ public class PinnedSectionListView extends ListView {
 		mBottomReachedListener = onBottomReachedListener;
 	}
 
+	/**
+	 * List adapter to be implemented for being used with PinnedSectionListView adapter.
+	 */
+	public interface PinnedSectionListAdapter extends ListAdapter {
+
+		/**
+		 * This method shall return 'true' if views of given type has to be pinned.
+		 */
+		boolean isItemViewTypePinned(int viewType);
+	}
+
 	public interface OnBottomReachedListener {
 
 		void onBottomReached();
+	}
+
+	/**
+	 * Wrapper class for pinned section view and its position in the list.
+	 */
+	static class PinnedSection {
+
+		public View view;
+		public int position;
+		public long id;
 	}
 }

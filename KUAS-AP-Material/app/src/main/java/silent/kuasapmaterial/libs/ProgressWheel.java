@@ -31,7 +31,11 @@ import com.kuas.ap.R;
 public class ProgressWheel extends View {
 
 	private static final String TAG = ProgressWheel.class.getSimpleName();
-
+	private final int barLength = 16;
+	private final int barMaxLength = 270;
+	private final long pauseGrowingTime = 200;
+	int MaterialColors[] = {R.color.progress_red, R.color.progress_blue, R.color.progress_yellow,
+			R.color.progress_green};
 	/**
 	 * *********
 	 * DEFAULTS *
@@ -41,55 +45,38 @@ public class ProgressWheel extends View {
 	private int circleRadius = 28;
 	private float barWidth = 4;
 	private int rimWidth = 4;
-
-	private final int barLength = 16;
-	private final int barMaxLength = 270;
-
 	private boolean fillRadius = false;
-
 	private double timeStartGrowing = 0;
 	private double barSpinCycleTime = 460;
 	private float barExtraLength = 0;
 	private boolean barGrowingFromFront = true;
-
 	private long pausedTimeWithoutGrowing = 0;
-	private final long pauseGrowingTime = 200;
-
 	//Colors (with defaults)
 	private int barColor = 0xAA000000;
 	private int rimColor = 0x00FFFFFF;
 	private int circleColor = 0xFFFFFF;
 	private int shadowColor = 0x2B000000;
-
 	//Paints
 	private Paint barPaint = new Paint();
 	private Paint rimPaint = new Paint();
 	private Paint circlePaint = new Paint();
 	private Paint shadowPaint = new Paint();
-
 	//Rectangles
 	private RectF circleBounds = new RectF();
 	private RectF circleBounds2 = new RectF();
-
 	//Animation
 	//The amount of degrees per second
 	private float spinSpeed = 230.0f;
 	//private float spinSpeed = 120.0f;
 	// The last time the spinner was animated
 	private long lastTimeAnimated = 0;
-
 	private boolean linearProgress;
-
 	private float mProgress = 0.0f;
 	private float mTargetProgress = 0.0f;
 	private boolean isSpinning = false;
-
 	//Material
 	private boolean isMaterial = false;
 	private int MaterialCnt = 1;
-	int MaterialColors[] = {R.color.progress_red, R.color.progress_blue, R.color.progress_yellow,
-			R.color.progress_green};
-
 	//CircleBackground
 	private boolean isCircleBackground = false;
 
@@ -468,6 +455,15 @@ public class ProgressWheel extends View {
 	}
 
 	/**
+	 * Set the shadow to circle background,
+	 *
+	 * @param _bool the circle background shadow true or false
+	 */
+	public void setShadow(boolean _bool) {
+		isShadow = _bool;
+	}
+
+	/**
 	 * Check if the wheel is material design
 	 */
 
@@ -476,11 +472,31 @@ public class ProgressWheel extends View {
 	}
 
 	/**
+	 * Set the progress to material design,
+	 *
+	 * @param _bool the material design true or false
+	 */
+	public void setMaterial(boolean _bool) {
+		MaterialCnt = 1;
+		setBarColor(ContextCompat.getColor(getContext(), MaterialColors[0]));
+		isMaterial = _bool;
+	}
+
+	/**
 	 * Check if the wheel is circle background
 	 */
 
 	public boolean isCircleBackground() {
 		return isCircleBackground;
+	}
+
+	/**
+	 * Set the progress to circle background,
+	 *
+	 * @param _bool the circle background true or false
+	 */
+	public void setCircleBackground(boolean _bool) {
+		isCircleBackground = _bool;
 	}
 
 	/**
@@ -541,23 +557,10 @@ public class ProgressWheel extends View {
 	}
 
 	/**
-	 * Set the progress to material design,
-	 *
-	 * @param _bool the material design true or false
+	 * @return the shadow size
 	 */
-	public void setMaterial(boolean _bool) {
-		MaterialCnt = 1;
-		setBarColor(ContextCompat.getColor(getContext(), MaterialColors[0]));
-		isMaterial = _bool;
-	}
-
-	/**
-	 * Set the shadow to circle background,
-	 *
-	 * @param _bool the circle background shadow true or false
-	 */
-	public void setShadow(boolean _bool) {
-		isShadow = _bool;
+	public float getShadowSize() {
+		return mShadowSize;
 	}
 
 	/**
@@ -567,58 +570,6 @@ public class ProgressWheel extends View {
 	 */
 	public void setShadowSize(float mShadowSize) {
 		this.mShadowSize = mShadowSize;
-	}
-
-	/**
-	 * @return the shadow size
-	 */
-	public float getShadowSize() {
-		return mShadowSize;
-	}
-
-	/**
-	 * Set the progress to circle background,
-	 *
-	 * @param _bool the circle background true or false
-	 */
-	public void setCircleBackground(boolean _bool) {
-		isCircleBackground = _bool;
-	}
-
-	/**
-	 * Set the progress to a specific value,
-	 * the bar will smoothly animate until that value
-	 *
-	 * @param progress the progress between 0 and 1
-	 */
-	public void setProgress(float progress) {
-		if (isSpinning) {
-			mProgress = 0.0f;
-			isSpinning = false;
-
-			runCallback();
-		}
-
-		if (progress > 1.0f) {
-			progress -= 1.0f;
-		} else if (progress < 0) {
-			progress = 0;
-		}
-
-		if (progress == mTargetProgress) {
-			return;
-		}
-
-		// If we are currently in the right position
-		// we set again the last time animated so the
-		// animation starts smooth from here
-		if (mProgress == mTargetProgress) {
-			lastTimeAnimated = SystemClock.uptimeMillis();
-		}
-
-		mTargetProgress = Math.min(progress * 360.0f, 360.0f);
-
-		invalidate();
 	}
 
 	/**
@@ -697,16 +648,52 @@ public class ProgressWheel extends View {
 		this.lastTimeAnimated = SystemClock.uptimeMillis();
 	}
 
-	//----------------------------------
-	//Getters + setters
-	//----------------------------------
-
 	/**
 	 * @return the current progress between 0.0 and 1.0,
 	 * if the wheel is indeterminate, then the result is -1
 	 */
 	public float getProgress() {
 		return isSpinning ? -1 : mProgress / 360.0f;
+	}
+
+	//----------------------------------
+	//Getters + setters
+	//----------------------------------
+
+	/**
+	 * Set the progress to a specific value,
+	 * the bar will smoothly animate until that value
+	 *
+	 * @param progress the progress between 0 and 1
+	 */
+	public void setProgress(float progress) {
+		if (isSpinning) {
+			mProgress = 0.0f;
+			isSpinning = false;
+
+			runCallback();
+		}
+
+		if (progress > 1.0f) {
+			progress -= 1.0f;
+		} else if (progress < 0) {
+			progress = 0;
+		}
+
+		if (progress == mTargetProgress) {
+			return;
+		}
+
+		// If we are currently in the right position
+		// we set again the last time animated so the
+		// animation starts smooth from here
+		if (mProgress == mTargetProgress) {
+			lastTimeAnimated = SystemClock.uptimeMillis();
+		}
+
+		mTargetProgress = Math.min(progress * 360.0f, 360.0f);
+
+		invalidate();
 	}
 
 	/**
@@ -767,20 +754,6 @@ public class ProgressWheel extends View {
 	}
 
 	/**
-	 * @return the color of the circle background
-	 */
-	public int getCircleColor() {
-		return circleColor;
-	}
-
-	/**
-	 * @return the shadow color of the circle background
-	 */
-	public int getShadowColor() {
-		return shadowColor;
-	}
-
-	/**
 	 * Sets the color of the spinning bar
 	 *
 	 * @param barColor The spinning bar color
@@ -794,6 +767,13 @@ public class ProgressWheel extends View {
 	}
 
 	/**
+	 * @return the color of the circle background
+	 */
+	public int getCircleColor() {
+		return circleColor;
+	}
+
+	/**
 	 * Sets the color of the circle background
 	 *
 	 * @param circleColor The circle background color
@@ -804,6 +784,13 @@ public class ProgressWheel extends View {
 		if (!isSpinning) {
 			invalidate();
 		}
+	}
+
+	/**
+	 * @return the shadow color of the circle background
+	 */
+	public int getShadowColor() {
+		return shadowColor;
 	}
 
 	/**
@@ -878,8 +865,35 @@ public class ProgressWheel extends View {
 		}
 	}
 
+	public interface ProgressCallback {
+
+		/**
+		 * Method to call when the progress reaches a value
+		 * in order to avoid float precision issues, the progress
+		 * is rounded to a float with two decimals.
+		 * <p>
+		 * In indeterminate mode, the callback is called each time
+		 * the wheel completes an animation cycle, with, the progress value is -1.0f
+		 *
+		 * @param progress a double value between 0.00 and 1.00 both included
+		 */
+		void onProgressUpdate(float progress);
+	}
+
 	static class WheelSavedState extends BaseSavedState {
 
+		//required field that makes Parcelables from a Parcel
+		public static final Parcelable.Creator<WheelSavedState> CREATOR =
+				new Parcelable.Creator<WheelSavedState>() {
+
+					public WheelSavedState createFromParcel(Parcel in) {
+						return new WheelSavedState(in);
+					}
+
+					public WheelSavedState[] newArray(int size) {
+						return new WheelSavedState[size];
+					}
+				};
 		float mProgress;
 		float mTargetProgress;
 		boolean isSpinning;
@@ -926,33 +940,5 @@ public class ProgressWheel extends View {
 			out.writeByte((byte) (linearProgress ? 1 : 0));
 			out.writeByte((byte) (fillRadius ? 1 : 0));
 		}
-
-		//required field that makes Parcelables from a Parcel
-		public static final Parcelable.Creator<WheelSavedState> CREATOR =
-				new Parcelable.Creator<WheelSavedState>() {
-
-					public WheelSavedState createFromParcel(Parcel in) {
-						return new WheelSavedState(in);
-					}
-
-					public WheelSavedState[] newArray(int size) {
-						return new WheelSavedState[size];
-					}
-				};
-	}
-
-	public interface ProgressCallback {
-
-		/**
-		 * Method to call when the progress reaches a value
-		 * in order to avoid float precision issues, the progress
-		 * is rounded to a float with two decimals.
-		 * <p>
-		 * In indeterminate mode, the callback is called each time
-		 * the wheel completes an animation cycle, with, the progress value is -1.0f
-		 *
-		 * @param progress a double value between 0.00 and 1.00 both included
-		 */
-		void onProgressUpdate(float progress);
 	}
 }

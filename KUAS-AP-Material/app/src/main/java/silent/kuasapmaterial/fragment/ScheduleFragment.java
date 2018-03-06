@@ -40,18 +40,14 @@ import silent.kuasapmaterial.libs.PinnedSectionListView;
 
 public class ScheduleFragment extends SilentFragment implements AdapterView.OnItemClickListener {
 
+	List<String> mList;
+	Activity activity;
+	String mScheduleData;
 	private View view;
 	private PinnedSectionListView mListView;
 	private SwipeRefreshLayout mSwipeRefreshLayout;
-
-	List<String> mList;
-	Activity activity;
-
 	private int mInitListPos = 0, mInitListOffset = 0;
-
 	private FirebaseRemoteConfig mFirebaseRemoteConfig;
-
-	String mScheduleData;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -197,12 +193,34 @@ public class ScheduleFragment extends SilentFragment implements AdapterView.OnIt
 		return mListView;
 	}
 
+	private void getScheduleData() {
+		mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
+		FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
+				.setDeveloperModeEnabled(BuildConfig.DEBUG).build();
+		mFirebaseRemoteConfig.setConfigSettings(configSettings);
+
+		mFirebaseRemoteConfig.fetch(60).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+			@Override
+			public void onComplete(@NonNull Task<Void> task) {
+				if (task.isSuccessful() && !activity.isFinishing()) {
+					mFirebaseRemoteConfig.activateFetched();
+					try {
+						mScheduleData = mFirebaseRemoteConfig.getString("schedule_data");
+						setUpViews();
+					} catch (Exception e) {
+						// ignore
+					}
+				}
+			}
+		});
+	}
+
 	public class ScheduleAdapter extends BaseAdapter
 			implements PinnedSectionListView.PinnedSectionListAdapter {
 
-		private LayoutInflater inflater;
-
 		private static final int TYPE_WEEK = 0, TYPE_SCHEDULE = 1;
+		private LayoutInflater inflater;
 
 		public ScheduleAdapter(Context context) {
 			this.inflater =
@@ -281,28 +299,5 @@ public class ScheduleFragment extends SilentFragment implements AdapterView.OnIt
 
 			TextView textView;
 		}
-	}
-
-	private void getScheduleData(){
-		mFirebaseRemoteConfig = FirebaseRemoteConfig.getInstance();
-		FirebaseRemoteConfigSettings configSettings = new FirebaseRemoteConfigSettings.Builder()
-				.setDeveloperModeEnabled(BuildConfig.DEBUG).build();
-		mFirebaseRemoteConfig.setConfigSettings(configSettings);
-
-		mFirebaseRemoteConfig.fetch(60).addOnCompleteListener(new OnCompleteListener<Void>() {
-
-			@Override
-			public void onComplete(@NonNull Task<Void> task) {
-				if (task.isSuccessful() && !activity.isFinishing()) {
-					mFirebaseRemoteConfig.activateFetched();
-					try {
-						mScheduleData = mFirebaseRemoteConfig.getString("schedule_data");
-						setUpViews();
-					} catch (Exception e) {
-						// ignore
-					}
-				}
-			}
-		});
 	}
 }

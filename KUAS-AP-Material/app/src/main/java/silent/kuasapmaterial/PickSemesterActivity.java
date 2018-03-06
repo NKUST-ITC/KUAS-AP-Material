@@ -34,8 +34,8 @@ public class PickSemesterActivity extends SilentActivity
 
 	List<SemesterModel> mSemesterList;
 	SemesterModel mSelectedModel;
-	private int mInitListPos = 0, mInitListOffset = 0;
 	SemesterAdapter mAdapter;
+	private int mInitListPos = 0, mInitListOffset = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

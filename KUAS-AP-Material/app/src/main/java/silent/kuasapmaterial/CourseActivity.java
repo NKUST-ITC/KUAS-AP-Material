@@ -53,9 +53,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	List<List<CourseModel>> mList;
 	List<SemesterModel> mSemesterList;
 	SemesterModel mSelectedModel;
+	boolean isRetry = false;
 	private int mPos = 0;
 	private boolean isHoliday, isNight, isHolidayNight, isB, isHolidayB;
-	boolean isRetry = false;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -375,8 +375,8 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		new AlertDialog.Builder(CourseActivity.this).setTitle(R.string.course_dialog_title)
 				.setMessage(getString(R.string.course_dialog_messages,
 						mList.get(weekday).get(section).title, instructors,
-						mList.get(weekday).get(section).room, start_time +
-								" - " + end_time)).setPositiveButton(R.string.ok, null).show();
+						mList.get(weekday).get(section).room, start_time + " - " + end_time))
+				.setPositiveButton(R.string.ok, null).show();
 	}
 
 	private void checkCourseTableType() {
@@ -386,14 +386,15 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		isB = false;
 		isHolidayB = false;
 
-		for (int i = 0; i < mList.size() && !(isHolidayNight && isHoliday &&
-				isNight && isHolidayB && isB); i++) {
+		for (int i = 0;
+		     i < mList.size() && !(isHolidayNight && isHoliday && isNight && isHolidayB && isB);
+		     i++) {
 			if (mList.get(i) != null) {
 				if (i > 4) {
 					isHoliday = true;
 				}
-				for (int j = 0; j < mList.get(i).size() && !(isHolidayNight && isHoliday &&
-						isNight && isHolidayB && isB); j++) {
+				for (int j = 0; j < mList.get(i).size() &&
+						!(isHolidayNight && isHoliday && isNight && isHolidayB && isB); j++) {
 					if (mList.get(i).get(j) != null) {
 						if (j > 10) {
 							if (i > 4) {
@@ -433,16 +434,6 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 
 	public class CourseGridAdapter extends RecyclerView.Adapter<CourseGridAdapter.CourseViewHolder>
 			implements View.OnClickListener {
-
-		public class CourseViewHolder extends RecyclerView.ViewHolder {
-
-			public final TextView textView;
-
-			public CourseViewHolder(View view) {
-				super(view);
-				textView = (TextView) view.findViewById(R.id.textView);
-			}
-		}
 
 		@Override
 		public void onClick(View v) {
@@ -546,6 +537,16 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		@Override
 		public int getItemCount() {
 			return getWidth() * getHeight();
+		}
+
+		public class CourseViewHolder extends RecyclerView.ViewHolder {
+
+			public final TextView textView;
+
+			public CourseViewHolder(View view) {
+				super(view);
+				textView = (TextView) view.findViewById(R.id.textView);
+			}
 		}
 	}
 }

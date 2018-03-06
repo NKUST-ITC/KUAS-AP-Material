@@ -47,9 +47,9 @@ public class BusReservationsActivity extends SilentActivity
 	SwipeRefreshLayout mSwipeRefreshLayout;
 
 	List<BusModel> mList;
-	private int mInitListPos = 0, mInitListOffset = 0;
 	BusAdapter mAdapter;
 	boolean isRefresh = false, isRetry = false;
+	private int mInitListPos = 0, mInitListOffset = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

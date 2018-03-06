@@ -10,25 +10,21 @@ import android.graphics.drawable.Drawable;
 
 public class RadiusDrawable extends Drawable {
 
+	private final Paint paint;
+	private final boolean isStroke;
 	private int topLeftRadius;
 	private int topRightRadius;
 	private int bottomLeftRadius;
 	private int bottomRightRadius;
-
 	private int left;
 	private int top;
 	private int right;
 	private int bottom;
-
 	private int width;
 	private int height;
-
 	private int centerX;
 	private int centerY;
-
-	private final Paint paint;
 	private int color;
-	private final boolean isStroke;
 	private int strokeWidth = 0;
 	private int strokeColor;
 
