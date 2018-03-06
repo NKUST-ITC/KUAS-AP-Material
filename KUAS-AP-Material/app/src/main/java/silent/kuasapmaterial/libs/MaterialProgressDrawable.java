@@ -56,6 +56,13 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 	public static final int LARGE = 1;
 	// Maps to ProgressBar default style
 	public static final int DEFAULT = 0;
+	static final float STROKE_WIDTH_LARGE = 3f;
+	static final float STROKE_WIDTH_XLARGE = 3.5f;
+	/**
+	 * Layout info for the arrowhead for the large spinner in dp
+	 */
+	static final int ARROW_WIDTH_LARGE = 12;
+	static final int ARROW_HEIGHT_LARGE = 6;
 	private static final Interpolator LINEAR_INTERPOLATOR = new LinearInterpolator();
 	private static final Interpolator END_CURVE_INTERPOLATOR = new EndCurveInterpolator();
 	private static final Interpolator START_CURVE_INTERPOLATOR = new StartCurveInterpolator();
@@ -67,11 +74,9 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 	// Maps to ProgressBar.Large style
 	private static final int CIRCLE_DIAMETER_LARGE = 56;
 	private static final float CENTER_RADIUS_LARGE = 12.5f;
-	static final float STROKE_WIDTH_LARGE = 3f;
 	// Maps to ProgressBar.XLarge style
 	private static final int CIRCLE_DIAMETER_XLARGE = 80;
 	private static final float CENTER_RADIUS_XLARGE = 17.5f;
-	static final float STROKE_WIDTH_XLARGE = 3.5f;
 	/**
 	 * The duration of a single progress spin in milliseconds.
 	 */
@@ -86,11 +91,6 @@ public class MaterialProgressDrawable extends Drawable implements Animatable {
 	private static final int ARROW_WIDTH = 10;
 	private static final int ARROW_HEIGHT = 5;
 	private static final float ARROW_OFFSET_ANGLE = 0;
-	/**
-	 * Layout info for the arrowhead for the large spinner in dp
-	 */
-	static final int ARROW_WIDTH_LARGE = 12;
-	static final int ARROW_HEIGHT_LARGE = 6;
 	private static final float MAX_PROGRESS_ARC = .8f;
 	private final int[] COLORS = new int[]{Color.BLACK};
 	/**

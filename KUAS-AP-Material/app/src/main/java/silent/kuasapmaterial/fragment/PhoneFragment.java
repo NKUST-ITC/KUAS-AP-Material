@@ -28,13 +28,11 @@ import silent.kuasapmaterial.models.PhoneModel;
 
 public class PhoneFragment extends SilentFragment implements AdapterView.OnItemClickListener {
 
+	List<PhoneModel> mList;
+	Activity activity;
 	private View view;
 	private PinnedSectionListView mListView;
 	private SwipeRefreshLayout mSwipeRefreshLayout;
-
-	List<PhoneModel> mList;
-	Activity activity;
-
 	private int mInitListPos = 0, mInitListOffset = 0;
 
 	@Override

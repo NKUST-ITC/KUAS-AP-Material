@@ -13,14 +13,8 @@ import io.fabric.sdk.android.Fabric;
 
 public class SilentApplication extends Application {
 
-	@Override
-	public void onCreate() {
-		super.onCreate();
-
-		Fabric.with(this, new Crashlytics.Builder()
-				.core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
-
-		initImageLoader(getApplicationContext());
+	public SilentApplication() {
+		super();
 	}
 
 	public static void initImageLoader(Context context) {
@@ -30,8 +24,14 @@ public class SilentApplication extends Application {
 		ImageLoader.getInstance().init(config);
 	}
 
-	public SilentApplication() {
-		super();
+	@Override
+	public void onCreate() {
+		super.onCreate();
+
+		Fabric.with(this, new Crashlytics.Builder()
+				.core(new CrashlyticsCore.Builder().disabled(BuildConfig.DEBUG).build()).build());
+
+		initImageLoader(getApplicationContext());
 	}
 
 	protected void attachBaseContext(Context base) {

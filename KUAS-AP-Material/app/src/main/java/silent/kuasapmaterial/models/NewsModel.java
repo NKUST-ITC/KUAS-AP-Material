@@ -6,9 +6,9 @@ package silent.kuasapmaterial.models;
 
 public class NewsModel {
 
-    public String title;
-    public String image;
-    public int weight;
-    public String url;
-    public String content;
+	public String title;
+	public String image;
+	public int weight;
+	public String url;
+	public String content;
 }

@@ -61,10 +61,10 @@ public class BusActivity extends SilentActivity
 
 	String mDate;
 	List<BusModel> mJianGongList, mYanChaoList;
-	private int mInitListPos = 0, mInitListOffset = 0, mIndex = 0;
 	BusAdapter mAdapter;
 	ListScrollDistanceCalculator mListScrollDistanceCalculator;
 	boolean isRetry = false;
+	private int mInitListPos = 0, mInitListOffset = 0, mIndex = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

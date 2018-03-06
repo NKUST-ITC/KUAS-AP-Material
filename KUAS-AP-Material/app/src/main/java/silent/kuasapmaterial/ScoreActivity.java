@@ -49,8 +49,8 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 	List<SemesterModel> mSemesterList;
 	SemesterModel mSelectedModel;
 	ScoreDetailModel mScoreDetailModel;
-	private int mPos = 0;
 	boolean isRetry = false;
+	private int mPos = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -354,10 +354,10 @@ public class ScoreActivity extends SilentActivity implements SwipeRefreshLayout.
 						(j == 1 ? mList.get(i).middle_score : mList.get(i).final_score));
 				scoreTextView.setGravity(Gravity.CENTER);
 
-				int drawable = getResources()
-						.getIdentifier("table_" + (i == mList.size() - 1 ? "bottom_" : "normal_") +
-										(j == 0 ? "left" : (j == 1 ? "center" : "right")), "drawable",
-								getPackageName());
+				int drawable = getResources().getIdentifier(
+						"table_" + (i == mList.size() - 1 ? "bottom_" : "normal_") +
+								(j == 0 ? "left" : (j == 1 ? "center" : "right")), "drawable",
+						getPackageName());
 				scoreTextView.setBackgroundResource(drawable);
 
 				scoreTableRow.addView(scoreTextView,

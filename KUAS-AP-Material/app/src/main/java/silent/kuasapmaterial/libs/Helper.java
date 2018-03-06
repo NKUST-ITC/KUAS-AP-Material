@@ -51,20 +51,9 @@ import silent.kuasapmaterial.models.UserInfoModel;
 
 public class Helper {
 
-	private static final AsyncHttpClient mClient = init();
-
-	private static AsyncHttpClient init() {
-		AsyncHttpClient client = new AsyncHttpClient();
-		client.addHeader("Connection", "Keep-Alive");
-		client.setTimeout(10 * 1000);
-		client.setEnableRedirects(true, true, true);
-		return client;
-	}
-
 	public static final String SERVER_HOST = "kuas.grd.idv.tw";
 	public static final int SERVER_PORT = 14769;
 	public static final String BASE_URL = "https://" + SERVER_HOST + ":" + SERVER_PORT;
-
 	public static final String SERVER_STATUS_URL = BASE_URL + "/latest/servers/status";
 	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android";
 	public static final String LOGIN_URL = BASE_URL + "/latest/token";
@@ -82,6 +71,15 @@ public class Helper {
 	public static final String NOTIFICATION_URL = BASE_URL + "/latest/notifications/%s";
 	public static final String NEWS_URL = BASE_URL + "/news";
 	public static final String NEWS_ALL_URL = BASE_URL + "/latest/news/all";
+	private static final AsyncHttpClient mClient = init();
+
+	private static AsyncHttpClient init() {
+		AsyncHttpClient client = new AsyncHttpClient();
+		client.addHeader("Connection", "Keep-Alive");
+		client.setTimeout(10 * 1000);
+		client.setEnableRedirects(true, true, true);
+		return client;
+	}
 
 	private static void onHelperTimeOut(GeneralCallback callback) {
 		if (callback != null) {
@@ -127,8 +125,8 @@ public class Helper {
 			} else if (statusCode == 0) {
 				callback.onFail(context.getString(R.string.timeout_message));
 			} else {
-				callback.onFail(context.getString(R.string.something_error) + "：" +
-						statusCode + (errorMessage == null ? "" : " " + errorMessage));
+				callback.onFail(context.getString(R.string.something_error) + "：" + statusCode +
+						(errorMessage == null ? "" : " " + errorMessage));
 			}
 		}
 	}

@@ -52,8 +52,8 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 	List<LeaveModel> mList;
 	List<SemesterModel> mSemesterList;
 	SemesterModel mSelectedModel;
-	private int mPos = 0;
 	boolean isRetry = false;
+	private int mPos = 0;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -404,10 +404,10 @@ public class LeaveActivity extends SilentActivity implements SwipeRefreshLayout.
 				}
 				scoreTextView.setGravity(Gravity.CENTER);
 
-				int drawable = getResources()
-						.getIdentifier("table_" + (i == mList.size() - 1 ? "bottom_" : "normal_") +
-										(j == sections.length - 1 ? "right" : (j == 0 ? "left" : "center")),
-								"drawable", getPackageName());
+				int drawable = getResources().getIdentifier(
+						"table_" + (i == mList.size() - 1 ? "bottom_" : "normal_") +
+								(j == sections.length - 1 ? "right" : (j == 0 ? "left" : "center")),
+						"drawable", getPackageName());
 				scoreTextView.setBackgroundResource(drawable);
 
 				scoreTableRow.addView(scoreTextView,
