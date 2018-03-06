@@ -419,6 +419,7 @@ public class SilentActivity extends AppCompatActivity
 
 	public void clearUserData() {
 		Memory.setBoolean(this, Constant.PREF_IS_LOGIN, false);
+		Memory.setBoolean(this, Constant.PREF_AUTO_LOGIN, false);
 		Memory.setString(this, Constant.PREF_USER_PIC, "");
 		Memory.setString(this, Constant.PREF_USER_ID, "");
 		Memory.setString(this, Constant.PREF_USER_NAME, "");

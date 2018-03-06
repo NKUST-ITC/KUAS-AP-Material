@@ -10,7 +10,7 @@ public class Constant {
 	public final static String KeyAES = "l9r1W3wcsnJTayxCXwoFt62w1i4sQ5J9";
 
 	public static final String PREF_REMEMBER_PASSWORD = "pref_remember_password";
-	public static final String PREF_KEEP_LOGIN = "pref_keep_login";
+	public static final String PREF_AUTO_LOGIN = "pref_auto_login";
 	public static final String PREF_USERNAME = "pref_username";
 	public static final String PREF_PASSWORD = "pref_password";
 

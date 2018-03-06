@@ -25,7 +25,7 @@
 	<string name="id_hint">學號</string>
 	<string name="password_hint">密碼</string>
 	<string name="remember_password">記住密碼</string>
-	<string name="keep_login">保持登入</string>
+	<string name="auto_login">自動登入</string>
 	<string name="version">v.%s</string>
 	<string name="login_ing">登入中&#8230;</string>
 	<string name="call_phone_title">撥出電話</string>

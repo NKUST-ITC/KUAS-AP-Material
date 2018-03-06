@@ -116,12 +116,12 @@
 						android:minWidth="500dp">
 
 						<CheckBox
-							android:id="@+id/checkbox_keep_login"
+							android:id="@+id/checkbox_auto_login"
 							android:layout_width="match_parent"
 							android:layout_height="wrap_content"
 							android:layout_weight="1"
 							android:checked="true"
-							android:text="@string/keep_login"
+							android:text="@string/auto_login"
 							android:textColor="@color/black_text"/>
 
 						<TextView
