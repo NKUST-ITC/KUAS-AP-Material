@@ -46,6 +46,7 @@ captures/
 # IntelliJ
 *.iml
 workspace.xml
+/.idea/*
 */.idea/*
 !*/.idea/codeStyleSettings.xml
 
