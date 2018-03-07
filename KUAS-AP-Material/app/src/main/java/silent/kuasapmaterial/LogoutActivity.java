@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
@@ -155,6 +156,11 @@ public class LogoutActivity extends SilentActivity {
 			public int getCount() {
 				return newsList.size();
 			}
+
+			@Override
+			public Parcelable saveState() {
+				return null;
+			}
 		});
 		viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
@@ -173,6 +179,7 @@ public class LogoutActivity extends SilentActivity {
 
 			}
 		});
+		viewPager.setOffscreenPageLimit(3);
 		updateView();
 		navigation.setOnNavigationItemSelectedListener(
 				new BottomNavigationView.OnNavigationItemSelectedListener() {
