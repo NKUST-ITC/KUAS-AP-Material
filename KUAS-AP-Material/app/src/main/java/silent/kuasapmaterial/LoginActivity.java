@@ -60,6 +60,7 @@ public class LoginActivity extends SilentActivity
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_login);
+		checkIsAutoLogin();
 		clearUserData();
 		init(R.string.app_name, R.layout.activity_login);
 
@@ -69,6 +70,18 @@ public class LoginActivity extends SilentActivity
 		getVersion();
 		checkServerStatus();
 		getNews();
+	}
+
+	@Override
+	protected void onResume() {
+		super.onResume();
+		mAutoLoginCheckBox.setChecked(Memory.getBoolean(this, Constant.PREF_AUTO_LOGIN, false));
+	}
+
+	private void checkIsAutoLogin() {
+		if (Memory.getBoolean(LoginActivity.this, Constant.PREF_AUTO_LOGIN, false)) {
+			startActivity(new Intent(LoginActivity.this, LogoutActivity.class));
+		}
 	}
 
 	private void checkUpdateNote(String version) {
@@ -205,9 +218,6 @@ public class LoginActivity extends SilentActivity
 				e.printStackTrace();
 			}
 		}
-		if (Memory.getBoolean(this, Constant.PREF_AUTO_LOGIN, false)) {
-			login();
-		}
 		mRememberCheckBox
 				.setChecked(Memory.getBoolean(this, Constant.PREF_REMEMBER_PASSWORD, true));
 		mAutoLoginCheckBox.setChecked(Memory.getBoolean(this, Constant.PREF_AUTO_LOGIN, false));
@@ -217,6 +227,16 @@ public class LoginActivity extends SilentActivity
 			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
 				if (!mRememberCheckBox.isChecked()) {
 					Memory.setString(LoginActivity.this, Constant.PREF_PASSWORD, "");
+					mAutoLoginCheckBox.setChecked(false);
+				}
+			}
+		});
+		mAutoLoginCheckBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+			@Override
+			public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+				if (mAutoLoginCheckBox.isChecked()) {
+					mRememberCheckBox.setChecked(true);
 				}
 			}
 		});

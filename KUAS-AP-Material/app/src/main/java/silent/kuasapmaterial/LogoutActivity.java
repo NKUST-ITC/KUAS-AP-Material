@@ -9,13 +9,17 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.support.v7.app.AlertDialog;
+import android.util.Base64;
 import android.view.MenuItem;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.crashlytics.android.Crashlytics;
 import com.google.android.gms.analytics.HitBuilders;
 import com.kuas.ap.R;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -48,6 +52,8 @@ public class LogoutActivity extends SilentActivity {
 	String mTitle, mContent, mURL;
 	Boolean hasNews, isBusSaved;
 
+	AlertDialog mProgressDialog;
+
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -69,6 +75,70 @@ public class LogoutActivity extends SilentActivity {
 		setUpBusNotify();
 		findViews();
 		getNews();
+		checkIsAutoLogin();
+	}
+
+	private void checkIsAutoLogin() {
+		if (Memory.getBoolean(this, Constant.PREF_IS_LOGIN, false)) {
+			return;
+		}
+		final String id = Memory.getString(this, Constant.PREF_USERNAME, "");
+		String pwd = "";
+		String pwdAES = Memory.getString(this, Constant.PREF_PASSWORD, "");
+		if (pwdAES.length() > 0) {
+			try {
+				byte[] TextByte = Utils.DecryptAES(Constant.IvAES.getBytes("UTF-8"),
+						Constant.KeyAES.getBytes("UTF-8"),
+						Base64.decode(pwdAES.getBytes("UTF-8"), Base64.DEFAULT));
+				if (TextByte != null) {
+					pwd = new String(TextByte, "UTF-8");
+				}
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+		}
+		mProgressDialog = Utils.createLoadingDialog(this, R.string.login_ing);
+		mProgressDialog.show();
+		if (Memory.getBoolean(this, Constant.PREF_AUTO_LOGIN, false)) {
+			Helper.login(this, id, pwd, new GeneralCallback() {
+
+				@Override
+				public void onFail(String errorMessage) {
+					super.onFail(errorMessage);
+
+					if (isFinishing()) {
+						return;
+					}
+					Utils.dismissDialog(mProgressDialog);
+					Toast.makeText(LogoutActivity.this, R.string.timeout_message,
+							Toast.LENGTH_SHORT).show();
+				}
+
+				@Override
+				public void onTokenExpired() {
+					super.onTokenExpired();
+
+					if (isFinishing()) {
+						return;
+					}
+					Utils.dismissDialog(mProgressDialog);
+				}
+
+				@Override
+				public void onSuccess() {
+					super.onSuccess();
+
+					if (isFinishing()) {
+						return;
+					}
+					Utils.dismissDialog(mProgressDialog);
+					Crashlytics.setUserName(id);
+					Memory.setBoolean(LogoutActivity.this, Constant.PREF_IS_LOGIN, true);
+					setUpUserPhoto();
+					setUpUserInfo();
+				}
+			});
+		}
 	}
 
 	private void restoreArgs(Bundle savedInstanceState) {
