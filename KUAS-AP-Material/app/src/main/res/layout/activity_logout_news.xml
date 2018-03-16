@@ -29,67 +29,87 @@
 				app:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
 		</android.support.design.widget.AppBarLayout>
 
-		<RelativeLayout
+		<android.support.constraint.ConstraintLayout
 			android:layout_width="match_parent"
 			android:layout_height="match_parent">
 
-			<LinearLayout
-				android:layout_width="match_parent"
+			<TextView
+				android:id="@+id/textView_title"
+				android:layout_width="wrap_content"
 				android:layout_height="wrap_content"
-				android:layout_above="@+id/navigation"
-				android:background="?android:windowContentOverlay"
+				android:drawableBottom="@drawable/ic_arrow_drop_down_black"
 				android:gravity="center"
-				android:orientation="vertical"
-				android:weightSum="10">
+				android:textColor="@color/grey"
+				android:textSize="@dimen/text_title"
+				app:layout_constraintBottom_toTopOf="@id/guideline1"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="0.5"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="parent"
+				app:layout_constraintVertical_bias="1"
+				tools:text="@string/app_name"/>
+
+			<android.support.constraint.Guideline
+				android:id="@+id/guideline1"
+				android:layout_width="wrap_content"
+				android:layout_height="0dp"
+				android:orientation="horizontal"
+				app:layout_constraintBottom_toTopOf="@id/navigation"
+				app:layout_constraintGuide_percent="0.2"
+				app:layout_constraintTop_toTopOf="parent"/>
+
+			<android.support.v4.view.ViewPager
+				android:id="@+id/viewPager_news"
+				android:layout_width="match_parent"
+				android:layout_height="0dp"
+				android:layout_gravity="center"
+				android:clipToPadding="false"
+				android:paddingEnd="48dp"
+				android:paddingLeft="48dp"
+				android:paddingRight="48dp"
+				android:paddingStart="48dp"
+				app:layout_constraintBottom_toTopOf="@+id/guideline2"
+				app:layout_constraintTop_toBottomOf="@id/guideline1">
+			</android.support.v4.view.ViewPager>
+
+			<android.support.constraint.Guideline
+				android:id="@+id/guideline2"
+				android:layout_width="wrap_content"
+				android:layout_height="0dp"
+				android:orientation="horizontal"
+				app:layout_constraintBottom_toTopOf="@id/navigation"
+				app:layout_constraintGuide_percent="0.75"
+				app:layout_constraintTop_toTopOf="parent"/>
+
+			<LinearLayout
+				android:id="@+id/layout_page_number"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="@dimen/margin_medium"
+				android:layout_weight="1"
+				android:gravity="center"
+				app:layout_constraintBottom_toTopOf="@id/navigation"
+				app:layout_constraintEnd_toEndOf="parent"
+				app:layout_constraintHorizontal_bias="0.5"
+				app:layout_constraintStart_toStartOf="parent"
+				app:layout_constraintTop_toTopOf="@+id/guideline2"
+				app:layout_constraintVertical_bias="0.0">
 
 				<TextView
-					android:id="@+id/textView_title"
+					android:id="@+id/textView_position"
 					android:layout_width="wrap_content"
-					android:layout_height="0dp"
-					android:layout_marginBottom="@dimen/margin_medium"
-					android:layout_marginTop="@dimen/margin_medium"
-					android:layout_weight="1.5"
-					android:gravity="center"
+					android:layout_height="wrap_content"
+					android:textColor="@color/red"
+					android:textSize="26sp"
+					tools:text="05"/>
+
+				<TextView
+					android:id="@+id/textView_total"
+					android:layout_width="wrap_content"
+					android:layout_height="wrap_content"
 					android:textColor="@color/grey"
-					android:textSize="@dimen/text_title"
-					tools:text="@string/app_name"/>
-
-				<android.support.v4.view.ViewPager
-					android:id="@+id/viewPager_news"
-					android:layout_width="match_parent"
-					android:layout_height="0dp"
-					android:layout_gravity="center"
-					android:layout_weight="6"
-					android:clipToPadding="false"
-					android:paddingEnd="48dp"
-					android:paddingLeft="48dp"
-					android:paddingRight="48dp"
-					android:paddingStart="48dp">
-
-				</android.support.v4.view.ViewPager>
-
-				<LinearLayout
-					android:layout_width="wrap_content"
-					android:layout_height="0dp"
-					android:layout_weight="1"
-					android:gravity="center">
-
-					<TextView
-						android:id="@+id/textView_position"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textColor="@color/red"
-						android:textSize="20sp"
-						tools:text="05"/>
-
-					<TextView
-						android:id="@+id/textView_total"
-						android:layout_width="wrap_content"
-						android:layout_height="wrap_content"
-						android:textColor="@color/grey"
-						android:textSize="20sp"
-						tools:text="/10"/>
-				</LinearLayout>
+					android:textSize="26sp"
+					tools:text="/10"/>
 			</LinearLayout>
 
 			<android.support.design.widget.BottomNavigationView
@@ -101,9 +121,9 @@
 				app:elevation="8dp"
 				app:itemIconTint="@color/navigation_item_state"
 				app:itemTextColor="@color/navigation_item_state"
-				app:menu="@menu/navigation"
-				/>
-		</RelativeLayout>
+				app:layout_constraintBottom_toBottomOf="parent"
+				app:menu="@menu/navigation"/>
+		</android.support.constraint.ConstraintLayout>
 
 	</LinearLayout>
 

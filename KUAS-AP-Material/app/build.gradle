@@ -91,6 +91,7 @@ dependencies {
     implementation 'com.android.support:support-v4:27.1.0'
     implementation 'com.android.support:support-vector-drawable:27.1.0'
     implementation 'com.android.support:transition:27.1.0'
+    implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     implementation 'com.google.android.gms:play-services-analytics:11.4.2'
     implementation 'com.google.firebase:firebase-config:11.4.2'
     implementation 'com.google.firebase:firebase-core:11.4.2'
