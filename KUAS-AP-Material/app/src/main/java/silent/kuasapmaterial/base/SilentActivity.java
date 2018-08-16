@@ -408,6 +408,8 @@ public class SilentActivity extends AppCompatActivity
 											.build());
 								}
 								clearUserData();
+								Memory.setBoolean(SilentActivity.this, Constant.PREF_AUTO_LOGIN,
+										false);
 								finish();
 							}
 						}).setNegativeButton(R.string.cancel, null).show();
