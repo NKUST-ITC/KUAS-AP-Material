@@ -109,7 +109,6 @@
 			android:name="com.google.android.gms.analytics.AnalyticsService"
 			android:enabled="true"
 			android:exported="false"/>
-		<service android:name="com.google.android.gms.analytics.CampaignTrackingService"/>
 
 		<meta-data
 			android:name="com.google.android.gms.version"
