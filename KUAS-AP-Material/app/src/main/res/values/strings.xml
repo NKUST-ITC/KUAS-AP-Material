@@ -2,7 +2,7 @@
 	<string name="app_name">KUAS AP</string>
 
 	<string name="update_note_title">Update Notes %s</string>
-	<string name="update_note_content">Update：\n　 - New Schedule provide by Firebase\n　 - Redesign News page, Add recommended shortcuts</string>
+	<string name="update_note_content">Update：\n　 - Fix crash</string>
 
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">Share</string>

@@ -2,7 +2,7 @@
 	<string name="app_name">高應校務通</string>
 
 	<string name="update_note_title">更新日誌 %s</string>
-	<string name="update_note_content">更新：\n　 - 行事曆改由 Firebase 提供\n　 - 全新活動頁面、新增常用快捷功能</string>
+	<string name="update_note_content">更新：\n　 - 修正閃退</string>
 
 	<string name="splash_content">我們全都包了\n只剩下學校不包我們</string>
 	<string name="share">分享</string>
