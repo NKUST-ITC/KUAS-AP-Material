@@ -198,11 +198,11 @@
 	<string name="course8">第6節</string>
 	<string name="course9">第7節</string>
 	<string name="course10">第8節</string>
-	<string name="course11">B</string>
-	<string name="course12">第11節</string>
-	<string name="course13">第12節</string>
-	<string name="course14">第13節</string>
-	<string name="course15">第14節</string>
+	<string name="course11">第9節</string>
+	<string name="course12">第10節</string>
+	<string name="course13">第11節</string>
+	<string name="course14">第12節</string>
+	<string name="course15">第13節</string>
 
 	<array name="weekdays">
 		<item>@string/sun</item>
@@ -225,11 +225,11 @@
 		<item>第 6 節</item>
 		<item>第 7 節</item>
 		<item>第 8 節</item>
-		<item>B</item>
+		<item>第 9 節</item>
+		<item>第 10 節</item>
 		<item>第 11 節</item>
 		<item>第 12 節</item>
 		<item>第 13 節</item>
-		<item>第 14 節</item>
 	</array>
 	<array name="course_weekdays">
 		<item>Monday</item>
