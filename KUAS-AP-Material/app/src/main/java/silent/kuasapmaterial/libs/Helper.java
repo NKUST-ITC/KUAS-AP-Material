@@ -2,7 +2,6 @@ package silent.kuasapmaterial.libs;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 
 import com.kuas.ap.R;
 import com.loopj.android.http.AsyncHttpClient;
@@ -313,8 +312,6 @@ public class Helper {
 								model.section = dateObject.getString("section");
 								model.building = locationObject.getString("building");
 								model.room = locationObject.getString("room");
-								Log.e("section",sections.toString());
-								Log.e("sections", model.section);
 								tmpList.set(sections.indexOf(model.section), model);
 							}
 							modelList.add(i, tmpList);
