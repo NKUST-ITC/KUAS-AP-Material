@@ -210,11 +210,11 @@
 	<string name="course8"> 6 </string>
 	<string name="course9"> 7 </string>
 	<string name="course10"> 8 </string>
-	<string name="course11"> B </string>
-	<string name="course12"> 11 </string>
-	<string name="course13"> 12 </string>
-	<string name="course14"> 13 </string>
-	<string name="course15"> 14 </string>
+	<string name="course11"> 9 </string>
+	<string name="course12"> 10 </string>
+	<string name="course13"> 11 </string>
+	<string name="course14"> 12 </string>
+	<string name="course15"> 13 </string>
 
 	<array name="weekdays">
 		<item>@string/sun</item>
