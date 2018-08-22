@@ -23,8 +23,8 @@ android {
         applicationId "com.kuas.ap"
         minSdkVersion 15
         targetSdkVersion 27
-        versionCode 20302
-        versionName "2.3.2"
+        versionCode 20303
+        versionName "2.3.3"
         multiDexEnabled true
     }
 
