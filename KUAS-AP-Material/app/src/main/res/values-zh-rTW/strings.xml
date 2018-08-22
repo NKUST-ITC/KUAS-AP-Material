@@ -188,22 +188,6 @@
 	<string name="sat"> 六 </string>
 	<string name="sun"> 日 </string>
 
-	<string name="course1">M</string>
-	<string name="course2">第1節</string>
-	<string name="course3">第2節</string>
-	<string name="course4">第3節</string>
-	<string name="course5">第4節</string>
-	<string name="course6">A</string>
-	<string name="course7">第5節</string>
-	<string name="course8">第6節</string>
-	<string name="course9">第7節</string>
-	<string name="course10">第8節</string>
-	<string name="course11">第9節</string>
-	<string name="course12">第10節</string>
-	<string name="course13">第11節</string>
-	<string name="course14">第12節</string>
-	<string name="course15">第13節</string>
-
 	<array name="weekdays">
 		<item>@string/sun</item>
 		<item>@string/mon</item>

@@ -96,10 +96,6 @@ public class AlarmHelper {
 						}
 
 						CourseModel courseModel = courseModelList.get(i).get(j);
-						if (!courseModel.start_time.trim().contains(":")) {
-							courseModel.start_time =
-									context.getResources().getStringArray(R.array.start_time)[j];
-						}
 						courseModel.dayOfWeek = i == 6 ? 1 : (i + 2);
 						courseModel.notifyKey = j * 10 + i;
 						saveModelList.add(courseModel);
@@ -145,13 +141,6 @@ public class AlarmHelper {
 		if (courseModelList != null) {
 			for (CourseModel courseModel : courseModelList) {
 				try {
-					if (!courseModel.start_time.trim().contains(":")) {
-						List<String> sectionList = new ArrayList<>(Arrays.asList(
-								context.getResources().getStringArray(R.array.course_sections)));
-						courseModel.start_time = context.getResources()
-								.getStringArray(R.array.start_time)[sectionList
-								.indexOf(courseModel.section)];
-					}
 					setCourseAlarm(context, courseModel.room.trim(), courseModel.title,
 							courseModel.start_time, courseModel.dayOfWeek, courseModel.notifyKey);
 				} catch (Exception e) {

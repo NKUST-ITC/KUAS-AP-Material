@@ -3,6 +3,7 @@ package silent.kuasapmaterial;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AlertDialog;
@@ -50,6 +51,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	CourseGridAdapter mAdapter;
 
 	String mYms;
+	List<String> mSections;
 	List<List<CourseModel>> mList;
 	List<SemesterModel> mSemesterList;
 	SemesterModel mSelectedModel;
@@ -88,6 +90,12 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			isHolidayB = savedInstanceState.getBoolean("isHolidayB");
 			isRetry = savedInstanceState.getBoolean("isRetry");
 
+			if (savedInstanceState.containsKey("mSections")) {
+				mSections = new Gson().fromJson(savedInstanceState.getString("mSections"),
+						new TypeToken<List<String>>() {
+
+						}.getType());
+			}
 			if (savedInstanceState.containsKey("mList")) {
 				mList = new Gson().fromJson(savedInstanceState.getString("mList"),
 						new TypeToken<List<List<CourseModel>>>() {
@@ -111,6 +119,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		if (mList == null) {
 			mList = new ArrayList<>();
 		}
+		if (mSections == null) {
+			mSections = new ArrayList<>();
+		}
 	}
 
 	@Override
@@ -126,6 +137,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		outState.putBoolean("isRetry", isRetry);
 		if (mRecyclerView != null) {
 			outState.putInt("mPos", mRecyclerView.getVerticalScrollbarPosition());
+		}
+		if (mSections != null) {
+			outState.putString("mSections", new Gson().toJson(mSections));
 		}
 		if (mList != null) {
 			outState.putString("mList", new Gson().toJson(mList));
@@ -181,15 +195,15 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 	}
 
 	private void findViews() {
-		mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-		mPickYmsTextView = (TextView) findViewById(R.id.textView_pickYms);
+		mRecyclerView = findViewById(R.id.recyclerView);
+		mPickYmsTextView = findViewById(R.id.textView_pickYms);
 		mPickYmsView = findViewById(R.id.view_pickYms);
-		mPickYmsImageView = (ImageView) findViewById(R.id.imageView_pickYms);
-		mMaterialProgressBar = (MaterialProgressBar) findViewById(R.id.materialProgressBar);
-		mSwipeRefreshLayout = (SwipeRefreshLayout) findViewById(R.id.swipeRefreshLayout);
-		mNoCourseLinearLayout = (LinearLayout) findViewById(R.id.linearLayout_no_course);
-		mNoCourseTextView = (TextView) findViewById(R.id.textView_no_course);
-		mHolidayTextView = (TextView) findViewById(R.id.textView_holiday);
+		mPickYmsImageView = findViewById(R.id.imageView_pickYms);
+		mMaterialProgressBar = findViewById(R.id.materialProgressBar);
+		mSwipeRefreshLayout = findViewById(R.id.swipeRefreshLayout);
+		mNoCourseLinearLayout = findViewById(R.id.linearLayout_no_course);
+		mNoCourseTextView = findViewById(R.id.textView_no_course);
+		mHolidayTextView = findViewById(R.id.textView_holiday);
 	}
 
 	private void setUpViews() {
@@ -286,8 +300,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 				new CourseCallback() {
 
 					@Override
-					public void onSuccess(List<List<CourseModel>> modelList) {
-						super.onSuccess(modelList);
+					public void onSuccess(List<String> sections,
+					                      List<List<CourseModel>> modelList) {
+						super.onSuccess(sections, modelList);
 
 						if (isSave &&
 								Memory.getBoolean(CourseActivity.this, Constant.PREF_COURSE_NOTIFY,
@@ -295,6 +310,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 							AlarmHelper.setCourseNotification(CourseActivity.this, modelList);
 						}
 
+						mSections = sections;
 						mList = modelList;
 						setUpCourseTable();
 						mPickYmsView.setEnabled(true);
@@ -359,23 +375,20 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		mTracker.send(new HitBuilders.EventBuilder().setCategory("show course").setAction("click")
 				.setLabel(mList.get(weekday).get(section).title).build());
 
-		String instructors = mList.get(weekday).get(section).instructors.size() > 0 ?
-				mList.get(weekday).get(section).instructors.get(0) : "";
+		StringBuilder instructors = new StringBuilder(
+				mList.get(weekday).get(section).instructors.size() > 0 ?
+						mList.get(weekday).get(section).instructors.get(0) : "");
 		for (int k = 1; k < mList.get(weekday).get(section).instructors.size(); k++) {
-			instructors += "," + mList.get(weekday).get(section).instructors.get(k);
+			instructors.append(",");
+			instructors.append(mList.get(weekday).get(section).instructors.get(k));
 		}
 
-		String start_time = !mList.get(weekday).get(section).start_time.contains(":") ?
-				getResources().getStringArray(R.array.start_time)[section] :
-				mList.get(weekday).get(section).start_time;
-		String end_time = !mList.get(weekday).get(section).end_time.contains(":") ?
-				getResources().getStringArray(R.array.end_time)[section] :
-				mList.get(weekday).get(section).end_time;
-
+		CourseModel courseModel = mList.get(weekday).get(section);
 		new AlertDialog.Builder(CourseActivity.this).setTitle(R.string.course_dialog_title)
-				.setMessage(getString(R.string.course_dialog_messages,
-						mList.get(weekday).get(section).title, instructors,
-						mList.get(weekday).get(section).room, start_time + " - " + end_time))
+				.setMessage(
+						getString(R.string.course_dialog_messages, courseModel.title, instructors,
+								courseModel.room,
+								courseModel.start_time + " - " + courseModel.end_time))
 				.setPositiveButton(R.string.ok, null).show();
 	}
 
@@ -441,8 +454,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 			showCourseDialog(position % getWidth() - 1, position / getWidth() - 1);
 		}
 
+		@NonNull
 		@Override
-		public CourseGridAdapter.CourseViewHolder onCreateViewHolder(ViewGroup parent,
+		public CourseGridAdapter.CourseViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
 		                                                             int viewType) {
 			View view = LayoutInflater.from(parent.getContext())
 					.inflate(R.layout.grid_course, parent, false);
@@ -450,7 +464,8 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		}
 
 		@Override
-		public void onBindViewHolder(CourseGridAdapter.CourseViewHolder holder, int position) {
+		public void onBindViewHolder(@NonNull CourseGridAdapter.CourseViewHolder holder,
+		                             int position) {
 			if (position < getWidth() || position % getWidth() == 0) {
 				holder.textView
 						.setTextColor(ContextCompat.getColor(CourseActivity.this, R.color.accent));
@@ -458,9 +473,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 
 				if (position % getWidth() == 0) {
 					if (position / getWidth() > 0) {
-						holder.textView.setText(
-								getResources().getStringArray(R.array.course_sections)[
-										position / getWidth() - 1]);
+						holder.textView.setText(mSections.get(position / getWidth() - 1));
 					} else {
 						holder.textView.setText("");
 					}
@@ -526,7 +539,7 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 		}
 
 		@Override
-		public void onViewDetachedFromWindow(CourseGridAdapter.CourseViewHolder holder) {
+		public void onViewDetachedFromWindow(@NonNull CourseGridAdapter.CourseViewHolder holder) {
 			super.onViewDetachedFromWindow(holder);
 			// StackOverflow : http://goo.gl/hWm6CI
 			// The problem is that there are animations running when RecyclerView
@@ -543,9 +556,9 @@ public class CourseActivity extends SilentActivity implements SwipeRefreshLayout
 
 			public final TextView textView;
 
-			public CourseViewHolder(View view) {
+			CourseViewHolder(View view) {
 				super(view);
-				textView = (TextView) view.findViewById(R.id.textView);
+				textView = view.findViewById(R.id.textView);
 			}
 		}
 	}

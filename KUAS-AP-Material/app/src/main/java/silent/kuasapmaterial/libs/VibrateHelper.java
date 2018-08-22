@@ -45,13 +45,6 @@ public class VibrateHelper {
 						}
 
 						CourseModel courseModel = courseModelList.get(i).get(j);
-						if (!courseModel.start_time.contains(":") ||
-								!courseModel.end_time.contains(":")) {
-							courseModel.start_time =
-									context.getResources().getStringArray(R.array.start_time)[j];
-							courseModel.end_time =
-									context.getResources().getStringArray(R.array.start_time)[j];
-						}
 						courseModel.dayOfWeek = i == 6 ? 1 : (i + 2);
 						courseModel.notifyKey = j * 10 + i;
 						saveModelList.add(courseModel);
@@ -96,17 +89,6 @@ public class VibrateHelper {
 			for (int i = 0; i < courseModelList.size(); i++) {
 				try {
 					CourseModel courseModel = courseModelList.get(i);
-					if (!courseModel.start_time.contains(":") ||
-							!courseModel.end_time.contains(":")) {
-						List<String> sectionList = new ArrayList<>(Arrays.asList(
-								context.getResources().getStringArray(R.array.course_sections)));
-						courseModel.start_time = context.getResources()
-								.getStringArray(R.array.start_time)[sectionList
-								.indexOf(courseModel.section)];
-						courseModel.end_time =
-								context.getResources().getStringArray(R.array.end_time)[sectionList
-										.indexOf(courseModel.section)];
-					}
 					if (i % 2 == 0) {
 						setCourseAlarm(context, courseModel.start_time, courseModel.dayOfWeek,
 								courseModel.notifyKey * 1000, true);

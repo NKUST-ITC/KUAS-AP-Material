@@ -351,8 +351,9 @@ public class Utils {
 						selectedModel.value.split(",")[1], new CourseCallback() {
 
 							@Override
-							public void onSuccess(List<List<CourseModel>> modelList) {
-								super.onSuccess(modelList);
+							public void onSuccess(List<String> sections,
+							                      List<List<CourseModel>> modelList) {
+								super.onSuccess(sections, modelList);
 								AlarmHelper.setCourseNotification(context, modelList);
 								VibrateHelper.setCourseVibrate(context, modelList);
 								callback.onSuccess();

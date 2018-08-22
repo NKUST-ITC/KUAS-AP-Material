@@ -272,8 +272,6 @@ public class Helper {
 	                                      final CourseCallback callback) {
 		final List<String> weekdays = new ArrayList<>(
 				Arrays.asList(context.getResources().getStringArray(R.array.course_weekdays)));
-		final List<String> sections = new ArrayList<>(
-				Arrays.asList(context.getResources().getStringArray(R.array.course_sections)));
 
 		String url = String.format(COURSE_TIMETABLE_URL, year, semester);
 		mClient.get(url, new JsonHttpResponseHandler() {
@@ -284,11 +282,16 @@ public class Helper {
 				try {
 					List<List<CourseModel>> modelList = new ArrayList<>();
 					JSONObject coursetables = response.getJSONObject("coursetables");
+					List<String> sections = new ArrayList<>();
 					if (!coursetables.keys().hasNext()) {
 						if (callback != null) {
-							callback.onSuccess(modelList);
+							callback.onSuccess(sections, modelList);
 						}
 						return;
+					}
+					JSONArray timetableJArray = coursetables.getJSONArray("timecode");
+					for (int i = 0; i < timetableJArray.length(); i++) {
+						sections.add(timetableJArray.getString(i));
 					}
 					for (int i = 0; i < weekdays.size(); i++) {
 						if (coursetables.has(weekdays.get(i))) {
@@ -320,7 +323,7 @@ public class Helper {
 						}
 					}
 					if (callback != null) {
-						callback.onSuccess(modelList);
+						callback.onSuccess(sections, modelList);
 					}
 				} catch (JSONException e) {
 					onHelperFail(context, callback, e);

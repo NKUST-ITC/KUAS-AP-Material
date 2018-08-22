@@ -200,22 +200,6 @@
 	<string name="sat">Sat.</string>
 	<string name="sun">Sun.</string>
 
-	<string name="course1"> M </string>
-	<string name="course2"> 1 </string>
-	<string name="course3"> 2 </string>
-	<string name="course4"> 3 </string>
-	<string name="course5"> 4 </string>
-	<string name="course6"> A </string>
-	<string name="course7"> 5 </string>
-	<string name="course8"> 6 </string>
-	<string name="course9"> 7 </string>
-	<string name="course10"> 8 </string>
-	<string name="course11"> 9 </string>
-	<string name="course12"> 10 </string>
-	<string name="course13"> 11 </string>
-	<string name="course14"> 12 </string>
-	<string name="course15"> 13 </string>
-
 	<array name="weekdays">
 		<item>@string/sun</item>
 		<item>@string/mon</item>
@@ -251,42 +235,6 @@
 		<item>Friday</item>
 		<item>Saturday</item>
 		<item>Sunday</item>
-	</array>
-
-	<array name="start_time">
-		<item>07:30</item>
-		<item>08:10</item>
-		<item>09:10</item>
-		<item>10:10</item>
-		<item>11:10</item>
-		<item>12:10</item>
-		<item>13:30</item>
-		<item>14:30</item>
-		<item>15:30</item>
-		<item>16:30</item>
-		<item>17:30</item>
-		<item>18:30</item>
-		<item>19:25</item>
-		<item>20:20</item>
-		<item>21:15</item>
-	</array>
-
-	<array name="end_time">
-		<item>08:00</item>
-		<item>09:00</item>
-		<item>10:00</item>
-		<item>11:00</item>
-		<item>12:00</item>
-		<item>13:00</item>
-		<item>14:20</item>
-		<item>15:20</item>
-		<item>16:20</item>
-		<item>17:20</item>
-		<item>18:20</item>
-		<item>19:20</item>
-		<item>20:15</item>
-		<item>21:10</item>
-		<item>22:05</item>
 	</array>
 
 	<array name="leave_sections">
