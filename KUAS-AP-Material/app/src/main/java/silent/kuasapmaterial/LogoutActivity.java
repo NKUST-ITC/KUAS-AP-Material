@@ -1,6 +1,5 @@
 package silent.kuasapmaterial;
 
-import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,6 +12,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.util.Base64;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import com.kuas.ap.R;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import silent.kuasapmaterial.base.SilentActivity;
 import silent.kuasapmaterial.callback.GeneralCallback;
@@ -40,6 +42,7 @@ import static com.kuas.ap.R.string.news;
 public class LogoutActivity extends SilentActivity {
 
 	TextView mTitleTextView, mPositionTextView, mTotalTextView;
+	Button mLogoutButton;
 
 	ViewPager viewPager;
 	List<NewsFragment> fragments = new ArrayList<>();
@@ -64,12 +67,13 @@ public class LogoutActivity extends SilentActivity {
 		mURL = Memory.getString(this, Constant.PREF_NEWS_URL, "");
 		hasNews = mContent.length() > 0;
 
-		if (mContent.length() == 0) {
+		if (!hasNews) {
 			setContentView(R.layout.activity_logout);
+			init(news, R.layout.activity_logout);
 		} else {
 			setContentView(R.layout.activity_logout_news);
+			init(news, R.layout.activity_logout_news);
 		}
-		init(news, R.layout.activity_logout);
 
 		initGA("Logout Screen");
 		restoreArgs(savedInstanceState);
@@ -199,15 +203,60 @@ public class LogoutActivity extends SilentActivity {
 
 	private void findViews() {
 		if (hasNews) {
-			viewPager = (ViewPager) findViewById(R.id.viewPager_news);
-			mTitleTextView = (TextView) findViewById(R.id.textView_title);
-			mPositionTextView = (TextView) findViewById(R.id.textView_position);
-			mTotalTextView = (TextView) findViewById(R.id.textView_total);
+			viewPager = findViewById(R.id.viewPager_news);
+			mTitleTextView = findViewById(R.id.textView_title);
+			mPositionTextView = findViewById(R.id.textView_position);
+			mTotalTextView = findViewById(R.id.textView_total);
 		}
-		navigation = (BottomNavigationView) findViewById(R.id.navigation);
+		navigation = findViewById(R.id.navigation);
+		mLogoutButton = findViewById(R.id.button_logout);
 	}
 
 	private void setUpViews() {
+		navigation.setOnNavigationItemSelectedListener(
+				new BottomNavigationView.OnNavigationItemSelectedListener() {
+
+					@Override
+					public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+						boolean isLogin =
+								Memory.getBoolean(LogoutActivity.this, Constant.PREF_IS_LOGIN,
+										false);
+						if (isLogin) {
+							if (menuItem.getItemId() == R.id.nav_bus) {
+								startActivity(new Intent(LogoutActivity.this, BusActivity.class));
+							} else if (menuItem.getItemId() == R.id.nav_course) {
+								startActivity(
+										new Intent(LogoutActivity.this, CourseActivity.class));
+							} else if (menuItem.getItemId() == R.id.nav_score) {
+								startActivity(new Intent(LogoutActivity.this, ScoreActivity.class));
+							}
+							if (mLayoutID != R.layout.activity_logout &&
+									mLayoutID != R.layout.activity_login) {
+								finish();
+							}
+						} else {
+							Toast.makeText(LogoutActivity.this, R.string.login_first,
+									Toast.LENGTH_SHORT).show();
+							return false;
+						}
+						return false;
+					}
+				});
+
+		if (mLogoutButton != null) {
+			mLogoutButton.setOnClickListener(new View.OnClickListener() {
+
+				@Override
+				public void onClick(View v) {
+					onBackPressed();
+				}
+			});
+		}
+
+		if (!hasNews) {
+			return;
+		}
+
 		transformer = new NewsPagerTransformer(this);
 		viewPager.setPageTransformer(false, transformer);
 		for (int i = 0; i < newsList.size(); i++) {
@@ -251,43 +300,17 @@ public class LogoutActivity extends SilentActivity {
 		});
 		viewPager.setOffscreenPageLimit(3);
 		updateView();
-		navigation.setOnNavigationItemSelectedListener(
-				new BottomNavigationView.OnNavigationItemSelectedListener() {
-
-					@Override
-					public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-						boolean isLogin =
-								Memory.getBoolean(LogoutActivity.this, Constant.PREF_IS_LOGIN,
-										false);
-						if (isLogin) {
-							if (menuItem.getItemId() == R.id.nav_bus) {
-								startActivity(new Intent(LogoutActivity.this, BusActivity.class));
-							} else if (menuItem.getItemId() == R.id.nav_course) {
-								startActivity(
-										new Intent(LogoutActivity.this, CourseActivity.class));
-							} else if (menuItem.getItemId() == R.id.nav_score) {
-								startActivity(new Intent(LogoutActivity.this, ScoreActivity.class));
-							}
-							if (mLayoutID != R.layout.activity_logout &&
-									mLayoutID != R.layout.activity_login) {
-								finish();
-							}
-						} else {
-							Toast.makeText(LogoutActivity.this, R.string.login_first,
-									Toast.LENGTH_SHORT).show();
-							return false;
-						}
-						return false;
-					}
-				});
 	}
 
-	@SuppressLint("DefaultLocale")
 	private void updateView() {
+		if (viewPager == null || viewPager.getAdapter() == null) {
+			return;
+		}
 		String format = viewPager.getAdapter().getCount() >= 10 ? "%02d" : "%d";
 		mTitleTextView.setText(newsList.get(viewPager.getCurrentItem()).title);
 		mPositionTextView.setText(String.format(format, viewPager.getCurrentItem() + 1));
-		mTotalTextView.setText(String.format(" / %d", viewPager.getAdapter().getCount()));
+		mTotalTextView.setText(
+				String.format(Locale.getDefault(), " / %d", viewPager.getAdapter().getCount()));
 	}
 
 	public void getNews() {

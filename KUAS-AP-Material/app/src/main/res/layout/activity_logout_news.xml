@@ -124,7 +124,6 @@
 				app:layout_constraintBottom_toBottomOf="parent"
 				app:menu="@menu/navigation"/>
 		</android.support.constraint.ConstraintLayout>
-
 	</LinearLayout>
 
 	<android.support.design.widget.NavigationView
