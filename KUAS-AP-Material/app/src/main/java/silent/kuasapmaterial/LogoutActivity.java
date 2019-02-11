@@ -53,8 +53,7 @@ public class LogoutActivity extends SilentActivity {
 
 	List<NewsModel> newsList = new ArrayList<>();
 
-	String mTitle, mContent, mURL;
-	Boolean hasNews, isBusSaved;
+	Boolean hasNews = true, isBusSaved;
 
 	AlertDialog mProgressDialog;
 
@@ -62,18 +61,8 @@ public class LogoutActivity extends SilentActivity {
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 
-		mTitle = Memory.getString(this, Constant.PREF_NEWS_TITLE, "");
-		mContent = Memory.getString(this, Constant.PREF_NEWS_CONTENT, "");
-		mURL = Memory.getString(this, Constant.PREF_NEWS_URL, "");
-		hasNews = mContent.length() > 0;
-
-		if (!hasNews) {
-			setContentView(R.layout.activity_logout);
-			init(news, R.layout.activity_logout);
-		} else {
-			setContentView(R.layout.activity_logout_news);
-			init(news, R.layout.activity_logout_news);
-		}
+		setContentView(R.layout.activity_logout_news);
+		init(news, R.layout.activity_logout_news);
 
 		initGA("Logout Screen");
 		restoreArgs(savedInstanceState);
@@ -223,7 +212,15 @@ public class LogoutActivity extends SilentActivity {
 										false);
 						if (isLogin) {
 							if (menuItem.getItemId() == R.id.nav_bus) {
-								startActivity(new Intent(LogoutActivity.this, BusActivity.class));
+								if (Memory.getBoolean(LogoutActivity.this, Constant.PREF_BUS_ENABLE,
+										true)) {
+									startActivity(
+											new Intent(LogoutActivity.this, BusActivity.class));
+								} else {
+									Toast.makeText(LogoutActivity.this, R.string.can_not_use_bus,
+											Toast.LENGTH_SHORT).show();
+									return false;
+								}
 							} else if (menuItem.getItemId() == R.id.nav_course) {
 								startActivity(
 										new Intent(LogoutActivity.this, CourseActivity.class));
@@ -320,6 +317,7 @@ public class LogoutActivity extends SilentActivity {
 			public void onSuccess(List<NewsModel> modelList) {
 				super.onSuccess(modelList);
 				newsList = modelList;
+				hasNews = newsList.size() != 0;
 				setUpViews();
 			}
 		});

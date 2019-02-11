@@ -352,7 +352,13 @@ public class SilentActivity extends AppCompatActivity
 			if (menuItem.getItemId() == R.id.nav_messages) {
 				startActivity(new Intent(this, MessagesActivity.class));
 			} else if (menuItem.getItemId() == R.id.nav_bus) {
-				startActivity(new Intent(this, BusActivity.class));
+				if (Memory.getBoolean(SilentActivity.this, Constant.PREF_BUS_ENABLE, true)) {
+					startActivity(new Intent(SilentActivity.this, BusActivity.class));
+				} else {
+					Toast.makeText(SilentActivity.this, R.string.can_not_use_bus,
+							Toast.LENGTH_SHORT).show();
+					return false;
+				}
 			} else if (menuItem.getItemId() == R.id.nav_course) {
 				startActivity(new Intent(this, CourseActivity.class));
 			} else if (menuItem.getItemId() == R.id.nav_about) {

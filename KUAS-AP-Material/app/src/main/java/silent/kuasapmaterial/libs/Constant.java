@@ -19,6 +19,7 @@ public class Constant {
 	public static final String PREF_NEWS_URL = "pref_news_url";
 
 	public static final String PREF_IS_LOGIN = "pref_is_login";
+	public static final String PREF_BUS_ENABLE = "pref_bus_enable";
 
 	public static final String PREF_SEMESTER = "pref_semester";
 	public static final String PREF_SEMESTER_SELECTED = "pref_semester_selected";
