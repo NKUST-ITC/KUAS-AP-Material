@@ -128,6 +128,12 @@ public class SilentActivity extends AppCompatActivity
 							userInfoModel.student_name_cht);
 					Memory.setString(SilentActivity.this, Constant.PREF_USER_ID,
 							userInfoModel.student_id);
+					Memory.setInt(SilentActivity.this, Constant.PREF_USER_STATUS,
+							userInfoModel.status);
+					if (userInfoModel.message != null) {
+						Memory.setString(SilentActivity.this, Constant.PREF_USER_MESSAGE,
+								userInfoModel.message);
+					}
 					((TextView) headerView.findViewById(R.id.textView_name))
 							.setText(userInfoModel.student_name_cht);
 					((TextView) headerView.findViewById(R.id.textView_schoolID))
@@ -176,7 +182,13 @@ public class SilentActivity extends AppCompatActivity
 	}
 
 	public void showUserInfo() {
-		startActivity(new Intent(this, UserInfoActivity.class));
+		if (Memory.getInt(SilentActivity.this, Constant.PREF_USER_STATUS, 200) == 200) {
+			startActivity(new Intent(this, UserInfoActivity.class));
+		} else {
+			Toast.makeText(SilentActivity.this,
+					Memory.getString(SilentActivity.this, Constant.PREF_USER_MESSAGE, ""),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public void setUpMenuDrawer(int selectItem) {

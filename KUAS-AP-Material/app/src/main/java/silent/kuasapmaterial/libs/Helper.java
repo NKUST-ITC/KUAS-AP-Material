@@ -415,6 +415,8 @@ public class Helper {
 					model.student_id = response.getString("student_id");
 					model.student_name_cht = response.getString("student_name_cht");
 					model.student_name_eng = response.getString("student_name_eng");
+					model.status = response.getInt("status");
+					model.message = response.getString("message");
 					if (callback != null) {
 						callback.onSuccess(model);
 					}
