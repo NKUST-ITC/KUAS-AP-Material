@@ -1,5 +1,5 @@
 <resources>
-	<string name="app_name">高應校務通</string>
+	<string name="app_name">高科校務通</string>
 
 	<string name="update_note_title">更新日誌 %s</string>
 	<string name="update_note_content">更新：\n　 - 修正閃退</string>
@@ -11,7 +11,7 @@
 	<string name="continue_to_use">繼續使用</string>
 	<string name="logout">登出</string>
 	<string name="click_to_view">立即前往</string>
-	<string name="login_success">成功登入高應大校務系統\n點擊左側選單，開始瀏覽</string>
+	<string name="login_success">成功登入高科大校務系統\n點擊左側選單，開始瀏覽</string>
 	<string name="something_error">發生錯誤</string>
 	<string name="timeout_message">連線逾時，請稍候再試</string>
 	<string name="login_first">請先登入</string>
@@ -70,7 +70,7 @@
 	<string name="leave_no_leave">Oops！本學期沒有任何缺曠課紀錄哦～\n請選擇其他學期 %s</string>
 	<string name="token_expired_title">重新登入</string>
 	<string name="token_expired_content">登入資訊過期，請重新登入！</string>
-	<string name="update_content">高應校務通 在 Google Play 有新版本喲！</string>
+	<string name="update_content">高科校務通 在 Google Play 有新版本喲！</string>
 	<string name="update_title">版本更新</string>
 	<string name="update">更新</string>
 	<string name="function_not_open">此功能尚未開放，敬啟期待～\n贊助我們可以提前使用此功能！</string>
@@ -79,10 +79,10 @@
 	<string name="easter_egg_juke">這不是彩蛋</string>
 	<string name="skip">稍後再說</string>
 	<string name="share_to">分享至…</string>
-	<string name="send_from">Send from 高應校務通 Android</string>
+	<string name="send_from">Send from 高科校務通 Android</string>
 	<string name="donate_title">Donate</string>
 	<string name="donate_content">貢獻一點心力支持作者，\n可以提早使用未開放功能！</string>
-	<string name="donate_error">哎呀！發生了點錯誤 :(\n不過沒關係到 Google Play\n搜尋「高應校務通
+	<string name="donate_error">哎呀！發生了點錯誤 :(\n不過沒關係到 Google Play\n搜尋「高科校務通
 		Donate」\n一樣可以支持喔！</string>
 	<string name="bus_notify_hint">校車預約將於發車前三十分鐘提醒！\n若在網頁預約或取消校車請重登入此App。</string>
 	<string name="bus_notify_content" formatted="false">親，您有一班 %s 從%s出發的校車！</string>
@@ -113,8 +113,8 @@
 	<string name="feedback_via_facebook">私訊給粉絲專頁</string>
 	<string name="app_version">App 版本</string>
 
-	<string name="about_detail">史上最強高應大校務系統APP\n「高 應 校 務
-		通」\n\n你是新生嗎？\n不知道學校的消息、電話、行事曆嗎？\n你是舊生嗎？\n每次開課表、查成績、定校車都一肚子氣？\n\n沒有問題，以後沒有這種問題了！\n\n高應校務通讓你不管是新手老手，\n從此一手掌握你的高應人生！\n\n從你的手機看課表，成績，缺曠課紀錄！\n加上預定/取消校車，校園消息！\n\n\n\n簡單、方便、直覺！\n\n尊爵、不凡、你，值得擁有。</string>
+	<string name="about_detail">史上最強高科大校務系統APP\n「高 應 校 務
+		通」\n\n你是新生嗎？\n不知道學校的消息、電話、行事曆嗎？\n你是舊生嗎？\n每次開課表、查成績、定校車都一肚子氣？\n\n沒有問題，以後沒有這種問題了！\n\n高科校務通讓你不管是新手老手，\n從此一手掌握你的高科人生！\n\n從你的手機看課表，成績，缺曠課紀錄！\n加上預定/取消校車，校園消息！\n\n\n\n簡單、方便、直覺！\n\n尊爵、不凡、你，值得擁有。</string>
 	<string name="about_author_title">作者群</string>
 	<string name="about_author_content">呂紹榕(Louie Lu), 姜尚德(JohnThunder), \nregisterAutumn, 詹濬鍵(Evans), \n陳建霖(HearSilent)</string>
 	<string name="about_us">「不要問為何沒有人做這個，\n先承認你就是『沒有人』」。\n因為，「沒有人」是萬能的。\n\n因為沒有人做這些，所以我們跳下來做。\n先後完成了高應無線通、高應校務通，到後來的高應美食通、模擬選課等等.......\n無非是希望帶給大家更便利的校園生活！</string>
@@ -122,7 +122,7 @@
 	<string name="about_recruit_content">如果你是 Objective-C、Swift 高手，或是 Java 神手，又或是對 Coding
 		充滿著熱誠！\n\n歡迎私訊我們粉絲專頁！\n你的程式碼將有機會出現在周遭同學的手中～</string>
 	<string name="about_itc_content">在103學年度，\n我們也成立了高應大資訊研習社！\n\n如果你對資訊有熱誠或是對我們作品有興趣，歡迎來社課或是講座，也可以來找我們聊聊天。</string>
-	<string name="about_itc_title">高應資研社</string>
+	<string name="about_itc_title">高科資研社</string>
 	<string name="about_contact_us">聯繫我們</string>
 	<string name="about_open_source_title">開放原始碼授權</string>
 	<string name="about_open_source_content">https://github.com/hearsilent/KUAS-AP-Material\n\n本專案採

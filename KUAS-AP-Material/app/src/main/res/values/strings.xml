@@ -1,5 +1,5 @@
 <resources>
-	<string name="app_name">KUAS AP</string>
+	<string name="app_name">NKUST AP</string>
 
 	<string name="update_note_title">Update Notes %s</string>
 	<string name="update_note_content">Update：\n　 - Fix crash</string>
@@ -70,7 +70,7 @@
 	<string name="leave_no_leave">Oops! No absent record for this semester~\nPlease choose another semester %s</string>
 	<string name="token_expired_title">Re-login Required</string>
 	<string name="token_expired_content">Cookie has expired, please re-login!</string>
-	<string name="update_content">Update available for KUAS AP!</string>
+	<string name="update_content">Update available for NKUST AP!</string>
 	<string name="update_title">Updated</string>
 	<string name="update">Update</string>
 	<string name="function_not_open">Coming Soon~\nDonate to use this feature now!</string>
@@ -80,10 +80,10 @@
 	<string name="easter_egg_juke">This is not an easter egg</string>
 	<string name="skip">Skip</string>
 	<string name="share_to">Share to…</string>
-	<string name="send_from">Sent from KUAS AP Android</string>
+	<string name="send_from">Sent from NKUST AP Android</string>
 	<string name="donate_title">Donate</string>
 	<string name="donate_content">Help and support the programmer\nto use new features!</string>
-	<string name="donate_error">Oops!Something went wrong :(\nGO to Google Play\n search for KUAS AP
+	<string name="donate_error">Oops!Something went wrong :(\nGO to Google Play\n search for NKUST AP
 		Donate \n to support the author!</string>
 	<string name="bus_notify_hint">Reminder will pop up 30 mins before reserved bus !\nIf you
 		reserved or canceled the seat via website, please restart the app.</string>
@@ -115,11 +115,11 @@
 	<string name="feedback_via_facebook">Message to Facebook Page</string>
 	<string name="app_version">App Version</string>
 
-	<string name="about_detail">The best KUAS Campus App\nKUAS AP\n\nAre you a
+	<string name="about_detail">The best NKUST Campus App\nNKUST AP\n\nAre you a
 		freshman?\nDon\'t know about school info, telephone numbers, or up coming events?\nBeen
 		here a few years?\nHave checking class schedule, report card and reserving bus seats
-		drove you crazy?\n\nNo more, no more worries, anymore!\n\nKUAS AP lets no matter old or new
-		fellow\nhave control over your life in KUAS!\n\nFrom checking class schedule, report card to
+		drove you crazy?\n\nNo more, no more worries, anymore!\n\nNKUST AP lets no matter old or new
+		fellow\nhave control over your life in NKUST!\n\nFrom checking class schedule, report card to
 		your absence records!\nPlus reserving/canceling bus seats with newest school feeds!\n\n\n\nMuch Simple, Many Convenient, Very instinct, wow!\n\n☆FABULOUS☆</string>
 	<string name="about_author_title">Made by</string>
 	<string name="about_author_content">呂紹榕(Louie Lu), 姜尚德(JohnThunder), \nregisterAutumn, 詹濬鍵(Evans), \n陳建霖(HearSilent)</string>
@@ -135,7 +135,7 @@
 	<string name="about_itc_content">In year 2014,\nwe founded KUAS Information Technology
 		Club!\n\nIf you\'re enthusiastic or drawn to our projects, join our classes and talks or
 		come by to chat!</string>
-	<string name="about_itc_title">KUAS IT Club</string>
+	<string name="about_itc_title">NKUST IT Club</string>
 	<string name="about_contact_us">Contact Us</string>
 	<string name="about_open_source_title">Open Source License</string>
 	<string name="about_open_source_content">https://github.com/hearsilent/KUAS-AP-Material\n\nThis project is licensed under the terms of the MIT license:\nThe MIT License (MIT)\n\nCopyright &#169; 2015 HearSilent\n\nPermission is
@@ -302,10 +302,10 @@
 		<item>Are you a master of Obj-C ?</item>
 		<item>Or are you good at Swift ?</item>
 		<item>Maybe you\'re a skillful Java programmer?</item>
-		<item>Stop trying to penetrate me, come to KUAS IT Club!</item>
+		<item>Stop trying to penetrate me, come to NKUST IT Club!</item>
 		<item>What are you waiting for?</item>
 		<item>John is a white hac&#8230; uhm&#8230;</item>
-		<item>Heard of Lu\? He\'s Tyr of KUAS\!</item>
+		<item>Heard of Lu\? He\'s Tyr of NKUST\!</item>
 	</array>
 
 	<array name="score_sections">
