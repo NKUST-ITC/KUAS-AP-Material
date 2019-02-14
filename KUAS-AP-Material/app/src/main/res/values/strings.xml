@@ -367,6 +367,6 @@
 		SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.</string>
 
 	<!-- TODO: Remove or change this placeholder text -->
-	<string name="hello_blank_fragment">Hello blank fragment</string>
+	<string name="hello_blank_fragment" translatable="false">Hello blank fragment</string>
 	<string name="can_not_use_bus">This account can\\\'t use this feature</string>
 </resources>
