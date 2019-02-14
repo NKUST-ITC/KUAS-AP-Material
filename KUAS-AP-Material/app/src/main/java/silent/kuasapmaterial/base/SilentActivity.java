@@ -128,6 +128,12 @@ public class SilentActivity extends AppCompatActivity
 							userInfoModel.student_name_cht);
 					Memory.setString(SilentActivity.this, Constant.PREF_USER_ID,
 							userInfoModel.student_id);
+					Memory.setInt(SilentActivity.this, Constant.PREF_USER_STATUS,
+							userInfoModel.status);
+					if (userInfoModel.message != null) {
+						Memory.setString(SilentActivity.this, Constant.PREF_USER_MESSAGE,
+								userInfoModel.message);
+					}
 					((TextView) headerView.findViewById(R.id.textView_name))
 							.setText(userInfoModel.student_name_cht);
 					((TextView) headerView.findViewById(R.id.textView_schoolID))
@@ -176,7 +182,13 @@ public class SilentActivity extends AppCompatActivity
 	}
 
 	public void showUserInfo() {
-		startActivity(new Intent(this, UserInfoActivity.class));
+		if (Memory.getInt(SilentActivity.this, Constant.PREF_USER_STATUS, 200) == 200) {
+			startActivity(new Intent(this, UserInfoActivity.class));
+		} else {
+			Toast.makeText(SilentActivity.this,
+					Memory.getString(SilentActivity.this, Constant.PREF_USER_MESSAGE, ""),
+					Toast.LENGTH_SHORT).show();
+		}
 	}
 
 	public void setUpMenuDrawer(int selectItem) {
@@ -352,7 +364,13 @@ public class SilentActivity extends AppCompatActivity
 			if (menuItem.getItemId() == R.id.nav_messages) {
 				startActivity(new Intent(this, MessagesActivity.class));
 			} else if (menuItem.getItemId() == R.id.nav_bus) {
-				startActivity(new Intent(this, BusActivity.class));
+				if (Memory.getBoolean(SilentActivity.this, Constant.PREF_BUS_ENABLE, true)) {
+					startActivity(new Intent(SilentActivity.this, BusActivity.class));
+				} else {
+					Toast.makeText(SilentActivity.this, R.string.can_not_use_bus,
+							Toast.LENGTH_SHORT).show();
+					return false;
+				}
 			} else if (menuItem.getItemId() == R.id.nav_course) {
 				startActivity(new Intent(this, CourseActivity.class));
 			} else if (menuItem.getItemId() == R.id.nav_about) {

@@ -19,6 +19,7 @@ public class Constant {
 	public static final String PREF_NEWS_URL = "pref_news_url";
 
 	public static final String PREF_IS_LOGIN = "pref_is_login";
+	public static final String PREF_BUS_ENABLE = "pref_bus_enable";
 
 	public static final String PREF_SEMESTER = "pref_semester";
 	public static final String PREF_SEMESTER_SELECTED = "pref_semester_selected";
@@ -26,6 +27,8 @@ public class Constant {
 	public static final String PREF_USER_PIC = "pref_user_pic";
 	public static final String PREF_USER_NAME = "pref_user_name";
 	public static final String PREF_USER_ID = "pref_user_id";
+	public static final String PREF_USER_STATUS = "pref_user_status";
+	public static final String PREF_USER_MESSAGE = "pref_user_message";
 
 	public static final String PREF_HEAD_PHOTO = "pref_head_photo";
 	public static final String PREF_COURSE_NOTIFY = "pref_course_notify";

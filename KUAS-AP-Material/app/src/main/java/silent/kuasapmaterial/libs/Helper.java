@@ -51,8 +51,8 @@ import silent.kuasapmaterial.models.UserInfoModel;
 
 public class Helper {
 
-	public static final String SERVER_HOST = "kuas.grd.idv.tw";
-	public static final int SERVER_PORT = 14769;
+	public static final String SERVER_HOST = "nkust-ap-api.rainvisitor.me";
+	public static final int SERVER_PORT = 2087;
 	public static final String BASE_URL = "https://" + SERVER_HOST + ":" + SERVER_PORT;
 	public static final String SERVER_STATUS_URL = BASE_URL + "/latest/servers/status";
 	public static final String APP_VERSION_URL = BASE_URL + "/latest/versions/android";
@@ -145,6 +145,14 @@ public class Helper {
 			public void onSuccess(int statusCode, Header[] headers, JSONObject response) {
 				super.onSuccess(statusCode, headers, response);
 				if (statusCode == 200 && response != null && response.has("auth_token")) {
+					if (response.has("is_login")) {
+						try {
+							Memory.setBoolean(context, Constant.PREF_BUS_ENABLE,
+									response.getJSONObject("is_login").getBoolean("bus"));
+						} catch (JSONException e) {
+							e.printStackTrace();
+						}
+					}
 					if (callback != null) {
 						callback.onSuccess();
 					}
@@ -407,6 +415,8 @@ public class Helper {
 					model.student_id = response.getString("student_id");
 					model.student_name_cht = response.getString("student_name_cht");
 					model.student_name_eng = response.getString("student_name_eng");
+					model.status = response.getInt("status");
+					model.message = response.getString("message");
 					if (callback != null) {
 						callback.onSuccess(model);
 					}
