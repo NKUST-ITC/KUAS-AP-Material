@@ -409,31 +409,26 @@ public class SilentActivity extends AppCompatActivity
 		if (drawer != null && navigationView != null && drawer.isDrawerOpen(navigationView)) {
 			drawer.closeDrawers();
 		} else {
-			if (mLayoutID == R.layout.activity_logout) {
-				if (mTracker != null) {
-					mTracker.send(new HitBuilders.EventBuilder().setCategory("logout dialog")
-							.setAction("create").build());
-				}
-				new AlertDialog.Builder(this).setTitle(R.string.app_name)
-						.setMessage(R.string.logout_check).setPositiveButton(R.string.determine,
-						new DialogInterface.OnClickListener() {
-
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								if (mTracker != null) {
-									mTracker.send(new HitBuilders.EventBuilder()
-											.setCategory("logout dialog").setAction("click")
-											.build());
-								}
-								clearUserData();
-								Memory.setBoolean(SilentActivity.this, Constant.PREF_AUTO_LOGIN,
-										false);
-								finish();
-							}
-						}).setNegativeButton(R.string.cancel, null).show();
-			} else {
-				super.onBackPressed();
+			if (mTracker != null) {
+				mTracker.send(new HitBuilders.EventBuilder().setCategory("logout dialog")
+						.setAction("create").build());
 			}
+			new AlertDialog.Builder(this).setTitle(R.string.app_name)
+					.setMessage(R.string.logout_check)
+					.setPositiveButton(R.string.determine, new DialogInterface.OnClickListener() {
+
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							if (mTracker != null) {
+								mTracker.send(
+										new HitBuilders.EventBuilder().setCategory("logout dialog")
+												.setAction("click").build());
+							}
+							clearUserData();
+							Memory.setBoolean(SilentActivity.this, Constant.PREF_AUTO_LOGIN, false);
+							finish();
+						}
+					}).setNegativeButton(R.string.cancel, null).show();
 		}
 	}
 
